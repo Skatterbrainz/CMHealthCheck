@@ -87,7 +87,7 @@ _Part 2 - Reporting_
    
 * **CoverPage**
 
-   _Optional_ Name of Office cover page.  List of valid names varies based on the version of Office installed.
+   _Optional_ Name of Microsoft Word cover page.  List of valid names varies based on the version of Office Word installed.
    
    Default is "Slice (Light)"
    
@@ -142,4 +142,4 @@ _Part 2 - Reporting_
 
 ## Removal and Cleanup
 
-To remove CMHealthCheck module and related files, use the Remove-Module cmdlet.
+* To remove CMHealthCheck module and related files, use the Remove-Module cmdlet.
