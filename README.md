@@ -28,17 +28,21 @@ _Part 2 - Reporting_
 ## Syntax: Get-CMHealthCheck
 
 * Get-CMHealthCheck -SmsProvider "cm01.contoso.com" ...
-* -OutputFolder 
-  * optional path for output files. Default is $env:USERPROFILE\Documents
-* -NumberOfDays 
+
+### Parameters
+* SmsProvider
+ FQDN of ConfigMgr site server.  Example: "cm01.contoso.com"
+* OutputFolder 
+ optional path for output files. Default is $env:USERPROFILE\Documents
+* NumberOfDays 
   * optional age of status logs to inspect. Default is 7
-* -HealthcheckFilename 
+* HealthcheckFilename 
   * optional path to cmhealthcheck.xml. Default is Git Gist URL (see Notes)
-* -Overwrite 
+* Overwrite 
   * optional switch to force replacing output if on same date
-* -NoHotFix 
+* NoHotFix 
   * optional switch to skip auditing of installed hotfixes / may save time
-* -Verbose (ummm, yeah)
+* Verbose (ummm, yeah)
 
 ## Syntax: Export-CMHealthCheck
 
