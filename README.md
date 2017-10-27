@@ -65,8 +65,22 @@ _Part 2 - Reporting_
 
 ### Examples
 
+Example 1
+
    ```powershell
-   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" -OutputFolder "C:\Temp" -NumberOfDays 30 
+   Get-CMHealthCheck -SmsProvider "cm01.contoso.com"
+   ```
+
+Example 2
+
+   ```powershell
+   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" -Verbose
+   ```
+
+Example 3
+
+   ```powershell
+   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" -OutputFolder "C:\Temp" -NumberOfDays 30
    ```
    
 ## Syntax: Export-CMHealthCheck
@@ -123,13 +137,19 @@ _Part 2 - Reporting_
 
 ### Examples
 
+Example 1
+
    ```powershell
    Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Fubar LLC"
    ```
-   
+
+Example 2
+
    ```powershell
    Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Fubar LLC" -HealthcheckDebug -Overwrite
    ```
+
+Example 3
 
    ```powershell
    Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Fubar LLC" -CoverPage "Ion (Dark)" -HealthcheckFilename "C:\Temp\cmhealthcheck.xml" -MessagesFile "C:\Temp\messages.xml" -HealthcheckDebug -Overwrite
