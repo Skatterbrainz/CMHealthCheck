@@ -40,42 +40,80 @@ _Part 2 - Reporting_
    
 * **OutputFolder**
 
-   Optional path for output files. Default is $env:USERPROFILE\Documents. The script will create two (2) folders 
-   beneath this location: _Logs, and 
+   _Optional_ Path for output files. Default is $env:USERPROFILE\Documents. The script will create two (2) folders 
+   beneath this location: _Logs, and another using YYYY-MM-DD, with a sub-folder named after the SmsProvider value.
 
-* NumberOfDays 
+* **NumberOfDays**
 
-   optional age of status logs to inspect. Default is 7
+   _Optional_ Integer value, number of days to go back for status logs to inspect. Default is 7
 
-* HealthcheckFilename 
+* **HealthcheckFilename**
   
-  optional path to cmhealthcheck.xml. Default is Git Gist URL (see Notes)
+  _Optional_ Path or URI to cmhealthcheck.xml, which provides rules for gathering data. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml>
 
-* Overwrite 
+* **Overwrite**
   
-  optional switch to force replacing output if on same date
+  _Optional_ Switch parameter to force replacing output if on same date.  If the function has been executed on a given ConfigMgr site server on the same date, there will already be a "YYYY-MM-DD\hostname" output file with data files.  Without the -Overwrite switch, the default behavior is to display a warning and abort.
 
-* NoHotFix 
+* **NoHotFix**
   
-  optional switch to skip auditing of installed hotfixes / may save time
+  _Optional_ Switch parameter to skip auditing of installed hotfixes.  This may save time when re-running a data collection in test environments.
 
-* Verbose (ummm, yeah)
+* **Verbose** 
+
+   (ummm, yeah)
 
 ## Syntax: Export-CMHealthCheck
 
-* Export-CMHealthCheck -ReportFolder "path to output files" ...
-* -Detailed 
-  * optional switch to force more verbose reporting output / strongly recommended!
-* -CoverPage 
-  * optional Windows theme cover page. Default is "Slices (light)"
-* -CustomerName (optional name of SCCM site server owner. Default is "Customer Name")
-* -AuthorName
-* -CopyrightName
-* -HealthcheckFilename
-* -MessagesFilename
-* -HealthcheckDebug
-* -Overwrite 
-  * (ignore this, I had no sleep and a cat that wouldn't leave me alone)
+   ```powershell
+   Export-CMHealthCheck -ReportFolder "path to output files" ...
+   ```
+   
+### Parameters
+
+* **ReportFolder**
+
+   _Mandatory_ Path to where the collected data files reside from using Get-CMHealthCheck. This can be a local path or a remote UNC path.
+   
+* **Detailed**
+
+   _Optional_ Switch parameter to force more verbose reporting output / strongly recommended!
+   
+* **CoverPage**
+
+   _Optional_ Name of Office cover page.  List of valid names varies based on the version of Office installed.
+   
+   Default is "Slice (Light)"
+   
+   Word 2016 names: Austin, Banded, Facet, Filigree, Grid, Integral, Ion (Dark), Ion (Light), Motion, Retrospect, Semaphore, Sideline, Slice (Dark), Slice (Light), Viewmaster, Whisp
+   
+* **CustomerName**
+
+   _Optional_ Name of customer or organization who owns the ConfigMgr site server being audited. Default is "Customer Name"
+
+* **AuthorName**
+
+   _Optional_ Name of author generating the report (you?).  Default is "Your Name"
+   
+* **CopyrightName**
+
+   _Optional_ Name to place in footer of every page along with (C)YYYY .....  Default is "Your Company Name"
+   
+* **HealthcheckFilename**
+
+   _Optional_ Path or URI to cmhealthcheck.xml, which provides rules for gathering data. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml>
+   
+* **MessagesFilename**
+
+  _Optional_ Path or URI to messages.xml, which provides status value message lookups. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/Messages.xml>
+  
+* **HealthcheckDebug**
+
+   _Optional_ Switch parameter to enable additional verbose output
+   
+* **Overwrite**
+   
+   ignore this, I had no sleep and a cat that wouldn't leave me alone
 
 ## Notes
 
