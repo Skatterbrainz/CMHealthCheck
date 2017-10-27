@@ -31,9 +31,9 @@ _Part 2 - Reporting_
 
 ### Parameters
 * SmsProvider
- FQDN of ConfigMgr site server.  Example: "cm01.contoso.com"
+ - FQDN of ConfigMgr site server.  Example: "cm01.contoso.com"
 * OutputFolder 
- optional path for output files. Default is $env:USERPROFILE\Documents
+ - optional path for output files. Default is $env:USERPROFILE\Documents
 * NumberOfDays 
   * optional age of status logs to inspect. Default is 7
 * HealthcheckFilename 
