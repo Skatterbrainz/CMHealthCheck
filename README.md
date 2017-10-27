@@ -157,6 +157,14 @@ Example 3
 
 ## Notes
 
+* Tested with the following environments:
+
+   * ConfigMgr 1610, 1702, 1706, 1709
+   * Windows Server 2012 R2, 2016
+   * Windows 10 1703, 1709
+   * Office 2013, 2016
+   * PowerShell 5.0, 5.1.14393.1770, 5.1.16299.19
+  
 * If you like it, please share with others.  If you hate it, tell me why so I can improve on it?
 * Please submit bugs, comments, requests via the "Issues" link above.
 
