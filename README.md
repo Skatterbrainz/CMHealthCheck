@@ -152,7 +152,7 @@ Example 2
 Example 3
 
    ```powershell
-   Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Fubar LLC" -CoverPage "Ion (Dark)" -HealthcheckFilename "C:\Temp\cmhealthcheck.xml" -MessagesFile "C:\Temp\messages.xml" -HealthcheckDebug -Overwrite
+   Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Oh My God, Please No!!?" -CoverPage "Ion (Dark)" -HealthcheckFilename "C:\Temp\cmhealthcheck.xml" -MessagesFile "C:\Temp\messages.xml" -HealthcheckDebug -Overwrite
    ```
 
 ## Notes
