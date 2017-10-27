@@ -34,20 +34,20 @@ _Part 2 - Reporting_
 
 ### Parameters
 
-* **SmsProvider**
+* **SmsProvider** "name"
 
    FQDN of ConfigMgr site server.  Example: "cm01.contoso.com"
    
-* **OutputFolder**
+* **OutputFolder** "path"
 
    _Optional_ Path for output files. Default is $env:USERPROFILE\Documents. The script will create two (2) folders 
    beneath this location: _Logs, and another using YYYY-MM-DD, with a sub-folder named after the SmsProvider value.
 
-* **NumberOfDays**
+* **NumberOfDays** integer
 
    _Optional_ Integer value, number of days to go back for status logs to inspect. Default is 7
 
-* **HealthcheckFilename**
+* **HealthcheckFilename** "path-or-uri"
   
   _Optional_ Path or URI to cmhealthcheck.xml, which provides rules for gathering data. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml>
 
@@ -77,7 +77,7 @@ _Part 2 - Reporting_
    
 ### Parameters
 
-* **ReportFolder**
+* **ReportFolder** "path"
 
    _Mandatory_ Path to where the collected data files reside from using Get-CMHealthCheck. This can be a local path or a remote UNC path.
    
@@ -85,7 +85,7 @@ _Part 2 - Reporting_
 
    _Optional_ Switch parameter to force more verbose reporting output / strongly recommended!
    
-* **CoverPage**
+* **CoverPage** "name"
 
    _Optional_ Name of Microsoft Word cover page.  List of valid names varies based on the version of Office Word installed.
    
@@ -93,23 +93,23 @@ _Part 2 - Reporting_
    
    Word 2016 names: Austin, Banded, Facet, Filigree, Grid, Integral, Ion (Dark), Ion (Light), Motion, Retrospect, Semaphore, Sideline, Slice (Dark), Slice (Light), Viewmaster, Whisp
    
-* **CustomerName**
+* **CustomerName** "name"
 
    _Optional_ Name of customer or organization who owns the ConfigMgr site server being audited. Default is "Customer Name"
 
-* **AuthorName**
+* **AuthorName** "name"
 
    _Optional_ Name of author generating the report (you?).  Default is "Your Name"
    
-* **CopyrightName**
+* **CopyrightName** "name"
 
    _Optional_ Name to place in footer of every page along with (C)YYYY .....  Default is "Your Company Name"
    
-* **HealthcheckFilename**
+* **HealthcheckFilename** "path-or-uri"
 
    _Optional_ Path or URI to cmhealthcheck.xml, which provides rules for gathering data. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml>
    
-* **MessagesFilename**
+* **MessagesFilename** "path-or-uri"
 
   _Optional_ Path or URI to messages.xml, which provides status value message lookups. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/Messages.xml>
   
