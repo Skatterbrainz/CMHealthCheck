@@ -1,9 +1,10 @@
 # CMHealthCheck
-ConfigMgr Health Check Reporting PowerShell functions
+
+ConfigMgr Health-Check Reporting PowerShell functions
 
 ## Summary
 
-CMHealthCheck is intended to make the former standalone PowerShell scripts "get-cm-inventory.ps1" and "export-cm-healthcheck.ps1" easier to invoke.  The scripts have been refactored into a simple PowerShell module, with two public functions: Get-CMHealthCheck and Export-CMHealthCheck.  The required support XML data files are now invoked via URI from GitHub gist locations (on this account), but they can be downloaded for offline use as well.
+CMHealthCheck is intended to make the former standalone PowerShell scripts "get-cm-inventory.ps1" and "export-cm-healthcheck.ps1" easier to invoke as a module from PowerShell Gallery.  Both scripts have been refactored into a simple PowerShell module, with two public functions: Get-CMHealthCheck and Export-CMHealthCheck.  The required support XML data files are now invoked via URI from GitHub gist locations (on this account), but they can be downloaded for offline use as well.
 
 ## Installation and Usage
 
@@ -27,16 +28,20 @@ _Part 2 - Reporting_
 
 ## Syntax: Get-CMHealthCheck
 
-* Get-CMHealthCheck -SmsProvider "cm01.contoso.com" ...
+   ```powershell
+   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" ...
+   ```
 
 ### Parameters
-* SmsProvider
+
+* **SmsProvider**
 
    FQDN of ConfigMgr site server.  Example: "cm01.contoso.com"
    
-* OutputFolder 
+* **OutputFolder**
 
-   optional path for output files. Default is $env:USERPROFILE\Documents
+   Optional path for output files. Default is $env:USERPROFILE\Documents. The script will create two (2) folders 
+   beneath this location: _Logs, and 
 
 * NumberOfDays 
 
