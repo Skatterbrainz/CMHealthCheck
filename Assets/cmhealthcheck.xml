@@ -1,0 +1,2383 @@
+<?xml version="1.0" standalone="yes"?>
+<dtsHealthCheck xmlns="http://tempuri.org/HealthCheckDataSet.xsd">
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>true</IsTextOnly>
+    <Description>Basic SCCM Information</Description>
+    <IsActive>true</IsActive>
+    <WordStyle>Heading 1</WordStyle>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_SiteInformation</XMLFile>
+    <Description>Configuration Manager Site Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>simpletable</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>SQL</querytype>
+    <sqlquery>
+DECLARE @SiteCode char(3)
+DECLARE @ServerName varchar(255)
+DECLARE @RoleName varchar(255)
+DECLARE @RoleNameLower varchar(255)
+DECLARE @SMSProvider varchar(8000)
+DECLARE @DP varchar(8000)
+DECLARE @MP varchar(8000)
+DECLARE @FSP varchar(8000)
+DECLARE @RSP varchar(8000)
+DECLARE @EPP varchar(8000)
+DECLARE @SUP varchar(8000)
+DECLARE @AISP varchar(8000)
+DECLARE @AWS varchar(8000)
+DECLARE @PWS varchar(8000)
+DECLARE @SMP varchar(8000)
+DECLARE @SNS varchar(8000)
+DECLARE @SQLVersion varchar(50)
+DECLARE @SQLSP varchar(50)
+DECLARE @SQLEdition varchar(500)
+DECLARE @SSBPort int
+DECLARE @SQLPort int
+DECLARE @SiteNumber int
+DECLARE @CPC varchar(8000)
+DECLARE @DWP varchar(8000)
+DECLARE @DMP varchar(8000)
+DECLARE @SCP varchar(8000)
+
+SET @SMSProvider = ''
+SET @DP = ''
+SET @MP = ''
+SET @FSP = ''
+SET @RSP = ''
+SET @EPP = ''
+SET @SUP = ''
+SET @AISP = ''
+SET @AWS = ''
+SET @PWS = ''
+SET @SMP = ''
+SET @SNS = ''
+SET @CPC = ''
+SET @DWP = ''
+SET @DMP = ''
+SET @SCP = ''
+
+select @SiteCode = '@@SITECODE@@'
+
+select @SiteNumber = SiteNumber from SC_SiteDefinition where SiteCode = @SiteCode
+SELECT @SQLVersion = convert(varchar(50), SERVERPROPERTY('productversion')), @SQLSP = convert(varchar(50), SERVERPROPERTY ('productlevel')), @SQLEdition = convert(varchar(500), SERVERPROPERTY ('edition'))
+select @SSBPort = Value3 from SC_SiteDefinition_Property where Name = 'SSBPort' and SiteNumber = @SiteNumber
+select @SQLPort = Value3 from SC_SiteDefinition_Property where Name = 'SQLServicePort' and SiteNumber = @SiteNumber
+
+DECLARE @ServerList CURSOR
+SET @ServerList = CURSOR FAST_FORWARD
+FOR SELECT RoleName, ServerName FROM vSMS_SC_SysResUse where SiteCode = @SiteCode
+
+OPEN @ServerList FETCH NEXT FROM @ServerList INTO @RoleName,@ServerName
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	if @RoleName = 'SMS Provider'	
+	begin
+		if Len(@SMSProvider) &lt;&gt; 0 set @SMSProvider = @SMSProvider + ', '
+		set @SMSProvider = @SMSProvider + @ServerName
+	END
+
+	if @RoleName = 'SMS Distribution Point'	
+	begin
+		if Len(@DP) &lt;&gt; 0 set @DP = @DP + ', '
+		set @DP = @DP + @ServerName
+	END
+
+	if @RoleName = 'SMS Management Point'	
+	begin
+		if Len(@MP) &lt;&gt; 0 set @MP = @MP+ ', '
+		set @MP = @MP+ @ServerName
+	END
+
+	if @RoleName = 'SMS Fallback Status Point'	
+	begin
+		if Len(@FSP) &lt;&gt; 0 set @FSP = @FSP+ ', '
+		set @FSP = @FSP+ @ServerName
+	END
+
+	if @RoleName = 'SMS SRS Reporting Point'	
+	begin
+		if Len(@RSP) &lt;&gt; 0 set @FSP = @RSP+ ', '
+		set @RSP = @RSP+ @ServerName
+	END
+
+	if @RoleName = 'SMS Endpoint Protection Point'	
+	begin
+		if Len(@EPP) &lt;&gt; 0 set @EPP = @EPP+ ', '
+		set @EPP = @EPP+ @ServerName
+	END
+
+	if @RoleName = 'SMS Software Update Point'	
+	begin
+		if Len(@SUP) &lt;&gt; 0 set @SUP = @SUP+ ', '
+		set @SUP = @SUP+ @ServerName
+	END
+
+	if @RoleName = 'AI Update Service Point'	
+	begin
+		if Len(@AISP) &lt;&gt; 0 set @AISP = @AISP+ ', '
+		set @AISP = @AISP+ @ServerName
+	END
+
+	if @RoleName = 'SMS Application Web Service'	
+	begin
+		if Len(@AWS) &lt;&gt; 0 set @AWS = @AWS+ ', '
+		set @AWS = @AWS+ @ServerName
+	END
+
+	if @RoleName = 'SMS Portal Web Site'	
+	begin
+		if Len(@PWS) &lt;&gt; 0 set @PWS = @PWS+ ', '
+		set @PWS = @PWS+ @ServerName
+	END
+
+	if @RoleName = 'SMS State Migration Point'	
+	begin
+		if Len(@SMP) &lt;&gt; 0 set @PWS = @SMP+ ', '
+		set @SMP = @SMP+ @ServerName
+	END
+
+	if @RoleName = 'SMS Notification Server'	
+	begin
+		if Len(@SNS) &lt;&gt; 0 set @SNS = @SNS+ ', '
+		set @SNS = @SNS+ @ServerName
+	END
+
+	if @RoleName = 'SMS Cloud Proxy Connector'
+	begin
+		if Len (@CPC) &lt;&gt; 0 set @CPC = @CPC+ ', '
+		set @CPC = @CPC+ @ServerName
+	END
+	
+	if @RoleName = 'Data Warehouse Service Point'
+	begin 
+		if Len (@DWP) &lt;&gt; 0 set @DWP = @DWP+ ', '
+		set @DWP = @DWP+ @ServerName
+	END 
+	
+	if @RoleName = 'SMS Dmp Connector'
+	begin 
+		if Len (@DMP) &lt;&gt; 0 set @DMP = @DMP+ ', '
+		set @DMP = @DMP+ @ServerName
+	END 
+
+	if @RoleName = 'SMS Service Connection Point'
+	begin 
+		if Len (@SCP) &lt;&gt; 0 set @SCP = @SCP+ ', '
+		set @DMP = @SCP+ @ServerName
+	END 
+
+	FETCH NEXT FROM @ServerList INTO @RoleName,@ServerName
+END
+CLOSE @ServerList
+DEALLOCATE @ServerList
+
+SELECT 
+  s.SiteCode, 
+  s.SiteName, 
+  s.Version, 
+  s.BuildNumber,
+  case 
+	when right(s.Version,9) = '5.00.7958.1000' then 'R2 RTM'
+	when right(s.Version,9) = '5.00.7958.1203' then 'R2 CU1'
+	when right(s.Version,9) = '5.00.7958.1303' then 'R2 CU2'
+	when right(s.Version,9) = '5.00.7958.1401' then 'R2 CU3'
+	when right(s.Version,9) = '5.00.7958.1501' then 'R2 CU4'
+	when right(s.Version,9) = '5.00.7958.1604' then 'R2 CU5'
+	when right(s.Version,9) = '5.00.8239.1000' then 'R2 SP1'
+	when right(s.Version,9) = '5.00.8325.1000' then '1511'
+	when right(s.Version,9) = '5.00.8325.1005' then '1511 Hotfix 1 of 3'
+	when right(s.Version,9) = '5.00.8325.1010' then '1511 Hotfix 2 of 3'
+	when right(s.Version,9) = '5.00.8325.1126' then '1511 Hotfix 3 of 3'
+	when right(s.Version,9) = '5.00.8355.1000' then '1602'
+	when right(s.Version,9) = '5.00.8355.1306' then '1602 Hotfix 1 of 2'
+	when right(s.Version,9) = '5.00.8355.1307' then '1602 Hotfix 2 of 2'
+	when right(s.Version,9) = '5.00.8412.1000' then '1606'
+	when right(s.Version,9) = '5.00.8412.1204' then '1606 Hotfix 1 of 5'
+	when right(s.Version,9) = '5.00.8412.1205' then '1606 Hotfix 2 of 5'
+	when right(s.Version,9) = '5.00.8412.1207' then '1606 Hotfix 3 of 5'
+	when right(s.Version,9) = '5.00.8412.1307' then '1606 Hotfix 4 of 5'
+	when right(s.Version,9) = '5.00.8412.1309' then '1606 Hotfix 5 of 5'
+	when right(s.Version,9) = '5.00.8458.1000' then '1610'
+	when right(s.Version,9) = '5.00.8458.1520' then '1610 Hotfix 1 of 2'
+	when right(s.Version,9) = '5.00.8458.1526' then '1610 Hotfix 2 of 2'
+	when right(s.Version,9) = '5.00.8498.1000' then '1702'
+	when right(s.Version,9) = '5.00.8498.1700' then '1702 Hotfix 1'
+	when right(s.Version,9) = '5.00.8498.1711' then '1702 Hotfix 2'
+	when right(s.Version,9) = '5.00.8533.1000' then '1706'
+	else cast(s.Version as varchar(100))
+  end as SPLevel,
+  case 
+	when s.Status = 1 then 'Active'
+	else 'Inactive'
+  end as Status, 
+  case 
+	when s.SiteType = 2 then 'Primary Site'
+	when s.SiteType = 1 then 'Secondary Site'
+	when s.SiteType = 4 then 'Central Administration Site'
+  end as SiteType,
+  s.InstallDir,
+  s.SiteServer,
+  @SMSProvider as SMSProvider,
+  sd.SQLServerName,
+  sd.SQLDatabaseName,
+  @SSBPort as SSBPort,
+  @SQLPort as SQLPort,
+  @SQLVersion as SQLVersion,
+  @SQLSP as SQLSP,
+  @SQLEdition as SQLEdition,
+  @DP as DP,
+  @MP as MP,
+  @FSP as FSP,
+  @RSP as RSP,
+  @EPP as EPP,
+  @SUP as SUP,
+  @AISP as AISP,
+  @AWS as AWS,
+  @PWS as PWS,
+  @SMP as SMP,
+  @SNS as SNS,
+  @CPC as CPC,
+  @DWP as DWP,
+  @DMP as DMP,
+  @SCP as SCP 
+FROM Sites s inner join SC_SiteDefinition sd on sd.SiteCode = s.SiteCode
+where s.SiteCode = @SiteCode
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteName" Description="Site Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BuildNumber" Description="Build Number" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SPLevel" Description="Update Pack Level" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteType" Description="Site Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="InstallDir" Description="Installation Directory" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteServer" Description="Site Server" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMSProvider" Description="SMS Provider" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLServerName" Description="SQL Server" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLDatabaseName" Description="Database Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SSBPort" Description="SSB Port" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLPort" Description="SQL Server Port" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLVersion" Description="SQL Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLSP" Description="SQL Service Pack Level" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLEdition" Description="SQL Edition" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DP" Description="Distribution Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MP" Description="Management Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FSP" Description="Fallback Status Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="RSP" Description="Reporting Service Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="EPP" Description="Endpoint Protection Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SUP" Description="Software Update Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AISP" Description="Asset Intelligence synchronization Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AWS" Description="Application Catalog web service Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PWS" Description="Application Catalog web site Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMP" Description="State Migration Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SNS" Description="SMS Notification Server" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="CPC" Description="Cloud Proxy Connector" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="DWP" Description="Data Warehouse Service Point" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="DMP" Description="DMP Connector" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="SCP" Description="Service Connection Point" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_MPConnectivity</XMLFile>
+    <Description>Management Point Connectivity</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>MPConnectivity</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ServerName" Description="Server Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="HTTPReturn" Description="HTTP Return Code" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_MPCertConnectivity</XMLFile>
+    <Description>Management Point Certificate Connectivity</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>MPCertConnectivity</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ServerName" Description="Server Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="HTTPReturn" Description="HTTP Return Code" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_SiteMaintenance</XMLFile>
+    <Description>Site Maintenance</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select TaskName, case IsEnabled when 1 then 'YES' else 'NO' end as IsEnabled, case DeleteOlderThan when 0 then null else DeleteOlderThan end as DeleteOlderThan, 
+case BeginTime when 0 then '0:00' else left(convert(varchar(4), BeginTime),(case when (len(BeginTime)-2) &lt;=0 then 0 else (len(BeginTime)-2) end)) + ':' + right(convert(varchar(4), BeginTime),2) end as BeginTime,
+case LatestBeginTime when 0 then '0:00' else left(convert(varchar(4), LatestBeginTime),(case when (len(LatestBeginTime)-2) &lt;=0 then 0 else (len(LatestBeginTime)-2) end)) + ':' + right(convert(varchar(4), LatestBeginTime),2) end as LatestBeginTime,
+isnull((case cast(DaysOfWeek &amp; 1 as bit) when 1 then 'Sunday, ' end), '') +
+isnull((case cast(DaysOfWeek &amp; 2 as bit) when 1 then 'Monday, ' end), '') +
+isnull((case cast(DaysOfWeek &amp; 4 as bit) when 1 then 'Tuesday, ' end), '') +
+isnull((case cast(DaysOfWeek &amp; 8 as bit) when 1 then 'Wednesday, ' end), '') +
+isnull((case cast(DaysOfWeek &amp; 16 as bit) when 1 then 'Thursday, ' end), '') +
+isnull((case cast(DaysOfWeek &amp; 32 as bit) when 1 then 'Friday, ' end), '') +
+isnull((case cast(DaysOfWeek &amp; 64 as bit) when 1 then 'Saturday' end), '') as DaysOfWeek from vSMS_SC_SQL_Task where SiteCode = '@@SITECODE@@'
+	</sqlquery>
+    <Fields>
+      <Field FieldName="TaskName" Description="Task Name" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="IsEnabled" Description="Enabled" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeleteOlderThan" Description="Delete Older Than (days)" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="BeginTime" Description="Begin Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LatestBeginTime" Description="Latest Begin Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DaysOfWeek" Description="Days Of Week" value="" format="" key="false" groupby="1" />
+	</Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_LastSCCMBackup</XMLFile>
+    <Description>Last Backup Summary (Taken from SCCM)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+declare @starttime as datetime, @endtime as datetime, @id as int, @sitecode char(3), @numberofdays int
+set @sitecode = '@@SiteCode@@'
+set @numberofdays = @@NumberOfDays@@
+
+select top 1 @starttime = smsgs.Time
+from 
+	v_StatusMessage smsgs 
+where
+	smsgs.Time &gt;= DATEADD(dd,-convert(int,@NumberofDays),GetDate()) and 
+	smsgs.MessageID = 5055 and 
+	smsgs.sitecode = @sitecode
+Order by smsgs.Time DESC
+
+select top 1 @endtime = smsgs.Time, @id = smsgs.MessageID
+from 
+	v_StatusMessage smsgs 
+where
+	smsgs.Time &gt;= DATEADD(dd,-convert(int,@NumberofDays),GetDate()) and 
+	smsgs.MessageID in (5035, 5000, 5002, 5004, 5006, 5008, 5017, 5018, 5019, 5022, 5024, 5025, 5026, 5027, 5032, 5033, 5043, 5044, 5045, 5046, 5047, 5048, 5049, 5050, 5051, 5052, 5053) and 
+	smsgs.sitecode = @sitecode
+Order by smsgs.Time DESC
+
+
+if (@starttime is not null)
+select @starttime as StartTime,
+case 
+	when (@starttime &gt; @endtime) then null
+	else @endtime
+end as EndTime, 
+case 
+	when (@starttime &gt; @endtime) then 'Last Backup did not finish'
+	when (@endtime is null) then 'Last Backup did not finish'
+	when (@id = 5035) then 'SMS Site Backup completed successfully with zero errors but still there could be some warnings'
+	when (@id != 5035) then 'SMS Site Backup failed to completed successfully'
+end as 'Comments'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="StartTime" Description="Start Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="EndTime" Description="End Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Comments" Description="Comments" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_LastSQLBackup</XMLFile>
+    <Description>Last Backup Summary (Taken from SQL Server)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+declare @starttime as datetime, @endtime as datetime, @id as int, @DatabaseName varchar(10), @numberofdays int
+set @DatabaseName = 'CM_@@SITECODE@@'
+set @numberofdays = @@NumberOfDays@@
+
+SELECT TOP 1 m.physical_device_name, s.backup_start_date, s.backup_finish_date,
+CASE s.[type]
+WHEN 'D' THEN 'Full'
+WHEN 'I' THEN 'Differential'
+WHEN 'L' THEN 'Transaction Log'
+END AS BackupType,
+s.server_name,
+s.recovery_model
+FROM msdb.dbo.backupset s
+INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id and m.device_type in (2,5)
+WHERE s.database_name = @DatabaseName and s.backup_start_date &gt;= DATEADD(dd,-convert(int,@numberofdays),GetDate())
+    </sqlquery>
+    <Fields>
+      <Field FieldName="physical_device_name" Description="Backup Location" value="" format="" key="false" groupby="1" />
+      <Field FieldName="backup_start_date" Description="Start Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="backup_finish_date" Description="End Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BackupType" Description="Backup Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="server_name" Description="Server Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="recovery_model" Description="Recovery Model" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_ComponentInformation</XMLFile>
+    <Description>Component information since 12:00AM</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>SQL</querytype>
+    <sqlquery>
+select 
+	ComponentName, Errors, Infos, Warnings,
+	case 
+		when Status = 0 then 'OK'
+		when Status = 1 then 'Warning'
+		when Status = 2 then 'Critical'
+	end as Status
+from v_ComponentSummarizer 
+WHERE TallyInterval='0001128000100008' and
+	  SiteCode = '@@SITECODE@@'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ComponentName" Description="Component Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Errors" Description="Errors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Warnings" Description="Warnings" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Infos" Description="Informations" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_LastWSUSSyncInformation</XMLFile>
+    <Description>Last WSUS Sync Information</Description>
+    <IsActive>true</IsActive>
+    <PrintType>simpletable</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>SQL</querytype>
+    <sqlquery>
+declare @starttime as datetime, @endtime as datetime, @id as int, @sitecode char(3)
+select @sitecode = '@@SITECODE@@'
+
+select top 1 @starttime = smsgs.Time
+from 
+	v_StatusMessage smsgs 
+where
+	smsgs.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) and 
+	smsgs.MessageID = 6701 and 
+	smsgs.sitecode = @sitecode
+Order by smsgs.Time DESC
+
+select top 1 @endtime = smsgs.Time, @id = smsgs.MessageID
+from 
+	v_StatusMessage smsgs 
+where
+	smsgs.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) and 
+	smsgs.MessageID in (6702, 6703) and 
+	smsgs.sitecode = @sitecode
+Order by smsgs.Time DESC
+
+
+if (@starttime is not null) and (@endtime is not null)
+select @starttime as StartTime,
+case 
+	when (@starttime &gt; @endtime) then null
+	else @endtime
+end as EndTime, 
+case 
+	when (@starttime &gt; @endtime) then 'Last WSYS Sync did not finish'
+	when (@id = 6702) then 'Success'
+	when (@id = 6703) then 'Error'
+end as 'Comments'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="StartTime" Description="Start Date/Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="EndTime" Description="End Date/Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Comments" Description="Comments" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_ClientSettingsMisconfiguration</XMLFile>
+    <Description>Client Settings Misconfiguration</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+Create Table ##temp_ClientSettingsMisconfiguration (ClientSettingName varchar(2000), AgentName varchar(2000), PropertyName varchar(2000), Value varchar(2000), CollectionName varchar(2000))
+delete ##temp_ClientSettingsMisconfiguration
+
+insert into ##temp_ClientSettingsMisconfiguration
+select cs.Name as [ClientSettingName], ca.Name as [AgentName], cb.PropertyName, 
+case
+	when IsNull(cb.DwordValue, 0) &lt;&gt; 0 then cast(cb.DwordValue as varchar(2000))
+	when IsNull(cb.StringValue, '') &lt;&gt; '' then dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(cb.StringValue)
+end as [Value], col.Name as [CollectionName] from vSMS_ClientSettings cs 
+inner join vSMS_ClientAgentConfig_Base cb on cs.ID = cb.SettingsID 
+inner join ClientAgent ca on ca.ID = cb.AgentID
+left join vClientSettingsAssignments csa on csa.ClientSettingsID = cs.ID
+left join v_Collection col on csa.CollectionID = col.CollectionID
+where cs.SourceSite = '@@SITECODE@@' and ((cb.AgentID in (13, 26) and cb.PropertyName in ('PolicyRequestAssignmentTimeout'))
+or (cb.AgentID in (15, 2) and cb.PropertyName in ('Schedule'))
+or (cb.AgentID in (5) and cb.PropertyName in ('ComputeComplianceSchedule'))
+or (cb.AgentID in (17,9) and cb.PropertyName in ('EvaluationSchedule'))
+or (cb.AgentID in (8) and cb.PropertyName in ('DataCollectionSchedule'))
+or (cb.AgentID in (9) and cb.PropertyName in ('ScanSchedule')))
+
+insert into ##temp_ClientSettingsMisconfiguration
+select 'Default Client Settings', cc.ClientComponentName, ccp.Name,
+case
+	when ccp.Value1 = 'REG_SZ' then dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(ccp.Value2)
+	when ccp.Value1 = 'REG_DWORD' then CAST(ccp.Value3 as Varchar(2000))
+	else dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(ccp.Value1)
+end as [Value], 'All Systems' from vSMS_SC_ClientComponent cc
+inner join vSMS_SC_ClientComponent_Properties ccp on cc.ID = ccp.ID
+where ccp.Name in ('EvaluationSchedule', 'Inventory Schedule','AMTStatusCheckSchedule','Policy Refresh Interval','Refresh Minutes','Data Collection Schedule','EvaluationSchedule','Scan Schedule','Compute Compliance Schedule')
+and cc.SiteCode = '@@SITECODE@@'
+
+select * from ##temp_ClientSettingsMisconfiguration 
+where 
+(AgentName = 'User Policy Agent' and PropertyName = 'PolicyRequestAssignmentTimeout' and (Value BETWEEN 0 and 29 or Value &gt; 120)) 
+or (AgentName in ('Application Management Agent', 'AppMan Client Agent') and PropertyName = 'EvaluationSchedule' and Value &lt; 1439) 
+or (AgentName in ('Software Distribution','Policy Agent') and PropertyName in ('Refresh Minutes','Policy Refresh Interval','PolicyRequestAssignmentTimeout') and (Value BETWEEN 0 and 29 or Value &gt; 120)) 
+or (AgentName = 'Hardware Inventory Agent' and PropertyName in ('Inventory Schedule', 'Schedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+or (AgentName in ('Software Inventory Agent', 'Software Inventory Client Agent') and PropertyName in ('Inventory Schedule','Schedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+or (AgentName = 'Software Metering Agent' and PropertyName in ('Data Collection Schedule', 'DataCollectionSchedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+or (AgentName = 'Software Updates' and PropertyName in ('EvaluationSchedule', 'Scan Schedule','Software Updates Agent') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+or (AgentName = 'System Health Agent' and PropertyName in ('Compute Compliance Schedule', 'ComputeComplianceSchedule') and Value &gt; 1439) 
+order by ClientSettingName, AgentName, PropertyName
+
+drop table ##temp_ClientSettingsMisconfiguration
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ClientSettingName" Description="Client Settings Name" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="AgentName" Description="Agent Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PropertyName" Description="Property Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Value" Description="Value (Minutes)" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="CollectionName" Description="Deployed to Collection" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_DiscoveryMisconfiguration</XMLFile>
+    <Description>Discovery Misconfiguration</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+Create Table ##temp_DiscoveryMisconfiguration (componentname varchar(2000), Name varchar(2000), Value varchar(2000))
+delete ##temp_DiscoveryMisconfiguration
+
+insert into ##temp_DiscoveryMisconfiguration
+select sdk.componentname, prop.Name, dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(prop.Value1) from vSMS_SC_Component_SDK sdk 
+inner join vSMS_SC_Component_Properties prop on sdk.ID = prop.ID
+where sdk.componentname like '%DISCOVERY%' and prop.name in ('Full Sync Schedule', 'Startup Schedule')
+and prop.Value1 &lt;&gt; '' and sdk.componentname &lt;&gt; 'SMS_WINNT_SERVER_DISCOVERY_AGENT'
+and sdk.SiteCode = '@@SITECODE@@'
+order by sdk.ComponentName, prop.Name
+
+select * from ##temp_DiscoveryMisconfiguration 
+where 
+(ComponentName = 'SMS_AD_FOREST_DISCOVERY_MANAGER' and Name = 'Startup Schedule' and (Value BETWEEN 0 and 1439)) 
+or (ComponentName in ('SMS_AD_SECURITY_GROUP_DISCOVERY_AGENT','SMS_AD_SYSTEM_DISCOVERY_AGENT','SMS_AD_USER_DISCOVERY_AGENT') and Name = 'Full Sync Schedule' and (Value BETWEEN 0 and 10079)) 
+or (ComponentName in ('SMS_AD_SECURITY_GROUP_DISCOVERY_AGENT','SMS_AD_SYSTEM_DISCOVERY_AGENT','SMS_AD_USER_DISCOVERY_AGENT') and Name = 'Startup Schedule' and (Value BETWEEN 0 and 4 or Value &gt; 30)) 
+
+drop table ##temp_DiscoveryMisconfiguration
+    </sqlquery>
+    <Fields>
+      <Field FieldName="componentname" Description="Component Name" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="Name" Description="Property Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Value" Description="Value (Minutes)" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_ClientInformation</XMLFile>
+    <Description>Client Information</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+declare @SiteCode char(3) = '@@SITECODE@@'
+
+select 
+	(select count(1) from v_R_System) as TotalDiscovered,
+	(select count(1) from v_R_System_Valid) as TotalClient,
+	(select count(1) from v_FullCollectionMembership_Valid fcm inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 1 where fcm.CollectionID = 'SMS00001' and fcm.Name not like '%unknown%' and fcm.SiteCode = @SiteCode) as TotalSiteActive,
+	(select count(1) from v_FullCollectionMembership_Valid fcm inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 0 where fcm.CollectionID = 'SMS00001' and fcm.Name not like '%unknown%' and fcm.SiteCode = @SiteCode) as TotalSiteInactive
+	</sqlquery>
+    <Fields>
+      <Field FieldName="TotalDiscovered" Description="Total Discovered" value="" format="" key="false" groupby="1" />
+	  <Field FieldName="TotalClient" Description="Total Client" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalSiteActive" Description="Total Active (Site)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalSiteInactive" Description="Total Inactive (Site)" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_DPContentSummary</XMLFile>
+    <Description>Distribution Point Content Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 ) as DPName, Count(1) as TotalContent 
+from fn_ListDPContents(2057) as lc
+inner join vSMS_SC_SysResUse_SDK srl on srl.NALPath = lc.NALPath and srl.RoleName = 'SMS Distribution Point' and srl.SiteCode = '@@SITECODE@@' and srl.Type in (1,2,4,8)
+group by SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 )
+	</sqlquery>
+    <Fields>
+      <Field FieldName="DPName" Description="Distribution Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalContent" Description="Total Content" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>true</IsTextOnly>
+    <Description>Server overview</Description>
+    <IsActive>true</IsActive>
+    <WordStyle>Heading 1</WordStyle>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_OSInformation</XMLFile>
+    <Description>Operating System Information Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>simpletable</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>BaseOSInfo</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ComputerName" Description="Computer Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="OperatingSystem" Description="Operating System" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ServicePack" Description="Service Pack" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Architecture" Description="Architecture" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastBootTime" Description="Last Boot Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CurrentTime" Description="Current Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalPhysicalMemory" Description="Total Physical Memory" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FreePhysicalMemory" Description="Free Physical Memory" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TimeZone" Description="Time Zone" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DaylightInEffect" Description="Daylight In Effect" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Role" Description="Role" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Model" Description="Model" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NumberOfProcessors" Description="Number Of Processors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NumberOfLogicalProcessors" Description="Number Of Logical Processors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Processors" Description="Processors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AntiMalware" Description="Anti-Malware" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_DiskInformation</XMLFile>
+    <Description>Disk Information Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>diskinfo</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="DeviceID" Description="Device ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Size" Description="Size (GB)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FreeSpace" Description="Free Space (GB)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FileSystem" Description="File System" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_NetworkInfo</XMLFile>
+    <Description>Network Information Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>NetworkInfo</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="IPAddress" Description="IP Address" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DefaultIPGateway" Description="Default IP Gateway" value="" format="" key="false" groupby="1" />
+      <Field FieldName="IPSubnet" Description="IP Subnet" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MACAddress" Description="MAC Address" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DHCPEnabled" Description="DHCP Enabled" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_CCMRolesInstallationStatus</XMLFile>
+    <Description>Configuration Manager Roles Installation Status</Description>
+    <IsActive>true</IsActive>
+    <PrintType>simpletable</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>RolesInstalled</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="SiteServer" Description="Site Server" value="" format="" key="false" groupby="1" />
+      <Field FieldName="IIS" Description="IIS Web Server" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLServer" Description="SQL Server" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DP" Description="Distribution Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PXE" Description="PXE Enabled DP" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MultiCast" Description="Multicast Enabled DP" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PreStaged" Description="Pre Staging Allowed" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MP" Description="Management Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FSP" Description="Fallback Status Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SSRS" Description="SQL Reporting Services" value="" format="" key="false" groupby="1" />
+      <Field FieldName="EP" Description="Endpoint Protection" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SUP" Description="Software Update Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AI" Description="Asset Intelligence Synchronization Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AWS" Description="Application Catalog web service point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PWS" Description="Application catalog website point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMP" Description="State Migration Point" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Console" Description="SCCM Admin Console" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Client" Description="SCCM Client" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_ServiceStatus</XMLFile>
+    <Description>Service Status</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>ServiceStatus</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ServiceName" Description="Service Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_HotfixStatus</XMLFile>
+    <Description>Service Status</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>HotfixStatus</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Title" Description="Hotfix Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Date" Description="Installation Date" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>true</IsTextOnly>
+    <Description>Database Analysis</Description>
+    <IsActive>true</IsActive>
+    <WordStyle>Heading 1</WordStyle>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_CMMonitor</XMLFile>
+    <Description>CMMonitor Database</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT Name FROM master.sys.databases WHERE name = N'CMMonitor'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_DatabaseJobs</XMLFile>
+    <Description>Database Jobs</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select s.name,l.name as Owner,
+case 
+	when s.enabled = 1 then 'Enabled'
+	else 'Disabled'
+  end as Enabled 
+ from  msdb..sysjobs s 
+ left join master.sys.syslogins l on s.owner_sid = l.sid
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Job Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Owner" Description="Owner" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Enabled" Description="Enabled" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_DatabaseInfo</XMLFile>
+    <Description>Database Info</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+Create Table ##temp_DatabaseAnalysis (DatabaseName sysname, Name sysname, physical_name nvarchar(500), size decimal (18,2), FreeSpace decimal (18,2) )   
+Exec sp_msforeachdb '
+Use [?];
+Insert Into ##temp_DatabaseAnalysis (DatabaseName, Name, physical_name, Size, FreeSpace)
+    Select DB_NAME() AS [DatabaseName], Name,  physical_name,
+    Cast(Cast(Round(cast(size as decimal) * 8.0/1024.0,2) as decimal(18,2)) as nvarchar) Size,
+    Cast(Cast(Round(cast(size as decimal) * 8.0/1024.0,2) as decimal(18,2)) - Cast(FILEPROPERTY(name, ''SpaceUsed'') * 8.0/1024.0 as decimal(18,2)) as nvarchar) As FreeSpace
+    From sys.database_files
+'
+
+select db.name, db.recovery_model_desc, 
+case 
+   when mf.type_desc = 'ROWS' then 'Database'
+   else 'Logs'
+end as type_desc, mf.physical_name, 
+(mf.size*8)/1024 as Size, 
+case 
+   when mf.max_size = -1 then 'Unlimited'
+   else cast(mf.max_size as varchar(200))
+end as Max_Size,
+tmp.FreeSpace, 
+case
+  when mf.is_percent_growth = 1 then cast(mf.growth as varchar(200)) + '%'
+  else cast(mf.growth as varchar(200)) + ' MB'
+end as Growth,
+(select count(1) FROM sys.master_files mf1 where mf1.type_desc = 'ROWS' and db.database_id = mf1.database_id ) as CountDataFile,
+(select count(1) FROM sys.master_files mf1 where mf1.type_desc = 'LOG' and db.database_id = mf1.database_id ) as CountLogFile
+ from sys.master_files mf inner join sys.databases db on db.database_id = mf.database_id
+ inner join ##temp_DatabaseAnalysis tmp on mf.physical_name = tmp.physical_name
+
+drop table ##temp_DatabaseAnalysis
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Database Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="recovery_model_desc" Description="Recovery Model" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Type_desc" Description="File Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="physical_name" Description="Physical Location" value="" format="" key="false" groupby="1" />
+      <Field FieldName="size" Description="Size (GB)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FreeSpace" Description="Free Space (GB)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Max_Size" Description="Maximum Size" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Growth" Description="Growth" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CountDataFile" Description="# Data File" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CountLogFile" Description="# Log File" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_IndexFragmentation</XMLFile>
+    <Description>Index Fragmentation higher than 50%</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT object_name(object_id) as ObjectID, index_type_desc,avg_fragmentation_in_percent,fragment_count,avg_page_space_used_in_percent,page_count FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL , 'SAMPLED') where abs(avg_fragmentation_in_percent) &gt; 50 ORDER BY avg_fragmentation_in_percent DESC
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ObjectID" Description="Object Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="index_type_desc" Description="Index Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="avg_fragmentation_in_percent" Description="Average Fragmentation (%)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="fragment_count" Description="Fragmentation Count" value="" format="" key="false" groupby="1" />
+      <Field FieldName="avg_page_space_used_in_percent" Description="Average Page Space used (%)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="page_count" Description="Page Count" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_DatabaseCPUusage</XMLFile>
+    <Description>Database CPU usage</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+WITH DB_CPU_Stats AS (SELECT DatabaseID, DB_Name(DatabaseID) AS [DatabaseName], SUM(total_worker_time) AS [CPU_Time_Ms] FROM sys.dm_exec_query_stats AS qs CROSS APPLY (SELECT CONVERT(int, value) AS [DatabaseID] FROM sys.dm_exec_plan_attributes(qs.plan_handle) WHERE attribute = N'dbid') AS F_DB GROUP BY DatabaseID) SELECT DatabaseName, CAST([CPU_Time_Ms] * 1.0 / SUM([CPU_Time_Ms]) OVER() * 100.0 AS DECIMAL(5, 2)) AS [CPUPercent] FROM DB_CPU_Stats WHERE DatabaseID &gt; 4 AND DatabaseID &lt;&gt; 32767 ORDER BY [CPU_Time_Ms] desc;
+    </sqlquery>
+    <Fields>
+      <Field FieldName="DatabaseName" Description="Database Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CPUPercent" Description="CPU Usage (%)" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_DatabaseCPUWaits</XMLFile>
+    <Description>Database CPU waits</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT CAST(100.0 * SUM(signal_wait_time_ms) / SUM (wait_time_ms) AS NUMERIC(20,2)) AS [cpuwaits],CAST(100.0 * SUM(wait_time_ms - signal_wait_time_ms) / SUM (wait_time_ms) AS NUMERIC(20,2)) AS [resourcewaits] FROM sys.dm_os_wait_stats OPTION (RECOMPILE);
+    </sqlquery>
+    <Fields>
+      <Field FieldName="CPUWaits" Description="% signal (cpu) waits" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ResourceWaits" Description="%resource waits" value="" format="" key="false" groupby="1" />
+    </Fields>
+<!--    <Obs>If percentage of Signal Wait is higher than then 25 percent, then we have some CPU Pressure</obs> -->
+  </HealthCheck>
+  
+<HealthCheck>
+    <section>3</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_DatabaseGrowthLast@@NUMBEROFDAYS@@</XMLFile>
+    <Description>Database Growth Last @@NUMBEROFDAYS@@</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT 
+s.database_name,
+CASE s.[type]
+WHEN 'D' THEN 'Full'
+WHEN 'I' THEN 'Differential'
+WHEN 'L' THEN 'Transaction Log'
+END AS BackupType,
+CAST(CAST(s.backup_size / 1000000 AS INT) AS VARCHAR(14)) + ' ' + 'MB' AS bkSize,
+CAST(DATEDIFF(second, s.backup_start_date,
+s.backup_finish_date) AS VARCHAR(4)) + ' ' + 'Seconds' TimeTaken,
+s.backup_start_date
+FROM msdb.dbo.backupset s
+INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id
+WHERE 
+s.backup_start_date &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) 
+ORDER BY s.database_name, backup_start_date asc, backup_finish_date
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Database_Name" Description="Database Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BackupType" Description="Growth Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="bkSize" Description="Size" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TimeTaken" Description="Time Taken" value="" format="" key="false" groupby="1" />
+      <Field FieldName="backup_start_date" Description="Date/Time" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>  
+  
+  <HealthCheck>
+    <section>4</section>
+    <IsTextOnly>true</IsTextOnly>
+    <Description>SCCM Database Replication Analysis</Description>
+    <IsActive>true</IsActive>
+    <WordStyle>Heading 1</WordStyle>
+  </HealthCheck>
+  <HealthCheck>
+    <section>4</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>OverallLinkStatus</XMLFile>
+    <Description>Overall Link Status</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select 
+	SiteCode, SUBSTRING(Name, 1, CHARINDEX('.', Name) - 1) AS SiteServerName, dbo.fnGetSiteStatusFriendlyName(SiteStatus) AS SiteStatus, 
+    SUBSTRING(SQLInstance, 1, CHARINDEX('.', SQLInstance) - 1) AS SQLServerName, ServerRole
+from ServerData
+ORDER BY ID
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteServerName" Description="Site Server Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteStatus" Description="Replication Status" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SQLServerName" Description="SQL Server Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ServerRole" Description="Replication Role" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+
+  <HealthCheck>
+    <section>4</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ReplicationInitializationStatus</XMLFile>
+    <Description>Replication Initialization Status</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+declare @SiteCode char(3) = '@@SITECODE@@'
+
+SELECT  trk.SiteRequesting
+       ,trk.SiteFulfilling
+       ,trk.ReplicationGroup
+       ,dta.ReplicationPattern
+       ,trk.InitializationStatus AS [InitStatusCode]
+  INTO #InitInfo
+  FROM RCM_DrsInitializationTracking trk
+       INNER JOIN ReplicationData dta
+          ON trk.ReplicationGroup = dta.ReplicationGroup
+       INNER JOIN (
+                   SELECT  trk.SiteRequesting
+                          ,trk.SiteFulfilling
+                          ,trk.ReplicationGroup
+                          ,MAX(trk.ModifiedTime) AS [MaxTime]
+                     FROM RCM_DrsInitializationTracking trk 
+                    GROUP BY  trk.SiteRequesting
+                             ,trk.SiteFulfilling
+                             ,trk.ReplicationGroup
+                   ) mxt
+          ON trk.SiteRequesting = mxt.SiteRequesting
+         AND trk.SiteFulfilling = mxt.SiteFulfilling
+         AND trk.ReplicationGroup = mxt.ReplicationGroup
+         AND trk.ModifiedTime = mxt.MaxTime
+
+-- Site Info
+SELECT  SiteRequesting
+       ,SiteFulfilling
+       ,ReplicationPattern
+       ,COUNT(CASE InitStatusCode WHEN 6 THEN ReplicationGroup END) [ReplGroupsCompleted]
+       ,COUNT(CASE WHEN InitStatusCode NOT IN (6,99) THEN ReplicationGroup END) [ReplGroupsPending]
+       ,COUNT(CASE InitStatusCode WHEN 99 THEN ReplicationGroup END) [ReplGroupsFailed]
+       ,COUNT(CASE InitStatusCode WHEN 6 THEN ReplicationGroup END)/CONVERT(float,COUNT(ReplicationGroup))*100.00 [PercentComplete]
+  FROM #InitInfo
+ WHERE SiteRequesting = @SiteCode
+   AND ReplicationPattern = 'site'
+ GROUP BY  SiteRequesting
+          ,SiteFulfilling
+          ,ReplicationPattern
+UNION ALL
+-- Global Info
+SELECT  SiteRequesting
+       ,SiteFulfilling
+       ,ReplicationPattern
+       ,COUNT(CASE InitStatusCode WHEN 6 THEN ReplicationGroup END) [ReplGroupsCompleted]
+       ,COUNT(CASE WHEN InitStatusCode NOT IN (6,99) THEN ReplicationGroup END) [ReplGroupsPending]
+       ,COUNT(CASE InitStatusCode WHEN 99 THEN ReplicationGroup END) [ReplGroupsFailed]
+       ,COUNT(CASE InitStatusCode WHEN 6 THEN ReplicationGroup END)/CONVERT(float,COUNT(ReplicationGroup))*100.00 [PercentComplete]
+  FROM #InitInfo
+ WHERE SiteRequesting != @SiteCode
+   AND ReplicationPattern = 'global'
+ GROUP BY  SiteRequesting
+          ,SiteFulfilling
+          ,ReplicationPattern
+UNION ALL
+-- Global_Proxy Info
+SELECT  SiteRequesting
+       ,SiteFulfilling
+       ,ReplicationPattern
+       ,COUNT(CASE InitStatusCode WHEN 6 THEN ReplicationGroup END) [ReplGroupsCompleted]
+       ,COUNT(CASE WHEN InitStatusCode NOT IN (6,99) THEN ReplicationGroup END) [ReplGroupsPending]
+       ,COUNT(CASE InitStatusCode WHEN 99 THEN ReplicationGroup END) [ReplGroupsFailed]
+       ,COUNT(CASE InitStatusCode WHEN 6 THEN ReplicationGroup END)/CONVERT(float,COUNT(ReplicationGroup))*100.00 [PercentComplete]
+  FROM #InitInfo
+ WHERE SiteRequesting != @SiteCode
+   AND ReplicationPattern = 'global_proxy'
+ GROUP BY  SiteRequesting
+          ,SiteFulfilling
+          ,ReplicationPattern
+
+DROP TABLE #InitInfo
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SiteRequesting" Description="Site Requesting" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteFulfilling" Description="Site Fulfilling" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ReplicationPattern" Description="Pattern" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ReplGroupsCompleted" Description="Completed" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ReplGroupsPending" Description="Pending" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ReplGroupsFailed" Description="Failed" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PercentComplete" Description="% Completed" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck> 
+  
+  <HealthCheck>
+    <section>4</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>GlobalReplicationStatus</XMLFile>
+    <Description>Global Replication Status</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT  lnk.ParentSiteCode,lnk.ChildSiteCode,
+	CASE lnk.OverallLinkStatus
+		WHEN 0 THEN 'Deleted'
+        WHEN 1 THEN 'Tombstoned'
+        WHEN 2 THEN 'Active'
+        WHEN 3 THEN 'Initializing'
+        WHEN 4 THEN 'NotStarted'
+        WHEN 5 THEN 'Error'
+        WHEN 6 THEN 'Unknown'
+        WHEN 7 THEN 'Degraded'
+        WHEN 8 THEN 'Failed'
+	END AS OverallLinkStatus,
+    CASE lnk.GlobalParentToChildLinkStatus
+		WHEN 0 THEN 'Deleted'
+        WHEN 1 THEN 'Tombstoned'
+        WHEN 2 THEN 'Active'
+        WHEN 3 THEN 'Initializing'
+        WHEN 4 THEN 'NotStarted'
+        WHEN 5 THEN 'Error'
+        WHEN 6 THEN 'Unknown'
+        WHEN 7 THEN 'Degraded'
+        WHEN 8 THEN 'Failed'
+        END AS GlobalParentToChildLinkStatus,
+	CASE lnk.GlobalChildToParentLinkStatus
+        WHEN 0 THEN 'Deleted'
+        WHEN 1 THEN 'Tombstoned'
+        WHEN 2 THEN 'Active'
+		WHEN 3 THEN 'Initializing'
+		WHEN 4 THEN 'NotStarted'
+		WHEN 5 THEN 'Error'
+		WHEN 6 THEN 'Unknown'
+		WHEN 7 THEN 'Degraded'
+		WHEN 8 THEN 'Failed'
+	END AS GlobalChildToParentLinkStatus,
+	CASE lnk.SiteChildToParentLinkStatus
+        WHEN 0 THEN 'Deleted'
+        WHEN 1 THEN 'Tombstoned'
+        WHEN 2 THEN 'Active'
+        WHEN 3 THEN 'Initializing'
+        WHEN 4 THEN 'NotStarted'
+        WHEN 5 THEN 'Error'
+        WHEN 6 THEN 'Unknown'
+        WHEN 7 THEN 'Degraded'
+        WHEN 8 THEN 'Failed'
+        WHEN 99 THEN 'Secondary Site'
+	END AS SiteChildToParentLinkStatus,(lnk.LastSendTimeParentToChild - GETUTCDATE() + GETDATE()) AS LastSendTimeParentToChild,
+	(lnk.LastSendTimeChildToParent - GETUTCDATE() + GETDATE()) AS LastSendTimeChildToParent,(lnk.LastSiteSyncTime - GETUTCDATE() + GETDATE()) AS LastSiteSyncTime,
+	CASE srv.ServerRole
+		WHEN 'Peer' THEN 'Primaries'
+        WHEN 'Proxy' THEN 'Secondaries'
+    END AS ServerRole
+ FROM RCM_ReplicationLinkSummary_Child lnk
+ INNER JOIN ServerData srv ON lnk.ChildSiteCode = srv.SiteCode
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ParentSiteCode" Description="Site Code (Parent)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ChildSiteCode" Description="Site Code (CHild)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="OverallLinkStatus" Description="Link Status" value="" format="" key="false" groupby="1" />
+      <Field FieldName="GlobalParentToChildLinkStatus" Description="Global Link Status (Parent->Child)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="GlobalChildToParentLinkStatus" Description="Global Link Status (Child->Parent)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteChildToParentLinkStatus" Description="Site Link Status (Child->Parent)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastSendTimeParentToChild" Description="Last Send Time (Parent->Child)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastSendTimeChildToParent" Description="Last Send Time (Chld->Parent)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastSiteSyncTime" Description="Last Site Sync" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ServerRole" Description="Replication Role" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>4</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>BacklogsCounts</XMLFile>
+    <Description>Backlogs Counts</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+declare @NumOfSeconds int = 15
+ 
+ CREATE TABLE #Temp (SiteName char(3), GlobalQueueCount int, SiteQueueCount int, Run int)
+ 
+ DECLARE @Site nvarchar(3)
+ ,@CMDB nvarchar(7)
+ ,@ID tinyint
+ ,@SQLInstance nvarchar(25)
+ ,@SQL nvarchar(4000) = ''
+ 
+ DECLARE Sites CURSOR FAST_FORWARD FOR
+ SELECT SiteCode
+ ,SUBSTRING(SQLInstance,1,CHARINDEX('.',SQLInstance,1)-1) Instance
+ ,ConfigMgrDatabase
+ ,ID
+ FROM ServerData srv /****** UPDATE THIS PORTION FOR THE CAS YOU ARE CREATING THIS ON!!!! ******/
+ WHERE ServerRole != 'Proxy'
+ 
+ OPEN Sites
+ FETCH NEXT FROM Sites INTO @Site, @SQLInstance, @CMDB, @ID
+ 
+ WHILE @@FETCH_STATUS = 0
+ BEGIN
+ SET @SQL = @SQL + '
+ SELECT '''+@Site+''' AS [Site]
+ ,SUM(CASE que.name WHEN ''ConfigMgrDRSQueue'' THEN dps.row_count END) AS [GlobalQueueCount]
+ ,SUM(CASE que.name WHEN ''ConfigMgrDRSSiteQueue'' THEN dps.row_count END) AS [SiteQueueCount]
+ FROM '+CASE WHEN @ID = 0 THEN @CMDB ELSE '['+@SQLInstance+'].'+@CMDB END+'.sys.dm_db_partition_stats dps 
+ INNER JOIN '+CASE WHEN @ID = 0 THEN @CMDB ELSE '['+@SQLInstance+'].'+@CMDB END+'.sys.internal_tables tbl
+ ON dps.object_id = tbl.object_id
+ AND dps.index_id &lt; 2
+ INNER JOIN '+CASE WHEN @ID = 0 THEN @CMDB ELSE '['+@SQLInstance+'].'+@CMDB END+'.sys.service_queues que
+ ON tbl.parent_object_id = que.object_id
+ AND que.name IN (''ConfigMgrDRSQueue'',''ConfigMgrDRSSiteQueue'')'
+ 
+ FETCH NEXT FROM Sites INTO @Site, @SQLInstance, @CMDB, @ID
+ IF @@FETCH_STATUS = 0
+ SET @SQL = @SQL + CHAR(13) + 'UNION ALL ' + CHAR(13)
+ END
+ CLOSE Sites
+ DEALLOCATE Sites
+ 
+ DECLARE @i int = 1
+ 
+ IF @NumOfSeconds &lt; @i
+ BEGIN
+ INSERT #Temp (SiteName, GlobalQueueCount, SiteQueueCount)
+ EXECUTE sp_executesql @SQL
+ UPDATE #Temp SET Run = @i
+ END
+ ELSE
+ BEGIN
+ WHILE @i &lt;= @NumOfSeconds
+ BEGIN
+ IF @i = 1 OR @i = @NumOfSeconds
+ BEGIN
+ INSERT #Temp (SiteName, GlobalQueueCount, SiteQueueCount)
+ EXECUTE sp_executesql @SQL
+ UPDATE #Temp SET Run = @i WHERE Run IS NULL
+ SELECT @i = @i+1
+ WAITFOR DELAY '00:00:01'
+ END
+ ELSE
+ BEGIN
+ SELECT @i = @i+1
+ WAITFOR DELAY '00:00:01'
+ END
+ END
+ END
+ 
+ SELECT tmp.SiteName
+ ,ISNULL(SUM(CASE WHEN tmp.Run = 1 THEN tmp.GlobalQueueCount END),0) GlobalQueueAtStart
+ ,ISNULL(SUM(CASE WHEN tmp.Run = @NumOfSeconds THEN tmp.GlobalQueueCount END),0) GlobalQueueAtEnd
+ ,ISNULL(SUM(CASE WHEN tmp.Run = 1 THEN tmp.SiteQueueCount END),0) SiteQueueAtStart
+ ,ISNULL(SUM(CASE WHEN tmp.Run = @NumOfSeconds THEN tmp.SiteQueueCount END),0) SiteQueueAtEnd
+ ,ISNULL(SUM(CASE WHEN tmp.Run = 1 THEN tmp.GlobalQueueCount END),0) TotalQueueAtStart
+ ,ISNULL(SUM(CASE WHEN tmp.Run = @NumOfSeconds THEN tmp.GlobalQueueCount END),0) TotalQueueAtEnd
+ FROM #Temp tmp
+ GROUP BY tmp.SiteName
+ 
+ DROP TABLE #Temp
+
+--Site Replication Status
+declare @SiteCode varchar(3) = '@@SITECODE@@'
+
+SELECT  trk.SiteRequesting
+       ,trk.SiteFulfilling
+       ,trk.ReplicationGroup
+       ,dta.ReplicationPattern
+       ,trk.InitializationStatus AS [InitStatusCode]
+  INTO #InitInfo
+  FROM RCM_DrsInitializationTracking trk
+       INNER JOIN ReplicationData dta
+          ON trk.ReplicationGroup = dta.ReplicationGroup
+       INNER JOIN (
+                   SELECT  trk.SiteRequesting
+                          ,trk.SiteFulfilling
+                          ,trk.ReplicationGroup
+                          ,MAX(trk.ModifiedTime) AS [MaxTime]
+                     FROM RCM_DrsInitializationTracking trk 
+                    GROUP BY  trk.SiteRequesting
+                             ,trk.SiteFulfilling
+                             ,trk.ReplicationGroup
+                   ) mxt
+          ON trk.SiteRequesting = mxt.SiteRequesting
+         AND trk.SiteFulfilling = mxt.SiteFulfilling
+         AND trk.ReplicationGroup = mxt.ReplicationGroup
+         AND trk.ModifiedTime = mxt.MaxTime
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SiteName" Description="Site Code" value="" format="" key="false" groupby="1" />
+      <Field FieldName="GlobalQueueAtStart" Description="Queue At Start (Global)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="GlobalQueueAtEnd" Description="Queue At End (Global)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteQueueAtStart" Description="Queue At Start (Site)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteQueueAtEnd" Description="Queue At End (Site)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalQueueAtStart" Description="Total Queue At Start" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalQueueAtEnd" Description="Total Queue At End" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+<!--  
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>true</IsTextOnly>
+    <Description>SCCM HealthCheck Information</Description>
+    <IsActive>true</IsActive>
+    <WordStyle>Heading 1</WordStyle>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SitesWithoutSP1</XMLFile>
+    <Description>Sites without R2 SP1</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct SiteCode, SiteName,
+case 
+	when right(s.Version,9) = '5.00.7958.1000' then 'R2 RTM'
+	when right(s.Version,9) = '5.00.7958.1203' then 'R2 CU1'
+	when right(s.Version,9) = '5.00.7958.1303' then 'R2 CU2'
+	when right(s.Version,9) = '5.00.7958.1401' then 'R2 CU3'
+	when right(s.Version,9) = '5.00.7958.1501' then 'R2 CU4'
+	when right(s.Version,9) = '5.00.7958.1604' then 'R2 CU5'
+	when right(s.Version,9) = '5.00.8239.1000' then 'R2 SP1'
+	else cast(s.Version as varchar(100))
+  end as Version,
+ReportingSiteCode, ServerName from v_Site s
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteName" Description="Site Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="ServerName" Description="Server Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ReportingSiteCode" Description="Parent Site" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+-->
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ComponentErrorsMessages</XMLFile>
+    <Description>Component Errors Messages for the last @@NUMBEROFDAYS@@ days</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>SQL</querytype>
+    <sqlquery>
+select stat.SiteCode, stat.Component, stat.MessageID, stat.MessageID as Value
+from vStatusMessages AS stat where
+stat.Severity in (-1073741824, -2147483648)
+and stat.Component not in ('Advanced Client', 'Windows Installer SourceList Update Agent', 'Desired Configuration Management', 'Software Updates Scan Agent', 'File Collection Agent', 'Hardware Inventory Agent', 'Software Distribution', 'Software Inventory Agent')
+and stat.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Component" Description="Component" value="" format="" key="false" groupby="2" />
+      <Field FieldName="MessageID" Description="Message ID" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Value" Description="Message" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ContentNotDistributed</XMLFile>
+    <Description>Content Not Distributed</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select  
+        SourceSite,
+        SoftwareName,
+	case ObjectType
+	 when 0 then 'Package'
+	 when 3 then 'Driver Package'
+	 when 5 then 'Software Update Package'
+	 when 257 then 'Operating System Image'
+	 when 258 then 'Boot Image'
+	 when 259 then 'Operating System Installer'
+	 when 512 then 'Application'
+	 else 'Unknown ID ' +  convert(varchar(200), ObjectType)
+	end as ObjectTYpeName
+from fn_ListObjectContentExtraInfo(1033) AS SMS_ObjectContentExtraInfo
+where Targeted = 0
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SourceSite" Description="Source Site" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SoftwareName" Description="Software Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ObjectTypeName" Description="Object Type" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ContentMissing</XMLFile>
+    <Description>Content Missing</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select
+        SourceSite,
+        SoftwareName,
+	Targeted,
+	NumberInstalled,
+	NumberErrors,
+	NumberInProgress,
+	NumberUnknown,
+	case ObjectType
+	 when 0 then 'Package'
+	 when 3 then 'Driver Package'
+	 when 5 then 'Software Update Package'
+	 when 257 then 'Operating System Image'
+	 when 258 then 'Boot Image'
+	 when 259 then 'Operating System Installer'
+	 when 512 then 'Application'
+	 else 'Unknown ID ' +  convert(varchar(200), ObjectType)
+	end as ObjectTYpeName
+from fn_ListObjectContentExtraInfo(1033) AS SMS_ObjectContentExtraInfo
+where Targeted &gt; 0 and NumberInstalled &lt;&gt; Targeted
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SourceSite" Description="Source Site" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SoftwareName" Description="Software Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Targeted" Description="Targeted" value="" format="" key="false" groupby="2" />
+      <Field FieldName="NumberInstalled" Description="Installed" value="" format="" key="false" groupby="2" />
+      <Field FieldName="NumberErrors" Description="Errors" value="" format="" key="false" groupby="2" />
+      <Field FieldName="NumberInProgress" Description="In Progress" value="" format="" key="false" groupby="2" />
+      <Field FieldName="NumberUnknown" Description="Unknown" value="" format="" key="false" groupby="2" />
+      <Field FieldName="ObjectTypeName" Description="Object Type" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+
+
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ClientDeploymentFailure</XMLFile>
+    <Description>Client Deployment Failure</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select 
+	FQDN as MachineNameFQDN, 
+	NetBiosName as MachineNameNetBios, 
+	ClientVersion as ClientVersion, 
+        AssignedSiteCode as SiteCode,
+	DeploymentBeginTime as DeployStartTime, 
+	StateDescription as FailureDescription, 
+	LastMessageParam as DescriptionParam,
+    LastMessageStateID
+from v_ClientDeploymentState 
+where LastMessageStateID &lt; 100 AND LastMessageStateID &gt; 400
+    </sqlquery>
+    <Fields>
+      <Field FieldName="MachineNameFQDN" Description="Name (FQDN)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MachineNameNetBios" Description="Name (Netbios)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ClientVersion" Description="Total" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="DeployStartTime" Description="Deployment Start Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FailureDescription" Description="Failure Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DescriptionParam" Description="Description Param" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastMessageStateID" Description="LastMessageStateID" value="" format="" key="false" groupby="3" />      
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ClientAssignmentFailure</XMLFile>
+    <Description>Client Assignment Failure</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select 
+	FQDN as MachineNameFQDN, 
+	NetBiosName as MachineNameNetBios, 
+	ClientVersion as ClientVersion,
+        AssignedSiteCode as SiteCode,
+	AssignmentBeginTime as AssignmentStartTime, 
+	StateDescription as FailureDescription, 
+	LastMessageParam as DescriptionParam,
+    LastMessageStateID
+from v_ClientDeploymentState 
+where LastMessageStateID &gt; 500 and LastMessageStateID &lt; 700
+    </sqlquery>
+    <Fields>
+      <Field FieldName="MachineNameFQDN" Description="Name (FQDN)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MachineNameNetBios" Description="Name (Netbios)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ClientVersion" Description="Total" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="AssignmentStartTime" Description="Assignment Start Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FailureDescription" Description="Failure Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DescriptionParam" Description="Description Param" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastMessageStateID" Description="Message ID" value="" format="" key="false" groupby="2" />      
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>InactiveClients</XMLFile>
+    <Description>Inactive Clients</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	fcm.ResourceID,
+	fcm.Name,
+	CASE WHEN fcm.IsObsolete = 1 THEN '*' ELSE '' END as Obsolete, 
+	CASE WHEN fcm.IsBlocked = 1 THEN '*' ELSE '' END as Blocked,
+	chs.LastActiveTime as LastContactTime,
+    fcm.SiteCode
+from v_FullCollectionMembership fcm
+inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 0 
+where fcm.CollectionID = 'SMS00001'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Obsolete" Description="Obsolete" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Blocked" Description="Blocked" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastContactTime" Description="LastContactTime" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>DiscoveredmachineswithoutSCCMClientinstalled</XMLFile>
+    <Description>Discovered machines without SCCM Client installed</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct
+    fcm.ResourceID,
+    fcm.Name,
+	fcm.SiteCode,
+	fcm.Domain,
+	sys.Operating_System_Name_and0
+from v_FullCollectionMembership fcm
+inner join v_R_System sys on fcm.ResourceID = sys.ResourceID
+where fcm.IsClient != 1 and fcm.Name not like '%Unknown%' and fcm.CollectionID = 'SMS00001'
+and sys.Operating_System_Name_and0 is not null and sys.Operating_System_Name_and0 &lt;&gt; ''
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Operating_System_Name_and0" Description="Operating System" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Clientsthathavenotreportedinthelast@@NUMBEROFDAYS@@days</XMLFile>
+    <Description>Clients that have not reported in the last @@NUMBEROFDAYS@@ days</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct fcm.Name,
+       sys.Client_Version0,
+       fcm.Domain,
+       sys.User_Name0,
+       fcm.SiteCode,
+       chs.LastActiveTime as AgentTime,
+       chs.LastHW as LastHWScan,
+       chs.LastSW as LastScanDate   
+from v_FullCollectionMembership fcm
+inner join v_R_System sys on fcm.ResourceID = sys.ResourceID
+inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 0 
+where fcm.CollectionID = 'SMS00001' and chs.LastActiveTime &lt; DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) 
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Client_Version0" Description="Client Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="2" />
+      <Field FieldName="User_Name0" Description="User Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="AgentTime" Description="Agent Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastHWScan" Description="Last Hardware Scan" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastScanDate" Description="Last Software Scan" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ClientwithduplicatedNames</XMLFile>
+    <Description>Client with duplicated Names</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	g.ResourceID, 
+	g.SMSID0, 
+	g.Name0 [NewName], 
+	h.Name0 [OldName],
+    r.SiteCode,
+    r.Domain,
+	CASE WHEN r.IsObsolete = 1 THEN '*' ELSE '' END as Obsolete, 
+	CASE WHEN r.IsActive = 1 THEN '*' ELSE '' END as Active 
+from v_GS_System as g 
+INNER JOIN v_FullCollectionMembership r on g.ResourceID = r.ResourceID 
+INNER JOIN v_HS_System as h on g.ResourceId = h.ResourceId 
+where g.Name0 != h.Name0
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMSID0" Description="SMS ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NewName" Description="New Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="OldName" Description="Old Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Obsolete" Description="Obsolete" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Active " Description="Active" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ClientwithduplicatedSMSID</XMLFile>
+    <Description>Client with duplicated SMS ID</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct
+	g.ResourceID, 
+	g.Name0,
+    r.SiteCode,
+    r.Domain,
+	g.SMSID0 [NewID], 
+	h.SMSID0 [OldID],  
+	CASE WHEN r.IsObsolete = 1 THEN '*' ELSE '' END as Obsolete, 
+	CASE WHEN r.IsActive = 1 THEN '*' ELSE '' END as Active 
+from v_GS_System as g 
+INNER JOIN v_FullCollectionMembership r on g.ResourceID = r.ResourceID 
+INNER JOIN v_HS_System as h on g.ResourceId = h.ResourceId 
+where g.Name0 = h.Name0 and 
+	  g.SMSID0 != h.SMSID0
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMSID0" Description="SMS ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NewID" Description="New ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="OldID" Description="Old ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Obsolete" Description="Obsolete" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Active " Description="Active" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ClientReportingErrorsinthelast@@NUMBEROFDAYS@@days</XMLFile>
+    <Description>Client Reporting Errors in the last @@NumberOfDays@@ days</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select
+	stat.MachineName, 
+    fcm.SiteCode,
+	stat.Component 
+from v_StatusMessage stat 
+inner join v_FullCollectionMembership_Valid fcm on fcm.Name = stat.MachineName
+where stat.Time &gt; DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())  and 
+	  stat.Severity=0xC0000000 and  stat.PerClient!=0 and fcm.CollectionID = 'SMS00001'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="MachineName" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Component" Description="Component" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SCCMClientversionlowerthanSite</XMLFile>
+    <Description>SCCM Client version lower than Site</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct fcm.Name,
+       sys.Client_Version0,
+       fcm.Domain,
+       sys.User_Name0,
+       fcm.SiteCode
+from v_FullCollectionMembership_Valid fcm
+inner join v_R_System_Valid sys on fcm.ResourceID = sys.ResourceID
+inner join v_Site st on st.SiteCode = fcm.SiteCode
+where fcm.CollectionID = 'SMS00001' and sys.Client_Version0 &lt; st.Version
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Client_Version0" Description="Client Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="2" />
+      <Field FieldName="User_Name0" Description="User Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>MachineswithoutlatestWindowsUpdateAgentVersion</XMLFile>
+    <Description>Machines without latest Windows Update Agent Version (KB949104)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	rsys.Netbios_Name0 as MachineName, 
+	rsys.Client_Version0,
+	uss.LastWUAVersion,
+	fcm.SiteCode
+from v_UpdateScanStatus uss with (NOLOCK) 
+join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
+join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
+join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
+join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
+inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
+where ops.Version0 &lt; '6.2' and uss.LastWUAVersion &lt; '7.6.7600.256'
+
+union
+
+select distinct 
+	rsys.Netbios_Name0 as MachineName, 
+	rsys.Client_Version0,
+	uss.LastWUAVersion,
+	fcm.SiteCode
+from v_UpdateScanStatus uss with (NOLOCK) 
+join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
+join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
+join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
+join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
+inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
+where ops.Version0 like '6.2.%' and uss.LastWUAVersion &lt; '7.8.9200.16693'
+
+union
+
+select distinct 
+	rsys.Netbios_Name0 as MachineName, 
+	rsys.Client_Version0,
+	uss.LastWUAVersion,
+	fcm.SiteCode
+from v_UpdateScanStatus uss with (NOLOCK) 
+join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
+join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
+join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
+join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
+inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
+where ops.Version0 &gt; '6.2' and uss.LastWUAVersion &lt; '7.9.9600.16422'
+	</sqlquery>
+    <Fields>
+      <Field FieldName="MachineName" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Client_Version0" Description="Client Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="LastWUAVersion" Description="WUA Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck> 
+
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Computerswithlowdiskspace</XMLFile>
+    <Description>Computers with low disk space (&lt;= 10%)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT distinct 
+	SYS.Name, 
+	LDISK.Description0,
+	LDISK.DeviceID0, 
+	LDISK.VolumeName0, 
+	LDISK.FileSystem0, 
+	LDISK.Size0,
+	LDISK.FreeSpace0,
+	sys.SiteCode
+FROM 
+	v_FullCollectionMembership_Valid SYS 
+join v_GS_LOGICAL_DISK LDISK on SYS.ResourceID = LDISK.ResourceID 
+WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= ((LDisk.Size0 * 10)/100) and  sys.CollectionID = 'SMS00001'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Description0" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeviceID" Description="Device ID" value="" format="" key="false" groupby="1" />	  
+      <Field FieldName="VolumeName0" Description="Volume Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FileSystem0" Description="File System" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Size0" Description="Size" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FreeSpace0" Description="FreeSpace" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Computerswithcriticaldiskspace</XMLFile>
+    <Description>Computers with critical disk space (&lt;= 1GB)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT distinct 
+	SYS.Name, 
+	LDISK.Description0,
+	LDISK.DeviceID0, 
+	LDISK.VolumeName0, 
+	LDISK.FileSystem0, 
+	LDISK.Size0,
+	LDISK.FreeSpace0,
+	sys.SiteCode
+FROM 
+	v_FullCollectionMembership_Valid SYS 
+join v_GS_LOGICAL_DISK LDISK on SYS.ResourceID = LDISK.ResourceID 
+WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= 1024 and  sys.CollectionID = 'SMS00001'
+  
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Description0" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeviceID" Description="Device ID" value="" format="" key="false" groupby="1" />	  
+      <Field FieldName="VolumeName0" Description="Volume Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FileSystem0" Description="File System" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Size0" Description="Size" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FreeSpace0" Description="FreeSpace" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ComputerswithlowMemory</XMLFile>
+    <Description>Computers with low Memory (&lt;= 1024MB)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT Distinct 
+	SYS.Netbios_Name0, 
+	SYS.Operating_System_Name_and0, 
+	sys.Client_Version0,
+	fcm.SiteCode,
+	MEM.TotalPhysicalMemory00/1024 As TotalMemory 
+FROM v_R_System SYS 
+inner JOIN PC_Memory_DATA MEM on SYS.ResourceID = MEM.MachineID 
+inner join v_FullCollectionMembership_Valid fcm on fcm.ResourceID = sys.ResourceID 
+WHERE MEM.TotalPhysicalMemory00/1024 &lt;= 1024 and fcm.CollectionID = 'SMS00001'   
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Netbios_Name0" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Operating_System_Name_and0" Description="Operating System" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Client_Version0" Description="Client Version" value="" format="" key="false" groupby="2" />	  
+      <Field FieldName="TotalMemory" Description="TotalMemory (MB)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ComputerswithslowProcessor</XMLFile>
+    <Description>Computers with slow Processor (&lt;= 1GHz)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT distinct 
+	SYS.Name as Netbios_Name0, 
+	sys.SiteCode,
+	Processor.Name0, 
+	Processor.MaxClockSpeed0, 
+	Processor.DeviceID0 
+FROM v_FullCollectionMembership SYS 
+JOIN v_GS_PROCESSOR Processor ON SYS.ResourceID = Processor.ResourceID 
+WHERE Processor.MaxClockSpeed0 &lt;= 1000 and sys.CollectionID = 'SMS00001' 
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Netbios_Name0" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />	  
+      <Field FieldName="Name0" Description="Processor Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MaxClockSpeed0" Description="MaxClockSpeed0" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeviceID0" Description="DeviceID0" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Diskchangeslast@@NumberOfDays@@days</XMLFile>
+    <Description>Disk changes (last @@NumberOfDays@@ days)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	sys.Name, 
+	sys.siteCode,
+	tblData.TimeKey, 
+	tblData.Description00, 
+	tblData.Size00 [NewValue], 
+	tblHist.Size00 [OldValue] 
+from 
+	Logical_Disk_DATA tblData, Logical_Disk_HIST tblHist, v_FullCollectionMembership sys 
+where tblData.Size00 != tblHist.Size00 and 
+	  tblData.MachineID = tblHist.MachineID and 
+	  tblData.InstanceKey = tblHist.InstanceKey and 
+	  tblData.TimeKey &gt;= (dateadd(day, -@@NUMBEROFDAYS@@, convert(varchar(10), getdate(), 101))) and 
+	  tblData.MachineId = sys.ResourceID and sys.CollectionID = 'SMS00001'
+and tblHist.RevisionID = (select top 1 tblHist2.RevisionID from Logical_Disk_HIST tblHist2 where tblHist.MachineID = tblHist2.MachineID and tblHist.InstanceKey = tblHist2.InstanceKey and tblHist.AgentID = tblHist2.AgentID order by tblHist2.RevisionID desc)
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="TimeKey" Description="Date/Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description00" Description="Description" value="" format="" key="false" groupby="1" />	  
+      <Field FieldName="NewValue" Description="NewValue" value="" format="" key="false" groupby="1" />
+      <Field FieldName="OldValue" Description="OldValue" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Memorychangeslast@@NumberOfDays@@days</XMLFile>
+    <Description>Memory changes (last @@NumberOfDays@@ days)</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	sys.Name, 
+	sys.siteCode,
+	tblData.TimeKey, 
+	tblData.TotalPhysicalMemory00 [NewValue], 
+	tblHist.TotalPhysicalMemory00 [OldValue] 
+from 
+	PC_Memory_DATA tblData, PC_Memory_HIST tblHist, v_FullCollectionMembership sys 
+where tblData.TotalPhysicalMemory00 != tblHist.TotalPhysicalMemory00 and 
+	  tblData.MachineID = tblHist.MachineID and 
+	  tblData.InstanceKey = tblHist.InstanceKey and 
+	  tblData.TimeKey &gt;= (dateadd(day, -@@NUMBEROFDAYS@@, convert(varchar(10), getdate(), 101))) and 
+	  tblData.MachineId = sys.ResourceID and sys.CollectionID = 'SMS00001'
+          and tblHist.RevisionID = (select top 1 tblHist2.RevisionID from PC_Memory_HIST tblHist2 where tblHist.MachineID = tblHist2.MachineID and tblHist.InstanceKey = tblHist2.InstanceKey and tblHist.AgentID = tblHist2.AgentID order by tblHist2.RevisionID desc)
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="TimeKey" Description="Date/Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NewValue" Description="NewValue" value="" format="" key="false" groupby="1" />
+      <Field FieldName="OldValue" Description="OldValue" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareUpdateScanErrors</XMLFile>
+    <Description>Software Update Scan Errors</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	rsys.Name0 as MachineName, 
+	rsys.Client_Version0 as SMSClientVersion, 
+	uss.LastWUAVersion as WUAVersion, 
+	rsys.User_Name0 as LastLoggedOnUser, 
+	uss.LastStatusMessageID&amp;0x0000FFFF as ErrorStatusID, 
+	uss.LastErrorCode as LastErrorCode, 
+	LastScanTime,
+	fcm.SiteCode
+from v_UpdateScanStatus uss with (NOLOCK) 
+join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
+join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
+join v_R_System rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID
+where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001' 
+    </sqlquery>
+    <Fields>
+      <Field FieldName="MachineName" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMSClientVersion" Description="Client Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="WUAVersion" Description="WUA Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="LastLoggedOnUser" Description="Last Logged On User" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ErrorStatusID" Description="Error Status ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastErrorCode" Description="Last Error Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="LastScanTime" Description="Last Scan Date/Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareUpdateScanErrorsMessage</XMLFile>
+    <Description>Software Update Scan Errors Message</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct
+	fcm.ResourceID,
+	uss.LastErrorCode as LastErrorCode,
+	uss.LastErrorCode as Message 
+from v_UpdateScanStatus uss with (NOLOCK) 
+join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
+join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
+join v_R_System rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID
+where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001' 
+    </sqlquery>
+    <Fields>
+      <Field FieldName="LastErrorCode" Description="Error Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Message" Description="Message" value="" format="Message" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareUpdateDeploymentErrors</XMLFile>
+    <Description>Software Update Deployment Errors</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct 
+	sys.Name0 as MachineName, 
+	sys.Client_Version0 as SMSClientVersion, 
+	sys.User_Name0 as LastLoggedOnUser, 
+	assc.LastEnforcementMessageTime as LastEnforcementTime, 
+	assc.LastEnforcementErrorID&amp;0x0000FFFF as ErrorStatusID, 
+	isnull(assc.LastEnforcementErrorCode,0) as ErrorCode,
+	fcm.SiteCode
+from v_CIAssignment cia with (NOLOCK) 
+join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
+join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
+where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforcementMessageID in (6,9) and assc.IsCompliant=0 and fcm.CollectionID = 'SMS00001'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="MachineName" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SMSClientVersion" Description="Client Version" value="" format="" key="false" groupby="2" />
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="LastLoggedOnUser" Description="Last Logged On User" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastEnforcementTimer" Description="Last Enforcement Date/Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ErrorStatusID" Description="Error Status ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ErrorCode" Description="Error Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareUpdateDeploymentErrorsMessage</XMLFile>
+    <Description>Software Update Deployment ErrorsMessage</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct
+	fcm.ResourceID,
+	isnull(assc.LastEnforcementErrorCode,0) as ErrorCode,
+	isnull(assc.LastEnforcementErrorCode,0) as Message
+from v_CIAssignment cia with (NOLOCK) 
+join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
+join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
+where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforcementMessageID in (6,9) and assc.IsCompliant=0 and fcm.CollectionID = 'SMS00001'
+    </sqlquery>
+    <Fields>
+      <Field FieldName="ErrorCode" Description="Error Code" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Message" Description="Message" value="" format="Message" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ADRErrors</XMLFile>
+    <Description>Automatic Deployment Rules Errors</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select Name, LastRunTime, LastErrorCode, LastErrorTime from vSMS_AutoDeployments where LastErrorCode is not null
+	</sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="ADR Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastRunTime" Description="Last Run Time" value="" format="" key="false" groupby="1" />	  
+      <Field FieldName="LastErrorCode" Description="Last Error Code" value="" format="" key="false" groupby="2" />	  
+      <Field FieldName="LastErrorTime" Description="Last Error Time" value="" format="" key="false" groupby="1" />	  
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ComputerPendingReboot</XMLFile>
+    <Description>Computer pending reboot</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select sys.ResourceID, sys.Netbios_Name0 as Name0, sys.Resource_Domain_OR_Workgr0, fcm.SiteCode
+from v_R_System_Valid sys
+INNER JOIN  v_GS_OPERATING_SYSTEM os ON os.ResourceID= sys.ResourceID
+INNER JOIN v_UpdateComplianceStatus cs on cs.ResourceID = sys.  ResourceID
+left join SR_StateNames srEnf on srEnf.StateID=cs.LastEnforcementMessageID and srEnf.TopicType = 402  
+left join v_UpdateInfo ui on cs.CI_ID = ui.CI_ID
+INNER JOIN v_FullCollectionMembership_Valid as fcm on sys.Resourceid = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
+where cs.LastEnforcementMessageID = 9 AND cs.LastEnforcementMessageTime &gt; os.LastBootUpTime0
+
+union 
+
+select distinct 
+	sys.ResourceID,
+	sys.Name0,
+	sys.Resource_Domain_OR_Workgr0,
+	fcm.SiteCode
+from v_R_System AS sys 
+INNER JOIN vStatusMessages AS st ON sys.Name0 = st.MachineName  
+INNER JOIN vSMS_AdvertisementStatusInformation AS sti ON st.MessageID = sti.MessageID
+INNER JOIN v_FullCollectionMembership_Valid as fcm on sys.Resourceid = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
+where sti.MessageState = 102
+	</sqlquery>
+    <Fields>
+      <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name0" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Resource_Domain_OR_Workgr0" Description="Domain" value="" format="" key="false" groupby="2" />	
+      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />	 
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ActiveAlerts</XMLFile>
+    <Description>Active Alerts</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select Name, cast(Severity as varchar(300)) as Severity, cast(TypeID as varchar(300)) as TypeID from vSMS_Alert a where (a.TypeID not in (21, 22, 23, 31, 32, 33, 34) and (a.FeatureArea &lt;&gt; 11 AND a.AlertState = 0)) or (A.TypeID = 31 AND A.AlertState = 0)
+	</sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="AlertsName" key="false" groupby="1" />	  
+      <Field FieldName="Severity" Description="Severity" value="" format="AlertsSeverity" key="false" groupby="2" />
+      <Field FieldName="TypeID" Description="Type" value="" format="AlertsTypeID" key="false" groupby="2" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+
+  <HealthCheck>
+    <section>6</section>
+    <IsTextOnly>true</IsTextOnly>
+    <Description>Troubleshooting</Description>
+    <IsActive>true</IsActive>
+    <WordStyle>Heading 1</WordStyle>
+  </HealthCheck>
+  <HealthCheck>
+    <section>6</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>ComponentErrorsSolution</XMLFile>
+    <Description>Component Errors Solution for the last @@NUMBEROFDAYS@@ days</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>SQL</querytype>
+    <sqlquery>
+select distinct stat.Component, stat.MessageID, stat.MessageID as Value
+from vStatusMessages AS stat where
+stat.Severity in (-1073741824, -2147483648)
+and stat.Component not in ('Advanced Client', 'Windows Installer SourceList Update Agent', 'Desired Configuration Management', 'Software Updates Scan Agent', 'File Collection Agent', 'Hardware Inventory Agent', 'Software Distribution', 'Software Inventory Agent')
+and stat.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())
+    </sqlquery>
+    <Fields>
+      <Field FieldName="Component" Description="Component" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MessageID" Description="Message ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Value" Description="Solution" value="" format="MessageSolution" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>6</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareUpdateScanErrorsSolution</XMLFile>
+    <Description>Software Update Scan Errors Solution</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+select distinct
+    uss.LastErrorCode as LastErrorCode,
+	uss.LastErrorCode as Message 
+from v_UpdateScanStatus uss with (NOLOCK) 
+join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
+join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
+join v_R_System rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID
+where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001' 
+    </sqlquery>
+    <Fields>
+      <Field FieldName="LastErrorCode" Description="Error Code" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Message" Description="Solution" value="" format="MessageSolution" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>6</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareUpdateDeploymentErrorsSolution</XMLFile>
+    <Description>Software Update Deployment Errors Solution</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to be populated here</EmptyText>
+    <querytype>sql</querytype>
+	<!-- query statement edited by David Stein 7-26-2017 -->
+	<sqlquery>
+select distinct 
+	assc.LastEnforcementErrorCode as ErrorCode,
+	assc.LastEnforcementMessageID as Message
+from v_CIAssignment cia with (NOLOCK) 
+join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
+join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
+where 
+assc.LastEnforcementErrorID &lt;&gt; 0 
+and assc.LastEnforcementMessageID in (6,9) 
+and assc.IsCompliant=0 
+and fcm.CollectionID = 'SMS00001'
+	</sqlquery>
+<!-- original query statement
+    <sqlquery>
+select distinct 
+	isnull(assc.LastEnforcementErrorCode,0) as ErrorCode,
+	isnull(assc.LastEnforcementErrorCode,0) as Message
+from v_CIAssignment cia with (NOLOCK) 
+join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
+join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
+join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
+where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforcementMessageID in (6,9) and assc.IsCompliant=0 and fcm.CollectionID = 'SMS00001'
+    </sqlquery>
+-->
+    <Fields>
+      <Field FieldName="ErrorCode" Description="Error Code" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Message" Description="Solution" value="" format="MessageSolution" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+
+</dtsHealthCheck>
