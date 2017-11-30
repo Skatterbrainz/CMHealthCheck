@@ -1,4 +1,3 @@
-#requires -RunAsAdministrator
 #requires -version 3
 function Get-CMHealthCheck {
 	<#
@@ -36,7 +35,7 @@ function Get-CMHealthCheck {
 	.EXAMPLE
 		.\Get-CMHealthCheck -SmsProvider cm01.contoso.com -OutputFolder "c:\temp" -HealthcheckFilename ".\healthcheck.xml"
 	.NOTES
-		1.0.1 - 11/18/2017 - David Stein
+		1.0.3 - 11/29/2017 - David Stein
 
         Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
         Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
@@ -88,7 +87,6 @@ function Get-CMHealthCheck {
 		Start-Transcript -Path ".\Get-CMHealthCheck.log" -ErrorAction Stop
 	}
 
-	$ScriptVersion = $Script:ScriptVersion
 	$startTime     = Get-Date
 	$currentFolder = $PWD.Path
 	if ($currentFolder.substring($currentFolder.Length-1) -ne '\') { $currentFolder+= '\' }
@@ -105,7 +103,7 @@ function Get-CMHealthCheck {
         $ModulePath = $((Get-Module CMHealthCheck).Path -replace ('CMHealthCheck.psm1', ''))
         $Healthcheckfilename = "$ModulePath"+"assets\cmhealthcheck.xml"
     }
-	Write-Host "Get-CMHealthCheck - version $ScriptVersion"
+	Write-Host "Get-CMHealthCheck - version: $ScriptVersion"
 	Write-Host "Gathering site and server information"
 	Write-Log -Message "-------------------------------------" -Severity 1 -LogFile $logfile
     Write-Log -Message "Report Folder.......: $reportFolder" -Severity 1 -LogFile $logfile
