@@ -1,2 +1,3 @@
-$Script:ScriptVersion   = '1.0.1'
-$(Get-ChildItem "$PSScriptRoot" -Recurse -Include "*.ps1").foreach{. $_.FullName}
+$ScriptVersion = $MyInvocation.MyCommand.Module.Version
+Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Private'),(Join-Path -Path $PSScriptRoot -ChildPath 'Public') -Filter '*.ps1' |
+    ForEach-Object { . $_.FullName }
