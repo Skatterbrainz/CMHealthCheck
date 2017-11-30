@@ -2,7 +2,7 @@
 .SYNOPSIS
 	Another stupid custom log writing function
 .NOTES
-	1.0.1 - 11/18/2017 - David Stein
+	1.0.3 - 11/29/2017 - David Stein
 #>
 
 Function Write-Log {
@@ -26,8 +26,8 @@ Function Write-Log {
 			2 {$Category='Warning'; break}
 			3 {$Category='Error'; break}
 		}
-		"$(Get-Date -f 'yyyy-M-dd HH:mm:ss')  $Category  $Message" | 
-			Out-File -FilePath $LogFile -Append -NoClobber -Encoding Default
+		$Msg = "$(Get-Date -f 'yyyy-M-dd HH:mm:ss')  $Category  $Message"
+		$Msg | Out-File -FilePath $LogFile -Append -NoClobber -Encoding Default
     }
     if ($showmsg) {
         switch ($Severity) {
@@ -36,6 +36,9 @@ Function Write-Log {
             1 { Write-Host $Message }
         }
     }
+	else {
+		Write-Verbose $Msg
+	}
 }
 
 function Test-Powershell64bit {
