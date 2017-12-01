@@ -1,4 +1,5 @@
 function Set-WordFormatting {
+	Write-Log -Message "function... Set-WordFormatting ****" -LogFile $logfile
 	if ($WordVersion -ge "16.0") {
 		Write-Log -Message "setting styles for Word 2016" -LogFile $logfile
 		$x1 = "Grid Table 4 - Accent 1"

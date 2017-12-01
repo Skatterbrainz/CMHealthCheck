@@ -11,7 +11,7 @@ Function Get-RegistryValue {
             [ValidateSet('LocalMachine','ClassesRoot','CurrentConfig','Users')]
             [string] $AccessType = 'LocalMachine'
     )
-    Write-Log -Message "Getting registry value from $($ComputerName), $($AccessType), $($keyname), $($keyvalue)" -Severity 1 -LogFile $logfile
+    Write-Log -Message "Getting registry value from $($ComputerName), $($AccessType), $($keyname), $($keyvalue)" -LogFile $logfile
     try {
         $Reg = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey($AccessType, $ComputerName)
         $RegKey= $Reg.OpenSubKey($keyname)
@@ -20,7 +20,7 @@ Function Get-RegistryValue {
 		    catch { $return = $null }
 	    }
 	    else { $return = $null }
-        Write-Log -Message "Value returned $return" -Severity 1 -LogFile $logfile
+        Write-Log -Message "Value returned $return" -LogFile $logfile
     }
     catch {
         $return = "ERROR: Unknown"

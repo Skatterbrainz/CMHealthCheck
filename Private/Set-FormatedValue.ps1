@@ -8,14 +8,14 @@ Function Set-FormatedValue {
             [ValidateNotNullOrEmpty()]
             [string] $SiteCode
 	)
-	Write-Log -Message "[function: Set-FormatedValue]" -LogFile $logfile
-	Write-Log -Message "  [format = $Format]" -LogFile $logfile
-	Write-Log -Message "  [sitecode = $SiteCode]" -LogFile $logfile
+	Write-Log -Message "function... Set-FormatedValue ****" -LogFile $logfile
+	Write-Log -Message "format..... $Format" -LogFile $logfile
+	Write-Log -Message "sitecode... $SiteCode" -LogFile $logfile
 	if ($Value -eq $null) {
-		Write-Log -Message "  [value = NULL]" -LogFile $logfile
+		Write-Log -Message "value...... NULL" -LogFile $logfile
 	}
 	else {
-		Write-Log -Message "  [value = $Value]" -LogFile $logfile
+		Write-Log -Message "value...... $Value" -LogFile $logfile
 	}
 	switch ($Format.ToLower()) {
 		'schedule' {

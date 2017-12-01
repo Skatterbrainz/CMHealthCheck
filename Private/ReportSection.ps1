@@ -10,14 +10,16 @@ Function ReportSection {
 		$ReportTable,
 		[switch] $Detailed
 	)
-	Write-Log -Message "[function: ReportSection]" -LogFile $logfile
+	Write-Log -Message "function... ReportSection ****" -LogFile $logfile
 	if ($Detailed) { 
-        Write-Log -Message "[detailed = True]" -LogFile $logfile
-		Write-Log -Message "-----------------------------------------------------------"  -LogFile $logfile
-		Write-Log -Message "**** Starting Section $Section with [Detailed] = $($detailed.ToString())"  -LogFile $logfile
-		Write-Log -Message "-----------------------------------------------------------"  -LogFile $logfile
+		Write-Log -Message "detailed... True" -LogFile $logfile
+		Write-Log -Message "section.... $Section" -LogFile $logfile
+		Write-Log -Message "numberofdays $NumberOfDays" -LogFile $logfile
+		Write-Log -Message "sitecode... $SiteCode" -LogFile $logfile
+		#Write-Log -Message "-----------------------------------------------------------" -LogFile $logfile
+		#Write-Log -Message "**** Starting Section $Section with [Detailed] = $($detailed.ToString())" -LogFile $logfile
+		#Write-Log -Message "-----------------------------------------------------------" -LogFile $logfile
 	}
-	
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {
         if ($healthCheck.IsTextOnly.ToLower() -eq 'true') { continue }
         if ($healthCheck.IsActive.ToLower() -ne 'true') { continue }
@@ -45,15 +47,14 @@ Function ReportSection {
                 $sqlquery = $sqlquery -replace "select", "select distinct"
             }
         }
-    	$filename = $reportFolder + $tablename + '.xml'
+    	$filename = Join-Path -Path $reportFolder -ChildPath ($tablename + '.xml')
 		$row = $ReportTable.NewRow()
     	$row.TableName = $xmlTableName
     	$row.XMLFile = $tablename + ".xml"
-    	$ReportTable.Rows.Add($row)
-		Write-Log -Message ("XMLfile... $filename")  -LogFile $logfile
-		Write-Log -Message ("Section... $Section")  -LogFile $logfile
-		Write-Log -Message ("Table..... $TableName - Information...Starting") -LogFile $logfile
-		Write-Log -Message ("Type...... $($healthCheck.querytype)") -LogFile $logfile
+		$ReportTable.Rows.Add($row)
+		Write-Log -Message "XMLFile.... $filename" -LogFile $logfile
+		Write-Log -Message "Table...... $TableName - Information...Starting" -LogFile $logfile
+		Write-Log -Message "Type....... $($healthCheck.querytype)" -LogFile $logfile
 		try {
 			switch ($healthCheck.querytype.ToLower()) {
 				'mpconnectivity' { Write-MPConnectivity -FileName $filename -TableName $tablename -sitecode $SiteCode -SiteCodeQuery $SiteCodeQuery -NumberOfDays $NumberOfDays -logfile $logfile -type 'mplist' | Out-Null}
@@ -79,7 +80,7 @@ Function ReportSection {
 			Write-Log -Message "Error $errorCode : $errorMessage connecting to $servername" -Severity 3 -LogFile $logfile
 			$Error.Clear()
 		}
-		Write-Log -Message ("$tablename Information...Done") -LogFile $logfile
-    }
-	Write-Log -Message "End Section $section"
+		Write-Log -Message "$tablename Information...Done" -LogFile $logfile
+	}
+	Write-Log -Message "EndSection. $section ***" -LogFile $logfile
 }

@@ -1,19 +1,26 @@
-Function Test-RegistryExist {
-    param (
-		$ComputerName,
-		$LogFile = '' ,
-		$KeyName,
-		$AccessType = 'LocalMachine'
-    )
-	Write-Log -Message "Testing registry key from $($ComputerName), $($AccessType), $($KeyName)" -LogFile $logfile
-    try {
+function Test-RegistryExist {
+	param (
+		[parameter(Mandatory=$False)]	
+			[string] $ComputerName,
+		[parameter(Mandatory=$False)]
+			[string] $LogFile = '' ,
+		[parameter(Mandatory=$True)]
+			[string] $KeyName,
+		[parameter(Mandatory=$False)]
+			[string] $AccessType = 'LocalMachine'
+	)
+	Write-Log -Message "function... Test-RegistryExists ****" -LogFile $logfile
+	Write-Log -Message "computer... $ComputerName" -LogFile $logfile
+	Write-Log -Message "accesstype. $AccessType" -LogFile $logfile
+	Write-Log -Message "keyname.... $KeyName" -LogFile $logfile
+	try {
 		$Reg = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey($AccessType, $ComputerName)
 		$RegKey = $Reg.OpenSubKey($KeyName)
-		$return = ($RegKey -ne $null)
-    }
-    catch {
-		$return = "ERROR: Unknown"
+		$result = ($RegKey -ne $null)
+	}
+	catch {
+		$result = "ERROR: Unknown"
 		$Error.Clear()
-    }
-    Write-Output $return
+	}
+	Write-Output $result
 }

@@ -29,31 +29,18 @@ function Write-RolesInstalled {
 		$row.MultiCast = (($DPProperties.Props | Where-Object {$_.PropertyName -eq "IsMulticast"}).Value -eq 1).ToString()
 		$row.PreStaged = (($DPProperties.Props | Where-Object {$_.PropertyName -eq "PreStagingAllowed"}).Value -eq 1).ToString()
 	}
-	$row.MP   = ($SMSListRoles -contains 'SMS Management Point').ToString()
-	$row.FSP  = ($SMSListRoles -contains 'SMS Fallback Status Point').ToString()
-	$row.SSRS = ($SMSListRoles -contains 'SMS SRS Reporting Point').ToString()
-	$row.EP   = ($SMSListRoles -contains 'SMS Endpoint Protection Point').ToString()
-	$row.SUP  = ($SMSListRoles -contains 'SMS Software Update Point').ToString()
-	$row.AI   = ($SMSListRoles -contains 'AI Update Service Point').ToString()
-	$row.AWS  = ($SMSListRoles -contains 'SMS Application Web Service').ToString()
-	$row.PWS  = ($SMSListRoles -contains 'SMS Portal Web Site').ToString()
-	$row.SMP  = ($SMSListRoles -contains 'SMS State Migration Point').ToString()
-	# added in 0.64
-	$row.CPC  = ($SMSListRoles -contains 'SMS Cloud Proxy Connector').ToString()
-	$row.DWP  = ($SMSListRoles -contains 'Data Warehouse Service Point').ToString()
-	$row.DMP  = ($SMSListRoles -contains 'SMS Dmp Connector').ToString()
-	# other roles as of build 1702
-	<#
-	SMS Device Management Point
-	SMS System Health Validator
-	SMS Multicast Service Point
-	SMS AMT Service Point
-	SMS Enrollment Server
-	SMS Enrollment Web Site
-	SMS Notification Server
-	SMS Certificate Registration Point
-	SMS DM Enrollment Service
-	#>
+	$row.MP      = ($SMSListRoles -contains 'SMS Management Point').ToString()
+	$row.FSP     = ($SMSListRoles -contains 'SMS Fallback Status Point').ToString()
+	$row.SSRS    = ($SMSListRoles -contains 'SMS SRS Reporting Point').ToString()
+	$row.EP      = ($SMSListRoles -contains 'SMS Endpoint Protection Point').ToString()
+	$row.SUP     = ($SMSListRoles -contains 'SMS Software Update Point').ToString()
+	$row.AI      = ($SMSListRoles -contains 'AI Update Service Point').ToString()
+	$row.AWS     = ($SMSListRoles -contains 'SMS Application Web Service').ToString()
+	$row.PWS     = ($SMSListRoles -contains 'SMS Portal Web Site').ToString()
+	$row.SMP     = ($SMSListRoles -contains 'SMS State Migration Point').ToString()
+	$row.CPC     = ($SMSListRoles -contains 'SMS Cloud Proxy Connector').ToString()
+	$row.DWP     = ($SMSListRoles -contains 'Data Warehouse Service Point').ToString()
+	$row.DMP     = ($SMSListRoles -contains 'SMS Dmp Connector').ToString()
 	$row.Console = (Test-RegistryExist -ComputerName $servername -Logfile $logfile -KeyName 'SOFTWARE\\Wow6432Node\\Microsoft\\ConfigMgr10\\AdminUI').ToString()
 	$row.Client  = (Test-RegistryExist -ComputerName $servername -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\CCM\\CCMExec').ToString()
 	$row.IIS     = ((Get-RegistryValue -ComputerName $server -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\InetStp' -KeyValue 'InstallPath') -ne $null).ToString()

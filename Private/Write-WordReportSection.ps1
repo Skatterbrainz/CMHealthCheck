@@ -1,13 +1,16 @@
 Function Write-WordReportSection {
     param (
 		$HealthCheckXML,
-        $Section,
+		$Section,
+		[parameter(Mandatory=$False)]
 		$Detailed = $false,
         $Doc,
 		$Selection,
         $LogFile
 	)
-	Write-Log -Message "Starting Section $section with detailed as $($detailed.ToString())" -LogFile $logfile
+	Write-Log -Message "function...... Write-WordReportSection ****" -LogFile $logfile
+	Write-Log -Message "section....... $section" -LogFile $logfile
+	Write-Log -Message "detail........ $($detailed.ToString())" -LogFile $logfile
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {
 		if ($healthCheck.Section.tolower() -ne $Section) { continue }
 		$Description = $healthCheck.Description -replace("@@NumberOfDays@@", $NumberOfDays)
@@ -24,6 +27,7 @@ Function Write-WordReportSection {
 			Write-WordText -WordSelection $selection -Text $Description -Style $healthCheck.WordStyle -NewLine $true
 			Continue;
 		}
+		Write-Log -Message "description... $Description" -LogFile $logfile
 		Write-WordText -WordSelection $selection -Text $Description -Style $healthCheck.WordStyle -NewLine $true
         $bFound = $false
         $tableName = $healthCheck.XMLFile
@@ -37,8 +41,8 @@ Function Write-WordReportSection {
         }
 		foreach ($rp in $ReportTable) {
 			if ($rp.TableName -eq $tableName) {
-                $bFound = $true
-				Write-Log -Message (" - Exporting $($rp.XMLFile) ...") -LogFile $logfile
+				$bFound = $true
+				Write-Log -Message "xmlfile....... $($rp.XMLFile)" -LogFile $logfile
 				$filename = $rp.XMLFile				
 				if ($filename.IndexOf("_") -gt 0) {
 					$xmltitle = $filename.Substring(0,$filename.IndexOf("_"))
@@ -55,29 +59,29 @@ Function Write-WordReportSection {
 					}
 					$xmltile += $filename.Substring(0,$filename.IndexOf("_"))
 					Write-WordText -WordSelection $selection -Text $xmltile -Style $newstyle -NewLine $true
-				}				
+				}
 				
 	            if (!(Test-Path ($reportFolder + $rp.XMLFile))) {
 					Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
-					Write-Log -Message ("Table does not exist") -LogFile $logfile -Severity 2
+					Write-Log -Message "Table does not exist" -LogFile $logfile -Severity 2
 					$selection.TypeParagraph()
 				}
 				else {
-					Write-Log -Message "importing XML file: $filename"
+					Write-Log -Message "importing XML file: $filename" -LogFile $logfile
 					$datatable = Import-CliXml -Path ($reportFolder + $filename)
 					$count = 0
 					$datatable | Where-Object { $count++ }
 					
 		            if ($count -eq 0) {
 						Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
-						Write-Log -Message ("Table: 0 rows") -LogFile $logfile -Severity 2
+						Write-Log -Message "Table: 0 rows" -LogFile $logfile -Severity 2
 						$selection.TypeParagraph()
 						continue
 		            }
 
 					switch ($healthCheck.PrintType.ToLower()) {
 						"table" {
-                            Write-Log -Message "writing table type: table" -LogFile $logfile
+							Write-Log -Message "table type.... table" -LogFile $logfile
 							$Table = $Null
 					        $TableRange = $Null
 					        $TableRange = $doc.Application.Selection.Range
@@ -88,7 +92,7 @@ Function Write-WordReportSection {
                                     elseif ((!($detailed)) -and ($field.groupby -notin ('2','3'))) { continue }
                                 }
                                 $Columns++
-                            }
+                            } # foreach
 							$Table = $doc.Tables.Add($TableRange, $count+1, $Columns)
 							$table.Style = $TableStyle
 							$i = 1;
@@ -102,7 +106,7 @@ Function Write-WordReportSection {
 								$Table.Cell(1, $i).Range.Font.Bold = $True
 								$Table.Cell(1, $i).Range.Text = $field.Description
 								$i++
-	                        }
+	                        } # foreach
 							$xRow = 2
 							$records = 1
 							$y=0
@@ -137,10 +141,10 @@ Function Write-WordReportSection {
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
 									$Table.Cell($xRow, $i).Range.Text = $TextToWord.ToString()
 									$i++
-		                        }
+		                        } # foreach
 								$xRow++
 								$records++
-							}
+							} # foreach
 							$selection.EndOf(15) | Out-Null
 							$selection.MoveDown() | Out-Null
 							$doc.ActiveWindow.ActivePane.view.SeekView = 0
@@ -149,7 +153,7 @@ Function Write-WordReportSection {
 							break
 						}
 						"simpletable" {
-							Write-Log -Message "writing table type: simpletable" -LogFile $logfile
+							Write-Log -Message "table type.... simpletable" -LogFile $logfile
 							$Table = $Null
 							$TableRange = $Null
 							$TableRange = $doc.Application.Selection.Range
@@ -160,7 +164,7 @@ Function Write-WordReportSection {
                                     elseif ((!($detailed)) -and ($field.groupby -notin ('2','3'))) { continue }
                                 }
                                 $Columns++
-                            }
+                            } # foreach
 							$Table = $doc.Tables.Add($TableRange, $Columns, 2)
 							$table.Style = $TableSimpleStyle
 							$i = 1;
@@ -196,7 +200,7 @@ Function Write-WordReportSection {
 											$TextToWord = $datatable.Rows[0].$($field.FieldName)
 											break;
 										}
-									}
+									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
 									$Table.Cell($i, 2).Range.Text = $TextToWord.ToString()
 								}
@@ -215,13 +219,13 @@ Function Write-WordReportSection {
 											$TextToWord = $datatable.$($field.FieldName) 
 											break;
 										}
-									}
+									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
 									$Table.Cell($i, 2).Range.Text = $TextToWord.ToString()
 								}
 								$i++
 								$records++
-							}
+							} # foreach
 					        $selection.EndOf(15) | Out-Null
 					        $selection.MoveDown() | Out-Null
 							$doc.ActiveWindow.ActivePane.View.SeekView = 0
@@ -231,7 +235,7 @@ Function Write-WordReportSection {
 							break
 						}
 						default {
-                            Write-Log -Message "writing table type: default" -LogFile $logfile
+							Write-Log -Message "table type.... default" -LogFile $logfile
 							$records = 1
 							$y=0
 		                    foreach ($row in $datatable) {
@@ -255,22 +259,23 @@ Function Write-WordReportSection {
 											$TextToWord = ($field.Description + " : " + $row.$($field.FieldName))
 											break;
 										}
-									}
+									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
 									Write-WordText -WordSelection $selection -Text ($TextToWord.ToString()) -NewLine $true
-		                        }
+		                        } # foreach
 								$selection.TypeParagraph()
 								$records++
-		                    }
+		                    } # foreach
 						}
-                	}
+					} # switch
+					Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Severity", "Comment") -TableStyle "Grid Table 4 - Accent 2"
 				}
 			}
-		}
+		} # foreach
         if ($bFound -eq $false) {
 		    Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
 		    Write-Log -Message ("Table does not exist") -LogFile $logfile -Severity 2
 		    $selection.TypeParagraph()
 		}
-	}
+	} # foreach
 }

@@ -9,10 +9,10 @@ function Write-NetworkInfo {
 		[bool] $ContinueOnError = $true
     )
     Write-Log -Message "[function: write-networkinfo]" -LogFile $logfile
-    $IPDetails = Get-CmWmiObject -Class "Win32_NetworkAdapterConfiguration" -Filter "IPEnabled = true" -ComputerName $servername -logfile $logfile -continueonerror $continueonerror
+    $IPDetails = Get-CmWmiObject -Class "Win32_NetworkAdapterConfiguration" -Filter "IPEnabled = true" -ComputerName $ServerName -LogFile $logfile -ContinueOnError $ContinueOnError
     if ($IPDetails -eq $null) { return }
 	$Fields = @("IPAddress","DefaultIPGateway","IPSubnet","MACAddress","DHCPEnabled")
-	$NetworkInfoTable = New-CmDataTable -TableName $tableName -Fields $Fields
+	$NetworkInfoTable = New-CmDataTable -TableName $TableName -Fields $Fields
 	foreach ($IPAddress in $IPDetails) {
 		$row = $NetworkInfoTable.NewRow()
 		$row.IPAddress = ($IPAddress.IPAddress -join ", ")
@@ -22,5 +22,5 @@ function Write-NetworkInfo {
 		if ($IPAddress.DHCPEnable -eq $true) { $row.DHCPEnabled = "TRUE" } else { $row.DHCPEnabled = "FALSE" }
 	    $NetworkInfoTable.Rows.Add($row)
     }
-    , $NetworkInfoTable | Export-CliXml -Path ($filename)
+    , $NetworkInfoTable | Export-CliXml -Path ($FileName)
 }

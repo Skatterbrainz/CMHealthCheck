@@ -1,23 +1,22 @@
 Function Write-BaseOSInfo {
     param (
 	    [string] $FileName,
-	    [string] $TableName,
+		[string] $TableName,
+		[parameter(Mandatory=$True)]
 	    [string] $SiteCode,
 	    [int] $NumberOfDays,
 	    [string] $LogFile,
 		[string] $ServerName,
 		[bool] $ContinueOnError = $true
-    )
-    Write-Log -Message "[function: write-baseosinfo]" -LogFile $logfile
+	)
+	Write-Log -Message "function... Write-BaseOsInfo ****" -LogFile $logfile
     $WMIOS = Get-CmWmiObject -Class "win32_operatingsystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
     if ($WMIOS -eq $null) { return }	
     $WMICS = Get-CmWmiObject -Class "win32_computersystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
 	$WMIProcessor = Get-CmWmiObject -Class "Win32_processor" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
     $WMITimeZone  = Get-CmWmiObject -Class "Win32_TimeZone" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
-    ##AV Information
     $avInformation = $null
     $AVArray = @("McAfee Security@McShield", "Symantec Endpoint Protection@symantec antivirus", "Sophos Antivirus@savservice", "Avast!@aveservice", "Avast!@avast! antivirus", "Immunet Protect@immunetprotect", "F-Secure@fsma", "AntiVir@antivirservice", "Avira@avguard", "F-Protect@fpavserver", "Panda Security@pshost", "Panda AntiVirus@pavsrv", "BitDefender@bdss", "ArcaBit/ArcaVir@abmainsv", "IKARUS@ikarus-guardx", "ESET Smart Security@ekrn", "G Data Antivirus@avkproxy", "Kaspersky Lab Antivirus@klblmain", "Symantec VirusBlast@vbservprof", "ClamAV@clamav", "Vipre / GFI managed AV@SBAMSvc", "Norton@navapsvc", "Kaspersky@AVP", "Windows Defender@windefend", "Windows Defender/@MsMpSvc", "Microsoft Security Essentials@msmpeng")
-
     foreach ($av in $AVArray) {
         $info = $av.Split("@")
         if ((Get-ServiceStatus -LogFile $logfile -ServerName $servername -ServiceName $info[1]).ToString().Tolower().Indexof("error") -lt 0) {
