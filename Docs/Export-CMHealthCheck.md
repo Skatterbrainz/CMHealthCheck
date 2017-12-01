@@ -206,11 +206,11 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ## NOTES
-1.0.3 - 11/29/2017 - David Stein
-Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+* 1.0.3 - 12/01/2017 - David Stein
+* Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
+* Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
+* Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
+* Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
 
 ## RELATED LINKS
 
