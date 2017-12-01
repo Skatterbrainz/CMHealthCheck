@@ -1,6 +1,6 @@
 ---
-external help file: CMHealthcheck-help.xml
-Module Name: CMHealthcheck
+external help file: CMHealthCheck-help.xml
+Module Name: CMHealthCheck
 online version: 
 schema: 2.0.0
 ---
@@ -13,9 +13,9 @@ Convert extracted ConfigMgr site information to Word Document
 ## SYNTAX
 
 ```
-Export-CMHealthCheck [-ReportFolder] <String> [-Detailed] [[-CoverPage] <String>] [[-CustomerName] <String>]
- [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>]
- [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>] [-Overwrite]
+Export-CMHealthCheck [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed] [[-CoverPage] <String>]
+ [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
+ [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>] [-Overwrite]
 ```
 
 ## DESCRIPTION
@@ -49,6 +49,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OutputFolder
+Log folder path
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: 2
+Default value: "$($env:USERPROFILE)\Documents"
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Detailed
 Collect more granular data for final reporting
 
@@ -73,7 +88,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 2
+Position: 3
 Default value: Slice (Light)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -88,7 +103,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 3
+Position: 4
 Default value: Customer Name
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -103,7 +118,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 4
+Position: 5
 Default value: Your Name
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -118,7 +133,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 5
+Position: 6
 Default value: Your Company Name
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -134,7 +149,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -150,7 +165,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -165,7 +180,7 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 8
+Position: 9
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -191,7 +206,7 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ## NOTES
-1.0.1 - 11/17/2017 - David Stein
+1.0.3 - 11/29/2017 - David Stein
 Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
 Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
 Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/

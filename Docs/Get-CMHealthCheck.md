@@ -1,6 +1,6 @@
 ---
-external help file: CMHealthcheck-help.xml
-Module Name: CMHealthcheck
+external help file: CMHealthCheck-help.xml
+Module Name: CMHealthCheck
 online version: 
 schema: 2.0.0
 ---
@@ -13,8 +13,8 @@ Extract ConfigMgr Site data
 ## SYNTAX
 
 ```
-Get-CMHealthCheck [-SmsProvider] <String> [[-OutputFolder] <String>] [[-NumberofDays] <Int32>]
- [[-Healthcheckfilename] <String>] [-Overwrite] [-NoHotfix]
+Get-CMHealthCheck [-SmsProvider] <String> [[-OutputFolder] <String>] [[-NumberOfDays] <Int32>]
+ [[-Healthcheckfilename] <String>] [-OverWrite] [-NoHotfix]
 ```
 
 ## DESCRIPTION
@@ -87,7 +87,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NumberofDays
+### -NumberOfDays
 Number of days to go back for alerts in logs (default = 7)
 
 ```yaml
@@ -117,7 +117,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Overwrite
+### -OverWrite
 Overwrite existing output folder if found.
 Folder is named by datestamp, so this only applies when
 running repeatedly on the same date
@@ -155,7 +155,7 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ## NOTES
-1.0.1 - 11/18/2017 - David Stein
+1.0.3 - 12/01/2017 - David Stein
 
       Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
       Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
