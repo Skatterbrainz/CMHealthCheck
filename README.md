@@ -26,148 +26,19 @@ _Part 2 - Reporting_
 5. Wait for Document to finish building, Save document
 6. Review report, add comments, dance around, drink, run outside buck nekkid and laugh hysterically
 
-## Syntax: Get-CMHealthCheck
-
-   ```powershell
-   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" ...
-   ```
-
-### Parameters
-
-* **SmsProvider** "name"
-
-   FQDN of ConfigMgr site server.  Example: "cm01.contoso.com"
-   
-* **OutputFolder** "path"
-
-   _Optional_ Path for output files. Default is $env:USERPROFILE\Documents. The script will create two (2) folders 
-   beneath this location: _Logs, and another using YYYY-MM-DD, with a sub-folder named after the SmsProvider value.
-
-* **NumberOfDays** integer
-
-   _Optional_ Integer value, number of days to go back for status logs to inspect. Default is 7
-
-* **HealthcheckFilename** "path-or-uri"
-  
-  _Optional_ Path or URI to cmhealthcheck.xml, which provides rules for gathering data. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml>
-
-* **Overwrite**
-  
-  _Optional_ Switch parameter to force replacing output if on same date.  If the function has been executed on a given ConfigMgr site server on the same date, there will already be a "YYYY-MM-DD\hostname" output file with data files.  Without the -Overwrite switch, the default behavior is to display a warning and abort.
-
-* **NoHotFix**
-  
-  _Optional_ Switch parameter to skip auditing of installed hotfixes.  This may save time when re-running a data collection in test environments.
-
-* **Verbose** 
-
-   (ummm, yeah)
-
-### Examples
-
-Example 1
-
-   ```powershell
-   Get-CMHealthCheck -SmsProvider "cm01.contoso.com"
-   ```
-
-Example 2
-
-   ```powershell
-   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" -Verbose
-   ```
-
-Example 3
-
-   ```powershell
-   Get-CMHealthCheck -SmsProvider "cm01.contoso.com" -OutputFolder "C:\Temp" -NumberOfDays 30
-   ```
-   
-## Syntax: Export-CMHealthCheck
-
-   ```powershell
-   Export-CMHealthCheck -ReportFolder "path to output files" ...
-   ```
-   
-### Parameters
-
-* **ReportFolder** "path"
-
-   _Mandatory_ Path to where the collected data files reside from using Get-CMHealthCheck. This can be a local path or a remote UNC path.
-   
-* **Detailed**
-
-   _Optional_ Switch parameter to force more verbose reporting output / strongly recommended!
-   
-* **CoverPage** "name"
-
-   _Optional_ Name of Microsoft Word cover page.  List of valid names varies based on the version of Office Word installed.
-   
-   Default is "Slice (Light)"
-   
-   Word 2016 names: Austin, Banded, Facet, Filigree, Grid, Integral, Ion (Dark), Ion (Light), Motion, Retrospect, Semaphore, Sideline, Slice (Dark), Slice (Light), Viewmaster, Whisp
-   
-* **CustomerName** "name"
-
-   _Optional_ Name of customer or organization who owns the ConfigMgr site server being audited. Default is "Customer Name"
-
-* **AuthorName** "name"
-
-   _Optional_ Name of author generating the report (you?).  Default is "Your Name"
-   
-* **CopyrightName** "name"
-
-   _Optional_ Name to place in footer of every page along with (C)YYYY .....  Default is "Your Company Name"
-   
-* **HealthcheckFilename** "path-or-uri"
-
-   _Optional_ Path or URI to cmhealthcheck.xml, which provides rules for gathering data. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml>
-   
-* **MessagesFilename** "path-or-uri"
-
-  _Optional_ Path or URI to messages.xml, which provides status value message lookups. Default is Git Gist URL <https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/Messages.xml>
-  
-* **HealthcheckDebug**
-
-   _Optional_ Switch parameter to enable additional verbose output
-   
-* **Overwrite**
-   
-   ignore this, I had no sleep and a cat that wouldn't leave me alone
-
-### Examples
-
-Example 1
-
-   ```powershell
-   Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Fubar LLC"
-   ```
-
-Example 2
-
-   ```powershell
-   Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Fubar LLC" -HealthcheckDebug -Overwrite
-   ```
-
-Example 3
-
-   ```powershell
-   Export-CMHealthCheck -ReportFolder "C:\Temp\2017-10-23\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "Mike Hunt" -CopyrightName "Oh My God, Please No!!?" -CoverPage "Ion (Dark)" -HealthcheckFilename "C:\Temp\cmhealthcheck.xml" -MessagesFile "C:\Temp\messages.xml" -HealthcheckDebug -Overwrite
-   ```
-
 ## Notes
 
+* Refer to the markdown files under \Docs for syntax and examples.
 * Tested with the following environments:
-
-   * ConfigMgr 1610, 1702, 1706, 1709
-   * Windows Server 2012 R2, 2016
+   * ConfigMgr 2012 R2, 1610, 1702, 1706, 1709, 1710, 1711
+   * Windows Server 2012, 2012 R2, 2016
    * Windows 10 1703, 1709
    * Office 2013, 2016
-   * PowerShell 5.0, 5.1.14393.1770, 5.1.16299.19
+   * PowerShell 3.0, 5.0, 5.1
   
 * If you like it, please share with others.  If you hate it, tell me why so I can improve on it?
 * Please submit bugs, comments, requests via the "Issues" link above.
 
 ## Removal and Cleanup
 
-* To remove CMHealthCheck module and related files, use the Remove-Module cmdlet.
+* To remove CMHealthCheck module and related files, use the Remove-Module or Uninstall-Module cmdlets.
