@@ -32,11 +32,11 @@ function Export-CMHealthCheck {
     .EXAMPLE
         Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
     .NOTES
-        1.0.3 - 11/29/2017 - David Stein
-        Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-        Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-        Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-        Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+        * 1.0.3 - 12/03/2017 - David Stein
+        * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
+        * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
+        * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
+        * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
     #>
     [CmdletBinding()]
     param (
@@ -70,7 +70,7 @@ function Export-CMHealthCheck {
     $ModuleVer  = $ModuleData.Version -join '.'
     $ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
 
-    $tsLog = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
+    $tsLog   = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
     $logfile = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck.log"
     try {
         Stop-Transcript -ErrorAction SilentlyContinue
@@ -102,8 +102,9 @@ function Export-CMHealthCheck {
     }
     $logFolder = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
     if (-not (Test-Path $logFolder)) {
-        Write-Log -Message "ERROR: $logFolder not found!" -Severity 3 -LogFile $logfile -ShowMsg
-        break
+        mkdir $logFolder -Force | Out-Null
+        #Write-Log -Message "ERROR: $logFolder not found!" -Severity 3 -LogFile $logfile -ShowMsg
+        #break
     }
     if ($reportFolder.substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
     #$component = ($MyInvocation.MyCommand.Name -replace '.ps1', '')
