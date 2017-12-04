@@ -15,6 +15,7 @@ function Export-CMHealthCheck {
         Word theme cover page (default = "Slice (Light)")
     .PARAMETER Template
         Word document file to use as a template. Should have a cover page already in place.
+        If Template is specified, CoverPage and Copyright are ignored.
     .PARAMETER CustomerName
         Name of customer (default = "Customer Name")
     .PARAMETER AuthorName
@@ -36,7 +37,7 @@ function Export-CMHealthCheck {
     .EXAMPLE
         Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
     .NOTES
-        * 1.0.3 - 12/03/2017 - David Stein
+        * 1.0.4 - 12/04/2017 - David Stein
         * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
         * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
         * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
@@ -75,9 +76,8 @@ function Export-CMHealthCheck {
     $ModuleData = Get-Module CMHealthCheck
     $ModuleVer  = $ModuleData.Version -join '.'
     $ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-
-    $tsLog   = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
-    $logfile = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck.log"
+    $tsLog      = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
+    $logfile    = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck.log"
     try {
         Stop-Transcript -ErrorAction SilentlyContinue
     }
@@ -139,14 +139,12 @@ function Export-CMHealthCheck {
         $ConfigTable = New-Object System.Data.DataTable 'ConfigTable'
         $ConfigTable = Get-CmXMLFile -Path $reportFolder -FileName "config.xml"
         if ($ConfigTable -eq "") {
-            #$configfile = Join-Path -Path $reportFolder -ChildPath "config.xml"
             Invoke-Error -Message "File $configfile does not exist, no futher action taken"; break
         }
         Write-Log -Message "Provisioning report table" -LogFile $logfile
         $ReportTable = New-Object System.Data.DataTable 'ReportTable'
         $ReportTable = Get-CmXMLFile -Path $reportFolder -FileName "report.xml"
         if ($ReportTable -eq "") {
-            #$repfile = Join-Path -Path $reportFolder -ChildPath "report.xml"
             Invoke-Error -Message "File $repfile does not exist, no futher action taken"; break
         }
         Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
