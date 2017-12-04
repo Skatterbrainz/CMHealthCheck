@@ -13,6 +13,8 @@ function Export-CMHealthCheck {
         Collect more granular data for final reporting
     .PARAMETER CoverPage
         Word theme cover page (default = "Slice (Light)")
+    .PARAMETER Template
+        Word document file to use as a template. Should have a cover page already in place.
     .PARAMETER CustomerName
         Name of customer (default = "Customer Name")
     .PARAMETER AuthorName
@@ -31,22 +33,29 @@ function Export-CMHealthCheck {
         Enable verbose output (or use -Verbose)
     .EXAMPLE
         Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+    .EXAMPLE
+        Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
     .NOTES
-        1.0.1 - 11/17/2017 - David Stein
-        Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-        Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-        Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-        Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+        * 1.0.3 - 12/03/2017 - David Stein
+        * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
+        * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
+        * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
+        * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
     #>
     [CmdletBinding()]
     param (
         [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")] 
             [ValidateNotNullOrEmpty()]
             [string] $ReportFolder,
+        [parameter(Mandatory=$False, HelpMessage="Log folder path")]
+            [ValidateNotNullOrEmpty()]
+            [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
         [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")] 
             [switch] $Detailed,
         [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")] 
             [string] $CoverPage = "Slice (Light)",
+        [parameter (Mandatory = $False, HelpMessage = "Word document source file")]
+            [string] $Template = "", 
         [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
             [string] $CustomerName = "Customer Name",
         [parameter (Mandatory = $False, HelpMessage = "Author's full name")] 
@@ -54,242 +63,181 @@ function Export-CMHealthCheck {
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
             [string] $CopyrightName  = "Your Company Name",
         [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")] 
-            [string] $Healthcheckfilename = "", #'https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/cmhealthcheck.xml',
+            [string] $Healthcheckfilename = "", 
         [Parameter (Mandatory = $False, HelpMessage = "HealthCheck messages file name")]
-            [string] $MessagesFilename = "", #'https://raw.githubusercontent.com/Skatterbrainz/CM_HealthCheck/master/Messages.xml',
+            [string] $MessagesFilename = "", 
         [Parameter (Mandatory = $False, HelpMessage = "Debug more?")] 
             $Healthcheckdebug = $False,
         [parameter (Mandatory = $False, HelpMessage = "Overwrite existing report file")]
             [switch] $Overwrite
     )
     $time1 = Get-Date -Format "hh:mm:ss"
-    Start-Transcript -Path ".\_logs\export-reportfile.log" -Append
-    $bLogValidation = $False
-    $bAutoProps     = $True
-    $NormalFontSize = 10
-    $poshversion    = $PSVersionTable.PSVersion.Major
-    $osversion      = (Get-WmiObject -Class Win32_OperatingSystem).Caption
-    $FormatEnumerationLimit = -1
+    $ModuleData = Get-Module CMHealthCheck
+    $ModuleVer  = $ModuleData.Version -join '.'
+    $ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
+
+    $tsLog   = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
+    $logfile = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck.log"
+    try {
+        Stop-Transcript -ErrorAction SilentlyContinue
+    }
+    catch {}
+    finally {
+        Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
+    }
+    
+    $TempFilename      = "cmhealthreport.docx"
+    $DefaultTableStyle = "Grid Table 4 - Accent 1"
+    $TableStyle        = "Grid Table 4 - Accent 1"
+    $TableSimpleStyle  = "Grid Table 4 - Accent 1"
+    $ReviewTableStyle  = "Grid Table 4 - Accent 6"
+    $RecTableStyle     = "Grid Table 4 - Accent 3"
+    $ReviewTableCols   = ("No.", "Severity", "Comment")
+    $bLogValidation    = $False
+    $bAutoProps        = $True
+    $NormalFontSize    = 10
+    $poshversion       = $PSVersionTable.PSVersion.Major
+    $osversion         = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+    #$FormatEnumerationLimit = -1
     
     if ($Healthcheckfilename -eq "") {
-        $ModulePath = $((Get-Module CMHealthCheck).Path -replace ('CMHealthCheck.psm1', ''))
-        $Healthcheckfilename = "$ModulePath"+"assets\cmhealthcheck.xml"
+        $Healthcheckfilename = Join-Path -Path $ModulePath -ChildPath "assets\cmhealthcheck.xml"
     }
 	if ($MessagesFilename -eq "") {
-        $ModulePath = $((Get-Module CMHealthCheck).Path -replace ('CMHealthCheck.psm1', ''))
-        $MessagesFilename = "$ModulePath"+"assets\messages.xml"
+        $MessagesFilename = Join-Path -Path $ModulePath -ChildPath "assets\messages.xml"
     }
 
-    if ($healthcheckdebug -eq $true) { $PSDefaultParameterValues = @{"*:Verbose"=$True}; $currentFolder = "C:\Temp\CMHealthCheck\" }
-    $logFolder = $PWD.Path + "\_Logs\"
-    if (-not (Test-Path $logFolder)) {
-        Write-Error "$logFolder was not found!"
-        break
+    if ($healthcheckdebug -eq $true) { 
+        $PSDefaultParameterValues = @{"*:Verbose"=$True}
     }
-    if ($reportFolder.substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
-    $component = ($MyInvocation.MyCommand.Name -replace '.ps1', '')
-    $logfile = $logFolder + $component + ".log"
+    $logFolder = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
+    if (-not (Test-Path $logFolder)) {
+        mkdir $logFolder -Force | Out-Null
+    }
+    if ($reportFolder.Substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
+    
     $Error.Clear()
 
-    Write-Log -Message "==========" -LogFile $logfile -ShowMsg $false
-    Write-Log -Message "Script Version...: $($Script:ScriptVersion)" -LogFile $logfile
-    Write-Log -Message "Windows Version..: $osversion" -LogFile $logfile
-    Write-Log -Message "environment......: Running Powershell version: $poshversion" -LogFile $logfile
-    Write-Log -Message "environment......: Running Powershell 64 bits" -LogFile $logfile
-    Write-Log -Message "Report Folder....: $reportFolder" -LogFile $logfile
-    Write-Log -Message "Detailed Report..: $detailed" -LogFile $logfile
-    Write-Verbose "Export-CMHealthCheck $ScriptVersion"
-    Write-Verbose "Current Folder..: $($PWD.Path)"
-    Write-Verbose "Log Folder......: $logFolder"
-    Write-Verbose "Log File........: $logfile" 
-    Write-Verbose "control file....: $Healthcheckfilename"
-    Write-Verbose "message file....: $MessagesFilename"
-
-    Write-Host "Export-CMHealthCheck - $ScriptVersion - https://github.com/Skatterbrainz/CMHealthCheck" -ForegroundColor Green
     $poshversion = $PSVersionTable.PSVersion.Major
+    Show-CMHCInfo
     
     [xml]$HealthCheckXML = Get-CmHealthCheckFile -XmlSource $HealthcheckFilename
     [xml]$MessagesXML    = Get-CmHealthCheckFile -XmlSource $MessagesFilename
      
-    Write-Verbose "info: connecting to Microsoft Word..."
+    Write-Log -Message "Connecting to Microsoft Word..." -LogFile $logfile
     try {
         $Word = New-Object -ComObject "Word.Application" -ErrorAction Stop
     }
     catch {
-        Write-Warning "Error: This script requires Microsoft Word"
-        Stop-Transcript -ErrorAction SilentlyContinue
+        Invoke-Error -Message "Microsoft Word could not be opened!"
         break
     }
 
     if ($HealthCheckXML -and $MessagesXML) {
-        if (Test-Folder -Path $logFolder) {
-            try {
-                New-Item ($logFolder + 'Test.log') -Type File -Force | Out-Null 
-                Remove-Item ($logFolder + 'Test.log') -Force | Out-Null 
-            }
-            catch {
-                Write-Warning "Unable to read/write file on $logFolder folder, no futher action taken"
-                Stop-Transcript -ErrorAction SilentlyContinue
-                break    
-            }
-        }
-        else {
-            Write-Host "Unable to create Log Folder, no futher action taken" -ForegroundColor Red
-            Stop-Transcript -ErrorAction SilentlyContinue
-            break
-        }
         $bLogValidation = $true
-    
-        if (Test-Folder -Path $reportFolder -Create $false) {
-            if (!(Test-Path -Path ($reportFolder + "config.xml"))) {
-                Write-Log -Message "File $($reportFolder)config.xml does not exist, no futher action taken" -Severity 3 -LogFile $logfile
-                Stop-Transcript -ErrorAction SilentlyContinue
-                break
-            }
-            else { 
-                Write-Verbose "reading config.xml data"
-                $ConfigTable = Import-CliXml -Path ($reportFolder + "config.xml") 
-            }
-            
-            if ($poshversion -ne 3) { $NumberOfDays = $ConfigTable.Rows[0].NumberOfDays }
-            else { $NumberOfDays = $ConfigTable.NumberOfDays }
-            
-            if (!(Test-Path -Path ($reportFolder + "report.xml"))) {
-                Write-Log -Message "File $($reportFolder)report.xml does not exist, no futher action taken" -Severity 3 -LogFile $logfile
-                Stop-Transcript -ErrorAction SilentlyContinue
-                break
-            }
-            else {
-                $ReportTable = New-Object System.Data.DataTable 'ReportTable'
-                $ReportTable = Import-CliXml -Path ($reportFolder + "report.xml")
-            }
+        Write-Log -Message "Provisioning config table" -LogFile $logfile
+        $ConfigTable = New-Object System.Data.DataTable 'ConfigTable'
+        $ConfigTable = Get-CmXMLFile -Path $reportFolder -FileName "config.xml"
+        if ($ConfigTable -eq "") {
+            #$configfile = Join-Path -Path $reportFolder -ChildPath "config.xml"
+            Invoke-Error -Message "File $configfile does not exist, no futher action taken"; break
         }
-        else {
-            Write-Warning "Folder: $reportFolder does not exist, no futher action taken"
-            Stop-Transcript -ErrorAction SilentlyContinue
-            break
+        Write-Log -Message "Provisioning report table" -LogFile $logfile
+        $ReportTable = New-Object System.Data.DataTable 'ReportTable'
+        $ReportTable = Get-CmXMLFile -Path $reportFolder -FileName "report.xml"
+        if ($ReportTable -eq "") {
+            #$repfile = Join-Path -Path $reportFolder -ChildPath "report.xml"
+            Invoke-Error -Message "File $repfile does not exist, no futher action taken"; break
         }
-        
-        if (!(Test-Powershell64bit)) {
-            Write-Log -Message "Powershell is not 64bit, no futher action taken" -Severity 3 -LogFile $logfile
-            Stop-Transcript -ErrorAction SilentlyContinue
-            break
-        }
-        
-        $wordVersion = $Word.Version
-        Write-Log -Message "Word Version: $WordVersion" -LogFile $logfile	
-        Write-Verbose "info: Microsoft Word version: $WordVersion"
-        $styles = Set-WordFormatting
-        if ($styles) {
-            $TableStyle = $styles[0]
-            $TableSimpleStyle = $styles[1]
+        Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
+        if ($poshversion -eq 3) { 
+            $NumberOfDays = $ConfigTable.Rows[0].NumberOfDays
         }
         else { 
-            Write-Log -Message "This script requires Word 2010 to 2016 version, no further action taken" -Severity 3 -LogFile $logfile 
-            Stop-Transcript -ErrorAction SilentlyContinue
-            break
+            $NumberOfDays = $ConfigTable.NumberOfDays
         }
-    
-        $Word.Visible = $True
-        $Doc = $Word.Documents.Add()
-        $Selection = $Word.Selection
+
+        if (!(Test-Powershell64bit)) { Invoke-Error -Message "Powershell is not 64bit, no futher action taken"; break }
         
-        Write-Verbose "info: disabling real-time spelling and grammar check"
-        $Word.Options.CheckGrammarAsYouType  = $False
-        $Word.Options.CheckSpellingAsYouType = $False
-        $Doc.Styles("Normal").Font.Size = $NormalFontSize
-        
-        Write-Verbose "info: loading default building blocks template"
-        $word.Templates.LoadBuildingBlocks() | Out-Null	
-        $BuildingBlocks = $word.Templates | Where-Object {$_.name -eq "Built-In Building Blocks.dotx"}
-        $part = $BuildingBlocks.BuildingBlockEntries.Item($CoverPage)
-        
-        if ($doc -eq $null) {
-            Write-Error "Failed to obtain handle to Word document"
-            Stop-Transcript -ErrorAction SilentlyContinue
-            break
-        }
-        if ($bAutoProps -eq $True) {
-            Write-Verbose "info: setting document properties"
-            $doc.BuiltInDocumentProperties("Title")    = "System Center Configuration Manager HealthCheck"
-            $doc.BuiltInDocumentProperties("Subject")  = "Prepared for $CustomerName"
-            $doc.BuiltInDocumentProperties("Author")   = $AuthorName
-            $doc.BuiltInDocumentProperties("Company")  = $CopyrightName
-            $doc.BuiltInDocumentProperties("Category") = "HEALTHCHECK"
-            $doc.BuiltInDocumentProperties("Keywords") = "sccm,healthcheck,systemcenter,configmgr,$CustomerName"
-        }
-    
-        Write-Verbose "info: inserting document parts"
-        $part.Insert($selection.Range,$True) | Out-Null
-        $selection.InsertNewPage()
-        
-        Write-Verbose "info: inserting table of contents"
-        $toc = $BuildingBlocks.BuildingBlockEntries.Item("Automatic Table 2")
-        $toc.Insert($selection.Range,$True) | Out-Null
-    
-        $selection.InsertNewPage()
-    
-        $currentview = $doc.ActiveWindow.ActivePane.view.SeekView
-        $doc.ActiveWindow.ActivePane.view.SeekView = 4
-        $selection.HeaderFooter.Range.Text= "Copyright $([char]0x00A9) $((Get-Date).Year) - $CopyrightName"
-        $selection.HeaderFooter.PageNumbers.Add(2) | Out-Null
-        $doc.ActiveWindow.ActivePane.view.SeekView = $currentview
-        $selection.EndKey(6,0) | Out-Null
-    
-        $absText = "This document provides a point-in-time inventory and analysis of the "
-        $absText += "System Center Configuration Manager site environment for $CustomerName. "
-        $absText += "For questions, concerns or comments, please consult the $CopyrightName "
-        $absText += "architect or engineer who provided this document."
-        
-        Write-WordText -WordSelection $selection -Text "Abstract" -Style "Heading 1" -NewLine $true
-        Write-WordText -WordSelection $selection -Text $absText -NewLine $true
-            
-        Write-WordTableGrid -Caption "Revision History" -Rows 4 -ColumnHeadings ("Version","Date","Description","Author")
-        
-        $selection.InsertNewPage()
-    
-        Write-WordTableGrid -Caption "Summary of Findings" -Rows 4 -ColumnHeadings ("Item", "Explanation")
-        Write-WordTableGrid -Caption "Summary of Recommendations" -Rows 4 -ColumnHeadings ("Item", "Severity", "Explanation")
-    
-        $selection.InsertNewPage()
-    
-        Write-WordReportSection -HealthCheckXML $HealthCheckXML -section '1' -Doc $doc -Selection $selection -LogFile $logfile 
-        Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-        Write-WordReportSection -HealthCheckXML $HealthCheckXML -section '2' -Doc $doc -Selection $selection -LogFile $logfile 
-        Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-        Write-WordReportSection -HealthCheckXML $HealthCheckXML -section '3' -Doc $doc -Selection $selection -LogFile $logfile 
-        Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-        Write-WordReportSection -HealthCheckXML $HealthCheckXML -section '4' -Doc $doc -Selection $selection -LogFile $logfile 
-        Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-        Write-WordReportSection -HealthCheckXML $HealthCheckXML -section '5' -Doc $doc -Selection $selection -LogFile $logfile 
-        Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-        if ($detailed -eq $true) {
-            Write-WordReportSection -HealthCheckXML $HealthCheckXML -Section '5' -Detailed $true -Doc $doc -Selection $selection -LogFile $logfile 
-            Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-        }
-        Write-WordReportSection -HealthCheckXML $HealthCheckXML -Section '6' -Doc $doc -Selection $selection -LogFile $logfile 
-        Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Comment")
-    }
-    else {
-        Write-Log -Message "unable to load Healthcheck or Messages XML data" -Severity 3 -LogFile $logfile
-        Write-Error "failed to load configuration data from XML files"
-        $error.Clear()
-    }
-    if ($toc -ne $null) {
-        $doc.TablesOfContents.Item(1).Update()
-        if ($bLogValidation -eq $False) {
-            Write-Host "ending healthcheck report"
-            Write-Host "================="
+        $wordVersion = $Word.Version
+        Write-Log -Message "Microsoft Word version: $WordVersion" -LogFile $logfile
+        if ($wordVersion -lt '15.0') { Invoke-Error -Message "This module requires Word 2013 or newer"; break }
+        if ($Template -ne "") {
+            $newFile = Get-WordTempSource -SourceFile $Template
+            Write-Log -Message "Opening temp file [$newFile]..." -LogFile $logfile
+            try {
+                $Doc = $Word.Documents.Open($newFile)
+            }
+            catch {
+                Invoke-Error -Message "Failed to open temp document file: $newFile"
+                break
+            }
         }
         else {
-            Write-Log -Message "Ending HealthCheck Export" -LogFile $logfile
-            Write-Log -Message "=================" -LogFile $logfile
+            Write-Log -Message "Creating new (blank) document..." -LogFile $logfile
+            $Doc = $Word.Documents.Add()
+        }
+        if ($doc -eq $null) { Invoke-Error -Message "Failed to obtain handle to Word document"; break }
+        $Word.Visible = $True
+        $Selection = $Word.Selection
+
+        Set-WordOptions
+        Set-DocProperties
+
+        Write-Log -Message "Loading default building blocks " -LogFile $logfile
+        $Word.Templates.LoadBuildingBlocks() | Out-Null	
+        $BuildingBlocks = $Word.Templates | Where-Object {$_.name -eq "Built-In Building Blocks.dotx"}
+
+        if ($Template -eq "") {
+            Write-Log -Message "Inserting cover page: $CoverPage" -LogFile $logfile
+            $part = $BuildingBlocks.BuildingBlockEntries.Item($CoverPage)
+            $part.Insert($selection.Range,$True) | Out-Null
+        }
+        else {
+            Write-Log -Message "Cover page option ignored when using custom template" -LogFile $logfile
+            $Selection.EndKey(6, 0) | Out-Null            
+        }
+
+        $selection.InsertNewPage()
+        Set-WordTOC
+
+        $selection.InsertNewPage()
+        $currentview = $doc.ActiveWindow.ActivePane.view.SeekView
+        $doc.ActiveWindow.ActivePane.view.SeekView = 4
+        Set-WordFooter
+
+        $doc.ActiveWindow.ActivePane.view.SeekView = $currentview
+        $selection.EndKey(6,0) | Out-Null
+        Set-WordAbstract
+
+        Write-WordTableGrid -Caption "Revision History" -Rows 4 -ColumnHeadings ("Version","Date","Description","Author")
+
+        $selection.InsertNewPage()
+        Write-WordTableGrid -Caption "Summary of Findings" -Rows 4 -ColumnHeadings ("Item", "Severity", "Explanation") -StyleName $ReviewTableStyle
+        Write-WordTableGrid -Caption "Summary of Recommendations" -Rows 4 -ColumnHeadings ("Item", "Severity", "Explanation") -StyleName $RecTableStyle
+
+        $selection.InsertNewPage()
+        Write-DocReportSections
+
+        $selection.InsertNewPage()
+        Set-DocAppendix
+    }
+    else {
+        Write-Log -Message "Unable to load Healthcheck or Messages XML data" -Severity 3 -LogFile $logfile -ShowMsg
+        $error.Clear()
+    }
+
+    if ($toc -ne $null) {
+        $Doc.TablesOfContents.Item(1).Update()
+        if ($bLogValidation -eq $False) {
+            Write-Host "Finishing up healthcheck report"
+        }
+        else {
+            Write-Log -Message "Finishing up HealthCheck Export" -LogFile $logfile
         }
     }
-    $time2   = Get-Date -Format "hh:mm:ss"
-    $RunTime = New-TimeSpan $time1 $time2
-    $Difference = "{0:g}" -f $RunTime
-    Write-Output "completed in: $Difference (hh:mm:ss)"
+    $Difference = Get-TimeOffset -StartTime $time1
+    Write-Log -Message "Completed in: $Difference (hh:mm:ss)" -LogFile $logfile -ShowMsg
     Stop-Transcript
 }
 Export-ModuleMember -Function Export-CMHealthcheck

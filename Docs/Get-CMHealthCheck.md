@@ -1,6 +1,6 @@
 ---
-external help file: CMHealthcheck-help.xml
-Module Name: CMHealthcheck
+external help file: CMHealthCheck-help.xml
+Module Name: CMHealthCheck
 online version: 
 schema: 2.0.0
 ---
@@ -13,8 +13,8 @@ Extract ConfigMgr Site data
 ## SYNTAX
 
 ```
-Get-CMHealthCheck [-SmsProvider] <String> [[-OutputFolder] <String>] [[-NumberofDays] <Int32>]
- [[-Healthcheckfilename] <String>] [-Overwrite] [-NoHotfix]
+Get-CMHealthCheck [-SmsProvider] <String> [[-OutputFolder] <String>] [[-NumberOfDays] <Int32>]
+ [[-Healthcheckfilename] <String>] [-OverWrite] [-NoHotfix]
 ```
 
 ## DESCRIPTION
@@ -87,7 +87,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NumberofDays
+### -NumberOfDays
 Number of days to go back for alerts in logs (default = 7)
 
 ```yaml
@@ -117,7 +117,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Overwrite
+### -OverWrite
 Overwrite existing output folder if found.
 Folder is named by datestamp, so this only applies when
 running repeatedly on the same date
@@ -155,26 +155,23 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ## NOTES
-1.0.1 - 11/18/2017 - David Stein
+* 1.0.3 - 12/01/2017 - David Stein
+      * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
+      * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
+      * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
+      * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+* Support: Database name must be CM_\<SITECODE\> (you need to adapt the queries if not this format)
 
-      Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-      Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-      Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-      Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
-
-Support: Database name must be CM_\<SITECODE\> (you need to adapt the queries if not this format)
-
-Security Rights: user running this tool should have the following rights:
-- SQL Server (serveradmin) to be able to see database / cpu stats
-- SCCM Database (db_owner) used to create/drop user-defined functions
-- msdb Database (db_datareader) used to read backup information
-- read-only analyst on the SCCM console
-- local administrator on all computer (used to remotely connect to the registry and services)
-- firewall allowing 1433 (or equivalent) to all SQL Servers (including SQL Express on Secondary Site)
-- Remote WMI/DCOM firewall - http://msdn.microsoft.com/en-us/library/jj980508(v=winembedded.81).aspx
-- Remote WUA - http://msdn.microsoft.com/en-us/library/windows/desktop/aa387288%28v=VS.85%29.aspx
-
-Comments: To get the free disk space, enable the Free Space (MB) for the Logical Disk
+* Security Rights: user running this tool should have the following rights:
+  - SQL Server (serveradmin) to be able to see database / cpu stats
+  - SCCM Database (db_owner) used to create/drop user-defined functions
+  - msdb Database (db_datareader) used to read backup information
+  - read-only analyst on the SCCM console
+  - local administrator on all computer (used to remotely connect to the registry and services)
+  - firewall allowing 1433 (or equivalent) to all SQL Servers (including SQL Express on Secondary Site)
+  - Remote WMI/DCOM firewall - http://msdn.microsoft.com/en-us/library/jj980508(v=winembedded.81).aspx
+  - Remote WUA - http://msdn.microsoft.com/en-us/library/windows/desktop/aa387288%28v=VS.85%29.aspx
+  - Comments: To get the free disk space, enable the Free Space (MB) for the Logical Disk
 
 ## RELATED LINKS
 
