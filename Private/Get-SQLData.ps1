@@ -57,7 +57,7 @@ Function Get-SQLData {
 					Write-Log -Message "   custom format specified for this attribute: $($Field.Format)" -LogFile $logfile
 					foreach ($row in $dataset.Tables[0].Rows) {
 						#$fn = $field.FieldName
-						$tempx = Set-FormatedValue -Value $row.$($field.FieldName) -Format $field.format -SiteCode $SiteCode
+						$tempx = Set-FormattedValue -Value $row.$($field.FieldName) -Format $field.format -SiteCode $SiteCode
 						try {
 							$row.$($field.FieldName) = $tempx
 						}

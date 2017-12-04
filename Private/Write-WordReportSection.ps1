@@ -11,11 +11,12 @@ Function Write-WordReportSection {
 	Write-Log -Message "function...... Write-WordReportSection ****" -LogFile $logfile
 	Write-Log -Message "section....... $section" -LogFile $logfile
 	Write-Log -Message "detail........ $($detailed.ToString())" -LogFile $logfile
+	
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {
-		if ($healthCheck.Section.tolower() -ne $Section) { continue }
+		if ($healthCheck.Section.ToLower() -ne $Section) { continue }
 		$Description = $healthCheck.Description -replace("@@NumberOfDays@@", $NumberOfDays)
-		if ($healthCheck.IsActive.tolower() -ne 'true') { continue }
-        if ($healthCheck.IsTextOnly.tolower() -eq 'true') {
+		if ($healthCheck.IsActive.ToLower() -ne 'true') { continue }
+        if ($healthCheck.IsTextOnly.ToLower() -eq 'true') {
             if ($Section -eq 5) {
                 if ($detailed -eq $false) { 
                     $Description += " - Overview" 
@@ -42,8 +43,8 @@ Function Write-WordReportSection {
 		foreach ($rp in $ReportTable) {
 			if ($rp.TableName -eq $tableName) {
 				$bFound = $true
-				Write-Log -Message "xmlfile....... $($rp.XMLFile)" -LogFile $logfile
-				$filename = $rp.XMLFile				
+				$filename = $rp.XMLFile
+				Write-Log -Message "xmlfile....... $filename" -LogFile $logfile
 				if ($filename.IndexOf("_") -gt 0) {
 					$xmltitle = $filename.Substring(0,$filename.IndexOf("_"))
 					$xmltile = ($rp.TableName.Substring(0,$rp.TableName.IndexOf("_")).Replace("@","")).Tolower()
@@ -61,13 +62,13 @@ Function Write-WordReportSection {
 					Write-WordText -WordSelection $selection -Text $xmltile -Style $newstyle -NewLine $true
 				}
 				
-	            if (!(Test-Path ($reportFolder + $rp.XMLFile))) {
+	            if (!(Test-Path ($reportFolder + $filename))) {
 					Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
 					Write-Log -Message "Table does not exist" -LogFile $logfile -Severity 2
 					$selection.TypeParagraph()
 				}
 				else {
-					Write-Log -Message "importing XML file: $filename" -LogFile $logfile
+					#Write-Log -Message "importing XML file: $filename" -LogFile $logfile
 					$datatable = Import-CliXml -Path ($reportFolder + $filename)
 					$count = 0
 					$datatable | Where-Object { $count++ }
@@ -94,22 +95,25 @@ Function Write-WordReportSection {
                                 $Columns++
                             } # foreach
 							$Table = $doc.Tables.Add($TableRange, $count+1, $Columns)
+							Write-Log -Message "table style... $TableStyle" -LogFile $logfile
 							$table.Style = $TableStyle
 							$i = 1;
 							Write-Log -Message "structure..... $count rows and $Columns columns" -LogFile $logfile
+							Write-Log -Message "writing table column headings..." -LogFile $logfile
 							foreach ($field in $HealthCheck.Fields.Field) {
                                 if ($section -eq 5) {
                                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
                                     elseif ((!($detailed)) -and ($field.groupby -notin ('2','3'))) { continue }
                                 }
-
 								$Table.Cell(1, $i).Range.Font.Bold = $True
 								$Table.Cell(1, $i).Range.Text = $field.Description
+								#Write-Log -Message "--column: $($field.Description)" -LogFile $logfile
 								$i++
 	                        } # foreach
 							$xRow = 2
 							$records = 1
 							$y=0
+							Write-Log -Message "writing data rows for table body..." -LogFile $logfile
 							foreach ($row in $datatable) {
 								if ($records -ge 500) {
 									Write-Log -Message ("Exported..... $(500*($y+1)) records") -LogFile $logfile
@@ -138,8 +142,19 @@ Function Write-WordReportSection {
 											break;
 										}
 									}
-                                    if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
-									$Table.Cell($xRow, $i).Range.Text = $TextToWord.ToString()
+									#Write-Log -Message "--value: $($TextToWord.ToString())" -LogFile $logfile
+									if ([string]::IsNullOrEmpty($TextToWord)) { 
+										$TextToWord = " " 
+										$val = " "
+									}
+									elseif (Test-Numeric $TextToWord) {
+										#Write-Log -Message "rounding numeric value precision" -LogFile $logfile
+										$val = ([math]::Round($TextToWord,2)).ToString()
+									}
+									else {
+										$val = $TextToWord.ToString()
+									}
+									$Table.Cell($xRow, $i).Range.Text = $val
 									$i++
 		                        } # foreach
 								$xRow++
