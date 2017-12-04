@@ -74,7 +74,7 @@ Function Write-WordReportSection {
 					
 		            if ($count -eq 0) {
 						Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
-						Write-Log -Message "Table: 0 rows" -LogFile $logfile -Severity 2
+						Write-Log -Message "Table......... 0 rows" -LogFile $logfile -Severity 2
 						$selection.TypeParagraph()
 						continue
 		            }
@@ -96,7 +96,7 @@ Function Write-WordReportSection {
 							$Table = $doc.Tables.Add($TableRange, $count+1, $Columns)
 							$table.Style = $TableStyle
 							$i = 1;
-							Write-Log -Message ("Table: $count rows and $Columns columns") -LogFile $logfile
+							Write-Log -Message "structure..... $count rows and $Columns columns" -LogFile $logfile
 							foreach ($field in $HealthCheck.Fields.Field) {
                                 if ($section -eq 5) {
                                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
@@ -112,7 +112,7 @@ Function Write-WordReportSection {
 							$y=0
 							foreach ($row in $datatable) {
 								if ($records -ge 500) {
-									Write-Log -Message ("Exported $(500*($y+1)) records") -LogFile $logfile
+									Write-Log -Message ("Exported..... $(500*($y+1)) records") -LogFile $logfile
 									$records = 1
 									$y++
 								}
@@ -168,7 +168,7 @@ Function Write-WordReportSection {
 							$Table = $doc.Tables.Add($TableRange, $Columns, 2)
 							$table.Style = $TableSimpleStyle
 							$i = 1;
-							Write-Log -Message ("Table: $Columns rows and 2 columns") -LogFile $logfile
+							Write-Log -Message "structure..... $Columns rows and 2 columns" -LogFile $logfile
 							$records = 1
 							$y=0
 							foreach ($field in $HealthCheck.Fields.Field) {
@@ -178,7 +178,7 @@ Function Write-WordReportSection {
                                 }
 
 								if ($records -ge 500) {
-									Write-Log -Message ("Exported $(500*($y+1)) records") -LogFile $logfile
+									Write-Log -Message ("Exported..... $(500*($y+1)) records") -LogFile $logfile
 									$records = 1
 									$y++
 								}
@@ -240,7 +240,7 @@ Function Write-WordReportSection {
 							$y=0
 		                    foreach ($row in $datatable) {
 								if ($records -ge 500) {
-									Write-Log -Message ("Exported $(500*($y+1)) records") -LogFile $logfile
+									Write-Log -Message ("Exported...... $(500*($y+1)) records") -LogFile $logfile
 									$records = 1
 									$y++
 								}
@@ -268,7 +268,7 @@ Function Write-WordReportSection {
 		                    } # foreach
 						}
 					} # switch
-					Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings ("No.", "Severity", "Comment") -TableStyle "Grid Table 4 - Accent 2"
+					Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings $ReviewTableCols -StyleName $ReviewTableStyle
 				}
 			}
 		} # foreach

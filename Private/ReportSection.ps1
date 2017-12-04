@@ -16,9 +16,6 @@ Function ReportSection {
 		Write-Log -Message "section.... $Section" -LogFile $logfile
 		Write-Log -Message "numberofdays $NumberOfDays" -LogFile $logfile
 		Write-Log -Message "sitecode... $SiteCode" -LogFile $logfile
-		#Write-Log -Message "-----------------------------------------------------------" -LogFile $logfile
-		#Write-Log -Message "**** Starting Section $Section with [Detailed] = $($detailed.ToString())" -LogFile $logfile
-		#Write-Log -Message "-----------------------------------------------------------" -LogFile $logfile
 	}
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {
         if ($healthCheck.IsTextOnly.ToLower() -eq 'true') { continue }

@@ -7,15 +7,21 @@ function Write-WordTableGrid {
         [parameter(Mandatory=$True, HelpMessage="Array of Column Headings")]
             [string[]] $ColumnHeadings,
         [parameter(Mandatory=$False, HelpMessage="Table Style")]
-            [string] $TableStyle = 'Grid Table 4 - Accent 1'
+            [string] $StyleName = $DefaultTableStyle
 	)
 	Write-Log -Message "inserting custom table: $Caption" -LogFile $logfile
     $Selection.TypeText($Caption)
-    $Selection.Style = "Heading 1"
+    if ($Caption -eq 'Review Comments') {
+        $Selection.Style = "Heading 3"
+    }
+    else {
+        $Selection.Style = "Heading 1"
+    }
     $Selection.TypeParagraph()
     $Cols  = $ColumnHeadings.Length
     $Table = $doc.Tables.Add($Selection.Range, $rows, $cols)
-    $Table.Style = $TableStyle
+    Write-Log -Message "table style: $StyleName" -LogFile $logfile
+    $Table.Style = $StyleName
     for ($col = 1; $col -le $cols; $col++) {
         $Table.Cell(1, $col).Range.Text = $ColumnHeadings[$col-1]
     }
@@ -28,7 +34,13 @@ function Write-WordTableGrid {
     # set column widths for more than 2 columns
     if ($cols -gt 2) {
         $Table.Columns.First.PreferredWidthType = 2
-        $Table.Columns.First.PreferredWIdth = 7
+        if ($ColumnHeadings[0].length -lt 5) {
+            # squeeze first column if heading is "No.", etc.
+            $Table.Columns.First.PreferredWIdth = 5
+        }
+        else {
+            $Table.Columns.First.PreferredWIdth = 7
+        }
         $Table.Columns(2).PreferredWidthType = 2
         $Table.Columns(2).PreferredWIdth = 7
     }
