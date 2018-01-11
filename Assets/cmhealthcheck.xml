@@ -904,7 +904,7 @@ drop table ##temp_DatabaseAnalysis
       <Field FieldName="physical_name" Description="Physical Location" value="" format="" key="false" groupby="1" />
       <Field FieldName="size" Description="Size (GB)" value="" format="" key="false" groupby="1" />
       <Field FieldName="FreeSpace" Description="Free Space (GB)" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Max_Size" Description="Maximum Size" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Max_Size" Description="Max Size" value="" format="" key="false" groupby="1" />
       <Field FieldName="Growth" Description="Growth" value="" format="" key="false" groupby="1" />
       <Field FieldName="CountDataFile" Description="# Data File" value="" format="" key="false" groupby="1" />
       <Field FieldName="CountLogFile" Description="# Log File" value="" format="" key="false" groupby="1" />
@@ -1796,7 +1796,7 @@ where fcm.CollectionID = 'SMS00001' and sys.Client_Version0 &lt; st.Version
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
     <XMLFile>MachineswithoutlatestWindowsUpdateAgentVersion</XMLFile>
-    <Description>Machines without latest Windows Update Agent Version (KB949104)</Description>
+    <Description>Machines Without Latest Windows Update Agent Version (KB949104)</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
@@ -1814,7 +1814,7 @@ join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.Updat
 join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
 join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
 inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
-where ops.Version0 &lt; '6.2' and uss.LastWUAVersion &lt; '7.6.7600.256'
+where ops.Version0 &lt; '10.0' and uss.LastWUAVersion &lt; '7.6.7600.256'
 
 union
 
@@ -2281,7 +2281,6 @@ select Name, cast(Severity as varchar(300)) as Severity, cast(TypeID as varchar(
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-
   <HealthCheck>
     <section>6</section>
     <IsTextOnly>true</IsTextOnly>
@@ -2348,7 +2347,6 @@ where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001'
     <WordStyle>Heading 2</WordStyle>
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
-	<!-- query statement edited by David Stein 7-26-2017 -->
 	<sqlquery>
 select distinct 
 	assc.LastEnforcementErrorCode as ErrorCode,
@@ -2363,18 +2361,6 @@ and assc.LastEnforcementMessageID in (6,9)
 and assc.IsCompliant=0 
 and fcm.CollectionID = 'SMS00001'
 	</sqlquery>
-<!-- original query statement
-    <sqlquery>
-select distinct 
-	isnull(assc.LastEnforcementErrorCode,0) as ErrorCode,
-	isnull(assc.LastEnforcementErrorCode,0) as Message
-from v_CIAssignment cia with (NOLOCK) 
-join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
-join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
-join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
-where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforcementMessageID in (6,9) and assc.IsCompliant=0 and fcm.CollectionID = 'SMS00001'
-    </sqlquery>
--->
     <Fields>
       <Field FieldName="ErrorCode" Description="Error Code" value="" format="" key="false" groupby="1" />
       <Field FieldName="Message" Description="Solution" value="" format="MessageSolution" key="false" groupby="1" />
