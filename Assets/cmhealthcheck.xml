@@ -425,7 +425,8 @@ s.server_name,
 s.recovery_model
 FROM msdb.dbo.backupset s
 INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id and m.device_type in (2,5)
-WHERE s.database_name = @DatabaseName and s.backup_start_date &gt;= DATEADD(dd,-convert(int,@numberofdays),GetDate())
+WHERE s.database_name = @DatabaseName and s.backup_start_date &gt;= DATEADD(dd,-convert(int,@numberofdays),GetDate()) 
+ORDER BY s.backup_finish_date DESC
     </sqlquery>
     <Fields>
       <Field FieldName="physical_device_name" Description="Backup Location" value="" format="" key="false" groupby="1" />
@@ -925,9 +926,9 @@ SELECT object_name(object_id) as ObjectID, index_type_desc,avg_fragmentation_in_
     <Fields>
       <Field FieldName="ObjectID" Description="Object Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="index_type_desc" Description="Index Type" value="" format="" key="false" groupby="1" />
-      <Field FieldName="avg_fragmentation_in_percent" Description="Average Fragmentation (%)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="avg_fragmentation_in_percent" Description="Avg Fragmentation (%)" value="" format="" key="false" groupby="1" />
       <Field FieldName="fragment_count" Description="Fragmentation Count" value="" format="" key="false" groupby="1" />
-      <Field FieldName="avg_page_space_used_in_percent" Description="Average Page Space used (%)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="avg_page_space_used_in_percent" Description="Avg Page Space used (%)" value="" format="" key="false" groupby="1" />
       <Field FieldName="page_count" Description="Page Count" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
@@ -995,10 +996,10 @@ FROM msdb.dbo.backupset s
 INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id
 WHERE 
 s.backup_start_date &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) 
-ORDER BY s.database_name, backup_start_date asc, backup_finish_date
+ORDER BY s.database_name, backup_finish_date DESC, backup_start_date ASC
     </sqlquery>
     <Fields>
-      <Field FieldName="Database_Name" Description="Database Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Database_Name" Description="DB Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="BackupType" Description="Growth Type" value="" format="" key="false" groupby="1" />
       <Field FieldName="bkSize" Description="Size" value="" format="" key="false" groupby="1" />
       <Field FieldName="TimeTaken" Description="Time Taken" value="" format="" key="false" groupby="1" />
