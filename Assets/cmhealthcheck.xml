@@ -18,32 +18,32 @@
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
-DECLARE @SiteCode char(3)
-DECLARE @ServerName varchar(255)
-DECLARE @RoleName varchar(255)
-DECLARE @RoleNameLower varchar(255)
-DECLARE @SMSProvider varchar(8000)
-DECLARE @DP varchar(8000)
-DECLARE @MP varchar(8000)
-DECLARE @FSP varchar(8000)
-DECLARE @RSP varchar(8000)
-DECLARE @EPP varchar(8000)
-DECLARE @SUP varchar(8000)
-DECLARE @AISP varchar(8000)
-DECLARE @AWS varchar(8000)
-DECLARE @PWS varchar(8000)
-DECLARE @SMP varchar(8000)
-DECLARE @SNS varchar(8000)
-DECLARE @SQLVersion varchar(50)
-DECLARE @SQLSP varchar(50)
-DECLARE @SQLEdition varchar(500)
-DECLARE @SSBPort int
-DECLARE @SQLPort int
+DECLARE @SiteCode CHAR(3)
+DECLARE @ServerName VARCHAR(255)
+DECLARE @RoleName VARCHAR(255)
+DECLARE @RoleNameLower VARCHAR(255)
+DECLARE @SMSProvider VARCHAR(8000)
+DECLARE @DP VARCHAR(8000)
+DECLARE @MP VARCHAR(8000)
+DECLARE @FSP VARCHAR(8000)
+DECLARE @RSP VARCHAR(8000)
+DECLARE @EPP VARCHAR(8000)
+DECLARE @SUP VARCHAR(8000)
+DECLARE @AISP VARCHAR(8000)
+DECLARE @AWS VARCHAR(8000)
+DECLARE @PWS VARCHAR(8000)
+DECLARE @SMP VARCHAR(8000)
+DECLARE @SNS VARCHAR(8000)
+DECLARE @SQLVersion VARCHAR(50)
+DECLARE @SQLSP VARCHAR(50)
+DECLARE @SQLEdition VARCHAR(500)
+DECLARE @SSBPort INT
+DECLARE @SQLPort INT
 DECLARE @SiteNumber int
-DECLARE @CPC varchar(8000)
-DECLARE @DWP varchar(8000)
-DECLARE @DMP varchar(8000)
-DECLARE @SCP varchar(8000)
+DECLARE @CPC VARCHAR(8000)
+DECLARE @DWP VARCHAR(8000)
+DECLARE @DMP VARCHAR(8000)
+DECLARE @SCP VARCHAR(8000)
 
 SET @SMSProvider = ''
 SET @DP = ''
@@ -62,114 +62,114 @@ SET @DWP = ''
 SET @DMP = ''
 SET @SCP = ''
 
-select @SiteCode = '@@SITECODE@@'
+SELECT @SiteCode = '@@SITECODE@@'
 
-select @SiteNumber = SiteNumber from SC_SiteDefinition where SiteCode = @SiteCode
-SELECT @SQLVersion = convert(varchar(50), SERVERPROPERTY('productversion')), @SQLSP = convert(varchar(50), SERVERPROPERTY ('productlevel')), @SQLEdition = convert(varchar(500), SERVERPROPERTY ('edition'))
-select @SSBPort = Value3 from SC_SiteDefinition_Property where Name = 'SSBPort' and SiteNumber = @SiteNumber
-select @SQLPort = Value3 from SC_SiteDefinition_Property where Name = 'SQLServicePort' and SiteNumber = @SiteNumber
+SELECT @SiteNumber = SiteNumber FROM SC_SiteDefinition WHERE SiteCode = @SiteCode
+SELECT @SQLVersion = CONVERT(VARCHAR(50), SERVERPROPERTY('productversion')), @SQLSP = CONVERT(VARCHAR(50), SERVERPROPERTY ('productlevel')), @SQLEdition = CONVERT(VARCHAR(500), SERVERPROPERTY ('edition'))
+SELECT @SSBPort = Value3 FROM SC_SiteDefinition_Property WHERE Name = 'SSBPort' AND SiteNumber = @SiteNumber
+SELECT @SQLPort = Value3 FROM SC_SiteDefinition_Property WHERE Name = 'SQLServicePort' AND SiteNumber = @SiteNumber
 
 DECLARE @ServerList CURSOR
 SET @ServerList = CURSOR FAST_FORWARD
-FOR SELECT RoleName, ServerName FROM vSMS_SC_SysResUse where SiteCode = @SiteCode
+FOR SELECT RoleName, ServerName FROM vSMS_SC_SysResUse WHERE SiteCode = @SiteCode
 
 OPEN @ServerList FETCH NEXT FROM @ServerList INTO @RoleName,@ServerName
 WHILE @@FETCH_STATUS = 0
 BEGIN
-	if @RoleName = 'SMS Provider'	
-	begin
-		if Len(@SMSProvider) &lt;&gt; 0 set @SMSProvider = @SMSProvider + ', '
-		set @SMSProvider = @SMSProvider + @ServerName
+	IF @RoleName = 'SMS Provider'	
+	BEGIN
+		IF LEN(@SMSProvider) &lt;&gt; 0 SET @SMSProvider = @SMSProvider + ', '
+		SET @SMSProvider = @SMSProvider + @ServerName
 	END
 
-	if @RoleName = 'SMS Distribution Point'	
-	begin
-		if Len(@DP) &lt;&gt; 0 set @DP = @DP + ', '
-		set @DP = @DP + @ServerName
+	IF @RoleName = 'SMS Distribution Point'	
+	BEGIN
+		IF LEN(@DP) &lt;&gt; 0 SET @DP = @DP + ', '
+		SET @DP = @DP + @ServerName
 	END
 
-	if @RoleName = 'SMS Management Point'	
-	begin
-		if Len(@MP) &lt;&gt; 0 set @MP = @MP+ ', '
-		set @MP = @MP+ @ServerName
+	IF @RoleName = 'SMS Management Point'	
+	BEGIN
+		IF LEN(@MP) &lt;&gt; 0 SET @MP = @MP+ ', '
+		SET @MP = @MP+ @ServerName
 	END
 
-	if @RoleName = 'SMS Fallback Status Point'	
-	begin
-		if Len(@FSP) &lt;&gt; 0 set @FSP = @FSP+ ', '
-		set @FSP = @FSP+ @ServerName
+	IF @RoleName = 'SMS Fallback Status Point'	
+	BEGIN
+		IF LEN(@FSP) &lt;&gt; 0 SET @FSP = @FSP+ ', '
+		SET @FSP = @FSP+ @ServerName
 	END
 
-	if @RoleName = 'SMS SRS Reporting Point'	
-	begin
-		if Len(@RSP) &lt;&gt; 0 set @FSP = @RSP+ ', '
-		set @RSP = @RSP+ @ServerName
+	IF @RoleName = 'SMS SRS Reporting Point'	
+	BEGIN
+		IF LEN(@RSP) &lt;&gt; 0 SET @FSP = @RSP+ ', '
+		SET @RSP = @RSP+ @ServerName
 	END
 
-	if @RoleName = 'SMS Endpoint Protection Point'	
-	begin
-		if Len(@EPP) &lt;&gt; 0 set @EPP = @EPP+ ', '
-		set @EPP = @EPP+ @ServerName
+	IF @RoleName = 'SMS Endpoint Protection Point'	
+	BEGIN
+		IF LEN(@EPP) &lt;&gt; 0 SET @EPP = @EPP+ ', '
+		SET @EPP = @EPP+ @ServerName
 	END
 
-	if @RoleName = 'SMS Software Update Point'	
-	begin
-		if Len(@SUP) &lt;&gt; 0 set @SUP = @SUP+ ', '
-		set @SUP = @SUP+ @ServerName
+	IF @RoleName = 'SMS Software Update Point'	
+	BEGIN
+		IF LEN(@SUP) &lt;&gt; 0 SET @SUP = @SUP+ ', '
+		SET @SUP = @SUP+ @ServerName
 	END
 
-	if @RoleName = 'AI Update Service Point'	
-	begin
-		if Len(@AISP) &lt;&gt; 0 set @AISP = @AISP+ ', '
-		set @AISP = @AISP+ @ServerName
+	IF @RoleName = 'AI Update Service Point'	
+	BEGIN
+		IF LEN(@AISP) &lt;&gt; 0 SET @AISP = @AISP+ ', '
+		SET @AISP = @AISP+ @ServerName
 	END
 
-	if @RoleName = 'SMS Application Web Service'	
-	begin
-		if Len(@AWS) &lt;&gt; 0 set @AWS = @AWS+ ', '
-		set @AWS = @AWS+ @ServerName
+	IF @RoleName = 'SMS Application Web Service'	
+	BEGIN
+		IF LEN(@AWS) &lt;&gt; 0 SET @AWS = @AWS+ ', '
+		SET @AWS = @AWS+ @ServerName
 	END
 
-	if @RoleName = 'SMS Portal Web Site'	
-	begin
-		if Len(@PWS) &lt;&gt; 0 set @PWS = @PWS+ ', '
-		set @PWS = @PWS+ @ServerName
+	IF @RoleName = 'SMS Portal Web Site'	
+	BEGIN
+		IF LEN(@PWS) &lt;&gt; 0 SET @PWS = @PWS+ ', '
+		SET @PWS = @PWS+ @ServerName
 	END
 
-	if @RoleName = 'SMS State Migration Point'	
+	IF @RoleName = 'SMS State Migration Point'	
 	begin
 		if Len(@SMP) &lt;&gt; 0 set @PWS = @SMP+ ', '
 		set @SMP = @SMP+ @ServerName
 	END
 
-	if @RoleName = 'SMS Notification Server'	
-	begin
-		if Len(@SNS) &lt;&gt; 0 set @SNS = @SNS+ ', '
-		set @SNS = @SNS+ @ServerName
+	IF @RoleName = 'SMS Notification Server'	
+	BEGIN
+		IF LEN(@SNS) &lt;&gt; 0 SET @SNS = @SNS+ ', '
+		SET @SNS = @SNS+ @ServerName
 	END
 
-	if @RoleName = 'SMS Cloud Proxy Connector'
-	begin
-		if Len (@CPC) &lt;&gt; 0 set @CPC = @CPC+ ', '
+	IF @RoleName = 'SMS Cloud Proxy Connector'
+	BEGIN
+		IF LEN (@CPC) &lt;&gt; 0 SET @CPC = @CPC+ ', '
 		set @CPC = @CPC+ @ServerName
 	END
 	
-	if @RoleName = 'Data Warehouse Service Point'
-	begin 
-		if Len (@DWP) &lt;&gt; 0 set @DWP = @DWP+ ', '
+	IF @RoleName = 'Data Warehouse Service Point'
+	BEGIN 
+		IF LEN (@DWP) &lt;&gt; 0 SET @DWP = @DWP+ ', '
 		set @DWP = @DWP+ @ServerName
 	END 
 	
-	if @RoleName = 'SMS Dmp Connector'
+	IF @RoleName = 'SMS Dmp Connector'
 	begin 
-		if Len (@DMP) &lt;&gt; 0 set @DMP = @DMP+ ', '
+		if Len (@DMP) &lt;&gt; 0 SET @DMP = @DMP+ ', '
 		set @DMP = @DMP+ @ServerName
 	END 
 
-	if @RoleName = 'SMS Service Connection Point'
-	begin 
-		if Len (@SCP) &lt;&gt; 0 set @SCP = @SCP+ ', '
-		set @DMP = @SCP+ @ServerName
+	IF @RoleName = 'SMS Service Connection Point'
+	BEGIN 
+		IF LEN (@SCP) &lt;&gt; 0 SET @SCP = @SCP+ ', '
+		SET @DMP = @SCP+ @ServerName
 	END 
 
 	FETCH NEXT FROM @ServerList INTO @RoleName,@ServerName
@@ -182,72 +182,72 @@ SELECT
   s.SiteName, 
   s.Version, 
   s.BuildNumber,
-  case 
-	when right(s.Version,9) = '5.00.7958.1000' then 'R2 RTM'
-	when right(s.Version,9) = '5.00.7958.1203' then 'R2 CU1'
-	when right(s.Version,9) = '5.00.7958.1303' then 'R2 CU2'
-	when right(s.Version,9) = '5.00.7958.1401' then 'R2 CU3'
-	when right(s.Version,9) = '5.00.7958.1501' then 'R2 CU4'
-	when right(s.Version,9) = '5.00.7958.1604' then 'R2 CU5'
-	when right(s.Version,9) = '5.00.8239.1000' then 'R2 SP1'
-	when right(s.Version,9) = '5.00.8325.1000' then '1511'
-	when right(s.Version,9) = '5.00.8325.1005' then '1511 Hotfix 1 of 3'
-	when right(s.Version,9) = '5.00.8325.1010' then '1511 Hotfix 2 of 3'
-	when right(s.Version,9) = '5.00.8325.1126' then '1511 Hotfix 3 of 3'
-	when right(s.Version,9) = '5.00.8355.1000' then '1602'
-	when right(s.Version,9) = '5.00.8355.1306' then '1602 Hotfix 1 of 2'
-	when right(s.Version,9) = '5.00.8355.1307' then '1602 Hotfix 2 of 2'
-	when right(s.Version,9) = '5.00.8412.1000' then '1606'
-	when right(s.Version,9) = '5.00.8412.1204' then '1606 Hotfix 1 of 5'
-	when right(s.Version,9) = '5.00.8412.1205' then '1606 Hotfix 2 of 5'
-	when right(s.Version,9) = '5.00.8412.1207' then '1606 Hotfix 3 of 5'
-	when right(s.Version,9) = '5.00.8412.1307' then '1606 Hotfix 4 of 5'
-	when right(s.Version,9) = '5.00.8412.1309' then '1606 Hotfix 5 of 5'
-	when right(s.Version,9) = '5.00.8458.1000' then '1610'
-	when right(s.Version,9) = '5.00.8458.1520' then '1610 Hotfix 1 of 2'
-	when right(s.Version,9) = '5.00.8458.1526' then '1610 Hotfix 2 of 2'
-	when right(s.Version,9) = '5.00.8498.1000' then '1702'
-	when right(s.Version,9) = '5.00.8498.1700' then '1702 Hotfix 1'
-	when right(s.Version,9) = '5.00.8498.1711' then '1702 Hotfix 2'
-	when right(s.Version,9) = '5.00.8533.1000' then '1706'
-	else cast(s.Version as varchar(100))
-  end as SPLevel,
-  case 
-	when s.Status = 1 then 'Active'
-	else 'Inactive'
-  end as Status, 
-  case 
-	when s.SiteType = 2 then 'Primary Site'
-	when s.SiteType = 1 then 'Secondary Site'
-	when s.SiteType = 4 then 'Central Administration Site'
-  end as SiteType,
+  CASE 
+	WHEN RIGHT(s.Version,9) = '5.00.7958.1000' THEN 'R2 RTM'
+	WHEN RIGHT(s.Version,9) = '5.00.7958.1203' THEN 'R2 CU1'
+	WHEN RIGHT(s.Version,9) = '5.00.7958.1303' THEN 'R2 CU2'
+	WHEN RIGHT(s.Version,9) = '5.00.7958.1401' THEN 'R2 CU3'
+	WHEN RIGHT(s.Version,9) = '5.00.7958.1501' THEN 'R2 CU4'
+	WHEN RIGHT(s.Version,9) = '5.00.7958.1604' THEN 'R2 CU5'
+	WHEN RIGHT(s.Version,9) = '5.00.8239.1000' THEN 'R2 SP1'
+	WHEN RIGHT(s.Version,9) = '5.00.8325.1000' THEN '1511'
+	WHEN RIGHT(s.Version,9) = '5.00.8325.1005' THEN '1511 Hotfix 1 of 3'
+	WHEN RIGHT(s.Version,9) = '5.00.8325.1010' THEN '1511 Hotfix 2 of 3'
+	WHEN RIGHT(s.Version,9) = '5.00.8325.1126' THEN '1511 Hotfix 3 of 3'
+	WHEN RIGHT(s.Version,9) = '5.00.8355.1000' THEN '1602'
+	WHEN RIGHT(s.Version,9) = '5.00.8355.1306' THEN '1602 Hotfix 1 of 2'
+	WHEN RIGHT(s.Version,9) = '5.00.8355.1307' THEN '1602 Hotfix 2 of 2'
+	WHEN RIGHT(s.Version,9) = '5.00.8412.1000' THEN '1606'
+	WHEN RIGHT(s.Version,9) = '5.00.8412.1204' THEN '1606 Hotfix 1 of 5'
+	WHEN RIGHT(s.Version,9) = '5.00.8412.1205' THEN '1606 Hotfix 2 of 5'
+	WHEN RIGHT(s.Version,9) = '5.00.8412.1207' THEN '1606 Hotfix 3 of 5'
+	WHEN RIGHT(s.Version,9) = '5.00.8412.1307' THEN '1606 Hotfix 4 of 5'
+	WHEN RIGHT(s.Version,9) = '5.00.8412.1309' THEN '1606 Hotfix 5 of 5'
+	WHEN RIGHT(s.Version,9) = '5.00.8458.1000' THEN '1610'
+	WHEN RIGHT(s.Version,9) = '5.00.8458.1520' THEN '1610 Hotfix 1 of 2'
+	WHEN RIGHT(s.Version,9) = '5.00.8458.1526' THEN '1610 Hotfix 2 of 2'
+	WHEN RIGHT(s.Version,9) = '5.00.8498.1000' THEN '1702'
+	WHEN RIGHT(s.Version,9) = '5.00.8498.1700' THEN '1702 Hotfix 1'
+	WHEN RIGHT(s.Version,9) = '5.00.8498.1711' THEN '1702 Hotfix 2'
+	WHEN RIGHT(s.Version,9) = '5.00.8533.1000' THEN '1706'
+	ELSE CAST(s.Version AS VARCHAR(100))
+  END AS SPLevel,
+  CASE 
+	WHEN s.Status = 1 THEN 'Active'
+	ELSE 'Inactive'
+  END AS Status, 
+  CASE 
+	WHEN s.SiteType = 2 THEN 'Primary Site'
+	WHEN s.SiteType = 1 THEN 'Secondary Site'
+	WHEN s.SiteType = 4 THEN 'Central Administration Site'
+  END AS SiteType,
   s.InstallDir,
   s.SiteServer,
-  @SMSProvider as SMSProvider,
+  @SMSProvider AS SMSProvider,
   sd.SQLServerName,
   sd.SQLDatabaseName,
-  @SSBPort as SSBPort,
-  @SQLPort as SQLPort,
-  @SQLVersion as SQLVersion,
-  @SQLSP as SQLSP,
-  @SQLEdition as SQLEdition,
-  @DP as DP,
+  @SSBPort AS SSBPort,
+  @SQLPort AS SQLPort,
+  @SQLVersion AS SQLVersion,
+  @SQLSP AS SQLSP,
+  @SQLEdition AS SQLEdition,
+  @DP AS DP,
   @MP as MP,
-  @FSP as FSP,
-  @RSP as RSP,
-  @EPP as EPP,
-  @SUP as SUP,
-  @AISP as AISP,
-  @AWS as AWS,
-  @PWS as PWS,
-  @SMP as SMP,
-  @SNS as SNS,
-  @CPC as CPC,
-  @DWP as DWP,
-  @DMP as DMP,
-  @SCP as SCP 
-FROM Sites s inner join SC_SiteDefinition sd on sd.SiteCode = s.SiteCode
-where s.SiteCode = @SiteCode
+  @FSP AS FSP,
+  @RSP AS RSP,
+  @EPP AS EPP,
+  @SUP AS SUP,
+  @AISP AS AISP,
+  @AWS AS AWS,
+  @PWS AS PWS,
+  @SMP AS SMP,
+  @SNS AS SNS,
+  @CPC AS CPC,
+  @DWP AS DWP,
+  @DMP AS DMP,
+  @SCP AS SCP 
+FROM Sites s INNER JOIN SC_SiteDefinition sd ON sd.SiteCode = s.SiteCode
+WHERE s.SiteCode = @SiteCode
     </sqlquery>
     <Fields>
       <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
@@ -327,16 +327,20 @@ where s.SiteCode = @SiteCode
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select TaskName, case IsEnabled when 1 then 'YES' else 'NO' end as IsEnabled, case DeleteOlderThan when 0 then null else DeleteOlderThan end as DeleteOlderThan, 
-case BeginTime when 0 then '0:00' else left(convert(varchar(4), BeginTime),(case when (len(BeginTime)-2) &lt;=0 then 0 else (len(BeginTime)-2) end)) + ':' + right(convert(varchar(4), BeginTime),2) end as BeginTime,
-case LatestBeginTime when 0 then '0:00' else left(convert(varchar(4), LatestBeginTime),(case when (len(LatestBeginTime)-2) &lt;=0 then 0 else (len(LatestBeginTime)-2) end)) + ':' + right(convert(varchar(4), LatestBeginTime),2) end as LatestBeginTime,
-isnull((case cast(DaysOfWeek &amp; 1 as bit) when 1 then 'Sunday, ' end), '') +
-isnull((case cast(DaysOfWeek &amp; 2 as bit) when 1 then 'Monday, ' end), '') +
-isnull((case cast(DaysOfWeek &amp; 4 as bit) when 1 then 'Tuesday, ' end), '') +
-isnull((case cast(DaysOfWeek &amp; 8 as bit) when 1 then 'Wednesday, ' end), '') +
-isnull((case cast(DaysOfWeek &amp; 16 as bit) when 1 then 'Thursday, ' end), '') +
-isnull((case cast(DaysOfWeek &amp; 32 as bit) when 1 then 'Friday, ' end), '') +
-isnull((case cast(DaysOfWeek &amp; 64 as bit) when 1 then 'Saturday' end), '') as DaysOfWeek from vSMS_SC_SQL_Task where SiteCode = '@@SITECODE@@'
+SELECT TaskName, 
+CASE IsEnabled WHEN 1 THEN 'YES' 
+ELSE 'NO' 
+END AS IsEnabled, 
+CASE DeleteOlderThan WHEN 0 THEN NULL ELSE DeleteOlderThan END AS DeleteOlderThan, 
+CASE BeginTime WHEN 0 THEN '0:00' ELSE LEFT(CONVERT(VARCHAR(4), BeginTime),(CASE WHEN (LEN(BeginTime)-2) &lt;=0 THEN 0 ELSE (LEN(BeginTime)-2) END)) + ':' + RIGHT(CONVERT(VARCHAR(4), BeginTime),2) END AS BeginTime,
+CASE LatestBeginTime WHEN 0 THEN '0:00' ELSE LEFT(CONVERT(VARCHAR(4), LatestBeginTime),(CASE WHEN (LEN(LatestBeginTime)-2) &lt;=0 THEN 0 ELSE (len(LatestBeginTime)-2) END)) + ':' + RIGHT(CONVERT(VARCHAR(4), LatestBeginTime),2) END AS LatestBeginTime,
+ISNULL((CASE CAST(DaysOfWeek &amp; 1 as bit) WHEN 1 THEN 'Sunday, ' END), '') +
+ISNULL((CASE CAST(DaysOfWeek &amp; 2 as bit) WHEN 1 THEN 'Monday, ' END), '') +
+ISNULL((CASE CAST(DaysOfWeek &amp; 4 as bit) WHEN 1 THEN 'Tuesday, ' END), '') +
+ISNULL((CASE CAST(DaysOfWeek &amp; 8 as bit) WHEN 1 THEN 'Wednesday, ' END), '') +
+ISNULL((CASE CAST(DaysOfWeek &amp; 16 as bit) WHEN 1 THEN 'Thursday, ' END), '') +
+ISNULL((CASE CAST(DaysOfWeek &amp; 32 as bit) WHEN 1 THEN 'Friday, ' END), '') +
+ISNULL((CASE CAST(DaysOfWeek &amp; 64 as bit) WHEN 1 THEN 'Saturday' END), '') AS DaysOfWeek FROM vSMS_SC_SQL_Task WHERE SiteCode = '@@SITECODE@@'
 	</sqlquery>
     <Fields>
       <Field FieldName="TaskName" Description="Task Name" value="" format="" key="false" groupby="1" />
@@ -358,41 +362,41 @@ isnull((case cast(DaysOfWeek &amp; 64 as bit) when 1 then 'Saturday' end), '') a
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-declare @starttime as datetime, @endtime as datetime, @id as int, @sitecode char(3), @numberofdays int
-set @sitecode = '@@SiteCode@@'
-set @numberofdays = @@NumberOfDays@@
+DECLARE @starttime as DATETIME, @endtime AS DATETIME, @id as INT, @sitecode CHAR(3), @numberofdays INT
+SET @sitecode = '@@SiteCode@@'
+SET @numberofdays = @@NumberOfDays@@
 
-select top 1 @starttime = smsgs.Time
-from 
+SELECT TOP 1 @starttime = smsgs.Time
+FROM 
 	v_StatusMessage smsgs 
-where
-	smsgs.Time &gt;= DATEADD(dd,-convert(int,@NumberofDays),GetDate()) and 
-	smsgs.MessageID = 5055 and 
+WHERE
+	smsgs.Time &gt;= DATEADD(dd,-CONVERT(INT,@NumberofDays),GETDATE()) AND 
+	smsgs.MessageID = 5055 AND 
 	smsgs.sitecode = @sitecode
-Order by smsgs.Time DESC
+ORDER BY smsgs.Time DESC
 
-select top 1 @endtime = smsgs.Time, @id = smsgs.MessageID
-from 
+SELECT TOP 1 @endtime = smsgs.Time, @id = smsgs.MessageID
+FROM 
 	v_StatusMessage smsgs 
-where
-	smsgs.Time &gt;= DATEADD(dd,-convert(int,@NumberofDays),GetDate()) and 
-	smsgs.MessageID in (5035, 5000, 5002, 5004, 5006, 5008, 5017, 5018, 5019, 5022, 5024, 5025, 5026, 5027, 5032, 5033, 5043, 5044, 5045, 5046, 5047, 5048, 5049, 5050, 5051, 5052, 5053) and 
+WHERE
+	smsgs.Time &gt;= DATEADD(dd,-CONVERT(INT,@NumberofDays),GETDATE()) and 
+	smsgs.MessageID IN (5035, 5000, 5002, 5004, 5006, 5008, 5017, 5018, 5019, 5022, 5024, 5025, 5026, 5027, 5032, 5033, 5043, 5044, 5045, 5046, 5047, 5048, 5049, 5050, 5051, 5052, 5053) AND 
 	smsgs.sitecode = @sitecode
-Order by smsgs.Time DESC
+ORDER BY smsgs.Time DESC
 
 
-if (@starttime is not null)
-select @starttime as StartTime,
-case 
-	when (@starttime &gt; @endtime) then null
-	else @endtime
-end as EndTime, 
-case 
-	when (@starttime &gt; @endtime) then 'Last Backup did not finish'
-	when (@endtime is null) then 'Last Backup did not finish'
-	when (@id = 5035) then 'SMS Site Backup completed successfully with zero errors but still there could be some warnings'
-	when (@id != 5035) then 'SMS Site Backup failed to completed successfully'
-end as 'Comments'
+IF (@starttime IS NOT NULL)
+SELECT @starttime AS StartTime,
+CASE 
+	WHEN (@starttime &gt; @endtime) THEN NULL
+	ELSE @endtime
+END AS EndTime, 
+CASE 
+	WHEN (@starttime &gt; @endtime) THEN 'Last Backup did not finish'
+	WHEN (@endtime is NULL) THEN 'Last Backup did not finish'
+	WHEN (@id = 5035) THEN 'SMS Site Backup completed successfully with zero errors but still there could be some warnings'
+	WHEN (@id != 5035) THEN 'SMS Site Backup failed to completed successfully'
+END AS 'Comments'
     </sqlquery>
     <Fields>
       <Field FieldName="StartTime" Description="Start Time" value="" format="" key="false" groupby="1" />
@@ -411,9 +415,9 @@ end as 'Comments'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-declare @starttime as datetime, @endtime as datetime, @id as int, @DatabaseName varchar(10), @numberofdays int
-set @DatabaseName = 'CM_@@SITECODE@@'
-set @numberofdays = @@NumberOfDays@@
+DECLARE @starttime as DATETIME, @endtime as DATETIME, @id AS INT, @DatabaseName VARCHAR(10), @numberofdays INT
+SET @DatabaseName = 'CM_@@SITECODE@@'
+SET @numberofdays = @@NumberOfDays@@
 
 SELECT TOP 1 m.physical_device_name, s.backup_start_date, s.backup_finish_date,
 CASE s.[type]
@@ -424,8 +428,8 @@ END AS BackupType,
 s.server_name,
 s.recovery_model
 FROM msdb.dbo.backupset s
-INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id and m.device_type in (2,5)
-WHERE s.database_name = @DatabaseName and s.backup_start_date &gt;= DATEADD(dd,-convert(int,@numberofdays),GetDate()) 
+INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id AND m.device_type in (2,5)
+WHERE s.database_name = @DatabaseName AND s.backup_start_date &gt;= DATEADD(dd,-CONVERT(INT,@numberofdays),GETDATE()) 
 ORDER BY s.backup_finish_date DESC
     </sqlquery>
     <Fields>
@@ -448,15 +452,15 @@ ORDER BY s.backup_finish_date DESC
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
-select 
+SELECT 
 	ComponentName, Errors, Infos, Warnings,
-	case 
-		when Status = 0 then 'OK'
-		when Status = 1 then 'Warning'
-		when Status = 2 then 'Critical'
-	end as Status
-from v_ComponentSummarizer 
-WHERE TallyInterval='0001128000100008' and
+	CASE 
+		WHEN Status = 0 THEN 'OK'
+		WHEN Status = 1 THEN 'Warning'
+		WHEN Status = 2 THEN 'Critical'
+	END AS Status
+FROM v_ComponentSummarizer 
+WHERE TallyInterval='0001128000100008' AND
 	  SiteCode = '@@SITECODE@@'
     </sqlquery>
     <Fields>
@@ -478,39 +482,39 @@ WHERE TallyInterval='0001128000100008' and
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
-declare @starttime as datetime, @endtime as datetime, @id as int, @sitecode char(3)
-select @sitecode = '@@SITECODE@@'
+DECLARE @starttime AS DATETIME, @endtime AS DATETIME, @id AS INT, @sitecode CHAR(3)
+SELECT @sitecode = '@@SITECODE@@'
 
-select top 1 @starttime = smsgs.Time
-from 
+SELECT TOP 1 @starttime = smsgs.Time
+FROM 
 	v_StatusMessage smsgs 
-where
-	smsgs.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) and 
-	smsgs.MessageID = 6701 and 
+WHERE
+	smsgs.Time &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE()) AND 
+	smsgs.MessageID = 6701 AND 
 	smsgs.sitecode = @sitecode
-Order by smsgs.Time DESC
+ORDER BY smsgs.Time DESC
 
-select top 1 @endtime = smsgs.Time, @id = smsgs.MessageID
-from 
+SELECT TOP 1 @endtime = smsgs.Time, @id = smsgs.MessageID
+FROM 
 	v_StatusMessage smsgs 
-where
-	smsgs.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) and 
-	smsgs.MessageID in (6702, 6703) and 
+WHERE
+	smsgs.Time &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE()) AND 
+	smsgs.MessageID IN (6702, 6703) AND 
 	smsgs.sitecode = @sitecode
-Order by smsgs.Time DESC
+ORDER BY smsgs.Time DESC
 
 
-if (@starttime is not null) and (@endtime is not null)
-select @starttime as StartTime,
-case 
-	when (@starttime &gt; @endtime) then null
-	else @endtime
-end as EndTime, 
-case 
-	when (@starttime &gt; @endtime) then 'Last WSYS Sync did not finish'
-	when (@id = 6702) then 'Success'
-	when (@id = 6703) then 'Error'
-end as 'Comments'
+IF (@starttime IS NOT NULL) AND (@endtime IS NOT NULL)
+SELECT @starttime as StartTime,
+CASE 
+	WHEN (@starttime &gt; @endtime) THEN NULL
+	ELSE @endtime
+END AS EndTime, 
+CASE 
+	WHEN (@starttime &gt; @endtime) THEN 'Last WSYS Sync did not finish'
+	WHEN (@id = 6702) THEN 'Success'
+	WHEN (@id = 6703) THEN 'Error'
+END AS 'Comments'
     </sqlquery>
     <Fields>
       <Field FieldName="StartTime" Description="Start Date/Time" value="" format="" key="false" groupby="1" />
@@ -529,50 +533,50 @@ end as 'Comments'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-Create Table ##temp_ClientSettingsMisconfiguration (ClientSettingName varchar(2000), AgentName varchar(2000), PropertyName varchar(2000), Value varchar(2000), CollectionName varchar(2000))
-delete ##temp_ClientSettingsMisconfiguration
+CREATE TABLE ##temp_ClientSettingsMisconfiguration (ClientSettingName VARCHAR(2000), AgentName VARCHAR(2000), PropertyName VARCHAR(2000), Value VARCHAR(2000), CollectionName VARCHAR(2000))
+DELETE ##temp_ClientSettingsMisconfiguration
 
-insert into ##temp_ClientSettingsMisconfiguration
-select cs.Name as [ClientSettingName], ca.Name as [AgentName], cb.PropertyName, 
-case
-	when IsNull(cb.DwordValue, 0) &lt;&gt; 0 then cast(cb.DwordValue as varchar(2000))
-	when IsNull(cb.StringValue, '') &lt;&gt; '' then dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(cb.StringValue)
-end as [Value], col.Name as [CollectionName] from vSMS_ClientSettings cs 
-inner join vSMS_ClientAgentConfig_Base cb on cs.ID = cb.SettingsID 
-inner join ClientAgent ca on ca.ID = cb.AgentID
-left join vClientSettingsAssignments csa on csa.ClientSettingsID = cs.ID
-left join v_Collection col on csa.CollectionID = col.CollectionID
-where cs.SourceSite = '@@SITECODE@@' and ((cb.AgentID in (13, 26) and cb.PropertyName in ('PolicyRequestAssignmentTimeout'))
-or (cb.AgentID in (15, 2) and cb.PropertyName in ('Schedule'))
-or (cb.AgentID in (5) and cb.PropertyName in ('ComputeComplianceSchedule'))
-or (cb.AgentID in (17,9) and cb.PropertyName in ('EvaluationSchedule'))
-or (cb.AgentID in (8) and cb.PropertyName in ('DataCollectionSchedule'))
-or (cb.AgentID in (9) and cb.PropertyName in ('ScanSchedule')))
+INSERT INTO ##temp_ClientSettingsMisconfiguration
+SELECT cs.Name as [ClientSettingName], ca.Name as [AgentName], cb.PropertyName, 
+CASE
+	WHEN ISNULL(cb.DwordValue, 0) &lt;&gt; 0 THEN CAST(cb.DwordValue as VARCHAR(2000))
+	WHEN ISNULL(cb.StringValue, '') &lt;&gt; '' THEN dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(cb.StringValue)
+END AS [Value], col.Name AS [CollectionName] FROM vSMS_ClientSettings cs 
+INNER JOIN vSMS_ClientAgentConfig_Base cb ON cs.ID = cb.SettingsID 
+INNER JOIN ClientAgent ca ON ca.ID = cb.AgentID
+LEFT JOIN vClientSettingsAssignments csa ON csa.ClientSettingsID = cs.ID
+LEFT JOIN v_Collection col ON csa.CollectionID = col.CollectionID
+WHERE cs.SourceSite = '@@SITECODE@@' AND ((cb.AgentID IN (13, 26) AND cb.PropertyName IN ('PolicyRequestAssignmentTimeout'))
+or (cb.AgentID in (15, 2) and cb.PropertyName IN ('Schedule'))
+or (cb.AgentID in (5) AND cb.PropertyName IN ('ComputeComplianceSchedule'))
+or (cb.AgentID in (17,9) AND cb.PropertyName IN ('EvaluationSchedule'))
+or (cb.AgentID in (8) AND cb.PropertyName IN ('DataCollectionSchedule'))
+or (cb.AgentID in (9) AND cb.PropertyName IN ('ScanSchedule')))
 
-insert into ##temp_ClientSettingsMisconfiguration
-select 'Default Client Settings', cc.ClientComponentName, ccp.Name,
-case
-	when ccp.Value1 = 'REG_SZ' then dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(ccp.Value2)
-	when ccp.Value1 = 'REG_DWORD' then CAST(ccp.Value3 as Varchar(2000))
-	else dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(ccp.Value1)
-end as [Value], 'All Systems' from vSMS_SC_ClientComponent cc
-inner join vSMS_SC_ClientComponent_Properties ccp on cc.ID = ccp.ID
-where ccp.Name in ('EvaluationSchedule', 'Inventory Schedule','AMTStatusCheckSchedule','Policy Refresh Interval','Refresh Minutes','Data Collection Schedule','EvaluationSchedule','Scan Schedule','Compute Compliance Schedule')
-and cc.SiteCode = '@@SITECODE@@'
+INSERT INTO ##temp_ClientSettingsMisconfiguration
+SELECT 'Default Client Settings', cc.ClientComponentName, ccp.Name,
+CASE
+	WHEN ccp.Value1 = 'REG_SZ' then dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(ccp.Value2)
+	WHEN ccp.Value1 = 'REG_DWORD' then CAST(ccp.Value3 as VARCHAR(2000))
+	ELSE dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(ccp.Value1)
+END AS [Value], 'All Systems' FROM vSMS_SC_ClientComponent cc
+INNER JOIN vSMS_SC_ClientComponent_Properties ccp on cc.ID = ccp.ID
+WHERE ccp.Name in ('EvaluationSchedule', 'Inventory Schedule','AMTStatusCheckSchedule','Policy Refresh Interval','Refresh Minutes','Data Collection Schedule','EvaluationSchedule','Scan Schedule','Compute Compliance Schedule')
+AND cc.SiteCode = '@@SITECODE@@'
 
-select * from ##temp_ClientSettingsMisconfiguration 
-where 
+SELECT * FROM ##temp_ClientSettingsMisconfiguration 
+WHERE 
 (AgentName = 'User Policy Agent' and PropertyName = 'PolicyRequestAssignmentTimeout' and (Value BETWEEN 0 and 29 or Value &gt; 120)) 
-or (AgentName in ('Application Management Agent', 'AppMan Client Agent') and PropertyName = 'EvaluationSchedule' and Value &lt; 1439) 
-or (AgentName in ('Software Distribution','Policy Agent') and PropertyName in ('Refresh Minutes','Policy Refresh Interval','PolicyRequestAssignmentTimeout') and (Value BETWEEN 0 and 29 or Value &gt; 120)) 
-or (AgentName = 'Hardware Inventory Agent' and PropertyName in ('Inventory Schedule', 'Schedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
-or (AgentName in ('Software Inventory Agent', 'Software Inventory Client Agent') and PropertyName in ('Inventory Schedule','Schedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
-or (AgentName = 'Software Metering Agent' and PropertyName in ('Data Collection Schedule', 'DataCollectionSchedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
-or (AgentName = 'Software Updates' and PropertyName in ('EvaluationSchedule', 'Scan Schedule','Software Updates Agent') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
-or (AgentName = 'System Health Agent' and PropertyName in ('Compute Compliance Schedule', 'ComputeComplianceSchedule') and Value &gt; 1439) 
-order by ClientSettingName, AgentName, PropertyName
+OR (AgentName in ('Application Management Agent', 'AppMan Client Agent') and PropertyName = 'EvaluationSchedule' and Value &lt; 1439) 
+OR (AgentName in ('Software Distribution','Policy Agent') and PropertyName in ('Refresh Minutes','Policy Refresh Interval','PolicyRequestAssignmentTimeout') and (Value BETWEEN 0 and 29 or Value &gt; 120)) 
+OR (AgentName = 'Hardware Inventory Agent' and PropertyName in ('Inventory Schedule', 'Schedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+OR (AgentName in ('Software Inventory Agent', 'Software Inventory Client Agent') and PropertyName in ('Inventory Schedule','Schedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+OR (AgentName = 'Software Metering Agent' and PropertyName in ('Data Collection Schedule', 'DataCollectionSchedule') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+OR (AgentName = 'Software Updates' and PropertyName in ('EvaluationSchedule', 'Scan Schedule','Software Updates Agent') and (Value BETWEEN 0 and 1439 or Value &gt; 10080)) 
+OR (AgentName = 'System Health Agent' and PropertyName in ('Compute Compliance Schedule', 'ComputeComplianceSchedule') and Value &gt; 1439) 
+ORDER BY ClientSettingName, AgentName, PropertyName
 
-drop table ##temp_ClientSettingsMisconfiguration
+DROP TABLE ##temp_ClientSettingsMisconfiguration
     </sqlquery>
     <Fields>
       <Field FieldName="ClientSettingName" Description="Client Settings Name" value="" format="" key="false" groupby="1" />
@@ -593,24 +597,24 @@ drop table ##temp_ClientSettingsMisconfiguration
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-Create Table ##temp_DiscoveryMisconfiguration (componentname varchar(2000), Name varchar(2000), Value varchar(2000))
-delete ##temp_DiscoveryMisconfiguration
+CREATE TABLE ##temp_DiscoveryMisconfiguration (componentname VARCHAR(2000), Name VARCHAR(2000), Value VARCHAR(2000))
+DELETE ##temp_DiscoveryMisconfiguration
 
-insert into ##temp_DiscoveryMisconfiguration
-select sdk.componentname, prop.Name, dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(prop.Value1) from vSMS_SC_Component_SDK sdk 
-inner join vSMS_SC_Component_Properties prop on sdk.ID = prop.ID
-where sdk.componentname like '%DISCOVERY%' and prop.name in ('Full Sync Schedule', 'Startup Schedule')
-and prop.Value1 &lt;&gt; '' and sdk.componentname &lt;&gt; 'SMS_WINNT_SERVER_DISCOVERY_AGENT'
-and sdk.SiteCode = '@@SITECODE@@'
-order by sdk.ComponentName, prop.Name
+INSERT INTO ##temp_DiscoveryMisconfiguration
+SELECT sdk.componentname, prop.Name, dbo.fn_CM12R2HealthCheck_ScheduleToMinutes(prop.Value1) FROM vSMS_SC_Component_SDK sdk 
+INNER JOIN vSMS_SC_Component_Properties prop ON sdk.ID = prop.ID
+WHERE sdk.componentname LIKE '%DISCOVERY%' AND prop.name IN ('Full Sync Schedule', 'Startup Schedule')
+AND prop.Value1 &lt;&gt; '' and sdk.componentname &lt;&gt; 'SMS_WINNT_SERVER_DISCOVERY_AGENT'
+AND sdk.SiteCode = '@@SITECODE@@'
+ORDER BY sdk.ComponentName, prop.Name
 
-select * from ##temp_DiscoveryMisconfiguration 
-where 
-(ComponentName = 'SMS_AD_FOREST_DISCOVERY_MANAGER' and Name = 'Startup Schedule' and (Value BETWEEN 0 and 1439)) 
-or (ComponentName in ('SMS_AD_SECURITY_GROUP_DISCOVERY_AGENT','SMS_AD_SYSTEM_DISCOVERY_AGENT','SMS_AD_USER_DISCOVERY_AGENT') and Name = 'Full Sync Schedule' and (Value BETWEEN 0 and 10079)) 
-or (ComponentName in ('SMS_AD_SECURITY_GROUP_DISCOVERY_AGENT','SMS_AD_SYSTEM_DISCOVERY_AGENT','SMS_AD_USER_DISCOVERY_AGENT') and Name = 'Startup Schedule' and (Value BETWEEN 0 and 4 or Value &gt; 30)) 
+SELECT * FROM ##temp_DiscoveryMisconfiguration 
+WHERE 
+(ComponentName = 'SMS_AD_FOREST_DISCOVERY_MANAGER' AND Name = 'Startup Schedule' AND (Value BETWEEN 0 AND 1439)) 
+OR (ComponentName IN ('SMS_AD_SECURITY_GROUP_DISCOVERY_AGENT','SMS_AD_SYSTEM_DISCOVERY_AGENT','SMS_AD_USER_DISCOVERY_AGENT') AND Name = 'Full Sync Schedule' AND (Value BETWEEN 0 AND 10079)) 
+OR (ComponentName IN ('SMS_AD_SECURITY_GROUP_DISCOVERY_AGENT','SMS_AD_SYSTEM_DISCOVERY_AGENT','SMS_AD_USER_DISCOVERY_AGENT') AND Name = 'Startup Schedule' AND (Value BETWEEN 0 AND 4 OR Value &gt; 30)) 
 
-drop table ##temp_DiscoveryMisconfiguration
+DROP TABLE ##temp_DiscoveryMisconfiguration
     </sqlquery>
     <Fields>
       <Field FieldName="componentname" Description="Component Name" value="" format="" key="false" groupby="1" />
@@ -629,13 +633,13 @@ drop table ##temp_DiscoveryMisconfiguration
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-declare @SiteCode char(3) = '@@SITECODE@@'
+DECLARE @SiteCode CHAR(3) = '@@SITECODE@@'
 
-select 
-	(select count(1) from v_R_System) as TotalDiscovered,
-	(select count(1) from v_R_System_Valid) as TotalClient,
-	(select count(1) from v_FullCollectionMembership_Valid fcm inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 1 where fcm.CollectionID = 'SMS00001' and fcm.Name not like '%unknown%' and fcm.SiteCode = @SiteCode) as TotalSiteActive,
-	(select count(1) from v_FullCollectionMembership_Valid fcm inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 0 where fcm.CollectionID = 'SMS00001' and fcm.Name not like '%unknown%' and fcm.SiteCode = @SiteCode) as TotalSiteInactive
+SELECT 
+	(SELECT COUNT(1) from v_R_System) AS TotalDiscovered,
+	(SELECT COUNT(1) from v_R_System_Valid) AS TotalClient,
+	(SELECT COUNT(1) from v_FullCollectionMembership_Valid fcm INNER JOIN v_CH_ClientSummary chs ON chs.ResourceID = fcm.ResourceID AND chs.ClientActiveStatus = 1 WHERE fcm.CollectionID = 'SMS00001' AND fcm.Name NOT LIKE '%unknown%' AND fcm.SiteCode = @SiteCode) AS TotalSiteActive,
+	(SELECT COUNT(1) from v_FullCollectionMembership_Valid fcm INNER JOIN v_CH_ClientSummary chs ON chs.ResourceID = fcm.ResourceID AND chs.ClientActiveStatus = 0 WHERE fcm.CollectionID = 'SMS00001' AND fcm.Name NOT LIKE '%unknown%' AND fcm.SiteCode = @SiteCode) AS TotalSiteInactive
 	</sqlquery>
     <Fields>
       <Field FieldName="TotalDiscovered" Description="Total Discovered" value="" format="" key="false" groupby="1" />
@@ -655,10 +659,10 @@ select
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 ) as DPName, Count(1) as TotalContent 
-from fn_ListDPContents(2057) as lc
-inner join vSMS_SC_SysResUse_SDK srl on srl.NALPath = lc.NALPath and srl.RoleName = 'SMS Distribution Point' and srl.SiteCode = '@@SITECODE@@' and srl.Type in (1,2,4,8)
-group by SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 )
+SELECT SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 ) AS DPName, Count(1) AS TotalContent 
+FROM fn_ListDPContents(2057) AS lc
+INNER JOIN vSMS_SC_SysResUse_SDK srl ON srl.NALPath = lc.NALPath AND srl.RoleName = 'SMS Distribution Point' AND srl.SiteCode = '@@SITECODE@@' AND srl.Type IN (1,2,4,8)
+GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 )
 	</sqlquery>
     <Fields>
       <Field FieldName="DPName" Description="Distribution Point" value="" format="" key="false" groupby="1" />
@@ -840,13 +844,13 @@ SELECT Name FROM master.sys.databases WHERE name = N'CMMonitor'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select s.name,l.name as Owner,
-case 
-	when s.enabled = 1 then 'Enabled'
-	else 'Disabled'
-  end as Enabled 
- from  msdb..sysjobs s 
- left join master.sys.syslogins l on s.owner_sid = l.sid
+SELECT s.name,l.name AS Owner,
+CASE 
+	WHEN s.enabled = 1 THEN 'Enabled'
+	ELSE 'Disabled'
+END AS Enabled 
+FROM msdb..sysjobs s 
+LEFT JOIN master.sys.syslogins l ON s.owner_sid = l.sid
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Job Name" value="" format="" key="false" groupby="1" />
@@ -865,37 +869,36 @@ case
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-Create Table ##temp_DatabaseAnalysis (DatabaseName sysname, Name sysname, physical_name nvarchar(500), size decimal (18,2), FreeSpace decimal (18,2) )   
-Exec sp_msforeachdb '
-Use [?];
-Insert Into ##temp_DatabaseAnalysis (DatabaseName, Name, physical_name, Size, FreeSpace)
-    Select DB_NAME() AS [DatabaseName], Name,  physical_name,
-    Cast(Cast(Round(cast(size as decimal) * 8.0/1024.0,2) as decimal(18,2)) as nvarchar) Size,
-    Cast(Cast(Round(cast(size as decimal) * 8.0/1024.0,2) as decimal(18,2)) - Cast(FILEPROPERTY(name, ''SpaceUsed'') * 8.0/1024.0 as decimal(18,2)) as nvarchar) As FreeSpace
-    From sys.database_files
+CREATE TABLE ##temp_DatabaseAnalysis (DatabaseName sysname, Name sysname, physical_name NVARCHAR(500), size DECIMAL (18,2), FreeSpace DECIMAL (18,2) )   
+EXEC sp_msforeachdb '
+USE [?];
+INSERT INTO ##temp_DatabaseAnalysis (DatabaseName, Name, physical_name, Size, FreeSpace)
+    SELECT DB_NAME() AS [DatabaseName], Name,  physical_name,
+    CAST(CAST(ROUND(CAST(size as decimal) * 8.0/1024.0,2) as DECIMAL(18,2)) AS NVARCHAR) Size,
+    CAST(CAST(ROUND(CAST(size as decimal) * 8.0/1024.0,2) as DECIMAL(18,2)) - CAST(FILEPROPERTY(name, ''SpaceUsed'') * 8.0/1024.0 as DECIMAL(18,2)) as NVARCHAR) As FreeSpace
+    FROM sys.database_files
 '
 
-select db.name, db.recovery_model_desc, 
-case 
-   when mf.type_desc = 'ROWS' then 'Database'
-   else 'Logs'
-end as type_desc, mf.physical_name, 
+SELECT db.name, db.recovery_model_desc, 
+CASE 
+   WHEN mf.type_desc = 'ROWS' THEN 'Database'
+   ELSE 'Logs'
+END AS type_desc, mf.physical_name, 
 (mf.size*8)/1024 as Size, 
-case 
-   when mf.max_size = -1 then 'Unlimited'
-   else cast(mf.max_size as varchar(200))
-end as Max_Size,
+CASE 
+   WHEN mf.max_size = -1 THEN 'Unlimited'
+   ELSE CAST(mf.max_size as VARCHAR(200))
+END AS Max_Size,
 tmp.FreeSpace, 
-case
-  when mf.is_percent_growth = 1 then cast(mf.growth as varchar(200)) + '%'
-  else cast(mf.growth as varchar(200)) + ' MB'
-end as Growth,
-(select count(1) FROM sys.master_files mf1 where mf1.type_desc = 'ROWS' and db.database_id = mf1.database_id ) as CountDataFile,
-(select count(1) FROM sys.master_files mf1 where mf1.type_desc = 'LOG' and db.database_id = mf1.database_id ) as CountLogFile
- from sys.master_files mf inner join sys.databases db on db.database_id = mf.database_id
- inner join ##temp_DatabaseAnalysis tmp on mf.physical_name = tmp.physical_name
-
-drop table ##temp_DatabaseAnalysis
+CASE
+  WHEN mf.is_percent_growth = 1 THEN CAST(mf.growth as VARCHAR(200)) + '%'
+  ELSE CAST(mf.growth as VARCHAR(200)) + ' MB'
+END AS Growth,
+(SELECT COUNT(1) FROM sys.master_files mf1 WHERE mf1.type_desc = 'ROWS' AND db.database_id = mf1.database_id ) AS CountDataFile,
+(SELECT COUNT(1) FROM sys.master_files mf1 WHERE mf1.type_desc = 'LOG' AND db.database_id = mf1.database_id ) AS CountLogFile
+FROM sys.master_files mf INNER JOIN sys.databases db ON db.database_id = mf.database_id
+INNER JOIN ##temp_DatabaseAnalysis tmp ON mf.physical_name = tmp.physical_name
+DROP TABLE ##temp_DatabaseAnalysis
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Database Name" value="" format="" key="false" groupby="1" />
@@ -914,14 +917,14 @@ drop table ##temp_DatabaseAnalysis
     <section>3</section>
     <IsTextOnly>false</IsTextOnly>
     <XMLFile>@@ServerName@@_IndexFragmentation</XMLFile>
-    <Description>Index Fragmentation higher than 50%</Description>
+    <Description>Index Fragmentation Higher than 50%</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT object_name(object_id) as ObjectID, index_type_desc,avg_fragmentation_in_percent,fragment_count,avg_page_space_used_in_percent,page_count FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL , 'SAMPLED') where abs(avg_fragmentation_in_percent) &gt; 50 ORDER BY avg_fragmentation_in_percent DESC
+SELECT object_name(object_id) AS ObjectID, index_type_desc,LEFT(avg_fragmentation_in_percent,5) AS avg_fragmentation_in_percent,fragment_count,LEFT(avg_page_space_used_in_percent,5) AS avg_page_space_used_in_percent,page_count FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL , 'SAMPLED') WHERE ABS(avg_fragmentation_in_percent) &gt; 50 ORDER BY avg_fragmentation_in_percent DESC
     </sqlquery>
     <Fields>
       <Field FieldName="ObjectID" Description="Object Name" value="" format="" key="false" groupby="1" />
@@ -943,7 +946,7 @@ SELECT object_name(object_id) as ObjectID, index_type_desc,avg_fragmentation_in_
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-WITH DB_CPU_Stats AS (SELECT DatabaseID, DB_Name(DatabaseID) AS [DatabaseName], SUM(total_worker_time) AS [CPU_Time_Ms] FROM sys.dm_exec_query_stats AS qs CROSS APPLY (SELECT CONVERT(int, value) AS [DatabaseID] FROM sys.dm_exec_plan_attributes(qs.plan_handle) WHERE attribute = N'dbid') AS F_DB GROUP BY DatabaseID) SELECT DatabaseName, CAST([CPU_Time_Ms] * 1.0 / SUM([CPU_Time_Ms]) OVER() * 100.0 AS DECIMAL(5, 2)) AS [CPUPercent] FROM DB_CPU_Stats WHERE DatabaseID &gt; 4 AND DatabaseID &lt;&gt; 32767 ORDER BY [CPU_Time_Ms] desc;
+WITH DB_CPU_Stats AS (SELECT DatabaseID, DB_Name(DatabaseID) AS [DatabaseName], SUM(total_worker_time) AS [CPU_Time_Ms] FROM sys.dm_exec_query_stats AS qs CROSS APPLY (SELECT CONVERT(int, value) AS [DatabaseID] FROM sys.dm_exec_plan_attributes(qs.plan_handle) WHERE attribute = N'dbid') AS F_DB GROUP BY DatabaseID) SELECT DatabaseName, CAST([CPU_Time_Ms] * 1.0 / SUM([CPU_Time_Ms]) OVER() * 100.0 AS DECIMAL(5, 2)) AS [CPUPercent] FROM DB_CPU_Stats WHERE DatabaseID &gt; 4 AND DatabaseID &lt;&gt; 32767 ORDER BY [CPU_Time_Ms] DESC;
     </sqlquery>
     <Fields>
       <Field FieldName="DatabaseName" Description="Database Name" value="" format="" key="false" groupby="1" />
@@ -954,7 +957,7 @@ WITH DB_CPU_Stats AS (SELECT DatabaseID, DB_Name(DatabaseID) AS [DatabaseName], 
     <section>3</section>
     <IsTextOnly>false</IsTextOnly>
     <XMLFile>@@ServerName@@_DatabaseCPUWaits</XMLFile>
-    <Description>Database CPU waits</Description>
+    <Description>Database CPU Waits</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
@@ -967,10 +970,8 @@ SELECT CAST(100.0 * SUM(signal_wait_time_ms) / SUM (wait_time_ms) AS NUMERIC(20,
       <Field FieldName="CPUWaits" Description="% signal (cpu) waits" value="" format="" key="false" groupby="1" />
       <Field FieldName="ResourceWaits" Description="%resource waits" value="" format="" key="false" groupby="1" />
     </Fields>
-<!--    <Obs>If percentage of Signal Wait is higher than then 25 percent, then we have some CPU Pressure</obs> -->
   </HealthCheck>
-  
-<HealthCheck>
+  <HealthCheck>
     <section>3</section>
     <IsTextOnly>false</IsTextOnly>
     <XMLFile>@@ServerName@@_DatabaseGrowthLast@@NUMBEROFDAYS@@</XMLFile>
@@ -995,7 +996,7 @@ s.backup_start_date
 FROM msdb.dbo.backupset s
 INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id
 WHERE 
-s.backup_start_date &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) 
+s.backup_start_date &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE()) 
 ORDER BY s.database_name, backup_finish_date DESC, backup_start_date ASC
     </sqlquery>
     <Fields>
@@ -1005,8 +1006,7 @@ ORDER BY s.database_name, backup_finish_date DESC, backup_start_date ASC
       <Field FieldName="TimeTaken" Description="Time Taken" value="" format="" key="false" groupby="1" />
       <Field FieldName="backup_start_date" Description="Date/Time" value="" format="" key="false" groupby="1" />
     </Fields>
-  </HealthCheck>  
-  
+  </HealthCheck>
   <HealthCheck>
     <section>4</section>
     <IsTextOnly>true</IsTextOnly>
@@ -1025,10 +1025,10 @@ ORDER BY s.database_name, backup_finish_date DESC, backup_start_date ASC
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select 
+SELECT 
 	SiteCode, SUBSTRING(Name, 1, CHARINDEX('.', Name) - 1) AS SiteServerName, dbo.fnGetSiteStatusFriendlyName(SiteStatus) AS SiteStatus, 
     SUBSTRING(SQLInstance, 1, CHARINDEX('.', SQLInstance) - 1) AS SQLServerName, ServerRole
-from ServerData
+FROM ServerData
 ORDER BY ID
     </sqlquery>
     <Fields>
@@ -1039,7 +1039,6 @@ ORDER BY ID
       <Field FieldName="ServerRole" Description="Replication Role" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
-
   <HealthCheck>
     <section>4</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1051,7 +1050,7 @@ ORDER BY ID
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-declare @SiteCode char(3) = '@@SITECODE@@'
+DECLARE @SiteCode CHAR(3) = '@@SITECODE@@'
 
 SELECT  trk.SiteRequesting
        ,trk.SiteFulfilling
@@ -1134,7 +1133,6 @@ DROP TABLE #InitInfo
       <Field FieldName="PercentComplete" Description="% Completed" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck> 
-  
   <HealthCheck>
     <section>4</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1146,9 +1144,9 @@ DROP TABLE #InitInfo
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT  lnk.ParentSiteCode,lnk.ChildSiteCode,
+SELECT lnk.ParentSiteCode,lnk.ChildSiteCode,
 	CASE lnk.OverallLinkStatus
-		WHEN 0 THEN 'Deleted'
+        WHEN 0 THEN 'Deleted'
         WHEN 1 THEN 'Tombstoned'
         WHEN 2 THEN 'Active'
         WHEN 3 THEN 'Initializing'
@@ -1159,7 +1157,7 @@ SELECT  lnk.ParentSiteCode,lnk.ChildSiteCode,
         WHEN 8 THEN 'Failed'
 	END AS OverallLinkStatus,
     CASE lnk.GlobalParentToChildLinkStatus
-		WHEN 0 THEN 'Deleted'
+        WHEN 0 THEN 'Deleted'
         WHEN 1 THEN 'Tombstoned'
         WHEN 2 THEN 'Active'
         WHEN 3 THEN 'Initializing'
@@ -1173,12 +1171,12 @@ SELECT  lnk.ParentSiteCode,lnk.ChildSiteCode,
         WHEN 0 THEN 'Deleted'
         WHEN 1 THEN 'Tombstoned'
         WHEN 2 THEN 'Active'
-		WHEN 3 THEN 'Initializing'
-		WHEN 4 THEN 'NotStarted'
-		WHEN 5 THEN 'Error'
-		WHEN 6 THEN 'Unknown'
-		WHEN 7 THEN 'Degraded'
-		WHEN 8 THEN 'Failed'
+        WHEN 3 THEN 'Initializing'
+        WHEN 4 THEN 'NotStarted'
+        WHEN 5 THEN 'Error'
+        WHEN 6 THEN 'Unknown'
+        WHEN 7 THEN 'Degraded'
+        WHEN 8 THEN 'Failed'
 	END AS GlobalChildToParentLinkStatus,
 	CASE lnk.SiteChildToParentLinkStatus
         WHEN 0 THEN 'Deleted'
@@ -1194,7 +1192,7 @@ SELECT  lnk.ParentSiteCode,lnk.ChildSiteCode,
 	END AS SiteChildToParentLinkStatus,(lnk.LastSendTimeParentToChild - GETUTCDATE() + GETDATE()) AS LastSendTimeParentToChild,
 	(lnk.LastSendTimeChildToParent - GETUTCDATE() + GETDATE()) AS LastSendTimeChildToParent,(lnk.LastSiteSyncTime - GETUTCDATE() + GETDATE()) AS LastSiteSyncTime,
 	CASE srv.ServerRole
-		WHEN 'Peer' THEN 'Primaries'
+        WHEN 'Peer' THEN 'Primaries'
         WHEN 'Proxy' THEN 'Secondaries'
     END AS ServerRole
  FROM RCM_ReplicationLinkSummary_Child lnk
@@ -1224,21 +1222,21 @@ SELECT  lnk.ParentSiteCode,lnk.ChildSiteCode,
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-declare @NumOfSeconds int = 15
+DECLARE @NumOfSeconds int = 15
  
- CREATE TABLE #Temp (SiteName char(3), GlobalQueueCount int, SiteQueueCount int, Run int)
+CREATE TABLE #Temp (SiteName CHAR(3), GlobalQueueCount INT, SiteQueueCount INT, Run INT)
  
- DECLARE @Site nvarchar(3)
- ,@CMDB nvarchar(7)
- ,@ID tinyint
- ,@SQLInstance nvarchar(25)
- ,@SQL nvarchar(4000) = ''
+DECLARE @Site nVARCHAR(3),
+ @CMDB nVARCHAR(7),
+ @ID tinyint,
+ @SQLInstance NVARCHAR(25),
+ @SQL NVARCHAR(4000) = ''
  
  DECLARE Sites CURSOR FAST_FORWARD FOR
- SELECT SiteCode
- ,SUBSTRING(SQLInstance,1,CHARINDEX('.',SQLInstance,1)-1) Instance
- ,ConfigMgrDatabase
- ,ID
+ SELECT SiteCode,
+ SUBSTRING(SQLInstance,1,CHARINDEX('.',SQLInstance,1)-1) Instance,
+ ConfigMgrDatabase,
+ ID
  FROM ServerData srv /****** UPDATE THIS PORTION FOR THE CAS YOU ARE CREATING THIS ON!!!! ******/
  WHERE ServerRole != 'Proxy'
  
@@ -1301,15 +1299,15 @@ declare @NumOfSeconds int = 15
  ,ISNULL(SUM(CASE WHEN tmp.Run = @NumOfSeconds THEN tmp.SiteQueueCount END),0) SiteQueueAtEnd
  ,ISNULL(SUM(CASE WHEN tmp.Run = 1 THEN tmp.GlobalQueueCount END),0) TotalQueueAtStart
  ,ISNULL(SUM(CASE WHEN tmp.Run = @NumOfSeconds THEN tmp.GlobalQueueCount END),0) TotalQueueAtEnd
- FROM #Temp tmp
- GROUP BY tmp.SiteName
+FROM #Temp tmp
+GROUP BY tmp.SiteName
  
- DROP TABLE #Temp
+DROP TABLE #Temp
 
 --Site Replication Status
-declare @SiteCode varchar(3) = '@@SITECODE@@'
+DECLARE @SiteCode VARCHAR(3) = '@@SITECODE@@'
 
-SELECT  trk.SiteRequesting
+SELECT trk.SiteRequesting
        ,trk.SiteFulfilling
        ,trk.ReplicationGroup
        ,dta.ReplicationPattern
@@ -1319,7 +1317,7 @@ SELECT  trk.SiteRequesting
        INNER JOIN ReplicationData dta
           ON trk.ReplicationGroup = dta.ReplicationGroup
        INNER JOIN (
-                   SELECT  trk.SiteRequesting
+                   SELECT trk.SiteRequesting
                           ,trk.SiteFulfilling
                           ,trk.ReplicationGroup
                           ,MAX(trk.ModifiedTime) AS [MaxTime]
@@ -1343,48 +1341,6 @@ SELECT  trk.SiteRequesting
       <Field FieldName="TotalQueueAtEnd" Description="Total Queue At End" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
-<!--  
-  <HealthCheck>
-    <section>5</section>
-    <IsTextOnly>true</IsTextOnly>
-    <Description>SCCM HealthCheck Information</Description>
-    <IsActive>true</IsActive>
-    <WordStyle>Heading 1</WordStyle>
-  </HealthCheck>
-  <HealthCheck>
-    <section>5</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>SitesWithoutSP1</XMLFile>
-    <Description>Sites without R2 SP1</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
-    <querytype>sql</querytype>
-    <sqlquery>
-select distinct SiteCode, SiteName,
-case 
-	when right(s.Version,9) = '5.00.7958.1000' then 'R2 RTM'
-	when right(s.Version,9) = '5.00.7958.1203' then 'R2 CU1'
-	when right(s.Version,9) = '5.00.7958.1303' then 'R2 CU2'
-	when right(s.Version,9) = '5.00.7958.1401' then 'R2 CU3'
-	when right(s.Version,9) = '5.00.7958.1501' then 'R2 CU4'
-	when right(s.Version,9) = '5.00.7958.1604' then 'R2 CU5'
-	when right(s.Version,9) = '5.00.8239.1000' then 'R2 SP1'
-	else cast(s.Version as varchar(100))
-  end as Version,
-ReportingSiteCode, ServerName from v_Site s
-    </sqlquery>
-    <Fields>
-      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SiteName" Description="Site Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="2" />
-      <Field FieldName="ServerName" Description="Server Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="ReportingSiteCode" Description="Parent Site" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
-    </Fields>
-  </HealthCheck>
--->
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1396,11 +1352,11 @@ ReportingSiteCode, ServerName from v_Site s
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
-select stat.SiteCode, stat.Component, stat.MessageID, stat.MessageID as Value
-from vStatusMessages AS stat where
-stat.Severity in (-1073741824, -2147483648)
-and stat.Component not in ('Advanced Client', 'Windows Installer SourceList Update Agent', 'Desired Configuration Management', 'Software Updates Scan Agent', 'File Collection Agent', 'Hardware Inventory Agent', 'Software Distribution', 'Software Inventory Agent')
-and stat.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())
+SELECT stat.SiteCode, stat.Component, stat.MessageID, stat.MessageID as Value
+FROM vStatusMessages AS stat WHERE
+stat.Severity IN (-1073741824, -2147483648)
+AND stat.Component NOT IN ('Advanced Client', 'Windows Installer SourceList Update Agent', 'Desired Configuration Management', 'Software Updates Scan Agent', 'File Collection Agent', 'Hardware Inventory Agent', 'Software Distribution', 'Software Inventory Agent')
+AND stat.Time &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE())
     </sqlquery>
     <Fields>
       <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="2" />
@@ -1421,21 +1377,21 @@ and stat.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select  
-        SourceSite,
-        SoftwareName,
-	case ObjectType
-	 when 0 then 'Package'
-	 when 3 then 'Driver Package'
-	 when 5 then 'Software Update Package'
-	 when 257 then 'Operating System Image'
-	 when 258 then 'Boot Image'
-	 when 259 then 'Operating System Installer'
-	 when 512 then 'Application'
-	 else 'Unknown ID ' +  convert(varchar(200), ObjectType)
-	end as ObjectTYpeName
-from fn_ListObjectContentExtraInfo(1033) AS SMS_ObjectContentExtraInfo
-where Targeted = 0
+SELECT  
+    SourceSite,
+    SoftwareName,
+	CASE ObjectType
+	 WHEN 0 THEN 'Package'
+	 WHEN 3 THEN 'Driver Package'
+	 WHEN 5 THEN 'Software Update Package'
+	 WHEN 257 THEN 'Operating System Image'
+	 WHEN 258 THEN 'Boot Image'
+	 WHEN 259 THEN 'Operating System Installer'
+	 WHEN 512 THEN 'Application'
+	 ELSE 'Unknown ID ' +  CONVERT(VARCHAR(200), ObjectType)
+	END AS ObjectTYpeName
+FROM fn_ListObjectContentExtraInfo(1033) AS SMS_ObjectContentExtraInfo
+WHERE Targeted = 0
     </sqlquery>
     <Fields>
       <Field FieldName="SourceSite" Description="Source Site" value="" format="" key="false" groupby="2" />
@@ -1455,26 +1411,26 @@ where Targeted = 0
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select
-        SourceSite,
-        SoftwareName,
+SELECT
+    SourceSite,
+    SoftwareName,
 	Targeted,
 	NumberInstalled,
 	NumberErrors,
 	NumberInProgress,
 	NumberUnknown,
-	case ObjectType
-	 when 0 then 'Package'
-	 when 3 then 'Driver Package'
-	 when 5 then 'Software Update Package'
-	 when 257 then 'Operating System Image'
-	 when 258 then 'Boot Image'
-	 when 259 then 'Operating System Installer'
-	 when 512 then 'Application'
-	 else 'Unknown ID ' +  convert(varchar(200), ObjectType)
-	end as ObjectTYpeName
-from fn_ListObjectContentExtraInfo(1033) AS SMS_ObjectContentExtraInfo
-where Targeted &gt; 0 and NumberInstalled &lt;&gt; Targeted
+	CASE ObjectType
+	 WHEN 0 THEN 'Package'
+	 WHEN 3 THEN 'Driver Package'
+	 WHEN 5 THEN 'Software Update Package'
+	 WHEN 257 THEN 'Operating System Image'
+	 WHEN 258 THEN 'Boot Image'
+	 WHEN 259 THEN 'Operating System Installer'
+	 WHEN 512 THEN 'Application'
+	 ELSE 'Unknown ID ' +  CONVERT(VARCHAR(200), ObjectType)
+	END AS ObjectTYpeName
+FROM fn_ListObjectContentExtraInfo(1033) AS SMS_ObjectContentExtraInfo
+WHERE Targeted &gt; 0 AND NumberInstalled &lt;&gt; Targeted
     </sqlquery>
     <Fields>
       <Field FieldName="SourceSite" Description="Source Site" value="" format="" key="false" groupby="2" />
@@ -1488,8 +1444,6 @@ where Targeted &gt; 0 and NumberInstalled &lt;&gt; Targeted
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-
-
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1501,17 +1455,17 @@ where Targeted &gt; 0 and NumberInstalled &lt;&gt; Targeted
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select 
-	FQDN as MachineNameFQDN, 
-	NetBiosName as MachineNameNetBios, 
-	ClientVersion as ClientVersion, 
-        AssignedSiteCode as SiteCode,
-	DeploymentBeginTime as DeployStartTime, 
-	StateDescription as FailureDescription, 
-	LastMessageParam as DescriptionParam,
+SELECT 
+	FQDN AS MachineNameFQDN, 
+	NetBiosName AS MachineNameNetBios, 
+	ClientVersion AS ClientVersion, 
+    AssignedSiteCode AS SiteCode,
+	DeploymentBeginTime AS DeployStartTime, 
+	StateDescription AS FailureDescription, 
+	LastMessageParam AS DescriptionParam,
     LastMessageStateID
-from v_ClientDeploymentState 
-where LastMessageStateID &lt; 100 AND LastMessageStateID &gt; 400
+FROM v_ClientDeploymentState 
+WHERE LastMessageStateID &lt; 100 AND LastMessageStateID &gt; 400
     </sqlquery>
     <Fields>
       <Field FieldName="MachineNameFQDN" Description="Name (FQDN)" value="" format="" key="false" groupby="1" />
@@ -1536,17 +1490,17 @@ where LastMessageStateID &lt; 100 AND LastMessageStateID &gt; 400
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select 
-	FQDN as MachineNameFQDN, 
-	NetBiosName as MachineNameNetBios, 
-	ClientVersion as ClientVersion,
-        AssignedSiteCode as SiteCode,
-	AssignmentBeginTime as AssignmentStartTime, 
-	StateDescription as FailureDescription, 
-	LastMessageParam as DescriptionParam,
+SELECT 
+	FQDN AS MachineNameFQDN, 
+	NetBiosName AS MachineNameNetBios, 
+	ClientVersion AS ClientVersion,
+    AssignedSiteCode AS SiteCode,
+	AssignmentBeginTime AS AssignmentStartTime, 
+	StateDescription AS FailureDescription, 
+	LastMessageParam AS DescriptionParam,
     LastMessageStateID
-from v_ClientDeploymentState 
-where LastMessageStateID &gt; 500 and LastMessageStateID &lt; 700
+FROM v_ClientDeploymentState 
+WHERE LastMessageStateID &gt; 500 AND LastMessageStateID &lt; 700
     </sqlquery>
     <Fields>
       <Field FieldName="MachineNameFQDN" Description="Name (FQDN)" value="" format="" key="false" groupby="1" />
@@ -1571,16 +1525,16 @@ where LastMessageStateID &gt; 500 and LastMessageStateID &lt; 700
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
+SELECT DISTINCT 
 	fcm.ResourceID,
 	fcm.Name,
-	CASE WHEN fcm.IsObsolete = 1 THEN '*' ELSE '' END as Obsolete, 
-	CASE WHEN fcm.IsBlocked = 1 THEN '*' ELSE '' END as Blocked,
+	CASE WHEN fcm.IsObsolete = 1 THEN '*' ELSE '' END AS Obsolete, 
+	CASE WHEN fcm.IsBlocked = 1 THEN '*' ELSE '' END AS Blocked,
 	chs.LastActiveTime as LastContactTime,
     fcm.SiteCode
-from v_FullCollectionMembership fcm
-inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 0 
-where fcm.CollectionID = 'SMS00001'
+FROM v_FullCollectionMembership fcm
+INNER JOIN v_CH_ClientSummary chs ON chs.ResourceID = fcm.ResourceID AND chs.ClientActiveStatus = 0 
+WHERE fcm.CollectionID = 'SMS00001'
     </sqlquery>
     <Fields>
       <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
@@ -1603,16 +1557,16 @@ where fcm.CollectionID = 'SMS00001'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct
+SELECT DISTINCT
     fcm.ResourceID,
     fcm.Name,
 	fcm.SiteCode,
 	fcm.Domain,
 	sys.Operating_System_Name_and0
-from v_FullCollectionMembership fcm
-inner join v_R_System sys on fcm.ResourceID = sys.ResourceID
-where fcm.IsClient != 1 and fcm.Name not like '%Unknown%' and fcm.CollectionID = 'SMS00001'
-and sys.Operating_System_Name_and0 is not null and sys.Operating_System_Name_and0 &lt;&gt; ''
+FROM v_FullCollectionMembership fcm
+INNER JOIN v_R_System sys ON fcm.ResourceID = sys.ResourceID
+WHERE fcm.IsClient != 1 AND fcm.Name NOT LIKE '%Unknown%' AND fcm.CollectionID = 'SMS00001'
+AND sys.Operating_System_Name_and0 IS NOT NULL AND sys.Operating_System_Name_and0 &lt;&gt; ''
     </sqlquery>
     <Fields>
       <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
@@ -1634,18 +1588,18 @@ and sys.Operating_System_Name_and0 is not null and sys.Operating_System_Name_and
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct fcm.Name,
+SELECT DISTINCT fcm.Name,
        sys.Client_Version0,
        fcm.Domain,
        sys.User_Name0,
        fcm.SiteCode,
-       chs.LastActiveTime as AgentTime,
-       chs.LastHW as LastHWScan,
-       chs.LastSW as LastScanDate   
-from v_FullCollectionMembership fcm
-inner join v_R_System sys on fcm.ResourceID = sys.ResourceID
-inner join v_CH_ClientSummary chs on chs.ResourceID = fcm.ResourceID and chs.ClientActiveStatus = 0 
-where fcm.CollectionID = 'SMS00001' and chs.LastActiveTime &lt; DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate()) 
+       chs.LastActiveTime AS AgentTime,
+       chs.LastHW AS LastHWScan,
+       chs.LastSW AS LastScanDate   
+FROM v_FullCollectionMembership fcm
+INNER JOIN v_R_System sys ON fcm.ResourceID = sys.ResourceID
+INNER JOIN v_CH_ClientSummary chs ON chs.ResourceID = fcm.ResourceID AND chs.ClientActiveStatus = 0 
+WHERE fcm.CollectionID = 'SMS00001' AND chs.LastActiveTime &lt; DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE()) 
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="1" />
@@ -1670,19 +1624,19 @@ where fcm.CollectionID = 'SMS00001' and chs.LastActiveTime &lt; DATEADD(dd,-conv
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
+SELECT DISTINCT 
 	g.ResourceID, 
 	g.SMSID0, 
 	g.Name0 [NewName], 
 	h.Name0 [OldName],
     r.SiteCode,
     r.Domain,
-	CASE WHEN r.IsObsolete = 1 THEN '*' ELSE '' END as Obsolete, 
-	CASE WHEN r.IsActive = 1 THEN '*' ELSE '' END as Active 
-from v_GS_System as g 
-INNER JOIN v_FullCollectionMembership r on g.ResourceID = r.ResourceID 
-INNER JOIN v_HS_System as h on g.ResourceId = h.ResourceId 
-where g.Name0 != h.Name0
+	CASE WHEN r.IsObsolete = 1 THEN '*' ELSE '' END AS Obsolete, 
+	CASE WHEN r.IsActive = 1 THEN '*' ELSE '' END AS Active 
+FROM v_GS_System AS g 
+INNER JOIN v_FullCollectionMembership r ON g.ResourceID = r.ResourceID 
+INNER JOIN v_HS_System AS h ON g.ResourceId = h.ResourceId 
+WHERE g.Name0 != h.Name0
     </sqlquery>
     <Fields>
       <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
@@ -1707,19 +1661,19 @@ where g.Name0 != h.Name0
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct
+SELECT DISTINCT
 	g.ResourceID, 
 	g.Name0,
     r.SiteCode,
     r.Domain,
 	g.SMSID0 [NewID], 
 	h.SMSID0 [OldID],  
-	CASE WHEN r.IsObsolete = 1 THEN '*' ELSE '' END as Obsolete, 
-	CASE WHEN r.IsActive = 1 THEN '*' ELSE '' END as Active 
-from v_GS_System as g 
-INNER JOIN v_FullCollectionMembership r on g.ResourceID = r.ResourceID 
-INNER JOIN v_HS_System as h on g.ResourceId = h.ResourceId 
-where g.Name0 = h.Name0 and 
+	CASE WHEN r.IsObsolete = 1 THEN '*' ELSE '' END AS Obsolete, 
+	CASE WHEN r.IsActive = 1 THEN '*' ELSE '' END AS Active 
+FROM v_GS_System AS g 
+INNER JOIN v_FullCollectionMembership r ON g.ResourceID = r.ResourceID 
+INNER JOIN v_HS_System AS h ON g.ResourceId = h.ResourceId 
+WHERE g.Name0 = h.Name0 AND 
 	  g.SMSID0 != h.SMSID0
     </sqlquery>
     <Fields>
@@ -1745,14 +1699,14 @@ where g.Name0 = h.Name0 and
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select
+SELECT
 	stat.MachineName, 
     fcm.SiteCode,
 	stat.Component 
-from v_StatusMessage stat 
-inner join v_FullCollectionMembership_Valid fcm on fcm.Name = stat.MachineName
-where stat.Time &gt; DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())  and 
-	  stat.Severity=0xC0000000 and  stat.PerClient!=0 and fcm.CollectionID = 'SMS00001'
+FROM v_StatusMessage stat 
+INNER JOIN v_FullCollectionMembership_Valid fcm ON fcm.Name = stat.MachineName
+WHERE stat.Time &gt; DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE())  and 
+	  stat.Severity=0xC0000000 AND stat.PerClient!=0 AND fcm.CollectionID = 'SMS00001'
     </sqlquery>
     <Fields>
       <Field FieldName="MachineName" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -1772,15 +1726,15 @@ where stat.Time &gt; DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())  and
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct fcm.Name,
+SELECT DISTINCT fcm.Name,
        sys.Client_Version0,
        fcm.Domain,
        sys.User_Name0,
        fcm.SiteCode
-from v_FullCollectionMembership_Valid fcm
-inner join v_R_System_Valid sys on fcm.ResourceID = sys.ResourceID
-inner join v_Site st on st.SiteCode = fcm.SiteCode
-where fcm.CollectionID = 'SMS00001' and sys.Client_Version0 &lt; st.Version
+FROM v_FullCollectionMembership_Valid fcm
+INNER JOIN v_R_System_Valid sys ON fcm.ResourceID = sys.ResourceID
+INNER JOIN v_Site st ON st.SiteCode = fcm.SiteCode
+WHERE fcm.CollectionID = 'SMS00001' AND sys.Client_Version0 &lt; st.Version
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -1791,7 +1745,6 @@ where fcm.CollectionID = 'SMS00001' and sys.Client_Version0 &lt; st.Version
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-  
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1803,48 +1756,48 @@ where fcm.CollectionID = 'SMS00001' and sys.Client_Version0 &lt; st.Version
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
+SELECT DISTINCT 
+	rsys.Netbios_Name0 AS MachineName, 
+	rsys.Client_Version0,
+	uss.LastWUAVersion,
+	fcm.SiteCode
+FROM v_UpdateScanStatus uss WITH (NOLOCK) 
+JOIN v_ClientCollectionMembers ccm WITH (NOLOCK) ON uss.ResourceID = ccm.ResourceID 
+JOIN v_SoftwareUpdateSource sus WITH (NOLOCK) ON sus.UpdateSource_ID = uss.UpdateSource_ID 
+JOIN v_R_System_Valid rsys WITH (NOLOCK) ON rsys.ResourceID = uss.ResourceID 
+JOIN v_FullCollectionMembership_VaLID fcm WITH (NOLOCK) ON uss.ResourceID = fcm.ResourceID AND fcm.CollectionID = 'SMS00001'
+INNER JOIN v_GS_OPERATING_SYSTEM ops ON rsys.ResourceID = ops.ResourceID
+WHERE ops.Version0 &lt; '10.0' AND uss.LastWUAVersion &lt; '7.6.7600.256'
+
+UNION
+
+SELECT DISTINCT 
 	rsys.Netbios_Name0 as MachineName, 
 	rsys.Client_Version0,
 	uss.LastWUAVersion,
 	fcm.SiteCode
-from v_UpdateScanStatus uss with (NOLOCK) 
-join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
-join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
-join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
-join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
-inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
-where ops.Version0 &lt; '10.0' and uss.LastWUAVersion &lt; '7.6.7600.256'
+FROM v_UpdateScanStatus uss WITH (NOLOCK) 
+JOIN v_ClientCollectionMembers ccm WITH (NOLOCK) ON uss.ResourceID = ccm.ResourceID 
+JOIN v_SoftwareUpdateSource sus WITH (NOLOCK) ON sus.UpdateSource_ID = uss.UpdateSource_ID 
+JOIN v_R_System_Valid rsys WITH (NOLOCK) ON rsys.ResourceID = uss.ResourceID 
+JOIN v_FullCollectionMembership_VaLID fcm WITH (NOLOCK) ON uss.ResourceID = fcm.ResourceID AND fcm.CollectionID = 'SMS00001'
+INNER JOIN v_GS_OPERATING_SYSTEM ops ON rsys.ResourceID = ops.ResourceID
+WHERE ops.Version0 like '6.2.%' AND uss.LastWUAVersion &lt; '7.8.9200.16693'
 
-union
+UNION
 
-select distinct 
+SELECT DISTINCT 
 	rsys.Netbios_Name0 as MachineName, 
 	rsys.Client_Version0,
 	uss.LastWUAVersion,
 	fcm.SiteCode
-from v_UpdateScanStatus uss with (NOLOCK) 
-join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
-join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
-join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
-join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
-inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
-where ops.Version0 like '6.2.%' and uss.LastWUAVersion &lt; '7.8.9200.16693'
-
-union
-
-select distinct 
-	rsys.Netbios_Name0 as MachineName, 
-	rsys.Client_Version0,
-	uss.LastWUAVersion,
-	fcm.SiteCode
-from v_UpdateScanStatus uss with (NOLOCK) 
-join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
-join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
-join v_R_System_Valid rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
-join v_FullCollectionMembership_VaLID fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
-inner join v_GS_OPERATING_SYSTEM ops on rsys.ResourceID = ops.ResourceID
-where ops.Version0 &gt; '6.2' and uss.LastWUAVersion &lt; '7.9.9600.16422'
+FROM v_UpdateScanStatus uss WITH (NOLOCK) 
+JOIN v_ClientCollectionMembers ccm WITH (NOLOCK) ON uss.ResourceID = ccm.ResourceID 
+JOIN v_SoftwareUpdateSource sus WITH (NOLOCK) ON sus.UpdateSource_ID = uss.UpdateSource_ID 
+JOIN v_R_System_Valid rsys WITH (NOLOCK) ON rsys.ResourceID = uss.ResourceID 
+JOIN v_FullCollectionMembership_VaLID fcm WITH (NOLOCK) ON uss.ResourceID = fcm.ResourceID AND fcm.CollectionID = 'SMS00001'
+INNER JOIN v_GS_OPERATING_SYSTEM ops ON rsys.ResourceID = ops.ResourceID
+WHERE ops.Version0 &gt; '6.2' AND uss.LastWUAVersion &lt; '7.9.9600.16422'
 	</sqlquery>
     <Fields>
       <Field FieldName="MachineName" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -1854,7 +1807,6 @@ where ops.Version0 &gt; '6.2' and uss.LastWUAVersion &lt; '7.9.9600.16422'
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck> 
-
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1866,7 +1818,7 @@ where ops.Version0 &gt; '6.2' and uss.LastWUAVersion &lt; '7.9.9600.16422'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT distinct 
+SELECT DISTINCT 
 	SYS.Name, 
 	LDISK.Description0,
 	LDISK.DeviceID0, 
@@ -1877,8 +1829,8 @@ SELECT distinct
 	sys.SiteCode
 FROM 
 	v_FullCollectionMembership_Valid SYS 
-join v_GS_LOGICAL_DISK LDISK on SYS.ResourceID = LDISK.ResourceID 
-WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= ((LDisk.Size0 * 10)/100) and  sys.CollectionID = 'SMS00001'
+JOIN v_GS_LOGICAL_DISK LDISK on SYS.ResourceID = LDISK.ResourceID 
+WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= ((LDisk.Size0 * 10)/100) AND sys.CollectionID = 'SMS00001'
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -1892,7 +1844,6 @@ WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= ((LDisk.Size0 * 10)/100) a
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1904,7 +1855,7 @@ WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= ((LDisk.Size0 * 10)/100) a
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT distinct 
+SELECT DISTINCT 
 	SYS.Name, 
 	LDISK.Description0,
 	LDISK.DeviceID0, 
@@ -1915,9 +1866,8 @@ SELECT distinct
 	sys.SiteCode
 FROM 
 	v_FullCollectionMembership_Valid SYS 
-join v_GS_LOGICAL_DISK LDISK on SYS.ResourceID = LDISK.ResourceID 
-WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= 1024 and  sys.CollectionID = 'SMS00001'
-  
+JOIN v_GS_LOGICAL_DISK LDISK ON SYS.ResourceID = LDISK.ResourceID 
+WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= 1024 AND sys.CollectionID = 'SMS00001'
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -1931,7 +1881,6 @@ WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= 1024 and  sys.CollectionID
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-  
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1943,15 +1892,15 @@ WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= 1024 and  sys.CollectionID
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT Distinct 
+SELECT DISTINCT 
 	SYS.Netbios_Name0, 
 	SYS.Operating_System_Name_and0, 
 	sys.Client_Version0,
 	fcm.SiteCode,
 	MEM.TotalPhysicalMemory00/1024 As TotalMemory 
 FROM v_R_System SYS 
-inner JOIN PC_Memory_DATA MEM on SYS.ResourceID = MEM.MachineID 
-inner join v_FullCollectionMembership_Valid fcm on fcm.ResourceID = sys.ResourceID 
+INNER JOIN PC_Memory_DATA MEM on SYS.ResourceID = MEM.MachineID 
+INNER JOIN v_FullCollectionMembership_Valid fcm on fcm.ResourceID = sys.ResourceID 
 WHERE MEM.TotalPhysicalMemory00/1024 &lt;= 1024 and fcm.CollectionID = 'SMS00001'   
     </sqlquery>
     <Fields>
@@ -1963,7 +1912,6 @@ WHERE MEM.TotalPhysicalMemory00/1024 &lt;= 1024 and fcm.CollectionID = 'SMS00001
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -1975,7 +1923,7 @@ WHERE MEM.TotalPhysicalMemory00/1024 &lt;= 1024 and fcm.CollectionID = 'SMS00001
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT distinct 
+SELECT DISTINCT 
 	SYS.Name as Netbios_Name0, 
 	sys.SiteCode,
 	Processor.Name0, 
@@ -1983,7 +1931,7 @@ SELECT distinct
 	Processor.DeviceID0 
 FROM v_FullCollectionMembership SYS 
 JOIN v_GS_PROCESSOR Processor ON SYS.ResourceID = Processor.ResourceID 
-WHERE Processor.MaxClockSpeed0 &lt;= 1000 and sys.CollectionID = 'SMS00001' 
+WHERE Processor.MaxClockSpeed0 &lt;= 1000 AND sys.CollectionID = 'SMS00001' 
     </sqlquery>
     <Fields>
       <Field FieldName="Netbios_Name0" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -1994,7 +1942,6 @@ WHERE Processor.MaxClockSpeed0 &lt;= 1000 and sys.CollectionID = 'SMS00001'
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -2006,21 +1953,21 @@ WHERE Processor.MaxClockSpeed0 &lt;= 1000 and sys.CollectionID = 'SMS00001'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
+SELECT DISTINCT 
 	sys.Name, 
 	sys.siteCode,
 	tblData.TimeKey, 
 	tblData.Description00, 
 	tblData.Size00 [NewValue], 
 	tblHist.Size00 [OldValue] 
-from 
+FROM 
 	Logical_Disk_DATA tblData, Logical_Disk_HIST tblHist, v_FullCollectionMembership sys 
-where tblData.Size00 != tblHist.Size00 and 
-	  tblData.MachineID = tblHist.MachineID and 
-	  tblData.InstanceKey = tblHist.InstanceKey and 
-	  tblData.TimeKey &gt;= (dateadd(day, -@@NUMBEROFDAYS@@, convert(varchar(10), getdate(), 101))) and 
+WHERE tblData.Size00 != tblHist.Size00 AND 
+	  tblData.MachineID = tblHist.MachineID AND 
+	  tblData.InstanceKey = tblHist.InstanceKey AND 
+	  tblData.TimeKey &gt;= (DATEADD(day, -@@NUMBEROFDAYS@@, CONVERT(VARCHAR(10), GETDATE(), 101))) AND 
 	  tblData.MachineId = sys.ResourceID and sys.CollectionID = 'SMS00001'
-and tblHist.RevisionID = (select top 1 tblHist2.RevisionID from Logical_Disk_HIST tblHist2 where tblHist.MachineID = tblHist2.MachineID and tblHist.InstanceKey = tblHist2.InstanceKey and tblHist.AgentID = tblHist2.AgentID order by tblHist2.RevisionID desc)
+AND tblHist.RevisionID = (SELECT TOP 1 tblHist2.RevisionID FROM Logical_Disk_HIST tblHist2 WHERE tblHist.MachineID = tblHist2.MachineID AND tblHist.InstanceKey = tblHist2.InstanceKey AND tblHist.AgentID = tblHist2.AgentID ORDER BY tblHist2.RevisionID desc)
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -2032,7 +1979,6 @@ and tblHist.RevisionID = (select top 1 tblHist2.RevisionID from Logical_Disk_HIS
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -2044,20 +1990,20 @@ and tblHist.RevisionID = (select top 1 tblHist2.RevisionID from Logical_Disk_HIS
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
+SELECT DISTINCT 
 	sys.Name, 
 	sys.siteCode,
 	tblData.TimeKey, 
 	tblData.TotalPhysicalMemory00 [NewValue], 
 	tblHist.TotalPhysicalMemory00 [OldValue] 
-from 
+FROM 
 	PC_Memory_DATA tblData, PC_Memory_HIST tblHist, v_FullCollectionMembership sys 
-where tblData.TotalPhysicalMemory00 != tblHist.TotalPhysicalMemory00 and 
-	  tblData.MachineID = tblHist.MachineID and 
-	  tblData.InstanceKey = tblHist.InstanceKey and 
-	  tblData.TimeKey &gt;= (dateadd(day, -@@NUMBEROFDAYS@@, convert(varchar(10), getdate(), 101))) and 
-	  tblData.MachineId = sys.ResourceID and sys.CollectionID = 'SMS00001'
-          and tblHist.RevisionID = (select top 1 tblHist2.RevisionID from PC_Memory_HIST tblHist2 where tblHist.MachineID = tblHist2.MachineID and tblHist.InstanceKey = tblHist2.InstanceKey and tblHist.AgentID = tblHist2.AgentID order by tblHist2.RevisionID desc)
+WHERE tblData.TotalPhysicalMemory00 != tblHist.TotalPhysicalMemory00 AND 
+	  tblData.MachineID = tblHist.MachineID AND 
+	  tblData.InstanceKey = tblHist.InstanceKey AND 
+	  tblData.TimeKey &gt;= (DATEADD(day, -@@NUMBEROFDAYS@@, CONVERT(VARCHAR(10), GETDATE(), 101))) AND 
+	  tblData.MachineId = sys.ResourceID AND sys.CollectionID = 'SMS00001'
+          AND tblHist.RevisionID = (SELECT TOP 1 tblHist2.RevisionID from PC_Memory_HIST tblHist2 WHERE tblHist.MachineID = tblHist2.MachineID AND tblHist.InstanceKey = tblHist2.InstanceKey AND tblHist.AgentID = tblHist2.AgentID ORDER BY tblHist2.RevisionID desc)
     </sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Machine Name" value="" format="" key="false" groupby="1" />
@@ -2079,7 +2025,7 @@ where tblData.TotalPhysicalMemory00 != tblHist.TotalPhysicalMemory00 and
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
+SELECT DISTINCT 
 	rsys.Name0 as MachineName, 
 	rsys.Client_Version0 as SMSClientVersion, 
 	uss.LastWUAVersion as WUAVersion, 
@@ -2107,7 +2053,6 @@ where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001'
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
-  
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
@@ -2119,16 +2064,16 @@ where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct
+SELECT DISTINCT
 	fcm.ResourceID,
 	uss.LastErrorCode as LastErrorCode,
 	uss.LastErrorCode as Message 
-from v_UpdateScanStatus uss with (NOLOCK) 
-join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
-join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
-join v_R_System rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
-join v_FullCollectionMembership_Valid fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID
-where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001' 
+FROM v_UpdateScanStatus uss WITH (NOLOCK) 
+JOIN v_ClientCollectionMembers ccm WITH (NOLOCK) ON uss.ResourceID = ccm.ResourceID 
+JOIN v_SoftwareUpdateSource sus WITH (NOLOCK) ON sus.UpdateSource_ID = uss.UpdateSource_ID 
+JOIN v_R_System rsys WITH (NOLOCK) ON rsys.ResourceID = uss.ResourceID 
+JOIN v_FullCollectionMembership_Valid fcm WITH (NOLOCK) ON uss.ResourceID = fcm.ResourceID
+WHERE uss.LastStatusMessageID &lt;&gt; 0 AND fcm.CollectionID = 'SMS00001' 
     </sqlquery>
     <Fields>
       <Field FieldName="LastErrorCode" Description="Error Code" value="" format="" key="false" groupby="2" />
@@ -2147,19 +2092,19 @@ where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct 
-	sys.Name0 as MachineName, 
-	sys.Client_Version0 as SMSClientVersion, 
-	sys.User_Name0 as LastLoggedOnUser, 
-	assc.LastEnforcementMessageTime as LastEnforcementTime, 
-	assc.LastEnforcementErrorID&amp;0x0000FFFF as ErrorStatusID, 
-	isnull(assc.LastEnforcementErrorCode,0) as ErrorCode,
+SELECT DISTINCT 
+	sys.Name0 AS MachineName, 
+	sys.Client_Version0 AS SMSClientVersion, 
+	sys.User_Name0 AS LastLoggedOnUser, 
+	assc.LastEnforcementMessageTime AS LastEnforcementTime, 
+	assc.LastEnforcementErrorID&amp;0x0000FFFF AS ErrorStatusID, 
+	isnull(assc.LastEnforcementErrorCode,0) AS ErrorCode,
 	fcm.SiteCode
-from v_CIAssignment cia with (NOLOCK) 
-join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
-join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
-join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
-where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforcementMessageID in (6,9) and assc.IsCompliant=0 and fcm.CollectionID = 'SMS00001'
+FROM v_CIAssignment cia WITH (NOLOCK) 
+JOIN v_UpdateAssignmentStatus_Live assc WITH (NOLOCK) ON assc.AssignmentID = cia.AssignmentID 
+JOIN v_R_System sys WITH (NOLOCK) ON assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
+JOIN v_FullCollectionMembership_Valid fcm WITH (NOLOCK) ON assc.ResourceID = fcm.ResourceID
+WHERE assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 AND assc.LastEnforcementMessageID IN (6,9) AND assc.IsCompliant=0 AND fcm.CollectionID = 'SMS00001'
     </sqlquery>
     <Fields>
       <Field FieldName="MachineName" Description="Name" value="" format="" key="false" groupby="1" />
@@ -2183,15 +2128,15 @@ where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforce
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct
+SELECT DISTINCT
 	fcm.ResourceID,
-	isnull(assc.LastEnforcementErrorCode,0) as ErrorCode,
-	isnull(assc.LastEnforcementErrorCode,0) as Message
-from v_CIAssignment cia with (NOLOCK) 
-join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
-join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
-join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
-where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforcementMessageID in (6,9) and assc.IsCompliant=0 and fcm.CollectionID = 'SMS00001'
+	ISNULL(assc.LastEnforcementErrorCode,0) AS ErrorCode,
+	ISNULL(assc.LastEnforcementErrorCode,0) AS Message
+FROM v_CIAssignment cia WITH (NOLOCK) 
+JOIN v_UpdateAssignmentStatus_Live assc WITH (NOLOCK) ON assc.AssignmentID = cia.AssignmentID 
+JOIN v_R_System sys WITH (NOLOCK) ON assc.ResourceID=sys.ResourceID AND ISNULL(sys.Obsolete0,0) &lt;&gt; 1 
+JOIN v_FullCollectionMembership_Valid fcm WITH (NOLOCK) ON assc.ResourceID = fcm.ResourceID
+WHERE assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 AND assc.LastEnforcementMessageID in (6,9) AND assc.IsCompliant=0 AND fcm.CollectionID = 'SMS00001'
     </sqlquery>
     <Fields>
       <Field FieldName="ErrorCode" Description="Error Code" value="" format="" key="false" groupby="2" />
@@ -2210,7 +2155,7 @@ where assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 and assc.LastEnforce
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select Name, LastRunTime, LastErrorCode, LastErrorTime from vSMS_AutoDeployments where LastErrorCode is not null
+SELECT Name, LastRunTime, LastErrorCode, LastErrorTime FROM vSMS_AutoDeployments WHERE LastErrorCode IS NOT NULL
 	</sqlquery>
     <Fields>
       <Field FieldName="Name" Description="ADR Name" value="" format="" key="false" groupby="1" />
@@ -2231,27 +2176,27 @@ select Name, LastRunTime, LastErrorCode, LastErrorTime from vSMS_AutoDeployments
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select sys.ResourceID, sys.Netbios_Name0 as Name0, sys.Resource_Domain_OR_Workgr0, fcm.SiteCode
-from v_R_System_Valid sys
+SELECT sys.ResourceID, sys.Netbios_Name0 AS Name0, sys.Resource_Domain_OR_Workgr0, fcm.SiteCode
+FROM v_R_System_Valid sys
 INNER JOIN  v_GS_OPERATING_SYSTEM os ON os.ResourceID= sys.ResourceID
-INNER JOIN v_UpdateComplianceStatus cs on cs.ResourceID = sys.  ResourceID
-left join SR_StateNames srEnf on srEnf.StateID=cs.LastEnforcementMessageID and srEnf.TopicType = 402  
-left join v_UpdateInfo ui on cs.CI_ID = ui.CI_ID
-INNER JOIN v_FullCollectionMembership_Valid as fcm on sys.Resourceid = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
-where cs.LastEnforcementMessageID = 9 AND cs.LastEnforcementMessageTime &gt; os.LastBootUpTime0
+INNER JOIN v_UpdateComplianceStatus cs ON cs.ResourceID = sys.  ResourceID
+LEFT JOIN SR_StateNames srEnf ON srEnf.StateID=cs.LastEnforcementMessageID AND srEnf.TopicType = 402  
+LEFT JOIN v_UpdateInfo ui ON cs.CI_ID = ui.CI_ID
+INNER JOIN v_FullCollectionMembership_Valid AS fcm ON sys.Resourceid = fcm.ResourceID AND fcm.CollectionID = 'SMS00001'
+WHERE cs.LastEnforcementMessageID = 9 AND cs.LastEnforcementMessageTime &gt; os.LastBootUpTime0
 
-union 
+UNION 
 
-select distinct 
+SELECT DISTINCT 
 	sys.ResourceID,
 	sys.Name0,
 	sys.Resource_Domain_OR_Workgr0,
 	fcm.SiteCode
-from v_R_System AS sys 
+FROM v_R_System AS sys 
 INNER JOIN vStatusMessages AS st ON sys.Name0 = st.MachineName  
 INNER JOIN vSMS_AdvertisementStatusInformation AS sti ON st.MessageID = sti.MessageID
-INNER JOIN v_FullCollectionMembership_Valid as fcm on sys.Resourceid = fcm.ResourceID and fcm.CollectionID = 'SMS00001'
-where sti.MessageState = 102
+INNER JOIN v_FullCollectionMembership_Valid AS fcm ON sys.Resourceid = fcm.ResourceID AND fcm.CollectionID = 'SMS00001'
+WHERE sti.MessageState = 102
 	</sqlquery>
     <Fields>
       <Field FieldName="ResourceID" Description="Resource ID" value="" format="" key="false" groupby="1" />
@@ -2272,7 +2217,7 @@ where sti.MessageState = 102
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select Name, cast(Severity as varchar(300)) as Severity, cast(TypeID as varchar(300)) as TypeID from vSMS_Alert a where (a.TypeID not in (21, 22, 23, 31, 32, 33, 34) and (a.FeatureArea &lt;&gt; 11 AND a.AlertState = 0)) or (A.TypeID = 31 AND A.AlertState = 0)
+SELECT Name, CAST(Severity AS VARCHAR(300)) AS Severity, CAST(TypeID AS VARCHAR(300)) AS TypeID FROM vSMS_Alert a WHERE (a.TypeID NOT IN (21, 22, 23, 31, 32, 33, 34) AND (a.FeatureArea &lt;&gt; 11 AND a.AlertState = 0)) or (A.TypeID = 31 AND A.AlertState = 0)
 	</sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Name" value="" format="AlertsName" key="false" groupby="1" />	  
@@ -2299,11 +2244,11 @@ select Name, cast(Severity as varchar(300)) as Severity, cast(TypeID as varchar(
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
-select distinct stat.Component, stat.MessageID, stat.MessageID as Value
-from vStatusMessages AS stat where
-stat.Severity in (-1073741824, -2147483648)
-and stat.Component not in ('Advanced Client', 'Windows Installer SourceList Update Agent', 'Desired Configuration Management', 'Software Updates Scan Agent', 'File Collection Agent', 'Hardware Inventory Agent', 'Software Distribution', 'Software Inventory Agent')
-and stat.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())
+SELECT DISTINCT stat.Component, stat.MessageID, stat.MessageID AS Value
+FROM vStatusMessages AS stat where
+stat.Severity IN (-1073741824, -2147483648)
+AND stat.Component NOT IN ('Advanced Client', 'Windows Installer SourceList Update Agent', 'Desired Configuration Management', 'Software Updates Scan Agent', 'File Collection Agent', 'Hardware Inventory Agent', 'Software Distribution', 'Software Inventory Agent')
+AND stat.Time &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE())
     </sqlquery>
     <Fields>
       <Field FieldName="Component" Description="Component" value="" format="" key="false" groupby="1" />
@@ -2322,15 +2267,15 @@ and stat.Time &gt;= DATEADD(dd,-convert(int,@@NUMBEROFDAYS@@),GetDate())
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-select distinct
-    uss.LastErrorCode as LastErrorCode,
-	uss.LastErrorCode as Message 
-from v_UpdateScanStatus uss with (NOLOCK) 
-join v_ClientCollectionMembers ccm with (NOLOCK) on uss.ResourceID = ccm.ResourceID 
-join v_SoftwareUpdateSource sus with (NOLOCK) on sus.UpdateSource_ID = uss.UpdateSource_ID 
-join v_R_System rsys with (NOLOCK) on rsys.ResourceID = uss.ResourceID 
-join v_FullCollectionMembership_Valid fcm with (NOLOCK) on uss.ResourceID = fcm.ResourceID
-where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001' 
+SELECT DISTINCT
+    uss.LastErrorCode AS LastErrorCode,
+	uss.LastErrorCode AS Message 
+FROM v_UpdateScanStatus uss WITH (NOLOCK) 
+JOIN v_ClientCollectionMembers ccm WITH (NOLOCK) ON uss.ResourceID = ccm.ResourceID 
+JOIN v_SoftwareUpdateSource sus WITH (NOLOCK) ON sus.UpdateSource_ID = uss.UpdateSource_ID 
+JOIN v_R_System rsys WITH (NOLOCK) ON rsys.ResourceID = uss.ResourceID 
+JOIN v_FullCollectionMembership_Valid fcm WITH (NOLOCK) ON uss.ResourceID = fcm.ResourceID
+WHERE uss.LastStatusMessageID &lt;&gt; 0 AND fcm.CollectionID = 'SMS00001' 
     </sqlquery>
     <Fields>
       <Field FieldName="LastErrorCode" Description="Error Code" value="" format="" key="false" groupby="1" />
@@ -2348,23 +2293,22 @@ where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001'
     <EmptyText>There is no information to be populated here</EmptyText>
     <querytype>sql</querytype>
 	<sqlquery>
-select distinct 
+SELECT DISTINCT 
 	assc.LastEnforcementErrorCode as ErrorCode,
 	assc.LastEnforcementMessageID as Message
-from v_CIAssignment cia with (NOLOCK) 
-join v_UpdateAssignmentStatus_Live assc with (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
-join v_R_System sys with (NOLOCK) on assc.ResourceID=sys.ResourceID and isnull(sys.Obsolete0,0) &lt;&gt; 1 
-join v_FullCollectionMembership_Valid fcm with (NOLOCK) on assc.ResourceID = fcm.ResourceID
-where 
+FROM v_CIAssignment cia WITH (NOLOCK) 
+JOIN v_UpdateAssignmentStatus_Live assc WITH (NOLOCK) on assc.AssignmentID = cia.AssignmentID 
+JOIN v_R_System sys WITH (NOLOCK) on assc.ResourceID=sys.ResourceID AND ISNULL(sys.Obsolete0,0) &lt;&gt; 1 
+JOIN v_FullCollectionMembership_Valid fcm WITH (NOLOCK) on assc.ResourceID = fcm.ResourceID
+WHERE 
 assc.LastEnforcementErrorID &lt;&gt; 0 
-and assc.LastEnforcementMessageID in (6,9) 
-and assc.IsCompliant=0 
-and fcm.CollectionID = 'SMS00001'
+AND assc.LastEnforcementMessageID in (6,9) 
+AND assc.IsCompliant=0 
+AND fcm.CollectionID = 'SMS00001'
 	</sqlquery>
     <Fields>
       <Field FieldName="ErrorCode" Description="Error Code" value="" format="" key="false" groupby="1" />
       <Field FieldName="Message" Description="Solution" value="" format="MessageSolution" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
-
 </dtsHealthCheck>
