@@ -97,6 +97,9 @@ Function Write-WordReportSection {
 							$Table = $doc.Tables.Add($TableRange, $count+1, $Columns)
 							Write-Log -Message "table style... $TableStyle" -LogFile $logfile
 							$table.Style = $TableStyle
+							# added to force table width consistency in 1.0.4 (Issue 13)
+							$table.PreferredWidthType = 2
+    						$table.PreferredWidth = 100
 							$i = 1;
 							Write-Log -Message "structure..... $count rows and $Columns columns" -LogFile $logfile
 							Write-Log -Message "writing table column headings..." -LogFile $logfile
@@ -182,6 +185,9 @@ Function Write-WordReportSection {
                             } # foreach
 							$Table = $doc.Tables.Add($TableRange, $Columns, 2)
 							$table.Style = $TableSimpleStyle
+							# added to force table width consistency in 1.0.4 (Issue 13)
+							$table.PreferredWidthType = 2
+							$table.PreferredWidth = 100
 							$i = 1;
 							Write-Log -Message "structure..... $Columns rows and 2 columns" -LogFile $logfile
 							$records = 1
