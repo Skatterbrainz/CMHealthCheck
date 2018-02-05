@@ -15,7 +15,7 @@
     <IsActive>true</IsActive>
     <PrintType>simpletable</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
 DECLARE @SiteCode CHAR(3)
@@ -210,6 +210,8 @@ SELECT
 	WHEN RIGHT(s.Version,9) = '5.00.8498.1700' THEN '1702 Hotfix 1'
 	WHEN RIGHT(s.Version,9) = '5.00.8498.1711' THEN '1702 Hotfix 2'
 	WHEN RIGHT(s.Version,9) = '5.00.8533.1000' THEN '1706'
+  WHEN RIGHT(s.Version,9) = '5.00.8577.1000' THEN '1710'
+  WHEN RIGHT(s.Version,9) = '5.00.8577.1108' THEN '1710 Hotfix 1'
 	ELSE CAST(s.Version AS VARCHAR(100))
   END AS SPLevel,
   CASE 
@@ -278,10 +280,10 @@ WHERE s.SiteCode = @SiteCode
       <Field FieldName="PWS" Description="Application Catalog web site Point" value="" format="" key="false" groupby="1" />
       <Field FieldName="SMP" Description="State Migration Point" value="" format="" key="false" groupby="1" />
       <Field FieldName="SNS" Description="SMS Notification Server" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="CPC" Description="Cloud Proxy Connector" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="DWP" Description="Data Warehouse Service Point" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="DMP" Description="DMP Connector" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="SCP" Description="Service Connection Point" value="" format="" key="false" groupby="1" />
+	    <Field FieldName="CPC" Description="Cloud Proxy Connector" value="" format="" key="false" groupby="1" />
+	    <Field FieldName="DWP" Description="Data Warehouse Service Point" value="" format="" key="false" groupby="1" />
+	    <Field FieldName="DMP" Description="DMP Connector" value="" format="" key="false" groupby="1" />
+	    <Field FieldName="SCP" Description="Service Connection Point" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -292,7 +294,7 @@ WHERE s.SiteCode = @SiteCode
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>MPConnectivity</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -308,7 +310,7 @@ WHERE s.SiteCode = @SiteCode
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>MPCertConnectivity</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -324,7 +326,7 @@ WHERE s.SiteCode = @SiteCode
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT TaskName, 
@@ -359,7 +361,7 @@ ISNULL((CASE CAST(DaysOfWeek &amp; 64 as bit) WHEN 1 THEN 'Saturday' END), '') A
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 DECLARE @starttime as DATETIME, @endtime AS DATETIME, @id as INT, @sitecode CHAR(3), @numberofdays INT
@@ -412,7 +414,7 @@ END AS 'Comments'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 DECLARE @starttime as DATETIME, @endtime as DATETIME, @id AS INT, @DatabaseName VARCHAR(10), @numberofdays INT
@@ -449,7 +451,7 @@ ORDER BY s.backup_finish_date DESC
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
 SELECT 
@@ -465,9 +467,9 @@ WHERE TallyInterval='0001128000100008' AND
     </sqlquery>
     <Fields>
       <Field FieldName="ComponentName" Description="Component Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Errors" Description="Errors" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Warnings" Description="Warnings" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Infos" Description="Informations" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Errors" Description="Error" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Warnings" Description="Warning" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Infos" Description="Information" value="" format="" key="false" groupby="1" />
       <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
@@ -479,7 +481,7 @@ WHERE TallyInterval='0001128000100008' AND
     <IsActive>true</IsActive>
     <PrintType>simpletable</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
 DECLARE @starttime AS DATETIME, @endtime AS DATETIME, @id AS INT, @sitecode CHAR(3)
@@ -530,7 +532,7 @@ END AS 'Comments'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 CREATE TABLE ##temp_ClientSettingsMisconfiguration (ClientSettingName VARCHAR(2000), AgentName VARCHAR(2000), PropertyName VARCHAR(2000), Value VARCHAR(2000), CollectionName VARCHAR(2000))
@@ -594,7 +596,7 @@ DROP TABLE ##temp_ClientSettingsMisconfiguration
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 CREATE TABLE ##temp_DiscoveryMisconfiguration (componentname VARCHAR(2000), Name VARCHAR(2000), Value VARCHAR(2000))
@@ -630,7 +632,7 @@ DROP TABLE ##temp_DiscoveryMisconfiguration
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 DECLARE @SiteCode CHAR(3) = '@@SITECODE@@'
@@ -656,7 +658,7 @@ SELECT
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2) - CHARINDEX('\\', lc.NALPath) - 2 ) AS DPName, Count(1) AS TotalContent 
@@ -684,7 +686,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>simpletable</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>BaseOSInfo</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -702,8 +704,8 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
       <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="1" />
       <Field FieldName="Role" Description="Role" value="" format="" key="false" groupby="1" />
       <Field FieldName="Model" Description="Model" value="" format="" key="false" groupby="1" />
-      <Field FieldName="NumberOfProcessors" Description="Number Of Processors" value="" format="" key="false" groupby="1" />
-      <Field FieldName="NumberOfLogicalProcessors" Description="Number Of Logical Processors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NumberOfProcessors" Description="Processors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NumberOfLogicalProcessors" Description="Logical Processors" value="" format="" key="false" groupby="1" />
       <Field FieldName="Processors" Description="Processors" value="" format="" key="false" groupby="1" />
       <Field FieldName="AntiMalware" Description="Anti-Malware" value="" format="" key="false" groupby="1" />
     </Fields>
@@ -716,7 +718,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>diskinfo</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -734,7 +736,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>NetworkInfo</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -753,7 +755,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>simpletable</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>RolesInstalled</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -785,7 +787,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>ServiceStatus</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -801,7 +803,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>HotfixStatus</querytype>
     <sqlquery></sqlquery>
     <Fields>
@@ -824,7 +826,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT Name FROM master.sys.databases WHERE name = N'CMMonitor'
@@ -841,7 +843,7 @@ SELECT Name FROM master.sys.databases WHERE name = N'CMMonitor'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT s.name,l.name AS Owner,
@@ -866,7 +868,7 @@ LEFT JOIN master.sys.syslogins l ON s.owner_sid = l.sid
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 CREATE TABLE ##temp_DatabaseAnalysis (DatabaseName sysname, Name sysname, physical_name NVARCHAR(500), size DECIMAL (18,2), FreeSpace DECIMAL (18,2) )   
@@ -921,7 +923,7 @@ DROP TABLE ##temp_DatabaseAnalysis
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT object_name(object_id) AS ObjectID, index_type_desc,LEFT(avg_fragmentation_in_percent,5) AS avg_fragmentation_in_percent,fragment_count,LEFT(avg_page_space_used_in_percent,5) AS avg_page_space_used_in_percent,page_count FROM sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL , 'SAMPLED') WHERE ABS(avg_fragmentation_in_percent) &gt; 50 ORDER BY avg_fragmentation_in_percent DESC
@@ -943,7 +945,7 @@ SELECT object_name(object_id) AS ObjectID, index_type_desc,LEFT(avg_fragmentatio
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 WITH DB_CPU_Stats AS (SELECT DatabaseID, DB_Name(DatabaseID) AS [DatabaseName], SUM(total_worker_time) AS [CPU_Time_Ms] FROM sys.dm_exec_query_stats AS qs CROSS APPLY (SELECT CONVERT(int, value) AS [DatabaseID] FROM sys.dm_exec_plan_attributes(qs.plan_handle) WHERE attribute = N'dbid') AS F_DB GROUP BY DatabaseID) SELECT DatabaseName, CAST([CPU_Time_Ms] * 1.0 / SUM([CPU_Time_Ms]) OVER() * 100.0 AS DECIMAL(5, 2)) AS [CPUPercent] FROM DB_CPU_Stats WHERE DatabaseID &gt; 4 AND DatabaseID &lt;&gt; 32767 ORDER BY [CPU_Time_Ms] DESC;
@@ -961,7 +963,7 @@ WITH DB_CPU_Stats AS (SELECT DatabaseID, DB_Name(DatabaseID) AS [DatabaseName], 
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT CAST(100.0 * SUM(signal_wait_time_ms) / SUM (wait_time_ms) AS NUMERIC(20,2)) AS [cpuwaits],CAST(100.0 * SUM(wait_time_ms - signal_wait_time_ms) / SUM (wait_time_ms) AS NUMERIC(20,2)) AS [resourcewaits] FROM sys.dm_os_wait_stats OPTION (RECOMPILE);
@@ -979,7 +981,7 @@ SELECT CAST(100.0 * SUM(signal_wait_time_ms) / SUM (wait_time_ms) AS NUMERIC(20,
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT 
@@ -1022,7 +1024,7 @@ ORDER BY s.database_name, backup_finish_date DESC, backup_start_date ASC
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT 
@@ -1047,7 +1049,7 @@ ORDER BY ID
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 DECLARE @SiteCode CHAR(3) = '@@SITECODE@@'
@@ -1141,7 +1143,7 @@ DROP TABLE #InitInfo
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT lnk.ParentSiteCode,lnk.ChildSiteCode,
@@ -1219,7 +1221,7 @@ SELECT lnk.ParentSiteCode,lnk.ChildSiteCode,
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 DECLARE @NumOfSeconds int = 15
@@ -1349,7 +1351,7 @@ SELECT trk.SiteRequesting
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
 SELECT stat.SiteCode, stat.Component, stat.MessageID, stat.MessageID as Value
@@ -1374,7 +1376,7 @@ AND stat.Time &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE())
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT  
@@ -1408,7 +1410,7 @@ WHERE Targeted = 0
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT
@@ -1452,7 +1454,7 @@ WHERE Targeted &gt; 0 AND NumberInstalled &lt;&gt; Targeted
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT 
@@ -1487,7 +1489,7 @@ WHERE LastMessageStateID &lt; 100 AND LastMessageStateID &gt; 400
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT 
@@ -1522,7 +1524,7 @@ WHERE LastMessageStateID &gt; 500 AND LastMessageStateID &lt; 700
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1554,7 +1556,7 @@ WHERE fcm.CollectionID = 'SMS00001'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT
@@ -1585,7 +1587,7 @@ AND sys.Operating_System_Name_and0 IS NOT NULL AND sys.Operating_System_Name_and
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT fcm.Name,
@@ -1621,7 +1623,7 @@ WHERE fcm.CollectionID = 'SMS00001' AND chs.LastActiveTime &lt; DATEADD(dd,-CONV
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1658,7 +1660,7 @@ WHERE g.Name0 != h.Name0
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT
@@ -1696,7 +1698,7 @@ WHERE g.Name0 = h.Name0 AND
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT
@@ -1723,7 +1725,7 @@ WHERE stat.Time &gt; DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE())  and
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT fcm.Name,
@@ -1753,7 +1755,7 @@ WHERE fcm.CollectionID = 'SMS00001' AND sys.Client_Version0 &lt; st.Version
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1815,7 +1817,7 @@ WHERE ops.Version0 &gt; '6.2' AND uss.LastWUAVersion &lt; '7.9.9600.16422'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1852,7 +1854,7 @@ WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= ((LDisk.Size0 * 10)/100) A
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1889,7 +1891,7 @@ WHERE LDISK.DriveType0 = 3 AND LDISK.FreeSpace0 &lt;= 1024 AND sys.CollectionID 
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1920,7 +1922,7 @@ WHERE MEM.TotalPhysicalMemory00/1024 &lt;= 1024 and fcm.CollectionID = 'SMS00001
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1950,7 +1952,7 @@ WHERE Processor.MaxClockSpeed0 &lt;= 1000 AND sys.CollectionID = 'SMS00001'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -1987,7 +1989,7 @@ AND tblHist.RevisionID = (SELECT TOP 1 tblHist2.RevisionID FROM Logical_Disk_HIS
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -2022,7 +2024,7 @@ WHERE tblData.TotalPhysicalMemory00 != tblHist.TotalPhysicalMemory00 AND
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -2061,7 +2063,7 @@ where uss.LastStatusMessageID &lt;&gt; 0 and fcm.CollectionID = 'SMS00001'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT
@@ -2089,7 +2091,7 @@ WHERE uss.LastStatusMessageID &lt;&gt; 0 AND fcm.CollectionID = 'SMS00001'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT 
@@ -2125,7 +2127,7 @@ WHERE assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 AND assc.LastEnforce
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT
@@ -2152,7 +2154,7 @@ WHERE assc.LastEnforcementErrorID&amp;0x0000FFFF &lt;&gt; 0 AND assc.LastEnforce
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT Name, LastRunTime, LastErrorCode, LastErrorTime FROM vSMS_AutoDeployments WHERE LastErrorCode IS NOT NULL
@@ -2173,7 +2175,7 @@ SELECT Name, LastRunTime, LastErrorCode, LastErrorTime FROM vSMS_AutoDeployments
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT sys.ResourceID, sys.Netbios_Name0 AS Name0, sys.Resource_Domain_OR_Workgr0, fcm.SiteCode
@@ -2214,7 +2216,7 @@ WHERE sti.MessageState = 102
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT Name, CAST(Severity AS VARCHAR(300)) AS Severity, CAST(TypeID AS VARCHAR(300)) AS TypeID FROM vSMS_Alert a WHERE (a.TypeID NOT IN (21, 22, 23, 31, 32, 33, 34) AND (a.FeatureArea &lt;&gt; 11 AND a.AlertState = 0)) or (A.TypeID = 31 AND A.AlertState = 0)
@@ -2241,7 +2243,7 @@ SELECT Name, CAST(Severity AS VARCHAR(300)) AS Severity, CAST(TypeID AS VARCHAR(
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>SQL</querytype>
     <sqlquery>
 SELECT DISTINCT stat.Component, stat.MessageID, stat.MessageID AS Value
@@ -2264,7 +2266,7 @@ AND stat.Time &gt;= DATEADD(dd,-CONVERT(INT,@@NUMBEROFDAYS@@),GETDATE())
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
 SELECT DISTINCT
@@ -2290,7 +2292,7 @@ WHERE uss.LastStatusMessageID &lt;&gt; 0 AND fcm.CollectionID = 'SMS00001'
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to be populated here</EmptyText>
+    <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
 	<sqlquery>
 SELECT DISTINCT 
