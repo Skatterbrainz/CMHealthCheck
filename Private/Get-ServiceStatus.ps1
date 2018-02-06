@@ -1,15 +1,17 @@
 Function Get-ServiceStatus {
     param (
-        $LogFile,
-        [string] $ServerName,
-				[parameter(Mandatory=$True)]
-        [string] $ServiceName
+        [parameter(Mandatory=$False)]
+            $LogFile,
+        [parameter(Mandatory=$True)]
+            [string] $ServerName,
+		[parameter(Mandatory=$True)]
+            [string] $ServiceName
     )
     Write-Log -Message "function... Get-ServiceStatus ****" -LogFile $logfile
-    Write-Log -Message "servername. $servername" -LogFile $logfile
-    Write-Log -Message "service.... $servicename" -LogFile $logfile
+    Write-Log -Message "servername. $ServerName" -LogFile $logfile
+    Write-Log -Message "service.... $ServiceName" -LogFile $logfile
     try {
-        $service = Get-Service -ComputerName $servername | Where-Object {$_.Name -eq $servicename}
+        $service = Get-Service -ComputerName $ServerName | Where-Object {$_.Name -eq $ServiceName}
         if ($service -ne $null) { $return = $service.Status }
         else { $return = "ERROR: Not Found" }
         Write-Log -Message "status..... $return" -LogFile $logfile
@@ -18,5 +20,5 @@ Function Get-ServiceStatus {
         $return = "ERROR: Unknown"
         $Error.Clear()
     }
-    Write-Output $return
+    , $return
 }
