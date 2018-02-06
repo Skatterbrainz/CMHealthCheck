@@ -11,7 +11,12 @@ function Write-WordText {
 	)
 	$texttowrite = ""
 	$wordselection.Style = $Style
-    if ($bold) { $wordselection.Font.Bold = 1 } else { $wordselection.Font.Bold = 0 }
+    if ($bold) { 
+		$wordselection.Font.Bold = 1 
+	}
+	else { 
+		$wordselection.Font.Bold = 0
+	}
 	$texttowrite += $text
 	$wordselection.TypeText($text)
 	If ($newline) { $wordselection.TypeParagraph() }

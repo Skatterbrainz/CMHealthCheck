@@ -1,13 +1,19 @@
 Function Write-BaseOSInfo {
     param (
-	    [string] $FileName,
-		[string] $TableName,
+		[parameter(Mandatory=$False)]
+			[string] $FileName,
+		[parameter(Mandatory=$False)]
+			[string] $TableName,
 		[parameter(Mandatory=$True)]
-	    [string] $SiteCode,
-	    [int] $NumberOfDays,
-	    [string] $LogFile,
-		[string] $ServerName,
-		[bool] $ContinueOnError = $true
+			[string] $SiteCode,
+		[parameter(Mandatory=$False)]
+	    	[int] $NumberOfDays,
+		[parameter(Mandatory=$False)]
+			[string] $LogFile,
+		[parameter(Mandatory=$False)]
+			[string] $ServerName,
+		[parameter(Mandatory=$False)]
+			[bool] $ContinueOnError = $true
 	)
 	Write-Log -Message "function... Write-BaseOsInfo ****" -LogFile $logfile
     $WMIOS = Get-CmWmiObject -Class "win32_operatingsystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror

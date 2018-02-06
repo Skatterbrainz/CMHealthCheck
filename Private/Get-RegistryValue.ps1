@@ -26,5 +26,5 @@ Function Get-RegistryValue {
         $return = "ERROR: Unknown"
         $Error.Clear()
     }
-    Write-Output $return
+    , $return
 }

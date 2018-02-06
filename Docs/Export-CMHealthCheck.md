@@ -31,6 +31,11 @@ to be invoked on a desktop computer which has Office installed.
 Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
 
+### -------------------------- EXAMPLE 2 --------------------------
+```
+Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+```
+
 ## PARAMETERS
 
 ### -ReportFolder
@@ -95,7 +100,9 @@ Accept wildcard characters: False
 ```
 
 ### -Template
-Word document file to use as a template
+Word document file to use as a template.
+Should have a cover page already in place.
+If Template is specified, CoverPage and Copyright are ignored.
 
 ```yaml
 Type: String
@@ -221,7 +228,7 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ## NOTES
-* 1.0.3 - 12/03/2017 - David Stein
+* 1.0.4 - 12/04/2017 - David Stein
 * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
 * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
 * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/

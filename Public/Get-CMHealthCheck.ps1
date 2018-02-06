@@ -35,7 +35,7 @@ function Get-CMHealthCheck {
 	.EXAMPLE
 		.\Get-CMHealthCheck -SmsProvider cm01.contoso.com -OutputFolder "c:\temp" -HealthcheckFilename ".\healthcheck.xml"
 	.NOTES
-		* 1.0.3 - 12/01/2017 - David Stein
+		* 1.0.4 - 02/05/2018 - David Stein
         * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
         * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
         * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
@@ -166,12 +166,13 @@ function Get-CMHealthCheck {
 		Write-Log -Message "Site Code........: $SiteCodeNamespace" -LogFile $logfile
 		
 		$WMISMSSite = Get-CmWmiObject -Class "SMS_Site" -NameSpace "Root\SMS\Site_$SiteCodeNamespace" -Filter "SiteCode = '$SiteCodeNamespace'" -ComputerName $smsprovider -LogFile $logfile
-		$SMSSiteServer = $WMISMSSite.ServerName
-		Write-Log -Message "Site Server......: $($WMISMSSite.ServerName)" -LogFile $logfile
-		Write-Log -Message "Site Version.....: $($WMISMSSite.Version)" -LogFile $logfile
+		$SMSSiteServer  = $WMISMSSite.ServerName
+		$SMSSiteVersion = $WMISMSSite.Version
+		Write-Log -Message "Site Server......: $SMSSiteServer" -LogFile $logfile
+		Write-Log -Message "Site Version.....: $SMSSiteVersion" -LogFile $logfile
 
 		if (-not ($WMISMSSite.Version -like "5.*")) {
-			Write-Log -Message "SCCM Site $($WMISMSSite.Version) not supported. No further action taken" -Severity 3 -LogFile $logfile
+			Write-Log -Message "SCCM Site $SMSSiteVersion not supported. No further action taken" -Severity 3 -LogFile $logfile
 			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
@@ -203,10 +204,11 @@ function Get-CMHealthCheck {
 		else {
 			Write-Log -Message "no servers discovered." -LogFile $LogFile
 		}
-		Write-Log -Message "----------------- creating temp data table ------------------" -LogFile $LogFile
+		Write-Log -Message "----------------- creating reporting data table ------------------" -LogFile $LogFile
 		$Fields = @("TableName", "XMLFile")
 		$ReportTable = New-CmDataTable -TableName $tableName -Fields $Fields
 
+		Write-Log -Message "----------------- creating configuration data table ------------------" -LogFile $LogFile
 		$Fields = @("SiteServer", "SQLServer","DBName","SiteCode","NumberOfDays","HealthCheckFileName")
 		$ConfigTable = New-CmDataTable -TableName $tableName -Fields $Fields
 
@@ -239,9 +241,11 @@ function Get-CMHealthCheck {
 		$arrSites = @()
 		$SqlCommand = $sqlConn.CreateCommand()
 		$executionquery = "select distinct st.SiteCode, (select top 1 srl2.ServerName from v_SystemResourceList srl2 where srl2.RoleName = 'SMS Provider' and srl2.SiteCode = st.SiteCode) as ServerName from v_Site st"
+		
 		Write-Log -Message "sql query........: `n$executionquery" -LogFile $LogFile
 		$SqlCommand.CommandTimeOut = 0
 		$SqlCommand.CommandText = $executionquery
+
 		Write-Log -Message "--------------- querying database --------------------"	-Severity 1 -LogFile $LogFile
 		Write-Log -Message "processing query to sql data adapter..." -LogFile $LogFile
 		$DataAdapter = New-Object System.Data.SqlClient.SqlDataAdapter $SqlCommand
@@ -260,7 +264,8 @@ function Get-CMHealthCheck {
 		}
 		Write-Log -Message $("Sites discovered: " + $arrSites -join(", ")) -LogFile $LogFile
 		$SqlCommand = $null
-		##section 1 = information that needs be collected against each site
+		
+		## section 1 = information that needs be collected against each site
 		Write-Log -Message "Phase 1 of 6" -LogFile $logfile -ShowMsg
 		foreach ($Site in $arrSites) {
 			$arrSiteInfo = $Site.Split("@")
@@ -269,14 +274,16 @@ function Get-CMHealthCheck {
 				$HTTPport  = ($portinfo.Props | Where-Object {$_.PropertyName -eq "IISPortsList"}).Value1
 				$HTTPSport = ($portinfo.Props | Where-Object {$_.PropertyName -eq "IISSSLPortsList"}).Value1
 			}
-			ReportSection -HealthCheckXML $HealthCheckXML -Section '1' -sqlConn $sqlConn -SiteCode $arrSiteInfo[0] -NumberOfDays $NumberOfDays -ServerName $arrSiteInfo[1] -ReportTable $ReportTable -LogFile $logfile 
+			Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '1' -sqlConn $sqlConn -SiteCode $arrSiteInfo[0] -NumberOfDays $NumberOfDays -ServerName $arrSiteInfo[1] -ReportTable $ReportTable -LogFile $logfile 
 		} # foreach
-		##section 2 = information that needs be collected against each computer. should not be site specific. query will run only against the higher site in the hierarchy
+		
+		## section 2 = information that needs be collected against each computer. should not be site specific. query will run only against the higher site in the hierarchy
 		Write-Log -Message "Phase 2 of 6" -LogFile $logfile -ShowMsg
 		foreach ($server in $arrServers) { 
-			ReportSection -HealthCheckXML $HealthCheckXML -Section '2' -sqlConn $sqlConn -siteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $server -ReportTable $ReportTable -LogFile $logfile 
+			Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '2' -sqlConn $sqlConn -siteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $server -ReportTable $ReportTable -LogFile $logfile 
 		}
-		##section 3 = database analisys information, running on all sql servers in the hierarchy. should not be site specific as it connects to the "master" database
+
+		## section 3 = database analisys information, running on all sql servers in the hierarchy. should not be site specific as it connects to the "master" database
 		Write-Log -Message "Phase 3 of 6" -LogFile $logfile -ShowMsg
 		$DBServers = Get-CmWmiObject -Query "select distinct NetworkOSPath from SMS_SCI_SysResUse where RoleName = 'SMS SQL Server'" -ComputerName $smsprovider -NameSpace "root\sms\site_$SiteCodeNamespace" -LogFile $logfile
 		foreach ($DB in $DBServers) { 
@@ -290,24 +297,28 @@ function Get-CMHealthCheck {
 				$tmpConnection.Open()
 			}
 			try {
-				ReportSection -HealthCheckXML $HealthCheckXML -Section '3' -sqlConn $tmpConnection -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $DBServerName -ReportTable $ReportTable -LogFile $logfile
+				Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '3' -sqlConn $tmpConnection -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $DBServerName -ReportTable $ReportTable -LogFile $logfile
 			}
 			finally {
 				if ($SQLServerName.ToLower() -ne $DBServerName.ToLower()) { $tmpConnection.Close()  }
 			}
 		} # foreach
-		##Section 4 = Database analysis against whole SCCM infrastructure, query will run only against top SQL Server
+		
+		## Section 4 = Database analysis against whole SCCM infrastructure, query will run only against top SQL Server
 		Write-Log -Message "Phase 4 of 6" -LogFile $logfile -ShowMsg
-		ReportSection -HealthCheckXML $HealthCheckXML -Section '4' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
-		##Section 5a = summary information against whole SCCM infrastructure. query will run only against the higher site in the hierarchy
+		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '4' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
+		
+		## Section 5a = summary information against whole SCCM infrastructure. query will run only against the higher site in the hierarchy
 		Write-Log -Message "Phase 5 of 6" -LogFile $logfile -ShowMsg
-		ReportSection -HealthCheckXML $HealthCheckXML -Section '5' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
-		##Section 5b = detailed information against whole SCCM infrastructure. query will run only against the higher site in the hierarchy
+		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '5' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
+		
+		## Section 5b = detailed information against whole SCCM infrastructure. query will run only against the higher site in the hierarchy
 		Write-Log -Message "info.............: entering section 5b" -LogFile $LogFile		
-		ReportSection -HealthCheckXML $HealthCheckXML -Section '5' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -Detailed -LogFile $logfile
-		##Section 6 = troubleshooting information
+		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '5' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -Detailed -LogFile $logfile
+		
+		## Section 6 = troubleshooting information
 		Write-Log -Message "Phase 6 of 6" -LogFile $logfile -ShowMsg
-		ReportSection -HealthCheckXML $HealthCheckXML -Section '6' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
+		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '6' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
 	}
 	catch {
 		Write-Log -Message "ERROR/EXCEPTION: general unhandled exception" -LogFile $LogFile
