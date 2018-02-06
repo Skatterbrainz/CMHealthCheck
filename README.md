@@ -4,7 +4,9 @@ ConfigMgr Health-Check Reporting PowerShell functions
 
 ## Summary
 
-CMHealthCheck is intended to make the former standalone PowerShell scripts "get-cm-inventory.ps1" and "export-cm-healthcheck.ps1" easier to invoke as a module from PowerShell Gallery.  Both scripts have been refactored into a simple PowerShell module, with two public functions: Get-CMHealthCheck and Export-CMHealthCheck.  The required support XML data files are now invoked via URI from GitHub gist locations (on this account), but they can be downloaded for offline use as well.
+CMHealthCheck is intended to make the former standalone PowerShell scripts ("get-cm-inventory.ps1" and "export-cm-healthcheck.ps1") easier to invoke as a module from PowerShell Gallery.  Both scripts have been refactored into a simple PowerShell module, with two public functions: Get-CMHealthCheck and Export-CMHealthCheck.  The required support XML data files are now invoked via URI from GitHub gist locations (on this account), but they can be downloaded for offline use as well.
+
+PowerShell modules require PowerShell version 3.0 or later.  This was tested mostly on PowerShell 5.0 and 5.1.
 
 ## Installation and Usage
 
@@ -32,6 +34,7 @@ _Part 2 - Reporting_
 * Tested with the following environments:
    * ConfigMgr 2012 R2, 1610, 1702, 1706, 1709, 1710, 1711
    * Windows Server 2012, 2012 R2, 2016
+   * SQL Server 2012, 2016 SP1
    * Windows 10 1703, 1709
    * Office 2013, 2016
    * PowerShell 3.0, 5.0, 5.1
