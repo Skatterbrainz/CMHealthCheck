@@ -695,17 +695,17 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
       <Field FieldName="ServicePack" Description="Service Pack" value="" format="" key="false" groupby="1" />
       <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
       <Field FieldName="Architecture" Description="Architecture" value="" format="" key="false" groupby="1" />
-      <Field FieldName="LastBootTime" Description="Last Boot Time" value="" format="" key="false" groupby="1" />
+      <Field FieldName="LastBootTime" Description="Last Boot" value="" format="" key="false" groupby="1" />
       <Field FieldName="CurrentTime" Description="Current Time" value="" format="" key="false" groupby="1" />
-      <Field FieldName="TotalPhysicalMemory" Description="Total Physical Memory" value="" format="" key="false" groupby="1" />
-      <Field FieldName="FreePhysicalMemory" Description="Free Physical Memory" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalPhysicalMemory" Description="Total Memory" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FreePhysicalMemory" Description="Free Memory" value="" format="" key="false" groupby="1" />
       <Field FieldName="TimeZone" Description="Time Zone" value="" format="" key="false" groupby="1" />
-      <Field FieldName="DaylightInEffect" Description="Daylight In Effect" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DaylightInEffect" Description="DST In Effect" value="" format="" key="false" groupby="1" />
       <Field FieldName="Domain" Description="Domain" value="" format="" key="false" groupby="1" />
       <Field FieldName="Role" Description="Role" value="" format="" key="false" groupby="1" />
       <Field FieldName="Model" Description="Model" value="" format="" key="false" groupby="1" />
       <Field FieldName="NumberOfProcessors" Description="Processors" value="" format="" key="false" groupby="1" />
-      <Field FieldName="NumberOfLogicalProcessors" Description="Logical Processors" value="" format="" key="false" groupby="1" />
+      <Field FieldName="NumberOfLogicalProcessors" Description="Logical Procs" value="" format="" key="false" groupby="1" />
       <Field FieldName="Processors" Description="Processors" value="" format="" key="false" groupby="1" />
       <Field FieldName="AntiMalware" Description="Anti-Malware" value="" format="" key="false" groupby="1" />
     </Fields>
@@ -741,7 +741,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <sqlquery></sqlquery>
     <Fields>
       <Field FieldName="IPAddress" Description="IP Address" value="" format="" key="false" groupby="1" />
-      <Field FieldName="DefaultIPGateway" Description="Default IP Gateway" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DefaultIPGateway" Description="Default Gateway" value="" format="" key="false" groupby="1" />
       <Field FieldName="IPSubnet" Description="IP Subnet" value="" format="" key="false" groupby="1" />
       <Field FieldName="MACAddress" Description="MAC Address" value="" format="" key="false" groupby="1" />
       <Field FieldName="DHCPEnabled" Description="DHCP Enabled" value="" format="" key="false" groupby="1" />
@@ -791,15 +791,34 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <querytype>ServiceStatus</querytype>
     <sqlquery></sqlquery>
     <Fields>
+      <Field FieldName="Caption" Description="Display Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="ServiceName" Description="Service Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="StartMode" Description="Start Mode" value="" format="" key="false" groupby="1" />
       <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_Applications</XMLFile>
+    <Description>Installed Software</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>InstalledApps</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Vendor" Description="Vendor" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
     <XMLFile>@@ServerName@@_HotfixStatus</XMLFile>
-    <Description>Service Status</Description>
+    <Description>Installed Hotfixes</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
     <WordStyle>Heading 2</WordStyle>
@@ -809,6 +828,23 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <Fields>
       <Field FieldName="Title" Description="Hotfix Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Date" Description="Installation Date" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_LocalGroups</XMLFile>
+    <Description>Local Groups</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>This is no information to report</EmptyText>
+    <querytype>LocalGroups</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Group Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Member" Description="Member" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -903,10 +939,10 @@ INNER JOIN ##temp_DatabaseAnalysis tmp ON mf.physical_name = tmp.physical_name
 DROP TABLE ##temp_DatabaseAnalysis
     </sqlquery>
     <Fields>
-      <Field FieldName="Name" Description="Database Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="DB Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="recovery_model_desc" Description="Recovery Model" value="" format="" key="false" groupby="1" />
       <Field FieldName="Type_desc" Description="File Type" value="" format="" key="false" groupby="1" />
-      <Field FieldName="physical_name" Description="Physical Location" value="" format="" key="false" groupby="1" />
+      <Field FieldName="physical_name" Description="Location" value="" format="" key="false" groupby="1" />
       <Field FieldName="size" Description="Size (GB)" value="" format="" key="false" groupby="1" />
       <Field FieldName="FreeSpace" Description="Free Space (GB)" value="" format="" key="false" groupby="1" />
       <Field FieldName="Max_Size" Description="Max Size" value="" format="" key="false" groupby="1" />
