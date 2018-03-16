@@ -167,6 +167,15 @@ Function Write-WordReportSection {
 							$selection.MoveDown() | Out-Null
 							$doc.ActiveWindow.ActivePane.view.SeekView = 0
 							$selection.EndKey(6, 0) | Out-Null
+							
+							if ($count -gt 2) {
+								Write-Verbose "SORT OPERATION - SORTING TABLE"
+								$Tables.Sort
+								Write-Log -Message "NEW: appending row count label below table" -LogFile $logfile
+								Write-WordText -WordSelection $selection -Text "$count items found" -Style "Normal" -NewLine $true
+								$selection.TypeParagraph()
+							}
+							
 							$selection.TypeParagraph()
 							break
 						}
@@ -251,6 +260,11 @@ Function Write-WordReportSection {
 					        $selection.MoveDown() | Out-Null
 							$doc.ActiveWindow.ActivePane.View.SeekView = 0
 							$selection.EndKey(6, 0) | Out-Null
+							
+							#Write-Verbose "NEW: appending row count label below table"
+							#Write-WordText -WordSelection $selection -Text "$count items found" -Style "Normal" -NewLine $true
+							#$selection.TypeParagraph()
+
 							$selection.TypeParagraph()
 							break
 							break
@@ -287,7 +301,11 @@ Function Write-WordReportSection {
 								$selection.TypeParagraph()
 								$records++
 		                    } # foreach
-						}
+							#Write-Verbose "NEW: appending row count label below table"
+							#Write-WordText -WordSelection $selection -Text "$($count + 1) items found" -Style "Normal" -NewLine $true
+							#$selection.TypeParagraph()
+
+						} # end of default switch case
 					} # switch
 					Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings $ReviewTableCols -StyleName $ReviewTableStyle
 				}
