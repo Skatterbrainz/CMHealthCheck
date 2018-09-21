@@ -1,0 +1,74 @@
+/*
+default.css - stylesheet for CMHealthCheck inventory reporting
+Version 1.0.0 - 09/19/2018
+*/
+body      {
+    /*background-color:#eee;*/
+    background-color:#fff;
+    font-family:verdana;
+    font-size:10pt;
+}
+h1,h2,h3  {
+    font-family:arial,helvetica,sans;
+}
+h1 {
+    color:#000;
+}
+h2 {
+    color:#283e83;
+}
+table     {
+    border-width:1px;
+    border-style:solid; 
+    border-color:black;
+    border-collapse:collapse;
+    background-color:#fff;
+}
+th,td,tr {
+    border-width:1px; 
+    padding:5px;
+    border-style:solid;
+    border-color:#e1e1e1;
+    font-family:verdana;
+    font-size:10pt;
+}
+.footer   {
+    text-align:center;
+    font-size:10pt;
+    font-family:verdana;
+}
+.table1000 {
+    width:1000px;
+}
+.columnstyle1 {
+    background-color: #c0c0c0;
+    font-weight: bold;
+}
+.columnstyle2 {
+    background-color: #eee;
+}
+.columnstyle3 {
+    background-color: #4b4b4b;
+    color: #fff;
+}
+.columnstyle4 {
+    background-color: #cecece;
+}
+.rowstyle1 {
+    background-color: #fff;
+}
+.rowstyle2 {
+    background-color: #eee;
+}
+.rowstyle3 {
+    background-color: #fff;
+}
+.rowstyle4 {
+    background-color: #cecece;
+}
+.rowstylex {
+    background-color: #fff;
+}
+.rowstylex:hover {
+    background-color: #dadada;
+}
