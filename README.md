@@ -28,6 +28,14 @@ _Part 2 - Reporting_
 5. Wait for Document to finish building, Save document
 6. Review report, add comments, dance around, drink, run outside buck nekkid and laugh hysterically
 
+_Part 2a - Reporting_
+
+1. Same as Part 2, but...
+2. Run: Export-CMHealthCheckHTML (parameters...)
+3. Open the HTML output file in your browser
+4. Stare in awe as you mindlessly send me all of your earnings, ok, maybe not
+5. Edit the report, add comments, laugh, snort, cough, sleep
+
 ## Notes
 
 * Refer to the markdown files under \Docs for syntax and examples.
