@@ -7,6 +7,8 @@ function Export-CMHealthCheckHTML {
         Converts the data output from Get-CMHealthCheck to generate an HTML report file
     .PARAMETER ReportFolder
         Path to output data folder (e.g. ".\2018-9-19\cm01.contoso.com")
+    .PARAMETER OutputFolder
+        Path to write new report file (default = User Documents folder)
     .PARAMETER Detailed
         Collect more granular data for final reporting
     .PARAMETER CustomerName
@@ -15,6 +17,12 @@ function Export-CMHealthCheckHTML {
         Report Author name (default = "Your Name")
     .PARAMETER CopyrightName
         Text to use for copyright footer string (default = "Your Company Name")
+    .PARAMETER Theme
+        CSS style theme name, or 'Custom' to specify a file (default = 'Ocean')
+    .PARAMETER CssFilename
+        CSS file path to import when Theme is set to 'Custom'
+    .PARAMETER DynamicTableRows
+        Apply mouse-over dynamic table row effects
     .PARAMETER Overwrite
         Overwrite existing report file if found
     .PARAMETER Healthcheckfilename
@@ -29,6 +37,8 @@ function Export-CMHealthCheckHTML {
         Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein"
     .EXAMPLE
         Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+    .EXAMPLE
+        Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -DynamicTableRows -Verbose
     .NOTES
         * 1.0.4 - 12/04/2017 - David Stein
         * 1.0.5 - 09/19/2018 - David Stein
