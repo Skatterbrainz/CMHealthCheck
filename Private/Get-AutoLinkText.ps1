@@ -16,6 +16,23 @@ function Get-AutoLinkText {
                 $temp += "<a href=`"$_`">$_</a>"
             }
         }
+        elseif ($_.StartsWith('(http') -and $_.EndsWith(')')) {
+            if ($NewPage) {
+                $temp += "(<a href=`"$_`" target=`"blank`">$_</a>)"
+            }
+            else {
+                $temp += "(<a href=`"$_`">$_</a>)"
+            }
+        }
+        elseif ($_.StartsWith('(http') -and $_.EndsWith(').')) {
+            $tx = ($_.Replace('(','')).Replace(').','')
+            if ($NewPage) {
+                $temp += "(<a href=`"$tx`" target=`"blank`">$tx</a>)."
+            }
+            else {
+                $temp += "(<a href=`"$tx`">$tx</a>)."
+            }
+        }
         else {
             $temp += $_
         }
