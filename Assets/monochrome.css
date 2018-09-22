@@ -1,5 +1,5 @@
 /*
-ocean.css - stylesheet for CMHealthCheck inventory reporting
+monochrome.css - stylesheet for CMHealthCheck inventory reporting
 Version 1.0.0 - 09/21/2018
 */
 body      {
@@ -20,7 +20,7 @@ h2 {
 table     {
     border-width:1px;
     border-style:solid; 
-    border-color:#261c38;
+    border-color:black;
     border-collapse:collapse;
     background-color:#fff;
 }
@@ -41,40 +41,36 @@ th,td,tr {
     width:1000px;
 }
 .columnstyle1 {
-    background-color: #605d88;
-    color: #fff;
+    background-color: #c0c0c0;
 }
 .columnstyle2 {
     background-color: #eee;
-    color: #000;
 }
 .columnstyle3 {
-    background-color: #605d88;
+    background-color: #4b4b4b;
     color: #fff;
 }
 .columnstyle4 {
-    background-color: #aba6e0;
+    background-color: #cecece;
 }
 .rowstyle1 {
-    background-color: #eee;
+    background-color: #fff;
 }
 .rowstyle2 {
-    background-color: #605d88;
-    color: #fff;
+    background-color: #eee;
 }
 .rowstyle3 {
-    background-color: #eee;
+    background-color: #fff;
 }
 .rowstyle4 {
-    background-color: #a1d9ff;
+    background-color: #cecece;
 }
 .headingRow1 {
-    background-color: #605d88;
-    color: #fff;
+    background-color: #c0c0c0;
 }
 .rowstylex {
-    background-color: #eee;
+    background-color: #fff;
 }
 .rowstylex:hover {
-    background-color: #a1d9ff;
+    background-color: #dadada;
 }

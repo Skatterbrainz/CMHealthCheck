@@ -1,5 +1,5 @@
 /*
-ocean.css - stylesheet for CMHealthCheck inventory reporting
+emerald.css - stylesheet for CMHealthCheck inventory reporting
 Version 1.0.0 - 09/21/2018
 */
 body      {
@@ -15,12 +15,15 @@ h1 {
     color:#000;
 }
 h2 {
-    color:#283e83;
+    color:#0c4d27;
+}
+h3 {
+    color:#0f3f23;
 }
 table     {
     border-width:1px;
     border-style:solid; 
-    border-color:#261c38;
+    border-color:#0c1d13;
     border-collapse:collapse;
     background-color:#fff;
 }
@@ -28,7 +31,7 @@ th,td,tr {
     border-width:1px; 
     padding:5px;
     border-style:solid;
-    border-color:#e1e1e1;
+    border-color:#7fac86;
     font-family:verdana;
     font-size:10pt;
 }
@@ -41,7 +44,7 @@ th,td,tr {
     width:1000px;
 }
 .columnstyle1 {
-    background-color: #605d88;
+    background-color: #5d886b;
     color: #fff;
 }
 .columnstyle2 {
@@ -49,7 +52,7 @@ th,td,tr {
     color: #000;
 }
 .columnstyle3 {
-    background-color: #605d88;
+    background-color: #5d8874;
     color: #fff;
 }
 .columnstyle4 {
@@ -59,7 +62,7 @@ th,td,tr {
     background-color: #eee;
 }
 .rowstyle2 {
-    background-color: #605d88;
+    background-color: #5d886a;
     color: #fff;
 }
 .rowstyle3 {
@@ -69,12 +72,12 @@ th,td,tr {
     background-color: #a1d9ff;
 }
 .headingRow1 {
-    background-color: #605d88;
+    background-color: #5d8861;
     color: #fff;
 }
 .rowstylex {
     background-color: #eee;
 }
 .rowstylex:hover {
-    background-color: #a1d9ff;
+    background-color: #a1ffb8;
 }
