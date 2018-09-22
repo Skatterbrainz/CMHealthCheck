@@ -33,6 +33,8 @@ function Export-CMHealthCheckHTML {
         The file can be local, UNC or URI sourced as well
     .PARAMETER Healthcheckdebug
         Enable verbose output (or use -Verbose)
+    .PARAMETER ReviewTables
+        Show review tables for adding comments after each section
     .EXAMPLE
         Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein"
     .EXAMPLE
@@ -41,7 +43,7 @@ function Export-CMHealthCheckHTML {
         Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -DynamicTableRows -Verbose
     .NOTES
         * 1.0.4 - 12/04/2017 - David Stein
-        * 1.0.5 - 09/19/2018 - David Stein
+        * 1.0.5 - 09/22/2018 - David Stein
         * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
         * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
         * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
@@ -70,12 +72,15 @@ function Export-CMHealthCheckHTML {
         [Parameter (Mandatory = $False, HelpMessage = "Debug more?")] 
             $Healthcheckdebug = $False,
         [parameter (Mandatory = $False, HelpMessage = "Theme Name")]
-            [ValidateSet('Ocean','Monochrome','Custom')]
+            [ValidateSet('Ocean','Emerald','Monochrome','Custom')]
             [string] $Theme = 'Ocean',
         [parameter (Mandatory = $False, HelpMessage = "CSS template file")]
             [string] $CssFilename = "",
-        [parameter (Mandatory = $False, HelpMessage = "Dynamic Table Row Styles")]
-            [switch] $DynamicTableRows,
+        [parameter (Mandatory = $False, HelpMessage = "Table Row Style option")]
+            [ValidateSet('Solid','Alternating','Dynamic')]
+            [string] $TableRowStyle = 'Solid',
+        [parameter (Mandatory = $False, HelpMessage = "Image Log file")]
+            [string] $ImageFile = "",
         [parameter (Mandatory = $False, HelpMessage = "Overwrite existing report file")]
             [switch] $Overwrite
     )
@@ -92,14 +97,12 @@ function Export-CMHealthCheckHTML {
     finally {
         Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
     }
-    
+    $Script:TableRowStyle = $TableRowStyle
     $TempFilename      = "cmhealthreport.htm"
-    $ReviewTableCols   = ("No.", "Severity", "Comment")
     $bLogValidation    = $False
     $bAutoProps        = $True
     $poshversion       = $PSVersionTable.PSVersion.Major
     $osversion         = (Get-WmiObject -Class Win32_OperatingSystem).Caption
-    #$FormatEnumerationLimit = -1
     
     if ($Healthcheckfilename -eq "") {
         $Healthcheckfilename = Join-Path -Path $ModulePath -ChildPath "assets\cmhealthcheck.xml"
@@ -108,6 +111,9 @@ function Export-CMHealthCheckHTML {
 
 	if ($MessagesFilename -eq "") {
         $MessagesFilename = Join-Path -Path $ModulePath -ChildPath "assets\messages.xml"
+    }
+    if ($ImageFile -eq "") {
+        $ImageFile = Join-Path -Path $ModulePath -ChildPath "assets\cmhclogo-275x237.png"
     }
     Write-Verbose "using messages file: $MessagesFilename"
 
@@ -194,57 +200,48 @@ function Export-CMHealthCheckHTML {
 "@
 
         Write-Log -Message "inserting title caption" -LogFile $logfile
-        $htmlContent += "<h1>CMHealthCheck Report</h1>"
+        $htmlContent += "<table class=`"reportTable`" style=`"border-color:#fff`"><tr><td style=`"width:120px`">"
+        $htmlContent += "<img src=`"$ImageFile`" alt=`"$ImageFile`" width=`100`" border=`"0`" />"
+        $htmlContent += "</td><td style=`"vertical-align:top`"><h1>CMHealthCheck Report</h1>"
+        $htmlContent += "<p>(Install-Module CMHealthCheck) Version: $ModuleVer</p>"
+        $htmlContent += "</td></tr></table>"
 
-        $htmlTable = @{
+        $htmlTable = [ordered]@{
             Customer       = $CustomerName
             Author         = "$AuthorName ($($env:USERNAME))"
+            ReportDate     = (Get-Date).ToLongDateString()
             ReportFolder   = $ReportFolder
             WindowsVersion = $(Get-WmiObject -Class Win32_OperatingSystem).Caption
-            ReportDate     = (Get-Date).ToLongDateString()
             ComputerName   = $($env:COMPUTERNAME)
         }
-        $htmlContent += New-HtmlTableVertical -Caption "Report Generation" -TableStyle "background:#eee;width:1000px" -ColumnStyle1 "background:#c0c0c0" -ColumnStyle2 "background:#eee" -TableHash $htmlTable
+        $htmlContent += New-HtmlTableVertical -Caption "Report Information" -TableHash $htmlTable
         
         Write-Log -Message "--- inserting abstract content block" -LogFile $logfile
 
-        $htmlContent += "<table style=`"width:1000px`"><tr><td>"
+        $htmlContent += "<table class=`"reportTable`"><tr><td>"
         $htmlContent += "This document provides a point-in-time report of the current state of the System Center Configuration Manager site environment for $CustomerName. "
         $htmlContent += "For questions, concerns or comments, please consult the author of this assessment report. "
-        $htmlContent += "This report was generated using CMHealthCheck $ModuleVer on $(Get-Date)."
+        $htmlContent += "This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for "
+        $htmlContent += "their work which laid the foundation on which this code was developed."
         $htmlContent += "</td></tr></table>"
-
-        Write-Log -Message "--- inserting revision table" -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Revision History" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Version=100,Date=100,Description" -RowStyle2 "background:#eee" -Rows 3
-        Write-Log -Message "--- inserting summary findings table" -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Summary of Findings" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
-        Write-Log -Message "--- inserting recommendations table" -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Summary of Recommendations" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
 
         Write-Log -Message "--- entering section reports" -LogFile $logfile
 
         $htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '1' -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
         $htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '2' -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
         $htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '3' -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
         $htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '4' -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
-
         if ($Detailed) {
             $htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '5' -LogFile $logfile
-            $htmlContent += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
         }
-
         $htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '6' -LogFile $logfile
-        $htmlContent += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Explanation" -RowStyle2 "background:#eee" -Rows 2
 
         #Set-DocAppendix
 
         Write-Log -Message "inserting copyright footer" -LogFile $logfile
-        $htmlContent += "<p class=`"footer`">CMHealthCheck $ModuleVer . Copyright &copy; 2018 Skatterbrainz</p>"
+        $htmlContent += "<p class=`"footer`">CMHealthCheck $ModuleVer . Copyright &copy; $((Get-Date).Year) $CopyrightName</p>"
         $htmlContent += "</body></html>"
+
         Write-Log -Message "writing output file: $ReportFile" -LogFile $logfile
         $htmlContent | Out-File -FilePath $ReportFile -Force
     }
