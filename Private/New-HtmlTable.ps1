@@ -2,17 +2,17 @@ function New-HtmlTableBegin {
     param (
         [string] $Caption = "",
         [string] $CaptionStyle = "h2", 
-        [string] $TableStyle = "",
+        [string] $TableClass = "reportTable",
         [string] $HeadingStyle = "",
         [string] $HeadingNames
     )
     Write-Log -Message "--- function: New-HtmlTableBegin" -LogFile $logfile
-    Write-Log -Message "--- tablestyle`:$TableStyle headingstyle`:$HeadingStyle" -LogFile $logfile
+    Write-Log -Message "--- tableclass`:$TableClass headingstyle`:$HeadingStyle" -LogFile $logfile
 
     if (!([string]::IsNullOrEmpty($Caption))) {
         $Caption = "<$CaptionStyle>$Caption</$CaptionStyle>"
     }
-    $result = "$Caption <table style=`"$TableStyle`">"
+    $result = "$Caption <table class=`"$TableClass`">"
 
     $result += "<tr>"
     foreach ($item in $HeadingNames.Split(',')) {
@@ -41,21 +41,20 @@ function New-HtmlTableBlock {
     param (
         [string] $Caption = "",
         [string] $CaptionStyle = "h2",
-        [string] $TableStyle = "",
+        [string] $TableClass = "reportTable",
         [string] $HeadingStyle = "",
         [string] $HeadingNames,
         [int] $Rows = 1
     )
     Write-Log -Message "--- function: New-HtmlTableBlock" -LogFile $logfile
-    $result = New-HtmlTableBegin -Caption $Caption -CaptionStyle $CaptionStyle -TableStyle $TableStyle -HeadingStyle $HeadingStyle -HeadingNames $HeadingNames
+    $result = New-HtmlTableBegin -Caption $Caption -CaptionStyle $CaptionStyle -TableClass $TableClass -HeadingStyle $HeadingStyle -HeadingNames $HeadingNames
     $columns = $HeadingNames.Split(',').Count
     for ($row=1; $row -le $rows; $row++) {
+        # alternate row styles (even/odd)
         if ($row % 2 -eq 0) {
-            # even numbered rows
             $result += "<tr class=`"rowstyle1`">"
         }
         else {
-            # odd numbered rows
             $result += "<tr class=`"rowstyle2`">"
         }
         for ($col=1;$col -le $columns;$col++) {
@@ -71,16 +70,16 @@ function New-HtmlTableVertical {
     param (
         [string] $Caption = "",
         [string] $CaptionStyle = "h2",
-        [string] $TableStyle = "",
+        [string] $TableClass = "reportTable",
         [hashtable] $TableHash
     )
     Write-Log -Message "--- function: New-HtmlTableVertical" -LogFile $logfile
     if (!([string]::IsNullOrEmpty($Caption))) {
         $Caption = "<$CaptionStyle>$Caption</$CaptionStyle>"
     }
-    $result = "$Caption <table style=`"$TableStyle`">"
+    $result = "$Caption <table class=`"$TableClass`">"
     foreach ($key in $TableHash.Keys) {
-        $val = $TableHash.Item($key)
+        $val  = $TableHash.Item($key)
         $col1 = "<td class=`"columnstyle1`">$key</td>"
         $col2 = "<td class=`"columnstyle2`">$val</td>"
         $result += "<tr>$($col1)$($col2)</tr>"

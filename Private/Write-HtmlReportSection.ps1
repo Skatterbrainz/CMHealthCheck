@@ -4,8 +4,8 @@ Function Write-HtmlReportSection {
 		$Section,
 		[switch] $Detailed,
         $LogFile
-    )
-    Write-Log -Message "---------------------------------------------" -LogFile $logfile
+	)
+    Write-Log -Message "---------------------------------------------------" -LogFile $logfile
 	Write-Log -Message "function...... Write-HtmlReportSection ****" -LogFile $logfile
 	Write-Log -Message "section....... $section" -LogFile $logfile
 	Write-Log -Message "detail........ $($detailed.ToString())" -LogFile $logfile
@@ -23,13 +23,12 @@ Function Write-HtmlReportSection {
                     $Description += " - Detailed"
                 }            
             }
-            $result += "<p>$Description</p>"
+            $result += "<h3>$Description</h3>"
 			#Write-WordText -WordSelection $selection -Text $Description -Style $healthCheck.WordStyle -NewLine $true
 			Continue;
         }
         Write-Log -Message "..................................................." -LogFile $logfile
 		Write-Log -Message "description... $Description" -LogFile $logfile
-        #Write-WordText -WordSelection $selection -Text $Description -Style $healthCheck.WordStyle -NewLine $true
         $result += "<h2>$Description</h2>"
         $bFound = $false
         $tableName = $healthCheck.XMLFile
@@ -60,30 +59,28 @@ Function Write-HtmlReportSection {
 						default { $newstyle = $healthCheck.WordStyle; break }
 					}
 					$xmltile += $filename.Substring(0,$filename.IndexOf("_"))
-                    #Write-WordText -WordSelection $selection -Text $xmltile -Style $newstyle -NewLine $true
+					Write-Log -Message "--- xmlTile = $xmlTile" -LogFile $logfile
                     $result += "<$CapStyle>$xmlTile</$CapStyle>"
 				}
 				
 	            if (!(Test-Path ($reportFolder + $filename))) {
-                    #Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
-                    $result += "<table class=`"table1000`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
-					Write-Log -Message "Table does not exist" -LogFile $logfile -Severity 2
+                    $result += "<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
+					Write-Log -Message "Table does not exist" -LogFile $logfile
 				}
 				else {
-					#Write-Log -Message "importing XML file: $filename" -LogFile $logfile
+					Write-Log -Message "importing XML file: $filename" -LogFile $logfile
 					$datatable = Import-CliXml -Path ($reportFolder + $filename)
 					$count = 0
 					$datatable | Where-Object { $count++ }
 					
 		            if ($count -eq 0) {
-                        $result += "<table class=`"table1000`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
-						Write-Log -Message "Table......... 0 rows" -LogFile $logfile -Severity 2
+                        $result += "<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
+						Write-Log -Message "Table......... 0 rows" -LogFile $logfile
 						continue
 		            }
 
 					switch ($healthCheck.PrintType.ToLower()) {
 						"table" {
-                            Write-Log -Message "- - - - - - - - - - - - - - - - - -" -LogFile $logfile
 							Write-Log -Message "table type.... table" -LogFile $logfile
                             $Columns = 0
                             foreach ($field in $HealthCheck.Fields.Field) {
@@ -93,46 +90,49 @@ Function Write-HtmlReportSection {
                                 }
                                 $Columns++
                             } # foreach
-                            Write-Verbose "[table] columns: $Columns"
-                            $table = "<table class=`"table1000`">"
-                            Write-Log -Message "table style... $TableStyle" -LogFile $logfile
-							# added to force table width consistency in 1.0.4 (Issue 13)
 							$i = 1;
-							Write-Log -Message "structure..... $count rows and $Columns columns" -LogFile $logfile
-                            Write-Log -Message "writing table column headings..." -LogFile $logfile
-                            $table += "<tr>"
+							Write-Log -Message "--- structure..... $count rows and $Columns columns" -LogFile $logfile
+                            Write-Log -Message "--- writing table column headings..." -LogFile $logfile
+                            $table = "<table class=`"reportTable`"><tr>"
                             foreach ($field in $HealthCheck.Fields.Field) {
                                 if ($section -eq 5) {
                                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
                                     elseif ((!($detailed)) -and ($field.groupby -notin ('2','3'))) { continue }
                                 }
-                                $table += "<th class=`"columnstyle3`">$($field.Description)</th>"
+                                $table += "<th class=`"headingRow1`">$($field.Description)</th>"
 								$i++
                             } # foreach
                             $table += "</tr>"
-							$xRow = 2
 							$records = 1
-                            $y = 0
                             $rownum = 0
-							Write-Log -Message "writing data rows for table body..." -LogFile $logfile
+							$xRow = 2
+                            $y = 0
+							Write-Log -Message "--- writing data rows for table body..." -LogFile $logfile
 							foreach ($row in $datatable) {
 								if ($records -ge 500) {
 									Write-Log -Message ("Exported..... $(500*($y+1)) records") -LogFile $logfile
 									$records = 1
 									$y++
-                                }
-                                if ($DynamicTableRows) {
-                                    # alternate row colors even/odd
-                                    if ($rownum % 2 -eq 0) {
-                                        $table += "<tr class=`"rowstyle3`">"
-                                    }
-                                    else {
-                                        $table += "<tr class=`"rowstyle4`">"
-                                    }
-                                }
-                                else {
-                                    $table += "<tr class=`"rowstylex`">"
-                                }
+								}
+								switch ($Script:TableRowStyle) {
+									'Solid' {
+										$table += "<tr class=`"rowstyle3`">"
+										break
+									}
+									'Alternating' {
+										if ($rownum % 2 -eq 0) {
+											$table += "<tr class=`"rowstyle3`">"
+										}
+										else {
+											$table += "<tr class=`"rowstyle4`">"
+										}
+										break
+									}
+									'Dynamic' {
+										$table += "<tr class=`"rowstylex`">"
+										break
+									}
+								}
 								$i = 1;
 								foreach ($field in $HealthCheck.Fields.Field) {
                                     if ($section -eq 5) {
@@ -167,13 +167,14 @@ Function Write-HtmlReportSection {
                                     $table += "<td>$val</td>"
 									$i++
 		                        } # foreach
-								$xRow++
+                                $table += "</tr>"
                                 $records++
                                 $rownum++
-                                $table += "</tr>"
+								$xRow++
 							} # foreach
-                            $table += "</table>"
-                            $result += $table
+							Write-Log -Message "--- appending table row count: $Count" -LogFile $logfile
+							$table += "<tr class=`"headingRow1`"><td colspan=`"$Columns`">$Count items found</td></tr></table>"
+							$result += $table
                             <#
                             if ($count -gt 2) {
 								Write-Verbose "SORT OPERATION - SORTING TABLE"
@@ -187,7 +188,6 @@ Function Write-HtmlReportSection {
 							break
 						}
 						"simpletable" {
-                            Write-Log -Message "- - - - - - - - - - - - - - - - - -" -LogFile $logfile
 							Write-Log -Message "table type.... simpletable" -LogFile $logfile
 							$Columns = 0
 							foreach ($field in $HealthCheck.Fields.Field) {
@@ -197,12 +197,13 @@ Function Write-HtmlReportSection {
                                 }
                                 $Columns++
                             }
-                            $table = "<$CapStyle>$Caption</$CapStyle> <table class=`"table1000`"><tr>"
-							$i = 1;
 							Write-Log -Message "structure..... $Columns rows and 2 columns" -LogFile $logfile
 							$records = 1
+							$rownum = 0
+							$i = 1;
                             $y=0
-                            $rownum = 0
+                            $table = "<$CapStyle>$Caption</$CapStyle> <table class=`"reportTable`">"
+							Write-Log -Message "--- building simpletable column heading cells" -Logfile $logfile
 							foreach ($field in $HealthCheck.Fields.Field) {
                                 if ($section -eq 5) {
                                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
@@ -213,7 +214,6 @@ Function Write-HtmlReportSection {
 									$records = 1
 									$y++
                                 }
-                                $table += "<th class=`"$columnstyle3`">$($field.Description)</th>"
 								if ($poshversion -ne 3) { 
 									$TextToWord = "";
 									switch ($field.Format.ToLower()) {
@@ -249,29 +249,38 @@ Function Write-HtmlReportSection {
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
-                                }
-                                if ($DynamicTableRows) {
-                                    if ($rownum % 2 -eq 0) {
-                                        $table += "<tr class=`"rowstyle3`">"
-                                    }
-                                    else {
-                                        $table += "<tr class=`"rowstyle4`">"
-                                    }
-                                }
-                                else {
-                                    $table += "<tr class=`"rowstylex`">"
-                                }
-                                $table += "<td style=`"width:200px`">$($field.Description)</td>"
+								}
+								switch ($Script:TableRowStyle) {
+									'Solid' {
+										$table += "<tr class=`"rowstyle3`">"
+										break
+									}
+									'Alternating' {
+										if ($rownum % 2 -eq 0) {
+											$table += "<tr class=`"rowstyle3`">"
+										}
+										else {
+											$table += "<tr class=`"rowstyle4`">"
+										}
+										break
+									}
+									'Dynamic' {
+										$table += "<tr class=`"rowstylex`">"
+										break
+									}
+								}
+                                $table += "<td class=`"rowstyle1`" style=`"width:300px`">$($field.Description)</td>"
                                 $table += "<td>$($TextToWord.ToString())</td></tr>"
 								$i++
                                 $records++
                                 $rownum++
-                            } # foreach
-                            $result += "<tr class=`"rowstyle4`"><td colspan=`"2`">$count items found</td></tr></table>"
+							} # foreach
+							Write-Log -Message "--- appending simpletable row count: $Count" -LogFile $logfile
+							$table += "<tr class=`"headingRow1`"><td colspan=2>$Count items found</td></tr></table>"
+							$result += $table
 							break
 						}
 						default {
-                            Write-Log -Message "- - - - - - - - - - - - - - - - - -" -LogFile $logfile
 							Write-Log -Message "table type.... default" -LogFile $logfile
 							$records = 1
 							$y=0
@@ -298,22 +307,19 @@ Function Write-HtmlReportSection {
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
-                                    #Write-WordText -WordSelection $selection -Text ($TextToWord.ToString()) -NewLine $true
-                                    $result += "<p>$($TextToWord.ToString())</p>"
+                                    $result += "<table class=`"reportTable`"><tr><td>$($TextToWord.ToString())</td></tr></table>"
 		                        } # foreach
 								$records++
 		                    } # foreach
 							#Write-Verbose "NEW: appending row count label below table"
-                            $result += "<p>$($count+1) items found</p>"
+                            $result += "<p>$($count+1) items found . . .</p>"
 						} # end of default switch case
 					} # switch
-                    #Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings $ReviewTableCols -StyleName $ReviewTableStyle
-                    $result += New-HtmlTableBlock -Caption "Review Comments" -CaptionStyle "h3" -TableStyle "width:1000px" -HeadingStyle "background:#c0c0c0" -HeadingNames "Item=60,Severity=100,Description" -RowStyle2 "background:#eee" -Rows 3
 				}
 			}
 		} # foreach
         if ($bFound -eq $false) {
-            $result += "<table style=`"width:800px`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
+            $result += "<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 		    Write-Log -Message ("Table does not exist") -LogFile $logfile -Severity 2
 		}
     } # foreach
