@@ -16,7 +16,8 @@ Convert extracted ConfigMgr site information to HTML report
 Export-CMHealthCheckHTML [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed]
  [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
  [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>]
- [[-Theme] <String>] [[-CssFilename] <String>] [-DynamicTableRows] [-Overwrite] [<CommonParameters>]
+ [[-Theme] <String>] [[-CssFilename] <String>] [[-TableRowStyle] <String>] [[-ImageFile] <String>] [-Overwrite]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -209,17 +210,32 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DynamicTableRows
-Apply mouse-over dynamic table row effects
+### -TableRowStyle
+Table Row Style option
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: False
+Position: 11
+Default value: Solid
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ImageFile
+Image Log file
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 12
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -249,7 +265,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 * 1.0.4 - 12/04/2017 - David Stein
-* 1.0.5 - 09/19/2018 - David Stein
+* 1.0.5 - 09/22/2018 - David Stein
 * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
 * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
 * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/

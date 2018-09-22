@@ -1,7 +1,7 @@
 ---
 external help file: CMHealthCheck-help.xml
 Module Name: CMHealthCheck
-online version: 
+online version:
 schema: 2.0.0
 ---
 
@@ -14,7 +14,7 @@ Extract ConfigMgr Site data
 
 ```
 Get-CMHealthCheck [-SmsProvider] <String> [[-OutputFolder] <String>] [[-NumberOfDays] <Int32>]
- [[-Healthcheckfilename] <String>] [-OverWrite] [-NoHotfix]
+ [[-Healthcheckfilename] <String>] [-OverWrite] [-NoHotfix] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,32 +25,32 @@ a final MS Word report.
 
 ## EXAMPLES
 
-### -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
 ```
 .\Get-CMHealthCheck -SmsProvider cm01.contoso.com -NumberofDays:30
 ```
 
-### -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 2
 ```
 .\Get-CMHealthCheck -SmsProvider cm01.contoso.com -Overwrite -Verbose
 ```
 
-### -------------------------- EXAMPLE 3 --------------------------
+### EXAMPLE 3
 ```
 .\Get-CMHealthCheck -SmsProvider cm01.contoso.com -HealthcheckDebug -Verbose
 ```
 
-### -------------------------- EXAMPLE 4 --------------------------
+### EXAMPLE 4
 ```
 .\Get-CMHealthCheck -SmsProvider cm01.contoso.com -NoHotfix
 ```
 
-### -------------------------- EXAMPLE 5 --------------------------
+### EXAMPLE 5
 ```
 .\Get-CMHealthCheck -SmsProvider cm01.contoso.com -OutputFolder "c:\temp"
 ```
 
-### -------------------------- EXAMPLE 6 --------------------------
+### EXAMPLE 6
 ```
 .\Get-CMHealthCheck -SmsProvider cm01.contoso.com -OutputFolder "c:\temp" -HealthcheckFilename ".\healthcheck.xml"
 ```
@@ -63,7 +63,7 @@ FQDN of SCCM site server
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 1
@@ -78,7 +78,7 @@ Path for output data files
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 2
@@ -93,7 +93,7 @@ Number of days to go back for alerts in logs (default = 7)
 ```yaml
 Type: Int32
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 3
@@ -108,7 +108,7 @@ Name of configuration file (default is .\assets\cmhealthcheck.xml)
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 4
@@ -125,7 +125,7 @@ running repeatedly on the same date
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -141,7 +141,7 @@ Can save significant runtime
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -150,12 +150,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+
 ## INPUTS
 
 ## OUTPUTS
 
 ## NOTES
-* 1.0.3 - 12/01/2017 - David Stein
+* 1.0.4 - 02/05/2018 - David Stein
       * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
       * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
       * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
@@ -174,4 +178,3 @@ Accept wildcard characters: False
   - Comments: To get the free disk space, enable the Free Space (MB) for the Logical Disk
 
 ## RELATED LINKS
-

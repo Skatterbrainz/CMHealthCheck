@@ -1,7 +1,7 @@
 ---
 external help file: CMHealthCheck-help.xml
 Module Name: CMHealthCheck
-online version: 
+online version:
 schema: 2.0.0
 ---
 
@@ -16,6 +16,7 @@ Convert extracted ConfigMgr site information to Word Document
 Export-CMHealthCheck [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed] [[-CoverPage] <String>]
  [[-Template] <String>] [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
  [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>] [-Overwrite]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,12 +27,12 @@ to be invoked on a desktop computer which has Office installed.
 
 ## EXAMPLES
 
-### -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
 ```
 Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
 
-### -------------------------- EXAMPLE 2 --------------------------
+### EXAMPLE 2
 ```
 Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
@@ -45,7 +46,7 @@ Path to output data folder (e.g.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 1
@@ -60,7 +61,7 @@ Log folder path
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 2
@@ -75,7 +76,7 @@ Collect more granular data for final reporting
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -90,7 +91,7 @@ Word theme cover page (default = "Slice (Light)")
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 3
@@ -107,7 +108,7 @@ If Template is specified, CoverPage and Copyright are ignored.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 4
@@ -122,7 +123,7 @@ Name of customer (default = "Customer Name")
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 5
@@ -137,7 +138,7 @@ Report Author name (default = "Your Name")
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 6
@@ -152,7 +153,7 @@ Text to use for copyright footer string (default = "Your Company Name")
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 7
@@ -168,7 +169,7 @@ The file can be local, UNC or URI sourced as well
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 8
@@ -184,7 +185,7 @@ The file can be local, UNC or URI sourced as well
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 9
@@ -199,7 +200,7 @@ Enable verbose output (or use -Verbose)
 ```yaml
 Type: Object
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 10
@@ -214,7 +215,7 @@ Overwrite existing report file if found
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -222,6 +223,10 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -235,4 +240,3 @@ Accept wildcard characters: False
 * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
 
 ## RELATED LINKS
-
