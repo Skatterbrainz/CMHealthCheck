@@ -5,43 +5,46 @@ online version:
 schema: 2.0.0
 ---
 
-# Export-CMHealthCheck
+# Export-CMHealthCheckHTML
 
 ## SYNOPSIS
-Convert extracted ConfigMgr site information to Word Document
+Convert extracted ConfigMgr site information to HTML report
 
 ## SYNTAX
 
 ```
-Export-CMHealthCheck [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed] [[-CoverPage] <String>]
- [[-Template] <String>] [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
- [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>] [-Overwrite]
+Export-CMHealthCheckHTML [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed]
+ [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
+ [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>]
+ [[-Theme] <String>] [[-CssFilename] <String>] [[-TableRowStyle] <String>] [[-ImageFile] <String>] [-Overwrite]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Converts the data output from Get-CMHealthCheck to generate a
-report document using Microsoft Word (2010, 2013, 2016).
-Intended
-to be invoked on a desktop computer which has Office installed.
+Converts the data output from Get-CMHealthCheck to generate an HTML report file
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein"
 ```
 
 ### EXAMPLE 2
 ```
-Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+```
+
+### EXAMPLE 3
+```
+Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -DynamicTableRows -Verbose
 ```
 
 ## PARAMETERS
 
 ### -ReportFolder
 Path to output data folder (e.g.
-".\2017-11-17\cm01.contoso.com")
+".\2018-9-19\cm01.contoso.com")
 
 ```yaml
 Type: String
@@ -56,7 +59,7 @@ Accept wildcard characters: False
 ```
 
 ### -OutputFolder
-Log folder path
+Path to write new report file (default = User Documents folder)
 
 ```yaml
 Type: String
@@ -85,38 +88,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CoverPage
-Word theme cover page (default = "Slice (Light)")
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: Slice (Light)
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Template
-Word document file to use as a template.
-Should have a cover page already in place.
-If Template is specified, CoverPage and Copyright are ignored.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -CustomerName
 Name of customer (default = "Customer Name")
 
@@ -126,7 +97,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 3
 Default value: Customer Name
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -141,7 +112,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 4
 Default value: Your Name
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -156,8 +127,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
-Default value: Your Company Name
+Position: 5
+Default value: Skatterbrainz
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -172,7 +143,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -188,7 +159,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -203,8 +174,68 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 8
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Theme
+CSS style theme name, or 'Custom' to specify a file (default = 'Ocean')
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: Ocean
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CssFilename
+CSS file path to import when Theme is set to 'Custom'
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TableRowStyle
+Table Row Style option
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: Solid
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ImageFile
+Image Log file
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 12
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -234,6 +265,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## NOTES
 * 1.0.4 - 12/04/2017 - David Stein
+* 1.0.5 - 09/22/2018 - David Stein
 * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
 * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
 * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
