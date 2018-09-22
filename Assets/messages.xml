@@ -15076,10 +15076,10 @@ Solution: Check that the account used by SMS_EXECUTIVE has permission to publish
   <MessageSolution>
     <MessageID>7403</MessageID>
     <Description>Possible cause: SQL Server Reporting Service authentication.
-Solution: How to: Configure Windows Authentication in Reporting Services (http://technet.microsoft.com/en-us/library/cc281253.aspx).
+Solution: How to: Configure Windows Authentication in Reporting Services (http://technet.microsoft.com/en-us/library/cc281253.aspx). 
 
 Possible cause: Cummulative update package 4 for SQL Server 2008 R2 has not being installed.
-Solution: Install Cummulative update package 4 for SQL Server 2008 R2 (http://support.microsoft.com/kb/2345451).
+Solution: Install Cummulative update package 4 for SQL Server 2008 R2 (http://support.microsoft.com/kb/2345451). 
 
 Possible cause: SQL Server Reporting Service corrupt.
 Solution: How to rebuild the report server performance counters (SSRS) (http://social.technet.microsoft.com/wiki/contents/articles/how-to-rebuild-the-report-server-performance-counters-ssrs.aspx).</Description>
