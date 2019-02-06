@@ -53,3 +53,38 @@ _Part 2a - Reporting_
 ## Removal and Cleanup
 
 * To remove CMHealthCheck module and related files, use the Remove-Module or Uninstall-Module cmdlets.
+
+## Examples
+
+### Example 1
+
+Installation and execution on ConfigMgr primary site server cm01.contoso.local site P01...
+
+```powershell
+Install-Module CMHealthCheck
+.\Get-CMHealthCheck -SmsProvider cm01.contoso.com
+```
+
+### Example 2
+
+Export collected data in folder ".\2019-2-6\cm01.contoso.com" to HTML report...
+
+```powershell
+# basic example
+
+Export-CMHealthCheckHTML -ReportFolder "2019-2-6\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Verbose
+
+# fancy example
+
+Export-CMHealthCheckHTML -ReportFolder "2019-2-6\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -DynamicTableRows -Verbose
+```
+
+### Example 3
+
+Export collected data in folder ".\2019-2-6\cm01.contoso.com" to Microsoft Word report...
+
+```powershell
+
+Export-CMHealthCheck -ReportFolder "2019-2-6\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+
+```
