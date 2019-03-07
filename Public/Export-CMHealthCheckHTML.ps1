@@ -1,4 +1,4 @@
-#requires -version 3
+#requires -version 5
 function Export-CMHealthCheckHTML {
     <#
     .SYNOPSIS
@@ -13,6 +13,9 @@ function Export-CMHealthCheckHTML {
         Collect more granular data for final reporting
     .PARAMETER CustomerName
         Name of customer (default = "Customer Name")
+    .PARAMETER AutoConfig
+        Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+        to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
     .PARAMETER AuthorName
         Report Author name (default = "Your Name")
     .PARAMETER CopyrightName
@@ -21,8 +24,8 @@ function Export-CMHealthCheckHTML {
         CSS style theme name, or 'Custom' to specify a file (default = 'Ocean')
     .PARAMETER CssFilename
         CSS file path to import when Theme is set to 'Custom'
-    .PARAMETER DynamicTableRows
-        Apply mouse-over dynamic table row effects
+    .PARAMETER TableRowStyle
+        Apply CSS table style: Solid, Alternating, or Dynamic. Default is Solid
     .PARAMETER Overwrite
         Overwrite existing report file if found
     .PARAMETER Healthcheckfilename
@@ -33,21 +36,15 @@ function Export-CMHealthCheckHTML {
         The file can be local, UNC or URI sourced as well
     .PARAMETER Healthcheckdebug
         Enable verbose output (or use -Verbose)
-    .PARAMETER ReviewTables
-        Show review tables for adding comments after each section
     .EXAMPLE
         Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein"
     .EXAMPLE
         Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
     .EXAMPLE
-        Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -DynamicTableRows -Verbose
-    .NOTES
-        * 1.0.4 - 12/04/2017 - David Stein
-        * 1.0.5 - 09/22/2018 - David Stein
-        * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-        * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-        * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-        * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+        Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -TableRowStyle Dynamic -Verbose
+    .EXAMPLE
+        Export-CMHealthCheckHTML -ReportFolder "2019-3-6\cm01.contoso.com" -AutoConfig -CustomerName "Contoso"
+        Applies custom parameters using "cmhealthconfig.txt" file in $env:USERPROFILE\Documents folder
     #>
     [CmdletBinding()]
     param (
@@ -61,6 +58,8 @@ function Export-CMHealthCheckHTML {
             [switch] $Detailed,
         [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
             [string] $CustomerName = "Customer Name",
+        [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
+            [switch] $AutoConfig,
         [parameter (Mandatory = $False, HelpMessage = "Author's full name")] 
             [string] $AuthorName = "Your Name",
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
@@ -117,6 +116,33 @@ function Export-CMHealthCheckHTML {
     }
     Write-Verbose "using messages file: $MessagesFilename"
 
+    $autoconfigfile = Join-Path -Path $env:USERPROFILE -ChildPath "documents\cmhealthconfig.txt"
+    if ($AutoConfig -and (Test-Path $autoconfigfile)) {
+        Write-Verbose "importing settings from config file: $autoconfigfile"
+        $cfgdata = Get-Content -Path $autoconfigfile
+        $cfgdata | % {
+            $rowset = $_ -split '='
+            if (![string]::IsNullOrEmpty($rowset[1])) {
+                switch($rowset[1]) {
+                    'True' {
+                        Set-Variable -Name $rowset[0] -Value $True
+                        Write-Verbose "...$($rowset[0]) == $($rowset[1])"
+                        break
+                    }
+                    'False' {
+                        Set-Variable -Name $rowset[0] -Value $False
+                        Write-Verbose "...$($rowset[0]) == $($rowset[1])"
+                        break
+                    }
+                    default {
+                        Set-Variable -Name $rowset[0] -Value $rowset[1]
+                        Write-Verbose "...$($rowset[0]) == $($rowset[1])"
+                        break
+                    }
+                }
+            }
+        }
+    }
     if ($Theme -eq 'Custom') {
         if ($CssFilename -eq "") {
             Write-Warning "No stylesheet was specified for [custom] option. Using default.css"
@@ -143,7 +169,7 @@ function Export-CMHealthCheckHTML {
         $PSDefaultParameterValues = @{"*:Verbose"=$True}
     }
 
-    $logFolder = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
+    $logFolder  = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
     $reportFile = Join-Path -Path $OutputFolder -ChildPath $TempFilename
     if (-not (Test-Path $logFolder)) {
         Write-Verbose "creating log folder: $logFolder"

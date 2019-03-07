@@ -9,6 +9,9 @@ function Export-CMHealthCheck {
         to be invoked on a desktop computer which has Office installed.
     .PARAMETER ReportFolder
         Path to output data folder (e.g. ".\2017-11-17\cm01.contoso.com")
+    .PARAMETER AutoConfig
+        Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+        to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
     .PARAMETER Detailed
         Collect more granular data for final reporting
     .PARAMETER CoverPage
@@ -36,12 +39,8 @@ function Export-CMHealthCheck {
         Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
     .EXAMPLE
         Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
-    .NOTES
-        * 1.0.4 - 12/04/2017 - David Stein
-        * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-        * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-        * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-        * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+    .EXAMPLE
+        Export-CMHealthChedk -ReportFolder "2019-3-6\cm01.contoso.com" -AutoConfig -CustomerName "Contoso"
     #>
     [CmdletBinding()]
     param (
@@ -51,14 +50,16 @@ function Export-CMHealthCheck {
         [parameter(Mandatory=$False, HelpMessage="Log folder path")]
             [ValidateNotNullOrEmpty()]
             [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+        [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
+            [string] $CustomerName = "Customer Name",
+        [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
+            [switch] $AutoConfig,
         [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")] 
             [switch] $Detailed,
         [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")] 
             [string] $CoverPage = "Slice (Light)",
         [parameter (Mandatory = $False, HelpMessage = "Word document source file")]
             [string] $Template = "", 
-        [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
-            [string] $CustomerName = "Customer Name",
         [parameter (Mandatory = $False, HelpMessage = "Author's full name")] 
             [string] $AuthorName = "Your Name",
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
@@ -99,7 +100,35 @@ function Export-CMHealthCheck {
     $poshversion       = $PSVersionTable.PSVersion.Major
     $osversion         = (Get-WmiObject -Class Win32_OperatingSystem).Caption
     #$FormatEnumerationLimit = -1
-    
+
+    $autoconfigfile = Join-Path -Path $env:USERPROFILE -ChildPath "documents\cmhealthconfig.txt"
+    if ($AutoConfig -and (Test-Path $autoconfigfile)) {
+        Write-Verbose "importing settings from config file: $autoconfigfile"
+        $cfgdata = Get-Content -Path $autoconfigfile
+        $cfgdata | % {
+            $rowset = $_ -split '='
+            if (![string]::IsNullOrEmpty($rowset[1])) {
+                switch($rowset[1]) {
+                    'True' {
+                        Set-Variable -Name $rowset[0] -Value $True
+                        Write-Verbose "...$($rowset[0]) == $($rowset[1])"
+                        break
+                    }
+                    'False' {
+                        Set-Variable -Name $rowset[0] -Value $False
+                        Write-Verbose "...$($rowset[0]) == $($rowset[1])"
+                        break
+                    }
+                    default {
+                        Set-Variable -Name $rowset[0] -Value $rowset[1]
+                        Write-Verbose "...$($rowset[0]) == $($rowset[1])"
+                        break
+                    }
+                }
+            }
+        }
+    }
+
     if ($Healthcheckfilename -eq "") {
         $Healthcheckfilename = Join-Path -Path $ModulePath -ChildPath "assets\cmhealthcheck.xml"
     }
