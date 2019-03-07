@@ -40,11 +40,11 @@ _Part 2a - Reporting_
 
 * Refer to the markdown files under \Docs for syntax and examples.
 * Tested with the following environments:
-   * ConfigMgr 2012 R2, 1610, 1702, 1706, 1709, 1710, 1711
+   * ConfigMgr 2012 R2, 1610 to 1902.2 (GA and Tech Preview)
    * Windows Server 2012, 2012 R2, 2016
-   * SQL Server 2012, 2016 SP1
-   * Windows 10 1703, 1709
-   * Office 2013, 2016
+   * SQL Server 2012, 2014, 2016, 2017
+   * Windows 10 1703 to 1809
+   * Office 2013, 2016 / 365
    * PowerShell 3.0, 5.0, 5.1
   
 * If you like it, please share with others.  If you hate it, tell me why so I can improve on it?
