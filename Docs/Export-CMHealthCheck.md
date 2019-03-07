@@ -13,10 +13,10 @@ Convert extracted ConfigMgr site information to Word Document
 ## SYNTAX
 
 ```
-Export-CMHealthCheck [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed] [[-CoverPage] <String>]
- [[-Template] <String>] [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
- [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>] [-Overwrite]
- [<CommonParameters>]
+Export-CMHealthCheck [-ReportFolder] <String> [[-OutputFolder] <String>] [[-CustomerName] <String>]
+ [-AutoConfig] [-Detailed] [[-CoverPage] <String>] [[-Template] <String>] [[-AuthorName] <String>]
+ [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>]
+ [[-Healthcheckdebug] <Object>] [-Overwrite] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,6 +35,11 @@ Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Cust
 ### EXAMPLE 2
 ```
 Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+```
+
+### EXAMPLE 3
+```
+Export-CMHealthChedk -ReportFolder "2019-3-6\cm01.contoso.com" -AutoConfig -CustomerName "Contoso"
 ```
 
 ## PARAMETERS
@@ -70,6 +75,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomerName
+Name of customer (default = "Customer Name")
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: Customer Name
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AutoConfig
+Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Detailed
 Collect more granular data for final reporting
 
@@ -94,7 +130,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: Slice (Light)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -111,23 +147,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CustomerName
-Name of customer (default = "Customer Name")
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
 Position: 5
-Default value: Customer Name
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -233,10 +254,5 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-* 1.0.4 - 12/04/2017 - David Stein
-* Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-* Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-* Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-* Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
 
 ## RELATED LINKS

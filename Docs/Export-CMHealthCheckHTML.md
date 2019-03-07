@@ -14,7 +14,7 @@ Convert extracted ConfigMgr site information to HTML report
 
 ```
 Export-CMHealthCheckHTML [-ReportFolder] <String> [[-OutputFolder] <String>] [-Detailed]
- [[-CustomerName] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>]
+ [[-CustomerName] <String>] [-AutoConfig] [[-AuthorName] <String>] [[-CopyrightName] <String>]
  [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>]
  [[-Theme] <String>] [[-CssFilename] <String>] [[-TableRowStyle] <String>] [[-ImageFile] <String>] [-Overwrite]
  [<CommonParameters>]
@@ -37,8 +37,15 @@ Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -C
 
 ### EXAMPLE 3
 ```
-Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -DynamicTableRows -Verbose
+Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -TableRowStyle Dynamic -Verbose
 ```
+
+### EXAMPLE 4
+```
+Export-CMHealthCheckHTML -ReportFolder "2019-3-6\cm01.contoso.com" -AutoConfig -CustomerName "Contoso"
+```
+
+Applies custom parameters using "cmhealthconfig.txt" file in $env:USERPROFILE\Documents folder
 
 ## PARAMETERS
 
@@ -99,6 +106,22 @@ Aliases:
 Required: False
 Position: 3
 Default value: Customer Name
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AutoConfig
+Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -211,7 +234,8 @@ Accept wildcard characters: False
 ```
 
 ### -TableRowStyle
-Table Row Style option
+Apply CSS table style: Solid, Alternating, or Dynamic.
+Default is Solid
 
 ```yaml
 Type: String
@@ -264,11 +288,5 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-* 1.0.4 - 12/04/2017 - David Stein
-* 1.0.5 - 09/22/2018 - David Stein
-* Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-* Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-* Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-* Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
 
 ## RELATED LINKS
