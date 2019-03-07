@@ -29,24 +29,24 @@ to be invoked on a desktop computer which has Office installed.
 
 ### EXAMPLE 1
 ```
-Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+Export-CMHealthCheck -ReportFolder "2019-03-06\cm01.contoso.local" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
 
 ### EXAMPLE 2
 ```
-Export-CMHealthCheck -ReportFolder "2017-11-17\cm01.contoso.com" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+Export-CMHealthCheck -ReportFolder "2019-03-06\cm01.contoso.local" -Detailed -Template ".\contoso.docx" -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
 
 ### EXAMPLE 3
 ```
-Export-CMHealthChedk -ReportFolder "2019-3-6\cm01.contoso.com" -AutoConfig -CustomerName "Contoso"
+Export-CMHealthCheck -ReportFolder "2019-03-06\cm01.contoso.local" -AutoConfig -CustomerName "Contoso"
 ```
 
 ## PARAMETERS
 
 ### -ReportFolder
 Path to output data folder (e.g.
-".\2017-11-17\cm01.contoso.com")
+".\2019-03-06\cm01.contoso.local")
 
 ```yaml
 Type: String
@@ -76,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -CustomerName
-Name of customer (default = "Customer Name")
+Name of customer (default = "Customer Name"), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -Detailed
-Collect more granular data for final reporting
+Collect more granular data for final reporting, or use AutoConfig file
 
 ```yaml
 Type: SwitchParameter
@@ -122,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -CoverPage
-Word theme cover page (default = "Slice (Light)")
+Word theme cover page (default = "Slice (Light)"), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -154,7 +154,7 @@ Accept wildcard characters: False
 ```
 
 ### -AuthorName
-Report Author name (default = "Your Name")
+Report Author name (default = "Your Name"), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -231,7 +231,7 @@ Accept wildcard characters: False
 ```
 
 ### -Overwrite
-Overwrite existing report file if found
+Overwrite existing report file if found, or use AutoConfig file
 
 ```yaml
 Type: SwitchParameter
@@ -254,5 +254,19 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Sample AutoConfig file cmhealthconfig.txt...
+AuthorName=John Wick
+CopyrightName=Retirement Specialists
+Theme=Ocean
+Detailed=True
+TableRowStyle=Solid
+CssFilename=c:\docs\wickrocks.css
+ImageFile=c:\docs\bodybags.png
+CoverPage=
+Template=
+HealthcheckFilename=
+MessagesFilename=
+HealthcheckDebug=False
+Overwrite=True
 
 ## RELATED LINKS

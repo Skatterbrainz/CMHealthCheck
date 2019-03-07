@@ -8,7 +8,7 @@ schema: 2.0.0
 # Export-CMHealthCheckHTML
 
 ## SYNOPSIS
-Convert extracted ConfigMgr site information to HTML report
+Publish CMHealthCheck HTML Report
 
 ## SYNTAX
 
@@ -27,22 +27,22 @@ Converts the data output from Get-CMHealthCheck to generate an HTML report file
 
 ### EXAMPLE 1
 ```
-Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein"
+Export-CMHealthCheckHTML -ReportFolder "2019-03-06\cm01.contoso.local" -Detailed -CustomerName "Contoso" -AuthorName "David Stein"
 ```
 
 ### EXAMPLE 2
 ```
-Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+Export-CMHealthCheckHTML -ReportFolder "2019-03-06\cm01.contoso.local" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
 
 ### EXAMPLE 3
 ```
-Export-CMHealthCheckHTML -ReportFolder "2018-9-19\cm01.contoso.com" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -TableRowStyle Dynamic -Verbose
+Export-CMHealthCheckHTML -ReportFolder "2019-03-06\cm01.contoso.local" -OutputFolder "c:\reports" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Theme 'Ocean' -TableRowStyle Dynamic -Verbose
 ```
 
 ### EXAMPLE 4
 ```
-Export-CMHealthCheckHTML -ReportFolder "2019-3-6\cm01.contoso.com" -AutoConfig -CustomerName "Contoso"
+Export-CMHealthCheckHTML -ReportFolder "2019-03-06\cm01.contoso.local" -AutoConfig -CustomerName "Contoso"
 ```
 
 Applies custom parameters using "cmhealthconfig.txt" file in $env:USERPROFILE\Documents folder
@@ -51,7 +51,7 @@ Applies custom parameters using "cmhealthconfig.txt" file in $env:USERPROFILE\Do
 
 ### -ReportFolder
 Path to output data folder (e.g.
-".\2018-9-19\cm01.contoso.com")
+".\2019-03-06\cm01.contoso.local")
 
 ```yaml
 Type: String
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Detailed
-Collect more granular data for final reporting
+Collect more granular data for final reporting, or use AutoConfig file
 
 ```yaml
 Type: SwitchParameter
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -CustomerName
-Name of customer (default = "Customer Name")
+Name of customer (default = "Customer Name"), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -127,7 +127,7 @@ Accept wildcard characters: False
 ```
 
 ### -AuthorName
-Report Author name (default = "Your Name")
+Report Author name (default = "Your Name"), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -142,7 +142,7 @@ Accept wildcard characters: False
 ```
 
 ### -CopyrightName
-Text to use for copyright footer string (default = "Your Company Name")
+Text to use for copyright footer string (default = "Your Company Name"), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -204,7 +204,7 @@ Accept wildcard characters: False
 ```
 
 ### -Theme
-CSS style theme name, or 'Custom' to specify a file (default = 'Ocean')
+CSS style theme name, or 'Custom' to specify a file (default = 'Ocean'), or use AutoConfig file
 
 ```yaml
 Type: String
@@ -219,7 +219,7 @@ Accept wildcard characters: False
 ```
 
 ### -CssFilename
-CSS file path to import when Theme is set to 'Custom'
+CSS file path to import when Theme is set to 'Custom', or use AutoConfig file
 
 ```yaml
 Type: String
@@ -235,7 +235,7 @@ Accept wildcard characters: False
 
 ### -TableRowStyle
 Apply CSS table style: Solid, Alternating, or Dynamic.
-Default is Solid
+Default is Solid, or use AutoConfig file
 
 ```yaml
 Type: String
@@ -265,7 +265,7 @@ Accept wildcard characters: False
 ```
 
 ### -Overwrite
-Overwrite existing report file if found
+Overwrite existing report file if found, or use AutoConfig file
 
 ```yaml
 Type: SwitchParameter
@@ -288,5 +288,19 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
+Sample AutoConfig file cmhealthconfig.txt...
+AuthorName=John Wick
+CopyrightName=Retirement Specialists
+Theme=Ocean
+Detailed=True
+TableRowStyle=Solid
+CssFilename=c:\docs\wickrocks.css
+ImageFile=c:\docs\bodybags.png
+CoverPage=
+Template=
+HealthcheckFilename=
+MessagesFilename=
+HealthcheckDebug=False
+Overwrite=True
 
 ## RELATED LINKS
