@@ -708,7 +708,66 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>Device Collections</XMLFile>
+    <XMLFile>BoundaryGroups</XMLFile>
+    <Description>Boundary Groups</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>boundarygroups</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="GroupID" Description="GroupID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Flags" Description="BG Flags" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="SiteCode" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CreatedOn" Description="Date Created" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Boundaries" Description="Boundaries" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteSystems" Description="Site Systems" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Boundaries</XMLFile>
+    <Description>Site Boundaries</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>boundaries</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="DisplayName" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="BoundaryID" Description="ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BValue" Description="Value" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BoundaryType" Description="Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BoundaryFlags" Description="Flags" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BGName" Description="Boundary Group" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Discoveries</XMLFile>
+    <Description>Discovery Methods</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>discoveries</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ItemType" Description="Type" value="" format="" key="true" groupby="1" />
+      <Field FieldName="SiteNumber" Description="Site" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SourceTable" Description="Source" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>DeviceCollections</XMLFile>
     <Description>Device Collections Summary</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -726,7 +785,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>User Collections</XMLFile>
+    <XMLFile>UserCollections</XMLFile>
     <Description>User Collections Summary</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -739,6 +798,25 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
       <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
       <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
       <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>Packages</XMLFile>
+    <Description>Software Packages Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>packages</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="PkgID" Description="PackageID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Type" Description="Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -793,9 +871,11 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <sqlquery></sqlquery>
     <Fields>
       <Field FieldName="DeviceID" Description="Device ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="VolumeName" Description="VolumeName" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FileSystem" Description="File System" value="" format="" key="false" groupby="1" />
       <Field FieldName="Size" Description="Size (GB)" value="" format="" key="false" groupby="1" />
       <Field FieldName="FreeSpace" Description="Free Space (GB)" value="" format="" key="false" groupby="1" />
-      <Field FieldName="FileSystem" Description="File System" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Used" Description="Used Space (GB)" value="" format="" key="false" groupby="1" />
       <Field FieldName="PctUsed" Description="Pct Used" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>

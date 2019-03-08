@@ -27,10 +27,12 @@ Function Write-HotfixStatus {
     $Fields = @("Title", "Date")
     $HotfixTable = New-CmDataTable -tablename $tableName -fields $Fields
     foreach ($hotfix in $return) {
-        $row = $HotfixTable.NewRow()
-        $row.Title = $hotfix.Title
-        $row.Date = $hotfix.Date
-        $HotfixTable.Rows.Add($row)
+        if (![string]::IsNullOrEmpty($hotfix.Title)) {
+            $row = $HotfixTable.NewRow()
+            $row.Title = $hotfix.Title
+            $row.Date = $hotfix.Date
+            $HotfixTable.Rows.Add($row)
+        }
     }
     , $HotfixTable | Export-CliXml -Path ($filename)
 }

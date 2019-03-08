@@ -85,11 +85,23 @@ Function Export-ReportSection {
                         Write-HotfixStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null
                     }
 				}
+				'discoveries' {
+					Write-DiscoveryMethods -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
 				'devcollections' {
 					Write-DevCollections -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
 				'usercollections' {
 					Write-UserCollections -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'packages' {
+					Write-CmPackages -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'boundarygroups' {
+					Write-BoundaryGroups -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'boundaries' {
+					Write-Boundaries -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
 				'localgroups' {
 					Write-LocalGroups -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
