@@ -405,7 +405,6 @@ WHERE
 	smsgs.sitecode = @sitecode
 ORDER BY smsgs.Time DESC
 
-
 IF (@starttime IS NOT NULL)
 SELECT @starttime AS StartTime,
 CASE 
@@ -716,6 +715,24 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <WordStyle>Heading 2</WordStyle>
     <EmptyText>There is no information to report</EmptyText>
     <querytype>DevCollections</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>User Collections</XMLFile>
+    <Description>User Collections Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>UserCollections</querytype>
     <sqlquery></sqlquery>
     <Fields>
       <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
