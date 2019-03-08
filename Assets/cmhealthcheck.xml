@@ -900,7 +900,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
       <Field FieldName="Member" Description="Member" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
-  <HeathCheck>
+  <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
     <XMLFile>@@ServerName@@_LocalUsers</XMLFile>
