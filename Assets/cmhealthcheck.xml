@@ -703,6 +703,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <Fields>
       <Field FieldName="TotalMemory" Description="Total Physical Memory" value="" format="" key="false" groupby="1" />
       <Field FieldName="MaxLimit" Description="Max Allocated to SQL" value="" format="" key="" groupby="1" />
+      <Field FieldName="Pct" Description="Pct" value="" format="" key="" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -844,10 +845,10 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <querytype>ServiceStatus</querytype>
     <sqlquery></sqlquery>
     <Fields>
-      <Field FieldName="Caption" Description="Display Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="ServiceName" Description="Service Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DisplayName" Description="Display Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="StartName" Description="Account" value="" format="" key="false" groupby="1" />
       <Field FieldName="StartMode" Description="Start Mode" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
+      <Field FieldName="State" Description="State" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>

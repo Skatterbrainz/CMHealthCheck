@@ -78,7 +78,8 @@ Function Export-ReportSection {
 				'rolesinstalled' { 
 					Write-RolesInstalled -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile | Out-Null}
 				'servicestatus' { 
-					Write-ServiceStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
+					#Write-ServiceStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
+					Write-Services -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
 				'hotfixstatus' { 
                     if (-not $NoHotfix) {
                         Write-HotfixStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null
