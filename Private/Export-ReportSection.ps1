@@ -87,14 +87,15 @@ Function Export-ReportSection {
 				'localgroups' {
 					Write-LocalGroups -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
+				'localusers' {
+					Write-LocalUsers -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
 				'installedapps' {
 					Write-InstalledApps -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
-				<#
-				'localusers' {
-					Write-LocalUsers -FileName $filename -TableName $tablename -SiteCode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				'sqlmemory' {
+					Write-SqlMemory -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
-				#>
            		default {}
 			}
 		}

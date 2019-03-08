@@ -20,7 +20,7 @@ function Write-InstalledApps {
     Write-Log -Message "filename... $filename" -LogFile $LogFile
     Write-Log -Message "server..... $ServerName" -LogFile $LogFile
     try {
-        $Apps = Get-WmiObject -Class "Win32_Product" -ComputerName $ServerName -ErrorAction Stop
+        $Apps = @(Get-WmiObject -Class "Win32_Product" -ComputerName $ServerName -ErrorAction Stop | Sort-Object Name)
     }
     catch {
         if ($ContinueOnError -eq $True) {
@@ -36,7 +36,7 @@ function Write-InstalledApps {
         return
     }
     Write-Log -Message "found $($Apps.Count) installed applications" -LogFile $LogFile
-    $Fields=@("Name","Version","Vendor")
+    $Fields = @("Name","Version","Vendor")
     $AppDetails = New-CmDataTable -TableName $tableName -Fields $Fields
     foreach ($app in $Apps) {
         $appname = $app.Name
