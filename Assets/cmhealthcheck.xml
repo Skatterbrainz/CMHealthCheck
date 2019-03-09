@@ -2330,7 +2330,7 @@ SELECT SoftwareName,AssignmentID,CollectionName,CollectionID,DeploymentTime,Crea
     NumberUnknown as Unknown,NumberOther as Other,
     SummarizationTime,ProgramName,PackageID 
 FROM vDeploymentSummary
-WHERE FeatureType <> 5
+WHERE FeatureType &lt;&gt; 5
 ORDER BY SoftwareName
     </sqlquery>
     <Fields>
