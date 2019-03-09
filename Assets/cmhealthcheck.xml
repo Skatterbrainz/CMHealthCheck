@@ -599,7 +599,7 @@ DROP TABLE ##temp_ClientSettingsMisconfiguration
     </sqlquery>
     <Fields>
       <Field FieldName="ClientSettingName" Description="Client Settings Name" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="AgentName" Description="Agent Name" value="" format="" key="false" groupby="1" />
+	    <Field FieldName="AgentName" Description="Agent Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="PropertyName" Description="Property Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Value" Description="Value (Minutes)" value="" format="" key="false" groupby="1" />
 	  <Field FieldName="CollectionName" Description="Deployed to Collection" value="" format="" key="false" groupby="1" />
@@ -637,7 +637,7 @@ DROP TABLE ##temp_DiscoveryMisconfiguration
     </sqlquery>
     <Fields>
       <Field FieldName="componentname" Description="Component Name" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="Name" Description="Property Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Property Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Value" Description="Value (Minutes)" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
@@ -662,7 +662,7 @@ SELECT
 	</sqlquery>
     <Fields>
       <Field FieldName="TotalDiscovered" Description="Total Discovered" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="TotalClient" Description="Total Client" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalClient" Description="Total Client" value="" format="" key="false" groupby="1" />
       <Field FieldName="TotalSiteActive" Description="Total Active (Site)" value="" format="" key="false" groupby="1" />
       <Field FieldName="TotalSiteInactive" Description="Total Inactive (Site)" value="" format="" key="false" groupby="1" />
     </Fields>
@@ -750,7 +750,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>Discoveries</XMLFile>
+    <XMLFile>@@SiteCode@@_DiscoveryMethods</XMLFile>
     <Description>Discovery Methods</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -770,7 +770,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>DeviceCollections</XMLFile>
+    <XMLFile>@@SiteCode@@_DeviceCollections</XMLFile>
     <Description>Device Collections Summary</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -788,7 +788,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>UserCollections</XMLFile>
+    <XMLFile>@@SiteCode@@_UserCollections</XMLFile>
     <Description>User Collections Summary</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -806,7 +806,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>Packages</XMLFile>
+    <XMLFile>@@SiteCode@@_Packages</XMLFile>
     <Description>Software Packages Summary</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
