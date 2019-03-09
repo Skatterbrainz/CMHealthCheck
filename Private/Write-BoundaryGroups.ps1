@@ -1,4 +1,4 @@
-function Write-CmBoundaryGroups {
+function Write-BoundaryGroups {
     param (
         [string] $FileName,
         [string] $TableName,

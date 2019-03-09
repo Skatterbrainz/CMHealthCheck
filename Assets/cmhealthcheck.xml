@@ -708,7 +708,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>BoundaryGroups</XMLFile>
+    <XMLFile>@@SITECODE@@_BoundaryGroups</XMLFile>
     <Description>Boundary Groups</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -730,7 +730,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   <HealthCheck>
     <section>2</section>
     <IsTextOnly>false</IsTextOnly>
-    <XMLFile>Boundaries</XMLFile>
+    <XMLFile>@@SITECODE@@_Boundaries</XMLFile>
     <Description>Site Boundaries</Description>
     <IsActive>true</IsActive>
     <PrintType>table</PrintType>
@@ -761,7 +761,10 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <Fields>
       <Field FieldName="ItemType" Description="Type" value="" format="" key="true" groupby="1" />
       <Field FieldName="SiteNumber" Description="Site" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SourceTable" Description="Source" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Value1" Description="Value1" value="" format="" key="false" groupby="3" />
+      <Field FieldName="Value2" Description="Value2" value="" format="" key="false" groupby="3" />
+      <Field FieldName="Value3" Description="Value3" value="" format="" key="false" groupby="3" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
