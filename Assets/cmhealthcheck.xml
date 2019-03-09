@@ -2296,6 +2296,66 @@ WHERE uss.LastStatusMessageID &lt;&gt; 0 AND fcm.CollectionID = 'SMS00001'
   <HealthCheck>
     <section>5</section>
     <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareDeploymentSummary</XMLFile>
+    <Description>Software Deployment Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT SoftwareName,AssignmentID,CollectionName,CollectionID,DeploymentTime,CreationTime,ModificationTime,
+    case 
+		when (featuretype = 1) then 'Application'
+		when (featuretype = 2) then 'Program'
+		when (featuretype = 3) then 'MobileProgram'
+		when (featuretype = 4) then 'Script'
+		when (featuretype = 5) then 'SoftwareUpdate'
+		when (featuretype = 6) then 'Baseline'
+		when (featuretype = 7) then 'TaskSequence'
+		when (featuretype = 8) then 'ContentDistribution'
+		when (featuretype = 9) then 'DistributionPointGroup'
+		when (featuretype = 10) then 'DistributionPointHealth'
+		when (featuretype = 11) then 'ConfigurationPolicy'
+		when (featuretype = 28) then 'AbstractConfigurationItem'
+	end as FeatureType,
+    SummaryType,
+    case 
+		when (DeploymentIntent = 1) then 'Install'
+		when (DeploymentIntent = 2) then 'Uninstall'
+		when (DeploymentIntent = 3) then 'Preflight'
+		end as DeployIntent,
+    EnforcementDeadline,NumberTotal as Total,NumberSuccess as Success,
+    NumberErrors as Failed,NumberInProgress as InProgress,
+    NumberUnknown as Unknown,NumberOther as Other,
+    SummarizationTime,ProgramName,PackageID 
+FROM vDeploymentSummary
+WHERE FeatureType <> 5
+ORDER BY SoftwareName
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SoftwareName" Description="" value="" format="" key="true" groupby="1" />
+      <Field FieldName="AssignmentID" Description="" value="" format="" key="false" groupby="2" />
+      <Field FieldName="CollectionName" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CollectionID" Description="" value="" format="" key="false" groupby="2" />
+      <Field FieldName="DeploymentTime" Description="" value="" format="" key="false" groupby="3" />
+      <Field FieldName="FeatureType" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SummaryType" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeployIntent" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Success" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Failed" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="InProgress" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Unknown" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Other" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SummarizationTime" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ProgramName" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PackageID" Description="" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
     <XMLFile>SoftwareUpdateDeploymentErrors</XMLFile>
     <Description>Software Update Deployment Errors</Description>
     <IsActive>true</IsActive>
