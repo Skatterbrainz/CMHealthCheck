@@ -78,23 +78,43 @@ Function Export-ReportSection {
 				'rolesinstalled' { 
 					Write-RolesInstalled -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile | Out-Null}
 				'servicestatus' { 
-					Write-ServiceStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
+					#Write-ServiceStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
+					Write-Services -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
 				'hotfixstatus' { 
                     if (-not $NoHotfix) {
                         Write-HotfixStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null
                     }
 				}
+				'discoveries' {
+					Write-DiscoveryMethods -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'devcollections' {
+					Write-DevCollections -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'usercollections' {
+					Write-UserCollections -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'packages' {
+					Write-CmPackages -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'boundarygroups' {
+					Write-BoundaryGroups -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'boundaries' {
+					Write-Boundaries -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
 				'localgroups' {
 					Write-LocalGroups -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				}
+				'localusers' {
+					Write-LocalUsers -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
 				'installedapps' {
 					Write-InstalledApps -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
-				<#
-				'localusers' {
-					Write-LocalUsers -FileName $filename -TableName $tablename -SiteCode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
+				'sqlmemory' {
+					Write-SqlMemory -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
-				#>
            		default {}
 			}
 		}

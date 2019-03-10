@@ -17,9 +17,7 @@ function Write-LocalGroups {
             [bool] $ContinueOnError
     )
     Write-Log -Message "function... Write-LocalGroups ****" -LogFile $logfile
-    Write-Log -Message "filename... $filename" -LogFile $LogFile
-    Write-Log -Message "server..... $ServerName" -LogFile $LogFile
-    $ServerShortName = ($ServerName -split '.')[0]
+    $ServerShortName = ($ServerName -split '\.')[0]
     try {
         $GroupsList = Get-WmiObject -Class "Win32_Group" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop
     }
@@ -27,22 +25,22 @@ function Write-LocalGroups {
         Write-Log -Category 'Error' -Message 'cannot connect to $ServerName to enumerate local security groups'
         return
     }
-    if ($GroupsList -eq $null) { return }
-    $Fields=@("Name","Description","Members")
+    if ($null -eq $GroupsList) { return }
+    $Fields = @("Name","Description","Members")
     $GroupDetails = New-CmDataTable -TableName $tableName -Fields $Fields
     foreach ($group in $GroupsList) {
         $gn = $group.Name
         $gd = $group.Description
         Write-Log -Message "group name... $gn" -LogFile $LogFile
         # get netbios (short) server name
-        $SSname = ($ServerName.Split('.'))[0]
+        $SSname = ($ServerName.Split('\.'))[0]
         Write-Log -Message "getting members..." -LogFile $LogFile
         $wmiquery = "select * from Win32_GroupUser where GroupComponent=`"Win32_Group.Domain='$SSName',Name='$gn'`""
         Write-Log -Message "wmi query.... $wmiquery" -LogFile $LogFile
         try {
             $acct = Get-WmiObject -ComputerName $ServerName -Query $wmiquery -ErrorAction Stop
             $arr = @()
-            if ($acct -ne $null) {
+            if ($null -ne $acct) {
                 foreach ($item in $acct) {
                     $data   = $item.PartComponent -split "\,"
                     $domain = ($data[0] -split "=")[1]

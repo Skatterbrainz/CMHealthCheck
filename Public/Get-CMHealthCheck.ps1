@@ -89,11 +89,9 @@ function Get-CMHealthCheck {
 	if ($currentFolder.substring($currentFolder.Length-1) -ne '\') { $currentFolder+= '\' }
 	$logFolder     = $OutputFolder + '\_Logs\'
 	$reportFolder  = $OutputFolder + '\' + (Get-Date -UFormat "%Y-%m-%d") + '\' + $SmsProvider + '\'
-	#$component     = ($MyInvocation.MyCommand.Name -replace '.ps1', '')
 	$logfile       = Join-Path -Path $logFolder -ChildPath "Get-CMHealthCheck.log"
 	$poshversion   = $PSVersionTable.PSVersion.Major
 	$osversion     = (Get-WmiObject -Class Win32_OperatingSystem).Caption
-	#$FormatEnumerationLimit = -1
 	$Error.Clear()
 	$bLogValidation = $False
 	if ($Healthcheckfilename -eq "") {
@@ -254,11 +252,11 @@ function Get-CMHealthCheck {
 			$DataAdapter.Fill($dataset) | Out-Null
 		}
 		catch {
-			Write-Log -Message "oh shit! you done opened a can o whoopass!" -Severity 3 -LogFile $LogFile
+			Write-Log -Message "uh oh! something just blew up, phasers were set to kill... review the log output!" -Severity 3 -LogFile $LogFile
 			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
-		Write-Log -Message "info.............: data adapter is good" -LogFile $LogFile
+		Write-Log -Message "info.............: data adapter is looking good!" -LogFile $LogFile
 		foreach($row in $dataset.Tables[0].Rows) { 
 			$arrSites += "$($row.SiteCode)@$($row.ServerName)" 
 		}
@@ -322,11 +320,10 @@ function Get-CMHealthCheck {
 	}
 	catch {
 		Write-Log -Message "ERROR/EXCEPTION: general unhandled exception" -LogFile $LogFile
-		Write-Log -Message "The following error occurred, no futher action taken" -LogFile $LogFile
+		Write-Log -Message "The following error occurred, no further action taken. Dying dying dying, uhhhh.... She's dead, Jim." -LogFile $LogFile
 		$errorMessage = $Error[0].Exception.Message
 		$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
 		Write-Log -Message "Error $errorCode : $errorMessage" -LogFile $LogFile
-		#Write-Log -Message "Full Error Message Error $($error[0].ToString())" -LogFile $LogFile
 		$Error.Clear()
 	}
 	finally {
@@ -346,13 +343,15 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 				try {
 					$SqlCommand.ExecuteNonQuery() | Out-Null 
 				}
-					catch {}
+				catch {}
 				$SqlCommand = $null
 				$sqlConn.Close() 
 			}
 			catch {}
 		}
-		if ($ReportTable -ne $null) { , $ReportTable | Export-CliXml -Path ($reportFolder + 'report.xml') }
+		if ($ReportTable -ne $null) { 
+			, $ReportTable | Export-CliXml -Path ($reportFolder + 'report.xml') 
+		}
 
 		if ($bLogValidation -eq $false) {
 			Write-Host "Ending HealthCheck CollectData"

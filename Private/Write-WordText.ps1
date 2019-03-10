@@ -1,10 +1,16 @@
+<#
+.DESCRIPTION
+Write some text in Word
+.NOTES
+Fixed default from "No Spacing" to "Normal"
+#>
 function Write-WordText {
     param (
 		$WordSelection,
         [parameter(Mandatory=$False)]
             [string] $Text = "",
         [parameter(Mandatory=$False)]
-            [string] $Style = "No Spacing",
+            [string] $Style = "Normal",
 		$Bold    = $false,
 		$NewLine = $false,
 		$NewPage = $false

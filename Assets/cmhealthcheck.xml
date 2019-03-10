@@ -183,35 +183,54 @@ SELECT
   s.Version, 
   s.BuildNumber,
   CASE 
-	WHEN RIGHT(s.Version,9) = '5.00.7958.1000' THEN 'R2 RTM'
-	WHEN RIGHT(s.Version,9) = '5.00.7958.1203' THEN 'R2 CU1'
-	WHEN RIGHT(s.Version,9) = '5.00.7958.1303' THEN 'R2 CU2'
-	WHEN RIGHT(s.Version,9) = '5.00.7958.1401' THEN 'R2 CU3'
-	WHEN RIGHT(s.Version,9) = '5.00.7958.1501' THEN 'R2 CU4'
-	WHEN RIGHT(s.Version,9) = '5.00.7958.1604' THEN 'R2 CU5'
-	WHEN RIGHT(s.Version,9) = '5.00.8239.1000' THEN 'R2 SP1'
-	WHEN RIGHT(s.Version,9) = '5.00.8325.1000' THEN '1511'
-	WHEN RIGHT(s.Version,9) = '5.00.8325.1005' THEN '1511 Hotfix 1 of 3'
-	WHEN RIGHT(s.Version,9) = '5.00.8325.1010' THEN '1511 Hotfix 2 of 3'
-	WHEN RIGHT(s.Version,9) = '5.00.8325.1126' THEN '1511 Hotfix 3 of 3'
-	WHEN RIGHT(s.Version,9) = '5.00.8355.1000' THEN '1602'
-	WHEN RIGHT(s.Version,9) = '5.00.8355.1306' THEN '1602 Hotfix 1 of 2'
-	WHEN RIGHT(s.Version,9) = '5.00.8355.1307' THEN '1602 Hotfix 2 of 2'
-	WHEN RIGHT(s.Version,9) = '5.00.8412.1000' THEN '1606'
-	WHEN RIGHT(s.Version,9) = '5.00.8412.1204' THEN '1606 Hotfix 1 of 5'
-	WHEN RIGHT(s.Version,9) = '5.00.8412.1205' THEN '1606 Hotfix 2 of 5'
-	WHEN RIGHT(s.Version,9) = '5.00.8412.1207' THEN '1606 Hotfix 3 of 5'
-	WHEN RIGHT(s.Version,9) = '5.00.8412.1307' THEN '1606 Hotfix 4 of 5'
-	WHEN RIGHT(s.Version,9) = '5.00.8412.1309' THEN '1606 Hotfix 5 of 5'
-	WHEN RIGHT(s.Version,9) = '5.00.8458.1000' THEN '1610'
-	WHEN RIGHT(s.Version,9) = '5.00.8458.1520' THEN '1610 Hotfix 1 of 2'
-	WHEN RIGHT(s.Version,9) = '5.00.8458.1526' THEN '1610 Hotfix 2 of 2'
-	WHEN RIGHT(s.Version,9) = '5.00.8498.1000' THEN '1702'
-	WHEN RIGHT(s.Version,9) = '5.00.8498.1700' THEN '1702 Hotfix 1'
-	WHEN RIGHT(s.Version,9) = '5.00.8498.1711' THEN '1702 Hotfix 2'
-	WHEN RIGHT(s.Version,9) = '5.00.8533.1000' THEN '1706'
-  WHEN RIGHT(s.Version,9) = '5.00.8577.1000' THEN '1710'
-  WHEN RIGHT(s.Version,9) = '5.00.8577.1108' THEN '1710 Hotfix 1'
+	WHEN RIGHT(s.Version,14) = '5.00.7958.1000' THEN '2012 R2 RTM'
+	WHEN RIGHT(s.Version,14) = '5.00.7958.1203' THEN '2012 R2 CU1'
+	WHEN RIGHT(s.Version,14) = '5.00.7958.1303' THEN '2012 R2 CU2'
+	WHEN RIGHT(s.Version,14) = '5.00.7958.1401' THEN '2012 R2 CU3'
+	WHEN RIGHT(s.Version,14) = '5.00.7958.1501' THEN '2012 R2 CU4'
+	WHEN RIGHT(s.Version,14) = '5.00.7958.1604' THEN '2012 R2 CU5'
+	WHEN RIGHT(s.Version,14) = '5.00.8239.1000' THEN '2012 R2 SP1'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1203' THEN '2012 R2 SP1 CU1'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1206' THEN '2012 R2 SP1 CU1 Hotfix 1'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1211' THEN '2012 R2 SP1 CU1 Hotfix 2'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1301' THEN '2012 R2 SP1 CU2'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1403' THEN '2012 R2 SP1 CU3'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1406' THEN '2012 R2 SP1 CU3 Hotfix 1'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1407' THEN '2012 R2 SP1 CU3 Hotfix 2'
+  WHEN RIGHT(s.Version,14) = '5.00.8239.1501' THEN '2012 R2 SP1 CU4'
+	WHEN RIGHT(s.Version,14) = '5.00.8325.1000' THEN '1511'
+	WHEN RIGHT(s.Version,14) = '5.00.8325.1005' THEN '1511 Hotfix 1 of 3'
+	WHEN RIGHT(s.Version,14) = '5.00.8325.1010' THEN '1511 Hotfix 2 of 3'
+	WHEN RIGHT(s.Version,14) = '5.00.8325.1126' THEN '1511 Hotfix 3 of 3'
+	WHEN RIGHT(s.Version,14) = '5.00.8355.1000' THEN '1602'
+	WHEN RIGHT(s.Version,14) = '5.00.8355.1306' THEN '1602 Hotfix 1 of 2'
+	WHEN RIGHT(s.Version,14) = '5.00.8355.1307' THEN '1602 Hotfix 2 of 2'
+	WHEN RIGHT(s.Version,14) = '5.00.8412.1000' THEN '1606'
+	WHEN RIGHT(s.Version,14) = '5.00.8412.1204' THEN '1606 Hotfix 1 of 5'
+	WHEN RIGHT(s.Version,14) = '5.00.8412.1205' THEN '1606 Hotfix 2 of 5'
+	WHEN RIGHT(s.Version,14) = '5.00.8412.1207' THEN '1606 Hotfix 3 of 5'
+	WHEN RIGHT(s.Version,14) = '5.00.8412.1307' THEN '1606 Hotfix 4 of 5'
+	WHEN RIGHT(s.Version,14) = '5.00.8412.1309' THEN '1606 Hotfix 5 of 5'
+	WHEN RIGHT(s.Version,14) = '5.00.8458.1000' THEN '1610'
+	WHEN RIGHT(s.Version,14) = '5.00.8458.1520' THEN '1610 Hotfix 1 of 2'
+	WHEN RIGHT(s.Version,14) = '5.00.8458.1526' THEN '1610 Hotfix 2 of 2'
+	WHEN RIGHT(s.Version,14) = '5.00.8498.1000' THEN '1702'
+	WHEN RIGHT(s.Version,14) = '5.00.8498.1700' THEN '1702 Hotfix 1'
+	WHEN RIGHT(s.Version,14) = '5.00.8498.1711' THEN '1702 Hotfix 2'
+	WHEN RIGHT(s.Version,14) = '5.00.8533.1000' THEN '1706'
+  WHEN RIGHT(s.Version,14) = '5.00.8577.1000' THEN '1710'
+  WHEN RIGHT(s.Version,14) = '5.00.8577.1108' THEN '1710 Hotfix 1'
+  WHEN RIGHT(s.Version,14) = '5.00.8577.1115' THEN '1710 Hotfix 2'
+  WHEN RIGHT(s.Version,14) = '5.00.8634.1007' THEN '1802'
+  WHEN RIGHT(s.Version,14) = '5.00.8634.1813' THEN '1802 Hotfix 1'
+  WHEN RIGHT(s.Version,14) = '5.00.8692.1003' THEN '1806'
+  WHEN RIGHT(s.Version,14) = '5.00.8735.1000' THEN 'Preview 1810.2'
+  WHEN RIGHT(s.Version,14) = '5.00.8740.1003' THEN '1810'
+  WHEN RIGHT(s.Version,14) = '5.00.8748.1000' THEN 'Preview 1811'
+  WHEN RIGHT(s.Version,14) = '5.00.8756.1000' THEN 'Preview 1812'
+  WHEN RIGHT(s.Version,14) = '5.00.8772.1000' THEN 'Preview 1901'
+  WHEN RIGHT(s.Version,14) = '5.00.8782.1000' THEN 'Preview 1902'
+  WHEN RIGHT(s.Version,14) = '5.00.8787.1000' THEN 'Preview 1902.2'
 	ELSE CAST(s.Version AS VARCHAR(100))
   END AS SPLevel,
   CASE 
@@ -386,7 +405,6 @@ WHERE
 	smsgs.sitecode = @sitecode
 ORDER BY smsgs.Time DESC
 
-
 IF (@starttime IS NOT NULL)
 SELECT @starttime AS StartTime,
 CASE 
@@ -505,7 +523,6 @@ WHERE
 	smsgs.sitecode = @sitecode
 ORDER BY smsgs.Time DESC
 
-
 IF (@starttime IS NOT NULL) AND (@endtime IS NOT NULL)
 SELECT @starttime as StartTime,
 CASE 
@@ -582,7 +599,7 @@ DROP TABLE ##temp_ClientSettingsMisconfiguration
     </sqlquery>
     <Fields>
       <Field FieldName="ClientSettingName" Description="Client Settings Name" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="AgentName" Description="Agent Name" value="" format="" key="false" groupby="1" />
+	    <Field FieldName="AgentName" Description="Agent Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="PropertyName" Description="Property Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Value" Description="Value (Minutes)" value="" format="" key="false" groupby="1" />
 	  <Field FieldName="CollectionName" Description="Deployed to Collection" value="" format="" key="false" groupby="1" />
@@ -620,7 +637,7 @@ DROP TABLE ##temp_DiscoveryMisconfiguration
     </sqlquery>
     <Fields>
       <Field FieldName="componentname" Description="Component Name" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="Name" Description="Property Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Property Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Value" Description="Value (Minutes)" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
@@ -645,7 +662,7 @@ SELECT
 	</sqlquery>
     <Fields>
       <Field FieldName="TotalDiscovered" Description="Total Discovered" value="" format="" key="false" groupby="1" />
-	  <Field FieldName="TotalClient" Description="Total Client" value="" format="" key="false" groupby="1" />
+      <Field FieldName="TotalClient" Description="Total Client" value="" format="" key="false" groupby="1" />
       <Field FieldName="TotalSiteActive" Description="Total Active (Site)" value="" format="" key="false" groupby="1" />
       <Field FieldName="TotalSiteInactive" Description="Total Inactive (Site)" value="" format="" key="false" groupby="1" />
     </Fields>
@@ -669,6 +686,140 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <Fields>
       <Field FieldName="DPName" Description="Distribution Point" value="" format="" key="false" groupby="1" />
       <Field FieldName="TotalContent" Description="Total Content" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>1</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_SQLMemory</XMLFile>
+    <Description>SQL Server Memory Allocation Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>SQLMemory</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="TotalMemory" Description="Total Physical Memory" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MaxLimit" Description="Max Allocated to SQL" value="" format="" key="" groupby="1" />
+      <Field FieldName="Pct" Description="Pct" value="" format="" key="" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_BoundaryGroups</XMLFile>
+    <Description>Boundary Groups</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>boundarygroups</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="GroupID" Description="GroupID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Flags" Description="BG Flags" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="SiteCode" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CreatedOn" Description="Date Created" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Boundaries" Description="Boundaries" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteSystems" Description="Site Systems" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_Boundaries</XMLFile>
+    <Description>Site Boundaries</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>boundaries</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="DisplayName" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="BoundaryID" Description="ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BValue" Description="Value" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BoundaryType" Description="Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BoundaryFlags" Description="Flags" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BGName" Description="Boundary Group" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_DiscoveryMethods</XMLFile>
+    <Description>Discovery Methods</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>discoveries</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ItemType" Description="Type" value="" format="" key="true" groupby="1" />
+      <Field FieldName="SiteNumber" Description="Site" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Value1" Description="Value1" value="" format="" key="false" groupby="3" />
+      <Field FieldName="Value2" Description="Value2" value="" format="" key="false" groupby="3" />
+      <Field FieldName="Value3" Description="Value3" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_DeviceCollections</XMLFile>
+    <Description>Device Collections Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>DevCollections</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_UserCollections</XMLFile>
+    <Description>User Collections Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>UserCollections</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_Packages</XMLFile>
+    <Description>Software Packages Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>packages</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="PkgID" Description="PackageID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Type" Description="Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -723,9 +874,12 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <sqlquery></sqlquery>
     <Fields>
       <Field FieldName="DeviceID" Description="Device ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="VolumeName" Description="VolumeName" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FileSystem" Description="File System" value="" format="" key="false" groupby="1" />
       <Field FieldName="Size" Description="Size (GB)" value="" format="" key="false" groupby="1" />
       <Field FieldName="FreeSpace" Description="Free Space (GB)" value="" format="" key="false" groupby="1" />
-      <Field FieldName="FileSystem" Description="File System" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Used" Description="Used Space (GB)" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PctUsed" Description="Pct Used" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -791,10 +945,10 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <querytype>ServiceStatus</querytype>
     <sqlquery></sqlquery>
     <Fields>
-      <Field FieldName="Caption" Description="Display Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="ServiceName" Description="Service Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DisplayName" Description="Display Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="StartName" Description="Account" value="" format="" key="false" groupby="1" />
       <Field FieldName="StartMode" Description="Start Mode" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
+      <Field FieldName="State" Description="State" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -844,7 +998,30 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <Fields>
       <Field FieldName="Name" Description="Group Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Member" Description="Member" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Members" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>2</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@ServerName@@_LocalUsers</XMLFile>
+    <Description>Local Users</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>This is no information to report</EmptyText>
+    <querytype>LocalUsers</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="UserName" value="" format="" key="false" groupby="1" />
+      <Field FieldName="FullName" Description="Full Name" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AccountType" Description="Account Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="AccountExpires" Description="Expires" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PasswordChangeable" Description="Pwd Changeable" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PasswordRequired" Description="Pwd Reqd" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SID" Description="" value="SID" format="" key="false" groupby="1" />
+      <Field FieldName="LockOut" Description="LockOut" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -2117,6 +2294,66 @@ WHERE uss.LastStatusMessageID &lt;&gt; 0 AND fcm.CollectionID = 'SMS00001'
       <Field FieldName="LastErrorCode" Description="Error Code" value="" format="" key="false" groupby="2" />
       <Field FieldName="Message" Description="Message" value="" format="Message" key="false" groupby="2" />
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>SoftwareDeploymentSummary</XMLFile>
+    <Description>Software Deployment Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>sql</querytype>
+    <sqlquery>
+SELECT SoftwareName,AssignmentID,CollectionName,CollectionID,DeploymentTime,CreationTime,ModificationTime,
+    case 
+		when (featuretype = 1) then 'Application'
+		when (featuretype = 2) then 'Program'
+		when (featuretype = 3) then 'MobileProgram'
+		when (featuretype = 4) then 'Script'
+		when (featuretype = 5) then 'SoftwareUpdate'
+		when (featuretype = 6) then 'Baseline'
+		when (featuretype = 7) then 'TaskSequence'
+		when (featuretype = 8) then 'ContentDistribution'
+		when (featuretype = 9) then 'DistributionPointGroup'
+		when (featuretype = 10) then 'DistributionPointHealth'
+		when (featuretype = 11) then 'ConfigurationPolicy'
+		when (featuretype = 28) then 'AbstractConfigurationItem'
+	end as FeatureType,
+    SummaryType,
+    case 
+		when (DeploymentIntent = 1) then 'Install'
+		when (DeploymentIntent = 2) then 'Uninstall'
+		when (DeploymentIntent = 3) then 'Preflight'
+		end as DeployIntent,
+    EnforcementDeadline,NumberTotal as Total,NumberSuccess as Success,
+    NumberErrors as Failed,NumberInProgress as InProgress,
+    NumberUnknown as Unknown,NumberOther as Other,
+    SummarizationTime,ProgramName,PackageID 
+FROM vDeploymentSummary
+WHERE FeatureType &lt;&gt; 5
+ORDER BY SoftwareName
+    </sqlquery>
+    <Fields>
+      <Field FieldName="SoftwareName" Description="" value="" format="" key="true" groupby="1" />
+      <Field FieldName="AssignmentID" Description="" value="" format="" key="false" groupby="2" />
+      <Field FieldName="CollectionName" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CollectionID" Description="" value="" format="" key="false" groupby="2" />
+      <Field FieldName="DeploymentTime" Description="" value="" format="" key="false" groupby="3" />
+      <Field FieldName="FeatureType" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SummaryType" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeployIntent" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Success" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Failed" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="InProgress" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Unknown" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Other" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SummarizationTime" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ProgramName" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PackageID" Description="" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
