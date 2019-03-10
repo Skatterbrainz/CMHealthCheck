@@ -998,7 +998,7 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
     <Fields>
       <Field FieldName="Name" Description="Group Name" value="" format="" key="false" groupby="1" />
       <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Member" Description="Member" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Members" Description="Members" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>

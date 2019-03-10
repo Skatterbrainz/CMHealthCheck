@@ -35,7 +35,7 @@ function Write-LocalGroups {
         $gd = $group.Description
         Write-Log -Message "group name... $gn" -LogFile $LogFile
         # get netbios (short) server name
-        $SSname = ($ServerName.Split('.'))[0]
+        $SSname = ($ServerName.Split('\.'))[0]
         Write-Log -Message "getting members..." -LogFile $LogFile
         $wmiquery = "select * from Win32_GroupUser where GroupComponent=`"Win32_Group.Domain='$SSName',Name='$gn'`""
         Write-Log -Message "wmi query.... $wmiquery" -LogFile $LogFile
