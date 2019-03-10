@@ -17,8 +17,6 @@ function Write-LocalGroups {
             [bool] $ContinueOnError
     )
     Write-Log -Message "function... Write-LocalGroups ****" -LogFile $logfile
-    Write-Log -Message "filename... $filename" -LogFile $LogFile
-    Write-Log -Message "server..... $ServerName" -LogFile $LogFile
     $ServerShortName = ($ServerName -split '\.')[0]
     try {
         $GroupsList = Get-WmiObject -Class "Win32_Group" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop
@@ -42,7 +40,7 @@ function Write-LocalGroups {
         try {
             $acct = Get-WmiObject -ComputerName $ServerName -Query $wmiquery -ErrorAction Stop
             $arr = @()
-            if ($acct -ne $null) {
+            if ($null -ne $acct) {
                 foreach ($item in $acct) {
                     $data   = $item.PartComponent -split "\,"
                     $domain = ($data[0] -split "=")[1]
