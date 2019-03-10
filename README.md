@@ -16,6 +16,11 @@ Install-Module CMHealthCheck
 
 Use ```Get-Command -Module CMHealthCheck``` and ```Get-Help <function>``` to view latest examples and help.
 
+Commands / Functions:
+
+* Get-CMHealthCheck
+* Export-CMHealthReport
+
 ## Notes
 
 * Tested with the following environments:
