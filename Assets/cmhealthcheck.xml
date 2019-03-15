@@ -707,123 +707,6 @@ GROUP BY SUBSTRING(lc.NALPath, CHARINDEX('\\', lc.NALPath) + 2, CHARINDEX('\', l
   </HealthCheck>
   <HealthCheck>
     <section>2</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>@@SITECODE@@_BoundaryGroups</XMLFile>
-    <Description>Boundary Groups</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to report</EmptyText>
-    <querytype>boundarygroups</querytype>
-    <sqlquery></sqlquery>
-    <Fields>
-      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
-      <Field FieldName="GroupID" Description="GroupID" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Flags" Description="BG Flags" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SiteCode" Description="SiteCode" value="" format="" key="false" groupby="1" />
-      <Field FieldName="CreatedOn" Description="Date Created" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Boundaries" Description="Boundaries" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SiteSystems" Description="Site Systems" value="" format="" key="false" groupby="1" />
-    </Fields>
-  </HealthCheck>
-  <HealthCheck>
-    <section>2</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>@@SITECODE@@_Boundaries</XMLFile>
-    <Description>Site Boundaries</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to report</EmptyText>
-    <querytype>boundaries</querytype>
-    <sqlquery></sqlquery>
-    <Fields>
-      <Field FieldName="DisplayName" Description="Name" value="" format="" key="true" groupby="1" />
-      <Field FieldName="BoundaryID" Description="ID" value="" format="" key="false" groupby="1" />
-      <Field FieldName="BValue" Description="Value" value="" format="" key="false" groupby="1" />
-      <Field FieldName="BoundaryType" Description="Type" value="" format="" key="false" groupby="1" />
-      <Field FieldName="BoundaryFlags" Description="Flags" value="" format="" key="false" groupby="1" />
-      <Field FieldName="BGName" Description="Boundary Group" value="" format="" key="false" groupby="1" />
-    </Fields>
-  </HealthCheck>
-  <HealthCheck>
-    <section>2</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>@@SiteCode@@_DiscoveryMethods</XMLFile>
-    <Description>Discovery Methods</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to report</EmptyText>
-    <querytype>discoveries</querytype>
-    <sqlquery></sqlquery>
-    <Fields>
-      <Field FieldName="ItemType" Description="Type" value="" format="" key="true" groupby="1" />
-      <Field FieldName="SiteNumber" Description="Site" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="2" />
-      <Field FieldName="Value1" Description="Value1" value="" format="" key="false" groupby="3" />
-      <Field FieldName="Value2" Description="Value2" value="" format="" key="false" groupby="3" />
-      <Field FieldName="Value3" Description="Value3" value="" format="" key="false" groupby="3" />
-    </Fields>
-  </HealthCheck>
-  <HealthCheck>
-    <section>2</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>@@SiteCode@@_DeviceCollections</XMLFile>
-    <Description>Device Collections Summary</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to report</EmptyText>
-    <querytype>DevCollections</querytype>
-    <sqlquery></sqlquery>
-    <Fields>
-      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
-      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
-      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
-    </Fields>
-  </HealthCheck>
-  <HealthCheck>
-    <section>2</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>@@SiteCode@@_UserCollections</XMLFile>
-    <Description>User Collections Summary</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to report</EmptyText>
-    <querytype>UserCollections</querytype>
-    <sqlquery></sqlquery>
-    <Fields>
-      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
-      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
-      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
-    </Fields>
-  </HealthCheck>
-  <HealthCheck>
-    <section>2</section>
-    <IsTextOnly>false</IsTextOnly>
-    <XMLFile>@@SiteCode@@_Packages</XMLFile>
-    <Description>Software Packages Summary</Description>
-    <IsActive>true</IsActive>
-    <PrintType>table</PrintType>
-    <WordStyle>Heading 2</WordStyle>
-    <EmptyText>There is no information to report</EmptyText>
-    <querytype>packages</querytype>
-    <sqlquery></sqlquery>
-    <Fields>
-      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
-      <Field FieldName="PkgID" Description="PackageID" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Type" Description="Type" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
-    </Fields>
-  </HealthCheck>
-  <HealthCheck>
-    <section>2</section>
     <IsTextOnly>true</IsTextOnly>
     <Description>Server overview</Description>
     <IsActive>true</IsActive>
@@ -2337,23 +2220,23 @@ WHERE FeatureType &lt;&gt; 5
 ORDER BY SoftwareName
     </sqlquery>
     <Fields>
-      <Field FieldName="SoftwareName" Description="" value="" format="" key="true" groupby="1" />
-      <Field FieldName="AssignmentID" Description="" value="" format="" key="false" groupby="2" />
-      <Field FieldName="CollectionName" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="CollectionID" Description="" value="" format="" key="false" groupby="2" />
-      <Field FieldName="DeploymentTime" Description="" value="" format="" key="false" groupby="3" />
-      <Field FieldName="FeatureType" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SummaryType" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="DeployIntent" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Total" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Success" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Failed" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="InProgress" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Unknown" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Other" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SummarizationTime" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="ProgramName" Description="" value="" format="" key="false" groupby="1" />
-      <Field FieldName="PackageID" Description="" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SoftwareName" Description="SoftwareName" value="" format="" key="true" groupby="1" />
+      <Field FieldName="AssignmentID" Description="AssignmentID" value="" format="" key="false" groupby="2" />
+      <Field FieldName="CollectionName" Description="CollectionName" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CollectionID" Description="CollectionID" value="" format="" key="false" groupby="2" />
+      <Field FieldName="DeploymentTime" Description="DeploymentTime" value="" format="" key="false" groupby="3" />
+      <Field FieldName="FeatureType" Description="FeatureType" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SummaryType" Description="SummaryType" value="" format="" key="false" groupby="1" />
+      <Field FieldName="DeployIntent" Description="DeployIntent" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Success" Description="Success" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Failed" Description="Failed" value="" format="" key="false" groupby="1" />
+      <Field FieldName="InProgress" Description="InProgress" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Unknown" Description="Unknown" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Other" Description="Other" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SummarizationTime" Description="SummarizationTime" value="" format="" key="false" groupby="1" />
+      <Field FieldName="ProgramName" Description="ProgramName" value="" format="" key="false" groupby="1" />
+      <Field FieldName="PackageID" Description="PackageID" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -2499,6 +2382,124 @@ SELECT Name, CAST(Severity AS VARCHAR(300)) AS Severity, CAST(TypeID AS VARCHAR(
       <Field FieldName="Severity" Description="Severity" value="" format="AlertsSeverity" key="false" groupby="2" />
       <Field FieldName="TypeID" Description="Type" value="" format="AlertsTypeID" key="false" groupby="2" />
       <Field FieldName="Total" Description="Total" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  
+    <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_BoundaryGroups</XMLFile>
+    <Description>Boundary Groups</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>boundarygroups</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="GroupID" Description="GroupID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Flags" Description="BG Flags" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteCode" Description="SiteCode" value="" format="" key="false" groupby="1" />
+      <Field FieldName="CreatedOn" Description="Date Created" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Boundaries" Description="Boundaries" value="" format="" key="false" groupby="1" />
+      <Field FieldName="SiteSystems" Description="Site Systems" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SITECODE@@_Boundaries</XMLFile>
+    <Description>Site Boundaries</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>boundaries</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="DisplayName" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="BoundaryID" Description="ID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BValue" Description="Value" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BoundaryType" Description="Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BoundaryFlags" Description="Flags" value="" format="" key="false" groupby="1" />
+      <Field FieldName="BGName" Description="Boundary Group" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_DiscoveryMethods</XMLFile>
+    <Description>Discovery Methods</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>discoveries</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="ItemType" Description="Type" value="" format="" key="true" groupby="1" />
+      <Field FieldName="SiteNumber" Description="Site" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Name" Description="Name" value="" format="" key="false" groupby="2" />
+      <Field FieldName="Value1" Description="Value1" value="" format="" key="false" groupby="3" />
+      <Field FieldName="Value2" Description="Value2" value="" format="" key="false" groupby="3" />
+      <Field FieldName="Value3" Description="Value3" value="" format="" key="false" groupby="3" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_DeviceCollections</XMLFile>
+    <Description>Device Collections Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>DevCollections</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_UserCollections</XMLFile>
+    <Description>User Collections Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>UserCollections</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Collection Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="CollectionID" Description="CollID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
+      <Field FieldName="MemberCount" Description="Members" value="" format="" key="false" groupby="1" />
+    </Fields>
+  </HealthCheck>
+  <HealthCheck>
+    <section>5</section>
+    <IsTextOnly>false</IsTextOnly>
+    <XMLFile>@@SiteCode@@_Packages</XMLFile>
+    <Description>Software Packages Summary</Description>
+    <IsActive>true</IsActive>
+    <PrintType>table</PrintType>
+    <WordStyle>Heading 2</WordStyle>
+    <EmptyText>There is no information to report</EmptyText>
+    <querytype>packages</querytype>
+    <sqlquery></sqlquery>
+    <Fields>
+      <Field FieldName="Name" Description="Name" value="" format="" key="true" groupby="1" />
+      <Field FieldName="PkgID" Description="PackageID" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Type" Description="Type" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+      <Field FieldName="Description" Description="Description" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
