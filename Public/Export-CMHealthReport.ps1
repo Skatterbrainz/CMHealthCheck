@@ -61,32 +61,32 @@ function Export-CMHealthReport {
         [parameter (Mandatory = $False, HelpMessage = "Report output type (HTML or MS Word)")]
             [ValidateSet('HTML','Word')]
             [string] $ReportType = 'Word',
-        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")] 
+        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")]
             [ValidateNotNullOrEmpty()]
             [string] $ReportFolder,
         [parameter(Mandatory=$False, HelpMessage="Log folder path")]
             [ValidateNotNullOrEmpty()]
             [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-        [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
+        [parameter (Mandatory = $False, HelpMessage = "Customer company name")]
             [string] $CustomerName = "Customer Name",
         [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
             [switch] $AutoConfig,
-        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")] 
+        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")]
             [switch] $Detailed,
-        [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")] 
+        [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")]
             [string] $CoverPage = "Slice (Light)",
         [parameter (Mandatory = $False, HelpMessage = "Word document source file")]
-            [string] $Template = "", 
-        [parameter (Mandatory = $False, HelpMessage = "Author's full name")] 
+            [string] $Template = "",
+        [parameter (Mandatory = $False, HelpMessage = "Author's full name")]
             [string] $AuthorName = "Your Name",
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
             [string] $CopyrightName  = "Your Company Name",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")] 
-            [string] $Healthcheckfilename = "", 
+        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")]
+            [string] $Healthcheckfilename = "",
         [Parameter (Mandatory = $False, HelpMessage = "HealthCheck messages file name")]
-            [string] $MessagesFilename = "", 
-        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")] 
-            $Healthcheckdebug = $False
+            [string] $MessagesFilename = "",
+        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")]
+            [bool] $Healthcheckdebug = $False
     )
     switch ($ReportType) {
         'HTML' {
