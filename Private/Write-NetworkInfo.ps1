@@ -10,7 +10,7 @@ function Write-NetworkInfo {
 	)
 	Write-Log -Message "[function: write-networkinfo]" -LogFile $logfile
 	$IPDetails = Get-CmWmiObject -Class "Win32_NetworkAdapterConfiguration" -Filter "IPEnabled = true" -ComputerName $ServerName -LogFile $logfile -ContinueOnError $ContinueOnError
-	if ($IPDetails -eq $null) { return }
+	if ($null -eq $IPDetails) { return }
 	$Fields = @("IPAddress","DefaultIPGateway","IPSubnet","MACAddress","DHCPEnabled")
 	$NetworkInfoTable = New-CmDataTable -TableName $TableName -Fields $Fields
 	foreach ($IPAddress in $IPDetails) {

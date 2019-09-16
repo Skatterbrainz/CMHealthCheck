@@ -16,7 +16,7 @@ Convert extracted ConfigMgr site information to Word Document
 Export-CMHealthReport [[-ReportType] <String>] [-ReportFolder] <String> [[-OutputFolder] <String>]
  [[-CustomerName] <String>] [-AutoConfig] [-Detailed] [[-CoverPage] <String>] [[-Template] <String>]
  [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>]
- [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Object>] [<CommonParameters>]
+ [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Boolean>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -234,7 +234,7 @@ Accept wildcard characters: False
 Enable verbose output (or use -Verbose)
 
 ```yaml
-Type: Object
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 

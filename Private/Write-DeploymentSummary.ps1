@@ -44,7 +44,7 @@ function Write-DeploymentSummary {
     FROM vDeploymentSummary
     WHERE FeatureType <> 5
     ORDER BY SoftwareName"
-    $ds = @(Invoke-DbaQuery -SqlInstance $ServerName -Database "CM_$SiteCode" -Query $query -ErrorAction SilentlyContinue)
+    $ds = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
     if ($null -eq $blist) { return }
     $Fields = @("SoftwareName","AssignmentID","CollectionName","CollectionID","DeploymentTime","CreationTime","ModificationTime","FeatureType","SummaryType","DeployIntent","EnforcementDeadline","Total","Success","Failed","InProgress","Unknown","Other","SummarizationTime","ProgramName","PackageID")
     $dsDetails = New-CmDataTable -TableName $tableName -Fields $Fields

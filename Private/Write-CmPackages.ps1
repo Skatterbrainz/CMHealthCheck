@@ -24,7 +24,7 @@ function Write-CmPackages {
 		WHEN (PackageType = 260) Then 'VHD Package'
 		End as PkgType,
     PackageType, Description, SourceVersion as Version from dbo.v_Package order by Name"
-    $packages = @(Invoke-DbaQuery -SqlInstance $ServerName -Database "CM_$SiteCode" -Query $query -ErrorAction SilentlyContinue)
+    $packages = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
     if ($null -eq $packages) { return }
 	$Fields = @("Name","PkgID","Type","Description","Version")
 	$pkgDetails = New-CmDataTable -TableName $tableName -Fields $Fields

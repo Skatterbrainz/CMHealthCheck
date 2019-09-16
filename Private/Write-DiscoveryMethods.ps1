@@ -10,7 +10,7 @@ function Write-DiscoveryMethods {
     )
     Write-Log -Message "[function: write-discoverymethods]" -LogFile $logfile
     $query = "select distinct ItemType,ID,Sitenumber,[Name],Value1,Value2,Value3,SourceTable FROM SC_Properties WHERE (ItemType like '%discover%') ORDER BY ItemType, Name"
-    $dms = @(Invoke-DbaQuery -SqlInstance $ServerName -Database "CM_$SiteCode" -Query $query -ErrorAction SilentlyContinue)
+    $dms = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
     if ($null -eq $dms) { return }
     $Fields = @("ItemType", "SiteNumber","SourceTable","Name","Value1","Value2","Value3")
     $dmDetails = New-CmDataTable -TableName $tableName -Fields $Fields
