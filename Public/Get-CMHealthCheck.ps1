@@ -1,3 +1,4 @@
+#requires -version 3
 function Get-CMHealthCheck {
 	<#
 	.SYNOPSIS
@@ -55,21 +56,16 @@ function Get-CMHealthCheck {
 	#>
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[Parameter(
-			Mandatory = $True,
-			HelpMessage = 'SMS Provider computer',
-			ValueFromPipeline=$True
-		)]
-			[ValidateNotNullOrEmpty()]
-			[string] $SmsProvider,
+		[Parameter()] [ValidateNotNullOrEmpty()]
+			[string] $SmsProvider = $($env:COMPUTERNAME),
 		[parameter(Mandatory = $False, HelpMessage = 'Path for output data files')]
 			[ValidateNotNullOrEmpty()]
 			[string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-		[Parameter(Mandatory = $False, HelpMessage = 'Number of Days for HealthCheck')]
+		[Parameter(Mandatory = $False, HelpMessage = 'Number of Days for HealthCheck')] 
 			[int] $NumberOfDays = 7,
-		[Parameter (Mandatory = $False, HelpMessage = 'HealthCheck query file name')]
+		[Parameter (Mandatory = $False, HelpMessage = 'HealthCheck query file name')] 
 			[string] $Healthcheckfilename = "",
-		[Parameter(Mandatory = $False, HelpMessage = 'Overwrite existing report?')]
+		[Parameter(Mandatory = $False, HelpMessage = 'Overwrite existing report?')] 
 			[switch] $OverWrite,
 		[Parameter(Mandatory=$False, HelpMessage = 'Skip hotfix audit')]
 			[switch] $NoHotfix
@@ -124,7 +120,7 @@ function Get-CMHealthCheck {
 		if (-not (Test-Admin)) {
 			Write-Host "You are not running PowerShell as Administrator (run as Administrator), no futher action taken" -ForegroundColor Red
 			Stop-Transcript -ErrorAction SilentlyContinue
-			break
+			break		
 		}
 		if (Test-Path -Path $reportFolder) {
 			if ($Overwrite -eq $true) {
@@ -151,7 +147,7 @@ function Get-CMHealthCheck {
 			Write-Log -Message "previous log file cleared via overwrite request" -LogFile $logfile
 		}
 		Write-Log -Message "-------------- connecting to site ---------------------"
-
+	
 		$WMISMSProvider = Get-CmWmiObject -Class "SMS_ProviderLocation" -NameSpace "Root\SMS" -ComputerName $smsprovider -LogFile $logfile
 		$SiteCodeNamespace = $WMISMSProvider.SiteCode
 		if (!$SiteCodeNameSpace) {
@@ -161,7 +157,7 @@ function Get-CMHealthCheck {
 			break
 		}
 		Write-Log -Message "Site Code........: $SiteCodeNamespace" -LogFile $logfile
-
+		
 		$WMISMSSite = Get-CmWmiObject -Class "SMS_Site" -NameSpace "Root\SMS\Site_$SiteCodeNamespace" -Filter "SiteCode = '$SiteCodeNamespace'" -ComputerName $smsprovider -LogFile $logfile
 		$SMSSiteServer  = $WMISMSSite.ServerName
 		$SMSSiteVersion = $WMISMSSite.Version
@@ -173,27 +169,27 @@ function Get-CMHealthCheck {
 			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
-
+		
 		$SQLServerName  = Get-RegistryValue -ComputerName $SMSSiteServer -LogFile $logfile -KeyName 'SOFTWARE\\Microsoft\\SMS\\SQL Server\\Site System SQL Account' -KeyValue 'Server'
 		$SQLServiceName = Get-RegistryValue -ComputerName $SMSSiteServer -LogFile $logfile -KeyName 'SOFTWARE\\Microsoft\\SMS\\SQL Server' -KeyValue 'Service Name'
 		$SQLPort        = Get-RegistryValue -ComputerName $SMSSiteServer -LogFile $logfile -KeyName 'SOFTWARE\\Microsoft\\SMS\\SQL Server\\Site System SQL Account' -KeyValue 'Port'
 		$SQLDBName      = Get-RegistryValue -ComputerName $SMSSiteServer -LogFile $logfile -KeyName 'SOFTWARE\\Microsoft\\SMS\\SQL Server\\Site System SQL Account' -KeyValue 'Database Name'
-
+		
 		# parse when finding default instance vs named instance
 		if ($SQLDBName.IndexOf('\') -ge 0) {
 			$SQLDBName = $SQLDBName.Split("\")[1]
 		}
-
+		
 		Write-Log -Message "--------------- getting sql server info --------------------" -LogFile $logfile
-		Write-Log -Message "SQLServerName....: $SQLServerName" -LogFile $logfile
+		Write-Log -Message "SQLServerName....: $SQLServerName" -LogFile $logfile 
 		Write-Log -Message "SQLServiceName...: $SQLServiceName" -LogFile $logfile
 		Write-Log -Message "SQLPort..........: $SQLPort" -LogFile $logfile
 		Write-Log -Message "SQLDBName........: $SQLDBName" -LogFile $logfile
 
 		$arrServers = @()
 		$WMIServers = Get-CmWmiObject -Query "select distinct NetworkOSPath from SMS_SCI_SysResUse where NetworkOSPath not like '%.microsoft.com' and Type in (1,2,4,8)" -ComputerName $SmsProvider -NameSpace "root\sms\site_$SiteCodeNamespace" -LogFile $logfile
-		foreach ($WMIServer in $WMIServers) {
-			$arrServers += $WMIServer.NetworkOSPath -replace '\\', ''
+		foreach ($WMIServer in $WMIServers) { 
+			$arrServers += $WMIServer.NetworkOSPath -replace '\\', '' 
 		}
 		if ($arrServers.Count -gt 0) {
 			Write-Log -Message $("Servers discovered: " + $arrServers -join(", ")) -LogFile $LogFile
@@ -238,7 +234,7 @@ function Get-CMHealthCheck {
 		$arrSites = @()
 		$SqlCommand = $sqlConn.CreateCommand()
 		$executionquery = "select distinct st.SiteCode, (select top 1 srl2.ServerName from v_SystemResourceList srl2 where srl2.RoleName = 'SMS Provider' and srl2.SiteCode = st.SiteCode) as ServerName from v_Site st"
-
+		
 		Write-Log -Message "sql query........: `n$executionquery" -LogFile $LogFile
 		$SqlCommand.CommandTimeOut = 0
 		$SqlCommand.CommandText = $executionquery
@@ -256,12 +252,12 @@ function Get-CMHealthCheck {
 			break
 		}
 		Write-Log -Message "info.............: data adapter is looking good!" -LogFile $LogFile
-		foreach($row in $dataset.Tables[0].Rows) {
-			$arrSites += "$($row.SiteCode)@$($row.ServerName)"
+		foreach($row in $dataset.Tables[0].Rows) { 
+			$arrSites += "$($row.SiteCode)@$($row.ServerName)" 
 		}
 		Write-Log -Message $("Sites discovered: " + $arrSites -join(", ")) -LogFile $LogFile
 		$SqlCommand = $null
-
+		
 		## section 1 = information that needs be collected against each site
 		Write-Log -Message "Phase 1 of 6" -LogFile $logfile -ShowMsg
 		foreach ($Site in $arrSites) {
@@ -271,23 +267,23 @@ function Get-CMHealthCheck {
 				$HTTPport  = ($portinfo.Props | Where-Object {$_.PropertyName -eq "IISPortsList"}).Value1
 				$HTTPSport = ($portinfo.Props | Where-Object {$_.PropertyName -eq "IISSSLPortsList"}).Value1
 			}
-			Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '1' -sqlConn $sqlConn -SiteCode $arrSiteInfo[0] -NumberOfDays $NumberOfDays -ServerName $arrSiteInfo[1] -ReportTable $ReportTable -LogFile $logfile
+			Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '1' -sqlConn $sqlConn -SiteCode $arrSiteInfo[0] -NumberOfDays $NumberOfDays -ServerName $arrSiteInfo[1] -ReportTable $ReportTable -LogFile $logfile 
 		} # foreach
-
+		
 		## section 2 = information that needs be collected against each computer. should not be site specific. query will run only against the higher site in the hierarchy
 		Write-Log -Message "Phase 2 of 6" -LogFile $logfile -ShowMsg
-		foreach ($server in $arrServers) {
-			Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '2' -sqlConn $sqlConn -siteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $server -ReportTable $ReportTable -LogFile $logfile
+		foreach ($server in $arrServers) { 
+			Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '2' -sqlConn $sqlConn -siteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $server -ReportTable $ReportTable -LogFile $logfile 
 		}
 
 		## section 3 = database analisys information, running on all sql servers in the hierarchy. should not be site specific as it connects to the "master" database
 		Write-Log -Message "Phase 3 of 6" -LogFile $logfile -ShowMsg
 		$DBServers = Get-CmWmiObject -Query "select distinct NetworkOSPath from SMS_SCI_SysResUse where RoleName = 'SMS SQL Server'" -ComputerName $smsprovider -NameSpace "root\sms\site_$SiteCodeNamespace" -LogFile $logfile
-		foreach ($DB in $DBServers) {
-			$DBServerName = $DB.NetworkOSPath.Replace('\',"")
+		foreach ($DB in $DBServers) { 
+			$DBServerName = $DB.NetworkOSPath.Replace('\',"") 
 			Write-Log -Message ("Analysing SQLServer: $DBServerName") -LogFile $LogFile
-			if ($SQLServerName.ToLower() -eq $DBServerName.ToLower()) {
-				$tmpConnection = $sqlConn
+			if ($SQLServerName.ToLower() -eq $DBServerName.ToLower()) { 
+				$tmpConnection = $sqlConn 
 			}
 			else {
 				$tmpConnection = Get-SQLServerConnection -SQLServer "$DBServerName,$SQLPort" -DBName "master"
@@ -300,19 +296,19 @@ function Get-CMHealthCheck {
 				if ($SQLServerName.ToLower() -ne $DBServerName.ToLower()) { $tmpConnection.Close()  }
 			}
 		} # foreach
-
+		
 		## Section 4 = Database analysis against whole SCCM infrastructure, query will run only against top SQL Server
 		Write-Log -Message "Phase 4 of 6" -LogFile $logfile -ShowMsg
 		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '4' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
-
+		
 		## Section 5a = summary information against whole SCCM infrastructure. query will run only against the higher site in the hierarchy
 		Write-Log -Message "Phase 5 of 6" -LogFile $logfile -ShowMsg
 		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '5' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
-
+		
 		## Section 5b = detailed information against whole SCCM infrastructure. query will run only against the higher site in the hierarchy
-		Write-Log -Message "info.............: entering section 5b" -LogFile $LogFile
+		Write-Log -Message "info.............: entering section 5b" -LogFile $LogFile		
 		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '5' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -Detailed -LogFile $logfile
-
+		
 		## Section 6 = troubleshooting information
 		Write-Log -Message "Phase 6 of 6" -LogFile $logfile -ShowMsg
 		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '6' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
@@ -340,16 +336,16 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 				$SqlCommand.CommandTimeOut = 0
 				$SqlCommand.CommandText = $functionsSQLQuery
 				try {
-					$SqlCommand.ExecuteNonQuery() | Out-Null
+					$SqlCommand.ExecuteNonQuery() | Out-Null 
 				}
 				catch {}
 				$SqlCommand = $null
-				$sqlConn.Close()
+				$sqlConn.Close() 
 			}
 			catch {}
 		}
-		if ($ReportTable -ne $null) {
-			, $ReportTable | Export-CliXml -Path ($reportFolder + 'report.xml')
+		if ($ReportTable -ne $null) { 
+			, $ReportTable | Export-CliXml -Path ($reportFolder + 'report.xml') 
 		}
 
 		if ($bLogValidation -eq $false) {
@@ -362,7 +358,7 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 	}
 	$RunTime  = Get-TimeOffset -StartTime $StartTime
 	Write-Output "Processing completed. Total runtime: $RunTime (hh`:mm`:ss)"
-	try {
+	try { 
 		Stop-Transcript -ErrorAction SilentlyContinue
 	}
 	catch {}

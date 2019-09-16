@@ -1,4 +1,3 @@
-#requires -version 5
 function Export-CMHealthCheck {
     <#
     .SYNOPSIS

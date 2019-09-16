@@ -10,7 +10,7 @@ function Write-BoundaryGroups {
     )
     Write-Log -Message "[function: write-cmboundarygroups]" -LogFile $logfile
     $query = "select distinct Name, GroupID, Description, Flags, DefaultSiteCode as SiteCode, CreatedOn, MemberCount as Boundaries, SiteSystemCount as SiteSystems FROM vSMS_BoundaryGroup order by Name"
-    $bgs = @(Invoke-DbaQuery -SqlInstance $ServerName -Database "CM_$SiteCode" -Query $query -ErrorAction SilentlyContinue)
+    $bgs = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
     if ($null -eq $bgs) { return }
     $Fields = @("Name","GroupID","Description","Flags","SiteCode","CreatedOn","Boundaries","SiteSystems")
     $bgDetails = New-CmDataTable -TableName $tableName -Fields $Fields

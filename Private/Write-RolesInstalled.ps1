@@ -19,7 +19,7 @@ function Write-RolesInstalled {
 	$row.SiteServer = ($SMSListRoles -contains 'SMS Site Server').ToString()
 	$row.SQLServer  = ($SMSListRoles -contains 'SMS SQL Server').ToString()
 	$row.DP = ($SMSListRoles -contains 'SMS Distribution Point').ToString()
-	if ($DPProperties -eq $null) {
+	if ($null -eq $DPProperties) {
 		$row.PXE = "False"
 		$row.MultiCast = "False"
 		$row.PreStaged = "False"

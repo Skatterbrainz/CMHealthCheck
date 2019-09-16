@@ -34,7 +34,7 @@ function Write-Boundaries {
             vSMS_BoundaryGroupMembers.GroupID = vSMS_BoundaryGroup.GroupID
         order by DisplayName"
     
-    $blist = @(Invoke-DbaQuery -SqlInstance $ServerName -Database "CM_$SiteCode" -Query $query -ErrorAction SilentlyContinue)
+    $blist = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
     if ($null -eq $blist) { return }
     $Fields = @("DisplayName", "BoundaryID", "BValue", "BoundaryType", "BoundaryFlags", "BGName")
     $bDetails = New-CmDataTable -TableName $tableName -Fields $Fields
