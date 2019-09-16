@@ -13,7 +13,7 @@ Extract ConfigMgr Site data
 ## SYNTAX
 
 ```
-Get-CMHealthCheck [-SmsProvider] <String> [[-OutputFolder] <String>] [[-NumberOfDays] <Int32>]
+Get-CMHealthCheck [[-SmsProvider] <String>] [[-OutputFolder] <String>] [[-NumberOfDays] <Int32>]
  [[-Healthcheckfilename] <String>] [-OverWrite] [-NoHotfix] [<CommonParameters>]
 ```
 
@@ -65,10 +65,10 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
-Default value: None
-Accept pipeline input: True (ByValue)
+Default value: $($env:COMPUTERNAME)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
