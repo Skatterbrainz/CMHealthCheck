@@ -92,3 +92,10 @@
 5.0.8772.1000=Technical Preview (Version 1901)
 5.0.8782.1000=Technical Preview (Version 1902)
 5.0.8787.1000=Technical Preview (Version 1902.2)
+5.0.8790.1000=1902
+5.0.8800.1000=Technical Preview (Version 1903)
+5.0.8813.1000=Technical Preview (Version 1904)
+5.0.8827.1000=Technical Preview (Version 1905)
+5.0.8842.1000=Technical Preview (Version 1906)
+5.0.8853.1000=1906
+5.0.8855.1000=Technical Preview (Version 1907)

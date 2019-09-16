@@ -1,4 +1,3 @@
-#requires -version 5
 function Export-CMHealthCheckHTML {
     <#
     .SYNOPSIS
@@ -59,31 +58,31 @@ function Export-CMHealthCheckHTML {
         HealthcheckFilename=
         MessagesFilename=
         HealthcheckDebug=False
-        Overwrite=True 
+        Overwrite=True
     #>
     [CmdletBinding()]
     param (
-        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")] 
+        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")]
             [ValidateNotNullOrEmpty()]
             [string] $ReportFolder,
         [parameter(Mandatory=$False, HelpMessage="Log folder path")]
             [ValidateNotNullOrEmpty()]
             [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")] 
+        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")]
             [switch] $Detailed,
-        [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
+        [parameter (Mandatory = $False, HelpMessage = "Customer company name")]
             [string] $CustomerName = "Customer Name",
         [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
             [switch] $AutoConfig,
-        [parameter (Mandatory = $False, HelpMessage = "Author's full name")] 
+        [parameter (Mandatory = $False, HelpMessage = "Author's full name")]
             [string] $AuthorName = "Your Name",
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
             [string] $CopyrightName  = "Skatterbrainz",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")] 
-            [string] $Healthcheckfilename = "", 
+        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")]
+            [string] $Healthcheckfilename = "",
         [Parameter (Mandatory = $False, HelpMessage = "HealthCheck messages file name")]
-            [string] $MessagesFilename = "", 
-        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")] 
+            [string] $MessagesFilename = "",
+        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")]
             $Healthcheckdebug = $False,
         [parameter (Mandatory = $False, HelpMessage = "Theme Name")]
             [ValidateSet('Ocean','Emerald','Monochrome','Custom')]
@@ -117,7 +116,7 @@ function Export-CMHealthCheckHTML {
     $bAutoProps        = $True
     $poshversion       = $PSVersionTable.PSVersion.Major
     $osversion         = (Get-WmiObject -Class Win32_OperatingSystem).Caption
-    
+
     if ($Healthcheckfilename -eq "") {
         $Healthcheckfilename = Join-Path -Path $ModulePath -ChildPath "assets\cmhealthcheck.xml"
     }
@@ -180,7 +179,7 @@ function Export-CMHealthCheckHTML {
     Write-Log -Message "importing css template: $CssFilename" -LogFile $logfile
     $css = Get-Content $CssFilename
 
-    if ($healthcheckdebug -eq $true) { 
+    if ($healthcheckdebug -eq $true) {
         $PSDefaultParameterValues = @{"*:Verbose"=$True}
     }
 
@@ -194,15 +193,15 @@ function Export-CMHealthCheckHTML {
         Write-Verbose "log folder already exists: $logFolder"
     }
     if ($reportFolder.Substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
-    
+
     $Error.Clear()
 
     $poshversion = $PSVersionTable.PSVersion.Major
     Show-CMHCInfo
-    
+
     [xml]$HealthCheckXML = Get-CmHealthCheckFile -XmlSource $HealthcheckFilename
     [xml]$MessagesXML    = Get-CmHealthCheckFile -XmlSource $MessagesFilename
-     
+
     if ($HealthCheckXML -and $MessagesXML) {
         $bLogValidation = $true
         Write-Log -Message "----- Provisioning config table -----" -LogFile $logfile
@@ -218,15 +217,15 @@ function Export-CMHealthCheckHTML {
             Invoke-Error -Message "File $repfile does not exist, no futher action taken"; break
         }
         Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
-        if ($poshversion -eq 3) { 
+        if ($poshversion -eq 3) {
             $NumberOfDays = $ConfigTable.Rows[0].NumberOfDays
         }
-        else { 
+        else {
             $NumberOfDays = $ConfigTable.NumberOfDays
         }
 
         if (!(Test-Powershell64bit)) { Invoke-Error -Message "Powershell is not 64bit, no futher action taken"; break }
-        
+
         Write-Log -Message "initializing HTML content" -LogFile $logfile
         $htmlContent = @"
 <html>
@@ -256,7 +255,7 @@ function Export-CMHealthCheckHTML {
             ComputerName   = $($env:COMPUTERNAME)
         }
         $htmlContent += New-HtmlTableVertical -Caption "Report Information" -TableHash $htmlTable
-        
+
         Write-Log -Message "--- inserting abstract content block" -LogFile $logfile
 
         $htmlContent += "<table class=`"reportTable`"><tr><td>"
