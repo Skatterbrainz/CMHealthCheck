@@ -109,5 +109,3 @@ function Export-CMHealthReport {
         }
     }
 }
-
-Export-ModuleMember -Function Export-CMHealthReport
