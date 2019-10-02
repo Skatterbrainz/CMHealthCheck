@@ -1,4 +1,3 @@
-#requires -version 3
 function Get-CMHealthCheck {
 	<#
 	.SYNOPSIS
@@ -35,7 +34,6 @@ function Get-CMHealthCheck {
 	.EXAMPLE
 		.\Get-CMHealthCheck -SmsProvider cm01.contoso.com -OutputFolder "c:\temp" -HealthcheckFilename ".\healthcheck.xml"
 	.NOTES
-		* 1.0.4 - 02/05/2018 - David Stein
         * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
         * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
         * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
@@ -52,7 +50,8 @@ function Get-CMHealthCheck {
 		  - Remote WMI/DCOM firewall - http://msdn.microsoft.com/en-us/library/jj980508(v=winembedded.81).aspx
 		  - Remote WUA - http://msdn.microsoft.com/en-us/library/windows/desktop/aa387288%28v=VS.85%29.aspx
 		  - Comments: To get the free disk space, enable the Free Space (MB) for the Logical Disk
-
+	.LINK
+		https://github.com/Skatterbrainz/CMHealthCheck/blob/master/Docs/Get-CMHealthCheck.md
 	#>
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
