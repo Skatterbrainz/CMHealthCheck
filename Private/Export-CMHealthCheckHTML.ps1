@@ -111,7 +111,7 @@ function Export-CMHealthCheckHTML {
         Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
     }
     $Script:TableRowStyle = $TableRowStyle
-    $TempFilename      = "cmhealthreport.htm"
+    $TempFilename      = "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
     $bLogValidation    = $False
     $bAutoProps        = $True
     $poshversion       = $PSVersionTable.PSVersion.Major
@@ -240,7 +240,7 @@ function Export-CMHealthCheckHTML {
 "@
 
         Write-Log -Message "inserting title caption" -LogFile $logfile
-        $htmlContent += "<table class=`"reportTable`" style=`"border-color:#fff`"><tr><td style=`"width:120px`">"
+        $htmlContent += "`n<table class=`"reportTable`" style=`"border-color:#fff`"><tr><td style=`"width:120px`">"
         $htmlContent += "<img src=`"$ImageFile`" alt=`"$ImageFile`" width=`100`" border=`"0`" />"
         $htmlContent += "</td><td style=`"vertical-align:top`"><h1>CMHealthCheck Report</h1>"
         $htmlContent += "<p>(Install-Module CMHealthCheck) Version: $ModuleVer</p>"
@@ -258,7 +258,7 @@ function Export-CMHealthCheckHTML {
 
         Write-Log -Message "--- inserting abstract content block" -LogFile $logfile
 
-        $htmlContent += "<table class=`"reportTable`"><tr><td>"
+        $htmlContent += "`n<table class=`"reportTable`"><tr><td>"
         $htmlContent += "This document provides a point-in-time report of the current state of the System Center Configuration Manager site environment for $CustomerName. "
         $htmlContent += "For questions, concerns or comments, please consult the author of this assessment report. "
         $htmlContent += "This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for "
@@ -282,8 +282,8 @@ function Export-CMHealthCheckHTML {
         #Set-DocAppendix
 
         Write-Log -Message "inserting copyright footer" -LogFile $logfile
-        $htmlContent += "<p class=`"footer`">CMHealthCheck $ModuleVer . Copyright &copy; $((Get-Date).Year) $CopyrightName</p>"
-        $htmlContent += "</body></html>"
+        $htmlContent += "`n<p class=`"footer`">CMHealthCheck $ModuleVer . Copyright &copy; $((Get-Date).Year) $CopyrightName</p>"
+        $htmlContent += "`n</body></html>"
 
         Write-Log -Message "writing output file: $ReportFile" -LogFile $logfile
         $htmlContent | Out-File -FilePath $ReportFile -Force
@@ -294,6 +294,7 @@ function Export-CMHealthCheckHTML {
     }
 
     $Difference = Get-TimeOffset -StartTime $time1
+	Write-Log -Message "Report saved to $ReportFile" -Log $logfile -ShowMsg
     Write-Log -Message "Completed in: $Difference (hh:mm:ss)" -LogFile $logfile -ShowMsg
     Stop-Transcript
 }
