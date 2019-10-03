@@ -71,6 +71,7 @@ function Export-CMHealthReport {
             [string] $CustomerName = "Customer Name",
         [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
             [switch] $AutoConfig,
+		[parameter (Mandatory = $False)] [string] $SmsProvider,
         [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")]
             [switch] $Detailed,
         [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")]
@@ -78,7 +79,7 @@ function Export-CMHealthReport {
         [parameter (Mandatory = $False, HelpMessage = "Word document source file")]
             [string] $Template = "",
         [parameter (Mandatory = $False, HelpMessage = "Author's full name")]
-            [string] $AuthorName = "Your Name",
+            [string] $AuthorName = "",
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
             [string] $CopyrightName  = "Your Company Name",
         [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")]
@@ -88,13 +89,15 @@ function Export-CMHealthReport {
         [Parameter (Mandatory = $False, HelpMessage = "Debug more?")]
             [bool] $Healthcheckdebug = $False
     )
+    Write-Host "Analyzing collected data, publishing report"
+    $StartTime = Get-Date
     switch ($ReportType) {
         'HTML' {
             if ($AutoConfig) {
                 Export-CMHealthCheckHTML -ReportFolder $ReportFolder -AutoConfig -CustomerName $CustomerName -CopyrightName $CopyrightName -Detailed -Overwrite
             }
             else {
-                Export-CMHealthCheckHTML -ReportFolder $ReportFolder -CustomerName $CustomerName -CopyrightName $CopyrightName -Detailed -Overwrite
+                Export-CMHealthCheckHTML -ReportFolder $ReportFolder -CustomerName $CustomerName -CopyrightName $CopyrightName -AuthorName $AuthorName -Detailed -Overwrite
             }
             break;
         }
@@ -103,9 +106,11 @@ function Export-CMHealthReport {
                 Export-CMHealthCheck -ReportFolder $ReportFolder -AutoConfig -CustomerName $CustomerName -CopyrightName $CopyrightName -Detailed -Overwrite
             }
             else {
-                Export-CMHealthCheck -ReportFolder $ReportFolder -CustomerName $CustomerName -CopyrightName $CopyrightName -Detailed -Overwrite
+                Export-CMHealthCheck -ReportFolder $ReportFolder -CustomerName $CustomerName -CopyrightName $CopyrightName -AuthorName $AuthorName -Detailed -Overwrite
             }
             break;
         }
     }
+	$RunTime  = Get-TimeOffset -StartTime $StartTime
+	Write-Output "Report publishing process completed. Total runtime: $RunTime (hh`:mm`:ss)"
 }

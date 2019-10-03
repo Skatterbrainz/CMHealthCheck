@@ -74,8 +74,9 @@ function Export-CMHealthCheckHTML {
             [string] $CustomerName = "Customer Name",
         [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
             [switch] $AutoConfig,
+		[parameter (Mandatory = $False)] [string] $SmsProvider,
         [parameter (Mandatory = $False, HelpMessage = "Author's full name")]
-            [string] $AuthorName = "Your Name",
+            [string] $AuthorName = "",
         [parameter (Mandatory = $False, HelpMessage = "Footer text")]
             [string] $CopyrightName  = "Skatterbrainz",
         [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")]
@@ -101,8 +102,17 @@ function Export-CMHealthCheckHTML {
     $ModuleData = Get-Module CMHealthCheck
     $ModuleVer  = $ModuleData.Version -join '.'
     $ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-    $tsLog      = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheckHTML-Transcript.log"
-    $logfile    = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheckHTML.log"
+	$logFolder  = Join-Path -Path $OutputFolder -ChildPath "_Logs"
+    $logfile    = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML.log"
+    $tsLog      = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML-Transcript.log"
+    if (-not (Test-Path $logFolder)) {
+        Write-Verbose "creating log folder: $logFolder"
+        New-Item -Path $logFolder -ItemType Directory -Force | Out-Null
+    }
+    else {
+        Write-Verbose "log folder already exists: $logFolder"
+    }
+
     try {
         Stop-Transcript -ErrorAction SilentlyContinue
     }
@@ -111,11 +121,12 @@ function Export-CMHealthCheckHTML {
         Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
     }
     $Script:TableRowStyle = $TableRowStyle
-    $TempFilename      = "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
-    $bLogValidation    = $False
-    $bAutoProps        = $True
-    $poshversion       = $PSVersionTable.PSVersion.Major
-    $osversion         = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+    $TempFilename   = "cmhealthreport.htm"
+    $bLogValidation = $False
+    $bAutoProps     = $True
+    $poshversion    = $PSVersionTable.PSVersion.Major
+    $osversion      = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+    $ReportFile     = Join-Path -Path $OutputFolder -ChildPath "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
 
     if ($Healthcheckfilename -eq "") {
         $Healthcheckfilename = Join-Path -Path $ModulePath -ChildPath "assets\cmhealthcheck.xml"
@@ -128,6 +139,16 @@ function Export-CMHealthCheckHTML {
     if ($ImageFile -eq "") {
         $ImageFile = Join-Path -Path $ModulePath -ChildPath "assets\cmhclogo-275x237.png"
     }
+	Write-Log -Message "converting logo image to base64 encoding" -LogFile $logfile
+	$ImageData = Convert-Image2Base64 -Path $ImageFile
+	if ($ImageData) {
+		$LogoTag = "<img src=`"$ImageData`" width=`"100`" />"
+		Write-Log -Message "image tag has been updated" -LogFile $logfile
+	}
+	else {
+		$LogoTag = ""
+		Write-Log -Message "no logo image was provided" -LogFile $logfile 
+	}
     Write-Verbose "using messages file: $MessagesFilename"
 
     $autoconfigfile = Join-Path -Path $env:USERPROFILE -ChildPath "documents\cmhealthconfig.txt"
@@ -183,15 +204,6 @@ function Export-CMHealthCheckHTML {
         $PSDefaultParameterValues = @{"*:Verbose"=$True}
     }
 
-    $logFolder  = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
-    $reportFile = Join-Path -Path $OutputFolder -ChildPath $TempFilename
-    if (-not (Test-Path $logFolder)) {
-        Write-Verbose "creating log folder: $logFolder"
-        mkdir $logFolder -Force | Out-Null
-    }
-    else {
-        Write-Verbose "log folder already exists: $logFolder"
-    }
     if ($reportFolder.Substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
 
     $Error.Clear()
@@ -226,7 +238,8 @@ function Export-CMHealthCheckHTML {
 
         if (!(Test-Powershell64bit)) { Invoke-Error -Message "Powershell is not 64bit, no futher action taken"; break }
 
-        Write-Log -Message "initializing HTML content" -LogFile $logfile
+		Write-Log -Message "geenerating HTML report file from collected data" -LogFile $logFile -ShowMsg
+
         $htmlContent = @"
 <html>
     <head>
@@ -238,13 +251,13 @@ function Export-CMHealthCheckHTML {
     </head>
     <body>
 "@
-
         Write-Log -Message "inserting title caption" -LogFile $logfile
-        $htmlContent += "`n<table class=`"reportTable`" style=`"border-color:#fff`"><tr><td style=`"width:120px`">"
-        $htmlContent += "<img src=`"$ImageFile`" alt=`"$ImageFile`" width=`100`" border=`"0`" />"
-        $htmlContent += "</td><td style=`"vertical-align:top`"><h1>CMHealthCheck Report</h1>"
-        $htmlContent += "<p>(Install-Module CMHealthCheck) Version: $ModuleVer</p>"
-        $htmlContent += "</td></tr></table>"
+        $htmlContent += "`n<table class=`"reportTable`" style=`"border-color:#fff`">"
+		$htmlContent += "`n<tr><td style=`"width:120px`">`n"
+        $htmlContent += "$LogoTag"
+        $htmlContent += "`n</td><td style=`"vertical-align:top`">`n<h1>CMHealthCheck Report</h1>"
+        $htmlContent += "`n<p>System Center Configuration Manager Healthcheck Status Report</p>"
+        $htmlContent += "</td></tr>`n</table>"
 
         $htmlTable = [ordered]@{
             Customer       = $CustomerName
@@ -263,7 +276,7 @@ function Export-CMHealthCheckHTML {
         $htmlContent += "For questions, concerns or comments, please consult the author of this assessment report. "
         $htmlContent += "This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for "
         $htmlContent += "their work which laid the foundation on which this code was developed."
-        $htmlContent += "</td></tr></table>"
+        $htmlContent += "</td></tr>`n</table>"
 
         Write-Log -Message "--- entering section reports" -LogFile $logfile
 
@@ -294,7 +307,6 @@ function Export-CMHealthCheckHTML {
     }
 
     $Difference = Get-TimeOffset -StartTime $time1
-	Write-Log -Message "Report saved to $ReportFile" -Log $logfile -ShowMsg
     Write-Log -Message "Completed in: $Difference (hh:mm:ss)" -LogFile $logfile -ShowMsg
     Stop-Transcript
 }
