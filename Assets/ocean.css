@@ -1,6 +1,7 @@
 /*
 ocean.css - stylesheet for CMHealthCheck inventory reporting
 Version 1.0.0 - 09/21/2018
+Version 1.0.1 - 10/03/2019
 */
 body      {
     /*background-color:#eee;*/
@@ -41,7 +42,7 @@ th,td,tr {
     width:1000px;
 }
 .columnstyle1 {
-    background-color: #605d88;
+    background-color: #0099cc;
     color: #fff;
 }
 .columnstyle2 {
@@ -49,7 +50,7 @@ th,td,tr {
     color: #000;
 }
 .columnstyle3 {
-    background-color: #605d88;
+    background-color: #0099cc;
     color: #fff;
 }
 .columnstyle4 {
@@ -59,7 +60,7 @@ th,td,tr {
     background-color: #eee;
 }
 .rowstyle2 {
-    background-color: #605d88;
+    background-color: #0099cc;
     color: #fff;
 }
 .rowstyle3 {
@@ -69,7 +70,7 @@ th,td,tr {
     background-color: #a1d9ff;
 }
 .headingRow1 {
-    background-color: #605d88;
+    background-color: #0099cc;
     color: #fff;
 }
 .rowstylex {
