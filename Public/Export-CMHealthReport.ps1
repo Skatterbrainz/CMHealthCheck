@@ -93,22 +93,34 @@ function Export-CMHealthReport {
     $StartTime = Get-Date
     switch ($ReportType) {
         'HTML' {
-            if ($AutoConfig) {
-                Export-CMHealthCheckHTML -ReportFolder $ReportFolder -AutoConfig -CustomerName $CustomerName -CopyrightName $CopyrightName -Detailed -Overwrite
-            }
-            else {
-                Export-CMHealthCheckHTML -ReportFolder $ReportFolder -CustomerName $CustomerName -CopyrightName $CopyrightName -AuthorName $AuthorName -Detailed -Overwrite
-            }
-            break;
+			$expParams = @{
+				ReportFolder  = $ReportFolder 
+				AutoConfig    = $AutoConfig
+				CustomerName  = $CustomerName 
+				CopyrightName = $CopyrightName 
+				AuthorName    = $AuthorName
+				SmsProvider   = $SmsProvider
+				Detailed      = $Detailed
+				Overwrite     = $Overwrite
+				Theme         = "Ocean"
+				TableRowStyle = "Solid"
+			}
+            Export-CMHealthCheckHTML @expParams
         }
         'Word' {
-            if ($AutoConfig) {
-                Export-CMHealthCheck -ReportFolder $ReportFolder -AutoConfig -CustomerName $CustomerName -CopyrightName $CopyrightName -Detailed -Overwrite
-            }
-            else {
-                Export-CMHealthCheck -ReportFolder $ReportFolder -CustomerName $CustomerName -CopyrightName $CopyrightName -AuthorName $AuthorName -Detailed -Overwrite
-            }
-            break;
+			$expParams = @{
+				ReportFolder  = $ReportFolder 
+				CustomerName  = $CustomerName 
+				CopyrightName = $CopyrightName 
+				AuthorName    = $AuthorName 
+				SmsProvider   = $SmsProvider
+				Detailed      = $Detailed
+				Overwrite     = $Overwrite
+				AutoConfig    = $AutoConfig
+				CoverPage     = "Slice (Light)"
+
+			}
+            Export-CMHealthCheck @expParams
         }
     }
 	$RunTime  = Get-TimeOffset -StartTime $StartTime
