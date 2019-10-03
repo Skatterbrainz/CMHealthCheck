@@ -324,7 +324,7 @@ function Get-CMHealthCheck {
 		#close sql connection
 		Write-Host "Finishing up"
 		Write-Log -Message "info.............: closing SQL connection" -LogFile $LogFile
-		if ($sqlConn -ne $null) {
+		if ($null -ne $sqlConn) {
 			Write-Log -Message "info.............: deleting temp SQL functions" -LogFile $LogFile
 			$functionsSQLQuery = @"
 IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
@@ -343,7 +343,7 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 			}
 			catch {}
 		}
-		if ($ReportTable -ne $null) {
+		if ($null -ne $ReportTable) {
 			, $ReportTable | Export-CliXml -Path ($reportFolder + 'report.xml')
 		}
 
@@ -356,7 +356,7 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 		}
 	}
 	$RunTime  = Get-TimeOffset -StartTime $StartTime
-	Write-Output "Processing completed. Total runtime: $RunTime (hh`:mm`:ss)"
+	Write-Output "Data collection process completed. Total runtime: $RunTime (hh`:mm`:ss)"
 	try {
 		Stop-Transcript -ErrorAction SilentlyContinue
 	}

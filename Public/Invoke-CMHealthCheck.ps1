@@ -82,14 +82,14 @@
 function Invoke-CMHealthCheck {
     [CmdletBinding(ConfirmImpact="Low")]
     param (
-        [parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = $($env:COMPUTERNAME),
+        [parameter()] [string] $SmsProvider = "",
         [parameter()] [string] $CustomerName = "Customer Name",
         [parameter()] [string] $AuthorName = "Your Name",
         [parameter()] [string] $CopyrightName  = "Your Company Name",
         [parameter()] [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
         [parameter()] [ValidateNotNullOrEmpty()] [string] $PublishFolder = "$($env:USERPROFILE)\Documents",
         [parameter()] [int] $NumberOfDays = 7,
-		[parameter()] [string]$ReportType = 'HTML',
+		[parameter()] [string] $ReportType = 'HTML',
 		[parameter()] [switch] $OpenBrowser,
         [parameter()] [switch] $NoHotfix ,
         [parameter()] [switch] $OverWrite,
@@ -99,10 +99,18 @@ function Invoke-CMHealthCheck {
         [parameter()] [string] $Healthcheckfilename = "",
         [parameter()] [string] $MessagesFilename = ""
     )
-    
+    $Time1 = Get-Date
+	if ([string]::IsNullOrEmpty($SmsProvider)) {
+		$SmsProvider = ($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.'
+	}
+	if ([string]::IsNullOrEmpty($SmsProvider)) {
+		Write-Warning "SmsProvider must be specified"
+		break
+	}
     $ReportFolder = Join-Path $OutputFolder "$(Get-Date -f 'yyyy-MM-dd')\$SmsProvider"
+	Write-Log -Message "report folder = $ReportFolder" -LogFile $logfile
     try {
-        Write-Verbose "report folder path = $ReportFolder"
+        Write-Log -Message "report folder path = $ReportFolder" -LogFile $logfile
         $getParams = @{
             SmsProvider   = $SmsProvider
             OutputFolder  = $OutputFolder
@@ -111,27 +119,28 @@ function Invoke-CMHealthCheck {
 			OverWrite     = $OverWrite
             Verbose       = $VerbosePreference
         }
-        Write-Verbose "calling Get-CMHealthCheck with parameter set"
+        Write-Log -Message "calling Get-CMHealthCheck with parameter set" -LogFile $logfile
         Get-CMHealthCheck @getParams
     }
     catch {
         Write-Error $_.Exception.Message
     }
-	Write-Log "------------------ begin report publishing ---------------------"
+	Write-Log -Message "------------------ begin report publishing ---------------------" -LogFile $logfile
     try {
         if (Test-Path $ReportFolder) {
-            Write-Verbose "calling Export-CMHealthCheck with parameter set"
+            Write-Log -Message "calling Export-CMHealthCheck with parameter set" -LogFile $logfile
             $expParams = @{
                 ReportType       = $ReportType
                 ReportFolder     = $ReportFolder
                 OutputFolder     = $OutputFolder
+				SmsProvider      = $SmsProvider
+                AuthorName       = $AuthorName
+                CopyrightName    = $CopyrightName
                 CustomerName     = $CustomerName
                 AutoConfig       = $AutoConfig
                 Detailed         = $Detailed
                 CoverPage        = $CoverPage
                 Template         = $Template
-                AuthorName       = $AuthorName
-                CopyrightName    = $CopyrightName
                 MessagesFilename = $MessagesFilename
                 Healthcheckdebug = $Healthcheckdebug
                 Healthcheckfilename = $Healthcheckfilename
@@ -141,7 +150,7 @@ function Invoke-CMHealthCheck {
 			if ($OpenBrowser) {
 				$newFile = Join-Path -Path $OutputFolder -ChildPath "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
 				if (Test-Path $newFile) {
-					Write-Host "opening report in default web browser: $newFile" -ForegroundColor Cyan
+					Write-Output "opening report in default web browser: $newFile"
 					Start-Process $newFile
 				}
 				else {
@@ -156,4 +165,6 @@ function Invoke-CMHealthCheck {
     catch {
         Write-Error $_.Exception.Message
     }
+	$RTime  = Get-TimeOffset -StartTime $Time1
+	Write-Output "Collection and Reporting process completed. Total runtime: $RTime (hh`:mm`:ss)"
 }
