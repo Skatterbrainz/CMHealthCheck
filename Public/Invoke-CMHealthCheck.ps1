@@ -55,10 +55,27 @@
 .PARAMETER Detailed
     Display additional details (verbose)
 .EXAMPLE
+    Invoke-CMHealthCheck -SmsProvider "cm01.contoso.local" -CustomerName "Contoso" -AuthorName "Skatter Brainz" -CopyrightName "SkatterCorp"
+    Standard/default settings to collect data, and generate HTML report
 .EXAMPLE
+    Invoke-CMHealthCheck -SmsProvider "cm01.contoso.local" -CustomerName "Contoso" -AuthorName "Skatter Brainz" -CopyrightName "SkatterCorp" -Overwrite
+    Replaces an existing (previous) output from the same date
+.EXAMPLE
+    Invoke-CMHealthCheck -SmsProvider "cm01.contoso.local" -CustomerName "Contoso" -AuthorName "Skatter Brainz" -CopyrightName "SkatterCorp" -OpenBrowser
+    Opens the HTML report in the default web browser, upon completion
+.EXAMPLE
+    Invoke-CMHealthCheck -SmsProvider "cm01.contoso.local" -CustomerName "Contoso" -AuthorName "Skatter Brainz" -CopyrightName "SkatterCorp" -Detailed
+    Generates additional detail in the output report file
+.EXAMPLE
+    Invoke-CMHealthCheck -SmsProvider "cm01.contoso.local" -CustomerName "Contoso" -AuthorName "Skatter Brainz" -CopyrightName "SkatterCorp" -AutoConfig "config.txt"
+    Loads reporting parameters from custom text file
+.EXAMPLE
+    Invoke-CMHealthCheck -SmsProvider "cm01.contoso.local" -CustomerName "Contoso" -AuthorName "Skatter Brainz" -CopyrightName "SkatterCorp" -NoHotFix
+    Skips inventory of installed operating system hotfixes
 .NOTES
+    New function for 1.0.11 - 10/2019
 .OUTPUTS
-    collected data files, folders, and output HTML file
+    collected data files, folders, and output HTML file, happiness, confusion, consternation, whatever that means
 .LINK
     https://github.com/Skatterbrainz/CMHealthCheck/blob/master/Docs/Invoke-CMHealthCheck.md
 #>
