@@ -14,8 +14,8 @@ Convert extracted ConfigMgr site information to Word Document
 
 ```
 Export-CMHealthReport [[-ReportType] <String>] [-ReportFolder] <String> [[-OutputFolder] <String>]
- [[-CustomerName] <String>] [-AutoConfig] [-Detailed] [[-CoverPage] <String>] [[-Template] <String>]
- [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>]
+ [[-CustomerName] <String>] [-AutoConfig] [[-SmsProvider] <String>] [-Detailed] [[-CoverPage] <String>]
+ [[-Template] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>]
  [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Boolean>] [<CommonParameters>]
 ```
 
@@ -121,6 +121,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -SmsProvider
+{{Fill SmsProvider Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Detailed
 Collect more granular data for final reporting, or use AutoConfig file
 
@@ -145,7 +160,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: Slice (Light)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -162,7 +177,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -177,8 +192,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
-Default value: Your Name
+Position: 8
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -192,7 +207,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: Your Company Name
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -208,7 +223,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -224,7 +239,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -239,7 +254,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
