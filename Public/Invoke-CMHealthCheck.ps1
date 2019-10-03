@@ -86,15 +86,15 @@ function Invoke-CMHealthCheck {
         [parameter()] [string] $CustomerName = "Customer Name",
         [parameter()] [string] $AuthorName = "Your Name",
         [parameter()] [string] $CopyrightName  = "Your Company Name",
-        [parameter()] [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+        [parameter()] [string] $DataFolder = "$($env:USERPROFILE)\Documents",
         [parameter()] [ValidateNotNullOrEmpty()] [string] $PublishFolder = "$($env:USERPROFILE)\Documents",
-        [parameter()] [int] $NumberOfDays = 7,
-		[parameter()] [string] $ReportType = 'HTML',
 		[parameter()] [switch] $OpenBrowser,
-        [parameter()] [switch] $NoHotfix ,
         [parameter()] [switch] $OverWrite,
+        [parameter()] [switch] $NoHotfix ,
         [parameter()] [switch] $AutoConfig,
         [parameter()] [switch] $Detailed,
+		[parameter()] [string] $ReportType = 'HTML',
+        [parameter()] [int] $NumberOfDays = 7,
         [parameter()] [switch] $Healthcheckdebug,
         [parameter()] [string] $Healthcheckfilename = "",
         [parameter()] [string] $MessagesFilename = ""
@@ -107,13 +107,13 @@ function Invoke-CMHealthCheck {
 		Write-Warning "SmsProvider must be specified"
 		break
 	}
-    $ReportFolder = Join-Path $OutputFolder "$(Get-Date -f 'yyyy-MM-dd')\$SmsProvider"
+    $ReportFolder = Join-Path $DataFolder "$(Get-Date -f 'yyyy-MM-dd')\$SmsProvider"
 	Write-Log -Message "report folder = $ReportFolder" -LogFile $logfile
     try {
         Write-Log -Message "report folder path = $ReportFolder" -LogFile $logfile
         $getParams = @{
             SmsProvider   = $SmsProvider
-            OutputFolder  = $OutputFolder
+            OutputFolder  = $DataFolder
             NumberOfDays  = $NumberOfDays
             NoHotfix      = $NoHotfix
 			OverWrite     = $OverWrite
@@ -132,7 +132,7 @@ function Invoke-CMHealthCheck {
             $expParams = @{
                 ReportType       = $ReportType
                 ReportFolder     = $ReportFolder
-                OutputFolder     = $OutputFolder
+                OutputFolder     = $DataFolder
 				SmsProvider      = $SmsProvider
                 AuthorName       = $AuthorName
                 CopyrightName    = $CopyrightName
@@ -148,7 +148,7 @@ function Invoke-CMHealthCheck {
             }
             Export-CMHealthReport @expParams
 			if ($OpenBrowser) {
-				$newFile = Join-Path -Path $OutputFolder -ChildPath "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
+				$newFile = Join-Path -Path $DataFolder -ChildPath "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
 				if (Test-Path $newFile) {
 					Write-Output "opening report in default web browser: $newFile"
 					Start-Process $newFile
