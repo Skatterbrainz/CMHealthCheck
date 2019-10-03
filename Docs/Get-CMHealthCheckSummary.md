@@ -1,7 +1,7 @@
 ---
 external help file: CMHealthCheck-help.xml
 Module Name: CMHealthCheck
-online version:
+online version: https://github.com/Skatterbrainz/CMHealthCheck/blob/master/Docs/Get-CMHealthCheck.md
 schema: 2.0.0
 ---
 

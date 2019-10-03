@@ -26,7 +26,7 @@ function Get-CMHealthCheckSummary {
 			$content += "<h1>Active Directory</h1>"
             $content += "<h2>Forest and Domain</h2>"
             $content += $forestinfo | ConvertTo-HtmlPivot -DivID $divtag
-    
+
             $content += "<h2>Accounts</h2>
             <table id=table1>
 			<tr><th>ObjectCategory</th><th>Count</th></tr>
@@ -34,13 +34,13 @@ function Get-CMHealthCheckSummary {
             <tr><td>Groups</td><td>$($adgroups.Count)</td></tr>
             <tr><td>Computers</td><td>$($adcomps.Count)</td></tr>
             </table>"
-    
+
             $content += "<h2>Sites</h2>"
             $content += $adsites | ConvertTo-HtmlPivot -DivID $divtag
-    
+
             $content += "<h2>Site Links</h2>"
             $content += $adsitelinks | ConvertTo-HtmlPivot -DivID $divtag
-    
+
             $content += "<h2>Configuration Manager AD Schema</h2>
             <table id=$divtag>
 			<tr><th>Condition</th><th>Status</th></tr>
@@ -64,7 +64,7 @@ function Get-CMHealthCheckSummary {
 
 			$content += "<h2>Site Systems and Roles</h2>"
 			$content += (Get-CmhCmSiteSystemRoles | ConvertTo-Html -Fragment) -replace "<table>","<table id=$divtag>"
-			
+
         }
         if ($ReportScope -in @('All','SQL')) {
 			$content += "<h1>SQL Server</h1>"
@@ -74,13 +74,13 @@ function Get-CMHealthCheckSummary {
 			$dbhost   = Get-CmhCmSiteSystemRoles | Where {$_.RoleName -eq 'SMS SQL Server'} | Select -ExpandProperty Name
 			Write-Verbose "sql host: $dbhost"
 			$content += Get-DbaComputerSystem -ComputerName $dbhost | ConvertTo-HtmlPivot -DivID $divtag
-			
+
 			$content += "<h2>Database: CM_$sitecode</h2>"
 			$content += Get-DbaComputerSystem -ComputerName $dbhost | ConvertTo-HtmlPivot -DivID $divtag
-			
+
 			$content += "<h2>Database: CM_$sitecode Status</h2>"
 			$content += Get-DbaDbState -SqlInstance $dbhost -Database "CM_$sitecode" | ConvertTo-HtmlPivot -DivID $divtag
-			
+
 			if ($Detailed) {
 				$content += "<h2>Database Files: CM_$sitecode</h2>"
 				$content += Get-DbaDbFile -SqlInstance $dbhost -Database "CM_$sitecode" | %{ConvertTo-HtmlPivot -InputObject $_ -DivID $divtag}
@@ -96,5 +96,3 @@ function Get-CMHealthCheckSummary {
 		Write-Warning "Error: $($Error[0].Exception.Message)"
 	}
 }
-
-Export-ModuleMember -Function Get-CMHealthCheckSummary

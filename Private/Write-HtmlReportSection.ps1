@@ -1,9 +1,10 @@
 Function Write-HtmlReportSection {
+	[CmdletBinding()]
     param (
-		$HealthCheckXML,
-		$Section,
-		[switch] $Detailed,
-        $LogFile
+		[parameter()]$HealthCheckXML,
+		[parameter()][string]$Section,
+		[parameter()][switch] $Detailed,
+        [parameter()][string]$LogFile
 	)
     Write-Log -Message "---------------------------------------------------" -LogFile $logfile
 	Write-Log -Message "function...... Write-HtmlReportSection ****" -LogFile $logfile
@@ -29,7 +30,7 @@ Function Write-HtmlReportSection {
         }
         Write-Log -Message "..................................................." -LogFile $logfile
 		Write-Log -Message "description... $Description" -LogFile $logfile
-        $result += "<h2>$Description</h2>"
+        $result += "`n<h2>$Description</h2>"
         $bFound = $false
         $tableName = $healthCheck.XMLFile
         if ($Section -eq 5) {
@@ -60,11 +61,11 @@ Function Write-HtmlReportSection {
 					}
 					$xmltile += $filename.Substring(0,$filename.IndexOf("_"))
 					Write-Log -Message "--- xmlTile = $xmlTile" -LogFile $logfile
-                    $result += "<$CapStyle>$xmlTile</$CapStyle>"
+                    $result += "`n<$CapStyle>$xmlTile</$CapStyle>"
 				}
 				
 	            if (!(Test-Path ($reportFolder + $filename))) {
-                    $result += "<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
+                    $result += "`n<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 					Write-Log -Message "Table does not exist" -LogFile $logfile
 				}
 				else {
@@ -74,7 +75,7 @@ Function Write-HtmlReportSection {
 					$datatable | Where-Object { $count++ }
 					
 		            if ($count -eq 0) {
-                        $result += "<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
+                        $result += "`n<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 						Write-Log -Message "Table......... 0 rows" -LogFile $logfile
 						continue
 		            }
@@ -93,7 +94,7 @@ Function Write-HtmlReportSection {
 							$i = 1;
 							Write-Log -Message "--- structure..... $count rows and $Columns columns" -LogFile $logfile
                             Write-Log -Message "--- writing table column headings..." -LogFile $logfile
-                            $table = "<table class=`"reportTable`"><tr>"
+                            $table = "`n<table class=`"reportTable`"><tr>"
                             foreach ($field in $HealthCheck.Fields.Field) {
                                 if ($section -eq 5) {
                                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
@@ -202,7 +203,7 @@ Function Write-HtmlReportSection {
 							$rownum = 0
 							$i = 1;
                             $y=0
-                            $table = "<$CapStyle>$Caption</$CapStyle> <table class=`"reportTable`">"
+                            $table = "`n<$CapStyle>$Caption</$CapStyle> <table class=`"reportTable`">"
 							Write-Log -Message "--- building simpletable column heading cells" -Logfile $logfile
 							foreach ($field in $HealthCheck.Fields.Field) {
                                 if ($section -eq 5) {
@@ -312,14 +313,14 @@ Function Write-HtmlReportSection {
 								$records++
 		                    } # foreach
 							#Write-Verbose "NEW: appending row count label below table"
-                            $result += "<p>$($count+1) items found . . .</p>"
+                            $result += "`n<p>$($count+1) items found . . .</p>"
 						} # end of default switch case
 					} # switch
 				}
 			}
 		} # foreach
         if ($bFound -eq $false) {
-            $result += "<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
+            $result += "`n<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 		    Write-Log -Message ("Table does not exist") -LogFile $logfile -Severity 2
 		}
     } # foreach

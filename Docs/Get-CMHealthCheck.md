@@ -1,7 +1,7 @@
 ---
 external help file: CMHealthCheck-help.xml
 Module Name: CMHealthCheck
-online version:
+online version: https://github.com/Skatterbrainz/CMHealthCheck/blob/master/Docs/Get-CMHealthCheck.md
 schema: 2.0.0
 ---
 
@@ -159,22 +159,24 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-* 1.0.4 - 02/05/2018 - David Stein
-      * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-      * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-      * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-      * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+* Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
+* Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
+* Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
+* Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
 * Support: Database name must be CM_\<SITECODE\> (you need to adapt the queries if not this format)
 
 * Security Rights: user running this tool should have the following rights:
-  - SQL Server (serveradmin) to be able to see database / cpu stats
-  - SCCM Database (db_owner) used to create/drop user-defined functions
-  - msdb Database (db_datareader) used to read backup information
-  - read-only analyst on the SCCM console
-  - local administrator on all computer (used to remotely connect to the registry and services)
-  - firewall allowing 1433 (or equivalent) to all SQL Servers (including SQL Express on Secondary Site)
-  - Remote WMI/DCOM firewall - http://msdn.microsoft.com/en-us/library/jj980508(v=winembedded.81).aspx
-  - Remote WUA - http://msdn.microsoft.com/en-us/library/windows/desktop/aa387288%28v=VS.85%29.aspx
-  - Comments: To get the free disk space, enable the Free Space (MB) for the Logical Disk
+- SQL Server (serveradmin) to be able to see database / cpu stats
+- SCCM Database (db_owner) used to create/drop user-defined functions
+- msdb Database (db_datareader) used to read backup information
+- read-only analyst on the SCCM console
+- local administrator on all computer (used to remotely connect to the registry and services)
+- firewall allowing 1433 (or equivalent) to all SQL Servers (including SQL Express on Secondary Site)
+- Remote WMI/DCOM firewall - http://msdn.microsoft.com/en-us/library/jj980508(v=winembedded.81).aspx
+- Remote WUA - http://msdn.microsoft.com/en-us/library/windows/desktop/aa387288%28v=VS.85%29.aspx
+- Comments: To get the free disk space, enable the Free Space (MB) for the Logical Disk
 
 ## RELATED LINKS
+
+[https://github.com/Skatterbrainz/CMHealthCheck/blob/master/Docs/Get-CMHealthCheck.md](https://github.com/Skatterbrainz/CMHealthCheck/blob/master/Docs/Get-CMHealthCheck.md)
+

@@ -1,18 +1,19 @@
 function New-HtmlTableBegin {
+	[CmdletBinding()]
     param (
-        [string] $Caption = "",
-        [string] $CaptionStyle = "h2", 
-        [string] $TableClass = "reportTable",
-        [string] $HeadingStyle = "",
-        [string] $HeadingNames
+        [parameter()][string] $Caption = "",
+        [parameter()][string] $CaptionStyle = "h2", 
+        [parameter()][string] $TableClass = "reportTable",
+        [parameter()][string] $HeadingStyle = "",
+        [parameter()][string] $HeadingNames
     )
     Write-Log -Message "--- function: New-HtmlTableBegin" -LogFile $logfile
     Write-Log -Message "--- tableclass`:$TableClass headingstyle`:$HeadingStyle" -LogFile $logfile
 
     if (!([string]::IsNullOrEmpty($Caption))) {
-        $Caption = "<$CaptionStyle>$Caption</$CaptionStyle>"
+        $Caption = "`n<$CaptionStyle>$Caption</$CaptionStyle>"
     }
-    $result = "$Caption <table class=`"$TableClass`">"
+    $result = "`n$Caption <table class=`"$TableClass`">"
 
     $result += "<tr>"
     foreach ($item in $HeadingNames.Split(',')) {
@@ -34,7 +35,7 @@ function New-HtmlTableEnd {
         [string] $TableData
     )
     Write-Log -Message "--- function: New-HtmlTableEnd" -LogFile $logfile
-    Write-Output $TableData += "</table>"
+    Write-Output $TableData += "`n</table>"
 }
 
 function New-HtmlTableBlock {
@@ -62,7 +63,7 @@ function New-HtmlTableBlock {
         }
         $result += "</tr>"
     }
-    $result += "</table>"
+    $result += "`n</table>"
     Write-Output $result
 }
 
@@ -75,15 +76,15 @@ function New-HtmlTableVertical {
     )
     Write-Log -Message "--- function: New-HtmlTableVertical" -LogFile $logfile
     if (!([string]::IsNullOrEmpty($Caption))) {
-        $Caption = "<$CaptionStyle>$Caption</$CaptionStyle>"
+        $Caption = "`n<$CaptionStyle>$Caption</$CaptionStyle>"
     }
-    $result = "$Caption <table class=`"$TableClass`">"
+    $result = "`n$Caption <table class=`"$TableClass`">"
     foreach ($key in $TableHash.Keys) {
         $val  = $TableHash.Item($key)
         $col1 = "<td class=`"columnstyle1`">$key</td>"
         $col2 = "<td class=`"columnstyle2`">$val</td>"
         $result += "<tr>$($col1)$($col2)</tr>"
     }
-    $result += "</table>"
+    $result += "`n</table>"
     Write-Output $result
 }
