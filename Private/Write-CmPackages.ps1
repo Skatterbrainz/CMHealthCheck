@@ -1,12 +1,12 @@
 function Write-CmPackages {
     param (
-		[string] $FileName,
-		[string] $TableName,
-		[string] $SiteCode,
-		[int] $NumberOfDays,
-		[string] $LogFile,
-		[string] $ServerName,
-		[bool] $ContinueOnError = $true
+		[parameter(Mandatory)][string] $FileName,
+		[parameter(Mandatory)][string] $TableName,
+		[parameter()][string] $SiteCode,
+		[parameter()][int] $NumberOfDays,
+		[parameter()][string] $LogFile,
+		[parameter()][string] $ServerName,
+		[parameter()][bool] $ContinueOnError = $true
     )
 	Write-Log -Message "function... Write-CmPackages ****" -LogFile $logfile
     $query = "select distinct PackageID, Name, 
@@ -29,11 +29,11 @@ function Write-CmPackages {
 	$Fields = @("Name","PkgID","Type","Description","Version")
 	$pkgDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($pkg in $packages) {
-		$row = $pkgDetails.NewRow()
-        $row.Name = $pkg.Name
-        $row.PkgID = $pkg.PackageID
-        $row.Type  = $pkg.PkgType
-        $row.Version = $pkg.Version
+		$row             = $pkgDetails.NewRow()
+        $row.Name        = $pkg.Name
+        $row.PkgID       = $pkg.PackageID
+        $row.Type        = $pkg.PkgType
+        $row.Version     = $pkg.Version
         $row.Description = $pkg.Description
 	    $pkgDetails.Rows.Add($row)
     }

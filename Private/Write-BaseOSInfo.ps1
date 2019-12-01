@@ -1,23 +1,16 @@
 Function Write-BaseOSInfo {
     param (
-		[parameter(Mandatory=$False)]
-			[string] $FileName,
-		[parameter(Mandatory=$False)]
-			[string] $TableName,
-		[parameter(Mandatory=$True)]
-			[string] $SiteCode,
-		[parameter(Mandatory=$False)]
-	    	[int] $NumberOfDays,
-		[parameter(Mandatory=$False)]
-			[string] $LogFile,
-		[parameter(Mandatory=$False)]
-			[string] $ServerName,
-		[parameter(Mandatory=$False)]
-			[bool] $ContinueOnError = $true
+		[parameter(Mandatory)][string] $SiteCode,
+		[parameter()][string] $FileName,
+		[parameter()][string] $TableName,
+		[parameter()][int] $NumberOfDays,
+		[parameter()][string] $LogFile,
+		[parameter()][string] $ServerName,
+		[parameter()][bool] $ContinueOnError = $true
 	)
 	Write-Log -Message "function... Write-BaseOsInfo ****" -LogFile $logfile
     $WMIOS = Get-CmWmiObject -Class "win32_operatingsystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
-    if ($WMIOS -eq $null) { return }	
+    if ($null -eq $WMIOS) { return }	
     $WMICS = Get-CmWmiObject -Class "win32_computersystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
 	$WMIProcessor = Get-CmWmiObject -Class "Win32_processor" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
     $WMITimeZone  = Get-CmWmiObject -Class "Win32_TimeZone" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
@@ -31,7 +24,7 @@ Function Write-BaseOSInfo {
         }
     }
     $OSProcessorArch = $WMIOS.OSArchitecture
-    if ($OSProcessorArch -ne $null) {
+    if ($null -ne $OSProcessorArch) {
 	    switch ($OSProcessorArch.ToUpper() ) {
 		    "AMD64" {$ProcessorArchDisplay = "64-bit"}
 			"i386"  {$ProcessorArchDisplay = "32-bit"}
@@ -77,7 +70,7 @@ Function Write-BaseOSInfo {
 		$ProcessorName = $WMIProc.name
 	}
 	$ProcessorDisplayName = "$numProcs" + $ProcessorDisplayName
-    if ($WMICS.DomainRole -ne $null) {
+    if ($null -ne $WMICS.DomainRole) {
 		switch ($WMICS.DomainRole) {
 			0 {$RoleDisplay = "Workstation"}
 			1 {$RoleDisplay = "Member Workstation"}
@@ -108,7 +101,7 @@ Function Write-BaseOSInfo {
 	$row.NumberOfProcessors = $WMICS.NumberOfProcessors
 	$row.NumberOfLogicalProcessors = $WMICS.NumberOfLogicalProcessors
 	$row.Processors = $ProcessorDisplayName
-    if ($avInformation -ne $null) { $row.AntiMalware = $avInformation }
+    if ($null -ne $avInformation) { $row.AntiMalware = $avInformation }
     else { $row.AntiMalware = "Antimalware software not detected" }
     $BaseOSInfoTable.Rows.Add($row)
     , $BaseOSInfoTable | Export-CliXml -Path ($filename)

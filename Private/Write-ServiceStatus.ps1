@@ -1,17 +1,17 @@
 function Write-ServiceStatus {
     param (
-        [string] $FileName,
-        [string] $TableName,
-        [string] $SiteCode,
-        [int] $NumberOfDays,
-        $LogFile,
-        [string] $ServerName,
-        $ContinueOnError = $true
+        [parameter(Mandatory)][string] $FileName,
+        [parameter(Mandatory)][string] $TableName,
+        [parameter()][string] $SiteCode,
+        [parameter()][int] $NumberOfDays,
+        [parameter()] $LogFile,
+        [parameter()][string] $ServerName,
+        [parameter()] $ContinueOnError = $true
     )
     Write-Log -Message "[function: write-servicestatus]" -LogFile $logfile
 
     $SiteInformation = Get-CmWmiObject -query "select Type from SMS_Site where ServerName = '$Server'" -namespace "Root\SMS\Site_$SiteCodeNamespace" -computerName $smsprovider -logfile $logfile
-    if ($SiteInformation -ne $null) { $SiteType = $SiteInformation.Type }
+    if ($null -ne $SiteInformation) { $SiteType = $SiteInformation.Type }
 
     $WMISMSListRoles = Get-CmWmiObject -query "select distinct RoleName from SMS_SCI_SysResUse where NetworkOSPath = '\\\\$Server'" -computerName $smsprovider -namespace "root\sms\site_$SiteCodeNamespace" -logfile $logfile
     $SMSListRoles = @()

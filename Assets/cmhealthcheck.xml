@@ -231,6 +231,10 @@ SELECT
   WHEN RIGHT(s.Version,14) = '5.00.8772.1000' THEN 'Preview 1901'
   WHEN RIGHT(s.Version,14) = '5.00.8782.1000' THEN 'Preview 1902'
   WHEN RIGHT(s.Version,14) = '5.00.8787.1000' THEN 'Preview 1902.2'
+  WHEN RIGHT(s.Version,14) = '5.00.8790.1000' THEN '1902'
+  WHEN RIGHT(s.Version,14) = '5.00.8853.1000' THEN '1906'
+  WHEN RIGHT(s.Version,14) = '5.00.8913.1000' THEN '1910'
+  WHEN RIGHT(s.Version,14) = '5.00.8909.1000' THEN 'Preview 1911'
 	ELSE CAST(s.Version AS VARCHAR(100))
   END AS SPLevel,
   CASE 

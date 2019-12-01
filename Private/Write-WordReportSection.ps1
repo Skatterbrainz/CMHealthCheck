@@ -1,12 +1,11 @@
 Function Write-WordReportSection {
     param (
-		$HealthCheckXML,
-		$Section,
-		[parameter(Mandatory=$False)]
-		$Detailed = $false,
-        $Doc,
-		$Selection,
-        $LogFile
+		[parameter()] $HealthCheckXML,
+		[parameter()] $Section,
+		[parameter()] $Detailed = $false,
+        [parameter()] $Doc,
+		[parameter()] $Selection,
+        [parameter()] $LogFile
 	)
 	Write-Log -Message "function...... Write-WordReportSection ****" -LogFile $logfile
 	Write-Log -Message "section....... $section" -LogFile $logfile
@@ -49,19 +48,18 @@ Function Write-WordReportSection {
 					$xmltitle = $filename.Substring(0,$filename.IndexOf("_"))
 					$xmltile = ($rp.TableName.Substring(0,$rp.TableName.IndexOf("_")).Replace("@","")).Tolower()
 					switch ($xmltile) {
-						"sitecode"   { $xmltile = "Site Code: "; break; }
-						"servername" { $xmltile = "Server Name: "; break; }
+						"sitecode"   { $xmltile = "Site Code: " }
+						"servername" { $xmltile = "Server Name: " }
 					}
 					switch ($healthCheck.WordStyle) {
-						"Heading 1" { $newstyle = "Heading 2"; break; }
-						"Heading 2" { $newstyle = "Heading 3"; break; }
-						"Heading 3" { $newstyle = "Heading 4"; break; }
-						default { $newstyle = $healthCheck.WordStyle; break }
+						"Heading 1" { $newstyle = "Heading 2" }
+						"Heading 2" { $newstyle = "Heading 3" }
+						"Heading 3" { $newstyle = "Heading 4" }
+						default { $newstyle = $healthCheck.WordStyle }
 					}
 					$xmltile += $filename.Substring(0,$filename.IndexOf("_"))
 					Write-WordText -WordSelection $selection -Text $xmltile -Style $newstyle -NewLine $true
 				}
-				
 	            if (!(Test-Path ($reportFolder + $filename))) {
 					Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
 					Write-Log -Message "Table does not exist" -LogFile $logfile -Severity 2
@@ -72,14 +70,12 @@ Function Write-WordReportSection {
 					$datatable = Import-CliXml -Path ($reportFolder + $filename)
 					$count = 0
 					$datatable | Where-Object { $count++ }
-					
 		            if ($count -eq 0) {
 						Write-WordText -WordSelection $selection -Text $healthCheck.EmptyText -NewLine $true
 						Write-Log -Message "Table......... 0 rows" -LogFile $logfile -Severity 2
 						$selection.TypeParagraph()
 						continue
 		            }
-
 					switch ($healthCheck.PrintType.ToLower()) {
 						"table" {
 							Write-Log -Message "table type.... table" -LogFile $logfile
@@ -134,15 +130,12 @@ Function Write-WordReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = Get-MessageInformation -MessageID ($row.$($field.FieldName))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($row.$($field.FieldName))
-											break ;
 										}										
 										default {
 											$TextToWord = $row.$($field.FieldName);
-											break;
 										}
 									}
 									#Write-Log -Message "--value: $($TextToWord.ToString())" -LogFile $logfile
@@ -167,7 +160,6 @@ Function Write-WordReportSection {
 							$selection.MoveDown() | Out-Null
 							$doc.ActiveWindow.ActivePane.view.SeekView = 0
 							$selection.EndKey(6, 0) | Out-Null
-							
 							if ($count -gt 2) {
 								Write-Verbose "SORT OPERATION - SORTING TABLE"
 								$Tables.Sort
@@ -175,9 +167,7 @@ Function Write-WordReportSection {
 								Write-WordText -WordSelection $selection -Text "$count items found" -Style "Normal" -NewLine $true
 								$selection.TypeParagraph()
 							}
-							
 							$selection.TypeParagraph()
-							break
 						}
 						"simpletable" {
 							Write-Log -Message "table type.... simpletable" -LogFile $logfile
@@ -206,7 +196,6 @@ Function Write-WordReportSection {
                                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
                                     elseif ((!($detailed)) -and ($field.groupby -notin ('2','3'))) { continue }
                                 }
-
 								if ($records -ge 500) {
 									Write-Log -Message ("Exported..... $(500*($y+1)) records") -LogFile $logfile
 									$records = 1
@@ -220,15 +209,12 @@ Function Write-WordReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = Get-MessageInformation -MessageID ($datatable.Rows[0].$($field.FieldName))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($datatable.Rows[0].$($field.FieldName))
-											break ;
 										}											
 										default {
 											$TextToWord = $datatable.Rows[0].$($field.FieldName)
-											break;
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -239,15 +225,12 @@ Function Write-WordReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = Get-MessageInformation -MessageID ($datatable.$($field.FieldName))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($datatable.$($field.FieldName))
-											break ;
 										}											
 										default {
 											$TextToWord = $datatable.$($field.FieldName) 
-											break;
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -260,14 +243,7 @@ Function Write-WordReportSection {
 					        $selection.MoveDown() | Out-Null
 							$doc.ActiveWindow.ActivePane.View.SeekView = 0
 							$selection.EndKey(6, 0) | Out-Null
-							
-							#Write-Verbose "NEW: appending row count label below table"
-							#Write-WordText -WordSelection $selection -Text "$count items found" -Style "Normal" -NewLine $true
-							#$selection.TypeParagraph()
-
 							$selection.TypeParagraph()
-							break
-							break
 						}
 						default {
 							Write-Log -Message "table type.... default" -LogFile $logfile
@@ -284,15 +260,12 @@ Function Write-WordReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = ($field.Description + " : " + (Get-MessageInformation -MessageID ($row.$($field.FieldName))))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = ($field.Description + " : " + (Get-MessageSolution -MessageID ($row.$($field.FieldName))))
-											break ;
 										}												
 										default {
 											$TextToWord = ($field.Description + " : " + $row.$($field.FieldName))
-											break;
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -301,10 +274,6 @@ Function Write-WordReportSection {
 								$selection.TypeParagraph()
 								$records++
 		                    } # foreach
-							#Write-Verbose "NEW: appending row count label below table"
-							#Write-WordText -WordSelection $selection -Text "$($count + 1) items found" -Style "Normal" -NewLine $true
-							#$selection.TypeParagraph()
-
 						} # end of default switch case
 					} # switch
 					Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings $ReviewTableCols -StyleName $ReviewTableStyle

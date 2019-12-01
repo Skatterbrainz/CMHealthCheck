@@ -55,19 +55,12 @@ function Get-CMHealthCheck {
 	#>
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[Parameter()] [ValidateNotNullOrEmpty()]
-			[string] $SmsProvider = $($env:COMPUTERNAME),
-		[parameter(Mandatory = $False, HelpMessage = 'Path for output data files')]
-			[ValidateNotNullOrEmpty()]
-			[string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-		[Parameter(Mandatory = $False, HelpMessage = 'Number of Days for HealthCheck')]
-			[int] $NumberOfDays = 7,
-		[Parameter (Mandatory = $False, HelpMessage = 'HealthCheck query file name')]
-			[string] $Healthcheckfilename = "",
-		[Parameter(Mandatory = $False, HelpMessage = 'Overwrite existing report?')]
-			[switch] $OverWrite,
-		[Parameter(Mandatory=$False, HelpMessage = 'Skip hotfix audit')]
-			[switch] $NoHotfix
+		[parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = $($env:COMPUTERNAME),
+		[parameter(HelpMessage = 'Path for output data files')][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+		[parameter(HelpMessage = 'Number of Days for HealthCheck')][int] $NumberOfDays = 7,
+		[parameter(HelpMessage = 'HealthCheck query file name')][string] $Healthcheckfilename = "",
+		[parameter(HelpMessage = 'Overwrite existing report?')][switch] $OverWrite,
+		[parameter(HelpMessage = 'Skip hotfix audit')][switch] $NoHotfix
 	)
 
 	try {
@@ -132,6 +125,7 @@ function Get-CMHealthCheck {
 				break
 			}
 		}
+
 		$bLogValidation = $true
 
 		Write-Log -Message "--------------- importing cmhealthcheck.xml ---------------" -LogFile $logfile
@@ -185,6 +179,10 @@ function Get-CMHealthCheck {
 		Write-Log -Message "SQLPort..........: $SQLPort" -LogFile $logfile
 		Write-Log -Message "SQLDBName........: $SQLDBName" -LogFile $logfile
 
+		if (!(Invoke-DbaQuery -SqlInstance $SQLServerName -Database $SQLDBName -EnableException -ErrorAction SilentlyContinue)) {
+			Write-Log -Message "ERROR / Permission Denied on connection to SQL Server instance" -Category Error -Severity 3 -ShowMsg
+			exit
+		}
 		$arrServers = @()
 		$WMIServers = Get-CmWmiObject -Query "select distinct NetworkOSPath from SMS_SCI_SysResUse where NetworkOSPath not like '%.microsoft.com' and Type in (1,2,4,8)" -ComputerName $SmsProvider -NameSpace "root\sms\site_$SiteCodeNamespace" -LogFile $logfile
 		foreach ($WMIServer in $WMIServers) {

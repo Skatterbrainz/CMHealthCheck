@@ -14,9 +14,10 @@ Generate Health Information from a Configuration Manager site
 
 ```
 Invoke-CMHealthCheck [[-SmsProvider] <String>] [[-CustomerName] <String>] [[-AuthorName] <String>]
- [[-CopyrightName] <String>] [[-OutputFolder] <String>] [[-PublishFolder] <String>] [[-NumberOfDays] <Int32>]
- [[-ReportType] <String>] [-OpenBrowser] [-NoHotfix] [-OverWrite] [-AutoConfig] [-Detailed] [-Healthcheckdebug]
- [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [<CommonParameters>]
+ [[-CopyrightName] <String>] [[-DataFolder] <String>] [[-PublishFolder] <String>] [-OpenBrowser] [-OverWrite]
+ [-NoHotfix] [-AutoConfig] [-Detailed] [[-Template] <String>] [[-ReportType] <String>]
+ [[-NumberOfDays] <Int32>] [-Healthcheckdebug] [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -128,8 +129,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputFolder
-Path to output data during collection phase
+### -DataFolder
+{{ Fill DataFolder Description }}
 
 ```yaml
 Type: String
@@ -158,53 +159,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NumberOfDays
-Number of days to go back for alerts in logs (default = 7)
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: 7
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ReportType
-{{Fill ReportType Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: HTML
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -OpenBrowser
 Open HTML report in default web browser upon completion
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NoHotfix
-Skip inventory of installed hotfixes
 
 ```yaml
 Type: SwitchParameter
@@ -222,6 +178,21 @@ Accept wildcard characters: False
 Overwrite existing output folder if found.
 Folder is named by datestamp, so this only applies when
 running repeatedly on the same date
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoHotfix
+Skip inventory of installed hotfixes
 
 ```yaml
 Type: SwitchParameter
@@ -282,6 +253,51 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Template
+{{ Fill Template Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReportType
+{{ Fill ReportType Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: HTML
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NumberOfDays
+Number of days to go back for alerts in logs (default = 7)
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: 7
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Healthcheckdebug
 Enable verbose output (or use -Verbose)
 
@@ -306,7 +322,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -322,15 +338,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

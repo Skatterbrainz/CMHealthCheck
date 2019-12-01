@@ -1,16 +1,16 @@
 Function Write-DiskInfo {
     param (
-		[string] $FileName,
-		[string] $TableName,
-		[string] $SiteCode,
-		[int] $NumberOfDays,
-		[string] $LogFile,
-		[string] $ServerName,
-		[bool] $ContinueOnError = $true
+		[parameter(Mandatory)][string] $FileName,
+		[parameter(Mandatory)][string] $TableName,
+		[parameter()][string] $SiteCode,
+		[parameter()][int] $NumberOfDays,
+		[parameter()][string] $LogFile,
+		[parameter()][string] $ServerName,
+		[parameter()][bool] $ContinueOnError = $true
 	)
 	Write-Log -Message "function... Write-DiskInfo ****" -LogFile $logfile
     $DiskList = @(Get-CmWmiObject -Class "Win32_LogicalDisk" -Filter "DriveType = 3" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror)
-    if ($DiskList -eq $null) { return }
+    if ($null -eq $DiskList) { return }
 	$Fields = @("DeviceID","VolumeName","FileSystem","Size","FreeSpace","Used","PctUsed")
 	$DiskDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($Disk in $DiskList) {

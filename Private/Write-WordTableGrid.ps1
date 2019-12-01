@@ -1,13 +1,9 @@
 function Write-WordTableGrid {
     param (
-        [parameter(Mandatory=$True, HelpMessage="Table Caption Heading")]
-            [string] $Caption,
-        [parameter(Mandatory=$True, HelpMessage="Number of Rows")]
-            [int] $Rows,
-        [parameter(Mandatory=$True, HelpMessage="Array of Column Headings")]
-            [string[]] $ColumnHeadings,
-        [parameter(Mandatory=$False, HelpMessage="Table Style")]
-            [string] $StyleName = $DefaultTableStyle
+        [parameter(Mandatory)][string] $Caption,
+        [parameter(Mandatory)][int] $Rows,
+        [parameter(Mandatory)][string[]] $ColumnHeadings,
+        [parameter()][string] $StyleName = $DefaultTableStyle
 	)
 	Write-Log -Message "inserting custom table: $Caption" -LogFile $logfile
     $Selection.TypeText($Caption)

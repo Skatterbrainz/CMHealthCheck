@@ -1,26 +1,17 @@
 function Write-InstalledApps {
     param (
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $Filename,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $TableName,
-        [parameter(Mandatory=$True)]
-            [string] $SiteCode,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $ServerName,
-        [parameter(Mandatory=$False)]
-            [string] $LogFile,
-        [parameter(Mandatory=$False)]
-            [bool] $ContinueOnError
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $Filename,
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $TableName,
+        [parameter(Mandatory)][string] $SiteCode,
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $ServerName,
+        [parameter()][string] $LogFile,
+        [parameter()][bool] $ContinueOnError
     )
     Write-Log -Message "function... Write-InstalledApps ****" -LogFile $logfile
     Write-Log -Message "filename... $filename" -LogFile $LogFile
     Write-Log -Message "server..... $ServerName" -LogFile $LogFile
     try {
-        $Apps = @(Get-WmiObject -Class "Win32_Product" -ComputerName $ServerName -ErrorAction Stop | Sort-Object Name)
+        $Apps = @(Get-CimInstance -ClassName "Win32_Product" -ComputerName $ServerName -ErrorAction Stop | Sort-Object Name)
     }
     catch {
         if ($ContinueOnError -eq $True) {
@@ -31,7 +22,7 @@ function Write-InstalledApps {
             return
         }
     }
-    if ($Apps -eq $null) {
+    if ($null -eq $Apps) {
         Write-Log -Message "found NO installed applications (aborting)" -LogFile $LogFile
         return
     }
@@ -39,13 +30,13 @@ function Write-InstalledApps {
     $Fields = @("Name","Version","Vendor")
     $AppDetails = New-CmDataTable -TableName $tableName -Fields $Fields
     foreach ($app in $Apps) {
-        $appname = $app.Name
-        $appver  = $app.Version 
-        $appven  = $app.Vendor 
-        $row = $AppDetails.NewRow()
+        $appname  = $app.Name
+        $appver   = $app.Version 
+        $appven   = $app.Vendor 
+        $row      = $AppDetails.NewRow()
         $row.Name = $appname
         $row.Version = $appver
-        $row.Vendor = $appven
+        $row.Vendor  = $appven
         $AppDetails.Rows.Add($row)
     }
     , $AppDetails | Export-CliXml -Path ($filename)

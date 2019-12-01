@@ -58,36 +58,21 @@ function Export-CMHealthCheck {
     #>
     [CmdletBinding()]
     param (
-        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")] 
-            [ValidateNotNullOrEmpty()]
-            [string] $ReportFolder,
-        [parameter(Mandatory=$False, HelpMessage="Log folder path")]
-            [ValidateNotNullOrEmpty()]
-            [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-        [parameter (Mandatory = $False, HelpMessage = "Customer company name")] 
-            [string] $CustomerName = "Customer Name",
-        [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
-            [switch] $AutoConfig,
-        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")] 
-            [switch] $Detailed,
-        [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")] 
-            [string] $CoverPage = "Slice (Light)",
-        [parameter (Mandatory = $False, HelpMessage = "Word document source file")]
-            [string] $Template = "", 
-        [parameter (Mandatory = $False, HelpMessage = "Author's full name")] 
-            [string] $AuthorName = "Your Name",
-        [parameter (Mandatory = $False, HelpMessage = "Footer text")]
-            [string] $CopyrightName  = "Your Company Name",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")] 
-            [string] $Healthcheckfilename = "", 
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck messages file name")]
-            [string] $MessagesFilename = "", 
-        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")] 
-            $Healthcheckdebug = $False,
-        [parameter (Mandatory = $False, HelpMessage = "Overwrite existing report file")]
-            [switch] $Overwrite
+        [parameter (Mandatory, HelpMessage = "Collected data folder")] [ValidateNotNullOrEmpty()][string] $ReportFolder,
+        [parameter(HelpMessage="Log folder path")][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+        [parameter (HelpMessage = "Customer company name")][string] $CustomerName = "Customer Name",
+        [parameter (HelpMessage = "Use Auto Config File")][switch] $AutoConfig,
+        [parameter (HelpMessage = "Export full data, not only summary")] [switch] $Detailed,
+        [parameter (HelpMessage = "Word Template cover page name")] [string] $CoverPage = "Slice (Light)",
+        [parameter (HelpMessage = "Word document source file")][string] $Template = "", 
+        [parameter (HelpMessage = "Author's full name")] [string] $AuthorName = "Your Name",
+        [parameter (HelpMessage = "Footer text")][string] $CopyrightName  = "Your Company Name",
+        [parameter (HelpMessage = "HealthCheck query file name")] [string] $Healthcheckfilename = "", 
+        [parameter (HelpMessage = "HealthCheck messages file name")][string] $MessagesFilename = "", 
+        [parameter (HelpMessage = "Debug more?")] $Healthcheckdebug = $False,
+        [parameter (HelpMessage = "Overwrite existing report file")][switch] $Overwrite
     )
-    $time1 = Get-Date -Format "hh:mm:ss"
+    $time1      = Get-Date -Format "hh:mm:ss"
     $ModuleData = Get-Module CMHealthCheck
     $ModuleVer  = $ModuleData.Version -join '.'
     $ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
@@ -101,52 +86,49 @@ function Export-CMHealthCheck {
         Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
     }
     
-    $TempFilename      = "cmhealthreport.docx"
-    $DefaultTableStyle = "Grid Table 4 - Accent 1"
-    $TableStyle        = "Grid Table 4 - Accent 1"
-    $TableSimpleStyle  = "Grid Table 4 - Accent 1"
-    $ReviewTableStyle  = "Grid Table 4 - Accent 6"
-    $RecTableStyle     = "Grid Table 4 - Accent 3"
-    $ReviewTableCols   = ("No.", "Severity", "Comment")
-    $bLogValidation    = $False
-    $bAutoProps        = $True
-    $NormalFontSize    = 10
-    $poshversion       = $PSVersionTable.PSVersion.Major
-    $osversion         = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+    $Script:TempFilename      = "cmhealthreport.docx"
+    $Script:DefaultTableStyle = "Grid Table 4 - Accent 1"
+    $Script:TableStyle        = "Grid Table 4 - Accent 1"
+    $Script:TableSimpleStyle  = "Grid Table 4 - Accent 1"
+    $Script:ReviewTableStyle  = "Grid Table 4 - Accent 6"
+    $Script:RecTableStyle     = "Grid Table 4 - Accent 3"
+    $Script:ReviewTableCols   = ("No.", "Severity", "Comment")
+    $bLogValidation           = $False
+    $Script:bAutoProps        = $True
+    $Script:NormalFontSize    = 10
+    $poshversion              = $PSVersionTable.PSVersion.Major
+    $Script:osversion         = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
     #$FormatEnumerationLimit = -1
 
     $autoconfigfile = Join-Path -Path $env:USERPROFILE -ChildPath "documents\cmhealthconfig.txt"
     if ($AutoConfig -and (Test-Path $autoconfigfile)) {
         Write-Verbose "importing settings from config file: $autoconfigfile"
         $cfgdata = Get-Content -Path $autoconfigfile
-        $cfgdata | % {
+        $cfgdata | ForEach-Object {
             $rowset = $_ -split '='
             if (![string]::IsNullOrEmpty($rowset[1])) {
                 switch($rowset[1]) {
                     'True' {
                         Set-Variable -Name $rowset[0] -Value $True
                         Write-Verbose "...$($rowset[0]) == $($rowset[1])"
-                        break
                     }
                     'False' {
                         Set-Variable -Name $rowset[0] -Value $False
                         Write-Verbose "...$($rowset[0]) == $($rowset[1])"
-                        break
                     }
                     default {
                         Set-Variable -Name $rowset[0] -Value $rowset[1]
                         Write-Verbose "...$($rowset[0]) == $($rowset[1])"
-                        break
                     }
                 }
             }
         }
     }
 
-    if ($Healthcheckfilename -eq "") {
+    if ([string]::IsNullOrEmpty($Healthcheckfilename)) {
         $Healthcheckfilename = Join-Path -Path $ModulePath -ChildPath "assets\cmhealthcheck.xml"
     }
-	if ($MessagesFilename -eq "") {
+	if ([string]::IsNullOrEmpty($MessagesFilename)) {
         $MessagesFilename = Join-Path -Path $ModulePath -ChildPath "assets\messages.xml"
     }
 
@@ -154,7 +136,7 @@ function Export-CMHealthCheck {
         $PSDefaultParameterValues = @{"*:Verbose"=$True}
     }
     $logFolder = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
-    if (-not (Test-Path $logFolder)) {
+    if (!(Test-Path $logFolder)) {
         mkdir $logFolder -Force | Out-Null
     }
     if ($reportFolder.Substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
@@ -181,13 +163,13 @@ function Export-CMHealthCheck {
         Write-Log -Message "Provisioning config table" -LogFile $logfile
         $ConfigTable = New-Object System.Data.DataTable 'ConfigTable'
         $ConfigTable = Get-CmXMLFile -Path $reportFolder -FileName "config.xml"
-        if ($ConfigTable -eq "") {
+        if ([string]::IsNullOrEmpty($ConfigTable)) {
             Invoke-Error -Message "File $configfile does not exist, no futher action taken"; break
         }
         Write-Log -Message "Provisioning report table" -LogFile $logfile
         $ReportTable = New-Object System.Data.DataTable 'ReportTable'
         $ReportTable = Get-CmXMLFile -Path $reportFolder -FileName "report.xml"
-        if ($ReportTable -eq "") {
+        if ([string]::IsNullOrEmpty($ReportTable)) {
             Invoke-Error -Message "File $repfile does not exist, no futher action taken"; break
         }
         Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
@@ -203,7 +185,7 @@ function Export-CMHealthCheck {
         $wordVersion = $Word.Version
         Write-Log -Message "Microsoft Word version: $WordVersion" -LogFile $logfile
         if ($wordVersion -lt '15.0') { Invoke-Error -Message "This module requires Word 2013 or newer"; break }
-        if ($Template -ne "") {
+        if ([string]::IsNullOrEmpty($Template)) {
             $newFile = Get-WordTempSource -SourceFile $Template
             Write-Log -Message "Opening temp file [$newFile]..." -LogFile $logfile
             try {
@@ -218,7 +200,7 @@ function Export-CMHealthCheck {
             Write-Log -Message "Creating new (blank) document..." -LogFile $logfile
             $Doc = $Word.Documents.Add()
         }
-        if ($doc -eq $null) { Invoke-Error -Message "Failed to obtain handle to Word document"; break }
+        if ($null -eq $doc) { Invoke-Error -Message "Failed to obtain handle to Word document"; break }
         $Word.Visible = $True
         $Selection = $Word.Selection
 
@@ -229,7 +211,7 @@ function Export-CMHealthCheck {
         $Word.Templates.LoadBuildingBlocks() | Out-Null	
         $BuildingBlocks = $Word.Templates | Where-Object {$_.name -eq "Built-In Building Blocks.dotx"}
 
-        if ($Template -eq "") {
+        if ([string]::IsNullOrEmpty($Template)) {
             Write-Log -Message "Inserting cover page: $CoverPage" -LogFile $logfile
             $part = $BuildingBlocks.BuildingBlockEntries.Item($CoverPage)
             $part.Insert($selection.Range,$True) | Out-Null
@@ -268,7 +250,7 @@ function Export-CMHealthCheck {
         $error.Clear()
     }
 
-    if ($toc -ne $null) {
+    if ($null -ne $toc) {
         $Doc.TablesOfContents.Item(1).Update()
         if ($bLogValidation -eq $False) {
             Write-Host "Finishing up healthcheck report"
@@ -279,5 +261,8 @@ function Export-CMHealthCheck {
     }
     $Difference = Get-TimeOffset -StartTime $time1
     Write-Log -Message "Completed in: $Difference (hh:mm:ss)" -LogFile $logfile -ShowMsg
-    Stop-Transcript
+    try {
+        Stop-Transcript -ErrorAction SilentlyContinue
+    }
+    catch { }
 }

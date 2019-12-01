@@ -1,23 +1,14 @@
 Function Export-ReportSection {
     param (
-		[parameter(Mandatory=$False)]
-			$HealthCheckXML,
-		[parameter(Mandatory=$False)]
-			$Section,
-		[parameter(Mandatory=$False)]
-			$SqlConn,
-		[parameter(Mandatory=$False)]
-			[string] $SiteCode,
-		[parameter(Mandatory=$False)]
-			$NumberOfDays,
-		[parameter(Mandatory=$False)]
-			[string] $LogFile,
-		[parameter(Mandatory=$False)]
-			[string] $ServerName,
-		[parameter(Mandatory=$False)]
-			$ReportTable,
-		[parameter(Mandatory=$False)]		
-			[switch] $Detailed
+		[parameter()] $HealthCheckXML,
+		[parameter()] $Section,
+		[parameter()] $SqlConn,
+		[parameter()][string] $SiteCode,
+		[parameter()][int] $NumberOfDays,
+		[parameter()][string] $LogFile,
+		[parameter()][string] $ServerName,
+		[parameter()] $ReportTable,
+		[parameter()][switch] $Detailed
 	)
 	Write-Log -Message "function... ReportSection ****" -LogFile $logfile
 	if ($Detailed) { 

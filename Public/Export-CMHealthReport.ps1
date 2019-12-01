@@ -58,20 +58,20 @@ function Export-CMHealthReport {
     #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()] [string] $ReportFolder,
+        [parameter(Mandatory)] [ValidateNotNullOrEmpty()] [string] $ReportFolder,
         [parameter()] [ValidateSet('HTML','Word')] [string] $ReportType = 'HTML',
         [parameter()] [ValidateNotNullOrEmpty()] [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
         [parameter()] [string] $CustomerName = "Customer Name",
         [parameter()] [switch] $AutoConfig,
-		[parameter()] [string] $SmsProvider,
-        [Parameter()] [switch] $Detailed,
+		[parameter()] [string] $SmsProvider = "",
+        [parameter()] [switch] $Detailed,
         [parameter()] [string] $CoverPage = "Slice (Light)",
         [parameter()] [string] $Template = "",
         [parameter()] [string] $AuthorName = "",
         [parameter()] [string] $CopyrightName  = "Your Company Name",
-        [Parameter()] [string] $Healthcheckfilename = "",
-        [Parameter()] [string] $MessagesFilename = "",
-        [Parameter()] [bool] $Healthcheckdebug = $False
+        [parameter()] [string] $Healthcheckfilename = "",
+        [parameter()] [string] $MessagesFilename = "",
+        [parameter()] [bool] $Healthcheckdebug = $False
     )
     if ($env:USERPROFILE -eq 'c:\windows\system32\config\systemprofile') {
         $OutputFolder = $env:TEMP

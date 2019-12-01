@@ -1,12 +1,12 @@
 Function Write-HotfixStatus {
     param (
-        [string] $FileName,
-        [string] $TableName,
-        [string] $SiteCode,
-        [int] $NumberOfDays,
-        $LogFile,
-        [string] $ServerName,
-        $ContinueOnError = $true
+        [parameter(Mandatory)][string] $FileName,
+        [parameter(Mandatory)][string] $TableName,
+        [parameter()][string] $SiteCode,
+        [parameter()][int] $NumberOfDays,
+        [parameter()] $LogFile,
+        [parameter()][string] $ServerName,
+        [parameter()] $ContinueOnError = $true
     )
     Write-Log -Message "[function: write-hotfixstatus]" -LogFile $logfile
     try {
@@ -28,9 +28,9 @@ Function Write-HotfixStatus {
     $HotfixTable = New-CmDataTable -tablename $tableName -fields $Fields
     foreach ($hotfix in $return) {
         if (![string]::IsNullOrEmpty($hotfix.Title)) {
-            $row = $HotfixTable.NewRow()
+            $row       = $HotfixTable.NewRow()
             $row.Title = $hotfix.Title
-            $row.Date = $hotfix.Date
+            $row.Date  = $hotfix.Date
             $HotfixTable.Rows.Add($row)
         }
     }

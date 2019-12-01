@@ -1,12 +1,12 @@
 function Write-NetworkInfo {
 	param (
-		[string] $FileName,
-		[string] $TableName,
-		[string] $SiteCode,
-		[int] $NumberOfDays,
-		[string] $LogFile,
-		[string] $ServerName,
-		[bool] $ContinueOnError = $true
+		[parameter(Mandatory)][string] $FileName,
+		[parameter(Mandatory)][string] $TableName,
+		[parameter()][string] $SiteCode,
+		[parameter()][int] $NumberOfDays,
+		[parameter()][string] $LogFile,
+		[parameter()][string] $ServerName,
+		[parameter()][bool] $ContinueOnError = $true
 	)
 	Write-Log -Message "[function: write-networkinfo]" -LogFile $logfile
 	$IPDetails = Get-CmWmiObject -Class "Win32_NetworkAdapterConfiguration" -Filter "IPEnabled = true" -ComputerName $ServerName -LogFile $logfile -ContinueOnError $ContinueOnError
@@ -14,12 +14,17 @@ function Write-NetworkInfo {
 	$Fields = @("IPAddress","DefaultIPGateway","IPSubnet","MACAddress","DHCPEnabled")
 	$NetworkInfoTable = New-CmDataTable -TableName $TableName -Fields $Fields
 	foreach ($IPAddress in $IPDetails) {
-		$row = $NetworkInfoTable.NewRow()
-		$row.IPAddress = ($IPAddress.IPAddress -join ", ")
+		$row                  = $NetworkInfoTable.NewRow()
+		$row.IPAddress        = ($IPAddress.IPAddress -join ", ")
 		$row.DefaultIPGateway = ($IPAddress.DefaultIPGateway -join ", ")
-		$row.IPSubnet = ($IPAddress.IPSubnet -join ", ")
-		$row.MACAddress = $IPAddress.MACAddress
-		if ($IPAddress.DHCPEnable -eq $true) { $row.DHCPEnabled = "TRUE" } else { $row.DHCPEnabled = "FALSE" }
+		$row.IPSubnet         = ($IPAddress.IPSubnet -join ", ")
+		$row.MACAddress       = $IPAddress.MACAddress
+		if ($IPAddress.DHCPEnable -eq $true) { 
+			$row.DHCPEnabled = "TRUE" 
+		}
+		else { 
+			$row.DHCPEnabled = "FALSE" 
+		}
 		$NetworkInfoTable.Rows.Add($row)
 	}
 	, $NetworkInfoTable | Export-CliXml -Path ($FileName)

@@ -1,12 +1,12 @@
 function Write-RolesInstalled {
     param (
-	    [string] $FileName,
-	    [string] $TableName,
-	    [string] $SiteCode,
-	    [int] $NumberOfDays,
-	    [string] $LogfFle,
-		[string] $ServerName,
-		[bool] $ContinueOnError = $true
+	    [parameter(Mandatory)][string] $FileName,
+	    [parameter(Mandatory)][string] $TableName,
+	    [parameter()][string] $SiteCode,
+	    [parameter()][int] $NumberOfDays,
+	    [parameter()][string] $LogfFle,
+		[parameter()][string] $ServerName,
+		[parameter()][bool] $ContinueOnError = $true
     )
     Write-Log -Message "[function: write-rolesinstalled]" -LogFile $logfile
     $WMISMSListRoles = Get-CmWmiObject -Query "select distinct RoleName from SMS_SCI_SysResUse where NetworkOSPath = '\\\\$Servername'" -computerName $smsprovider -namespace "root\sms\site_$SiteCodeNamespace" -logfile $logfile
@@ -20,7 +20,7 @@ function Write-RolesInstalled {
 	$row.SQLServer  = ($SMSListRoles -contains 'SMS SQL Server').ToString()
 	$row.DP = ($SMSListRoles -contains 'SMS Distribution Point').ToString()
 	if ($null -eq $DPProperties) {
-		$row.PXE = "False"
+		$row.PXE       = "False"
 		$row.MultiCast = "False"
 		$row.PreStaged = "False"
 	}
@@ -43,7 +43,7 @@ function Write-RolesInstalled {
 	$row.DMP     = ($SMSListRoles -contains 'SMS Dmp Connector').ToString()
 	$row.Console = (Test-RegistryExist -ComputerName $servername -Logfile $logfile -KeyName 'SOFTWARE\\Wow6432Node\\Microsoft\\ConfigMgr10\\AdminUI').ToString()
 	$row.Client  = (Test-RegistryExist -ComputerName $servername -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\CCM\\CCMExec').ToString()
-	$row.IIS     = ((Get-RegistryValue -ComputerName $server -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\InetStp' -KeyValue 'InstallPath') -ne $null).ToString()
+	$row.IIS     = ($null -ne (Get-RegistryValue -ComputerName $server -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\InetStp' -KeyValue 'InstallPath')).ToString()
     $RolesInstalledTable.Rows.Add($row)
     , $RolesInstalledTable | Export-Clixml -Path ($filename)
 }

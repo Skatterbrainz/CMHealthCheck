@@ -1,17 +1,13 @@
 Function Set-FormattedValue {
     param (
-        $Value,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-	        [string] $Format,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $SiteCode
+        [parameter()] $Value,
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $Format,
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SiteCode
 	)
 	Write-Log -Message "function... Set-FormatedValue ****" -LogFile $logfile
 	Write-Log -Message "format..... $Format" -LogFile $logfile
 	Write-Log -Message "sitecode... $SiteCode" -LogFile $logfile
-	if ($Value -eq $null) {
+	if ($null -eq $Value) {
 		Write-Log -Message "value...... NULL" -LogFile $logfile
 	}
 	else {
@@ -26,91 +22,58 @@ Function Set-FormattedValue {
 			elseif ($schedule.HourSpan -ne 0) { $return = ($schedule.HourSpan * 60) }
 			elseif ($schedule.MinuteSpan -ne 0) { $return = ($schedule.MinuteSpan) }
 			return $return
-			break
 		}
         'alertsname' {
-			if ($value -eq $null) {
+			if ($null -eq $value) {
 				$return = ''
 			}
 			else {
 				switch ($value.ToString().ToLower()) {
 					'$databasefreespacewarning' {
 						$return = 'Low free space alert for database on site'
-						break
 					}
 					'$sumcompliance2updategroupdeploymentname' {
 						$return = 'Low deployment success rate alert of update group'
-						break
 					}
 					default {
 						$return = $value
-						break
 					}
 				}
 			}
             return $return
-            break
         }
         'alertsseverity' {
-			if ($value -eq $null) {
+			if ($null -eq $value) {
 				$return = ''
 			}
 			else {
 				switch ($value.ToString().ToLower()) {
-					'1' {
-						$return = 'Error'
-						break
-					}
-					'2' {
-						$return = 'Warning'
-						break
-					}
-					'3' {
-						$return = 'Informational'
-						break
-					}
-					default {
-						$return = 'Unknown'
-						break
-					}
+					'1' { $return = 'Error' }
+					'2' { $return = 'Warning' }
+					'3' { $return = 'Informational' }
+					default { $return = 'Unknown' }
 				}
 			}
             return $return
-            break
         }
         'alertstypeid' {
             switch ($value.ToString().ToLower()) {
-                '12' {
-                    $return = 'Update group deployment success'
-                    break
-                }
-                '25' {
-                    $return = 'Database free space warning'
-                    break
-                }
-                '31' {
-                    $return = 'Malware detection'
-                    break
-                }
-                default {
-                    $return = $value
-                    break
-                }
+                '12' { $return = 'Update group deployment success' }
+                '25' { $return = 'Database free space warning' }
+                '31' { $return = 'Malware detection' }
+                default { $return = $value }
             }
             Write-Output $return
-            break
         }
 		'messagesolution' {
 			Write-Log -Message "[messagesolution] convert to string" -LogFile $logfile
-			if ($value -ne $null) {
+			if ($null -ne $value) {
 				$return = $value.ToString()
 			}
 			Write-Output $return
-			break
 		}
 		default {
 			Write-Output $value
-			break
 		}
 	}
 }

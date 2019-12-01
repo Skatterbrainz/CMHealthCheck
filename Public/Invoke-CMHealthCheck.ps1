@@ -93,6 +93,7 @@ function Invoke-CMHealthCheck {
         [parameter()] [switch] $NoHotfix ,
         [parameter()] [switch] $AutoConfig,
         [parameter()] [switch] $Detailed,
+        [parameter()] [string] $Template = "",
 		[parameter()] [string] $ReportType = 'HTML',
         [parameter()] [int] $NumberOfDays = 7,
         [parameter()] [switch] $Healthcheckdebug,
@@ -106,7 +107,11 @@ function Invoke-CMHealthCheck {
 	if ([string]::IsNullOrEmpty($SmsProvider)) {
 		Write-Warning "SmsProvider must be specified"
 		break
-	}
+    }
+    if ($env:USERPROFILE -eq 'c:\windows\system32\config\systemprofile') {
+        $DataFolder = $env:TEMP
+        $PublishFolder = $env:TEMP
+    }
     $ReportFolder = Join-Path $DataFolder "$(Get-Date -f 'yyyy-MM-dd')\$SmsProvider"
 	Write-Log -Message "report folder = $ReportFolder" -LogFile $logfile
     try {

@@ -3,7 +3,7 @@ function Invoke-Error {
         [parameter(Mandatory=$False, HelpMessage="Error or Exception Message")]
         [string] $Message = ""
     )
-    if ($Message -eq "") {
+    if ([string]::IsNullOrEmpty($Message)) {
         Write-Log -Message $_.Exception.Message -Severity 3 -LogFile $logfile -ShowMsg
     }
     else {

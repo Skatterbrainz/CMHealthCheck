@@ -1,13 +1,9 @@
 function Test-RegistryExist {
 	param (
-		[parameter(Mandatory=$False)]	
-			[string] $ComputerName,
-		[parameter(Mandatory=$False)]
-			[string] $LogFile = '' ,
-		[parameter(Mandatory=$True)]
-			[string] $KeyName,
-		[parameter(Mandatory=$False)]
-			[string] $AccessType = 'LocalMachine'
+		[parameter()][string] $ComputerName,
+		[parameter()][string] $LogFile = '' ,
+		[parameter(Mandatory)][string] $KeyName,
+		[parameter()][string] $AccessType = 'LocalMachine'
 	)
 	Write-Log -Message "function... Test-RegistryExists ****" -LogFile $logfile
 	Write-Log -Message "computer... $ComputerName" -LogFile $logfile

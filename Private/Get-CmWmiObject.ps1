@@ -1,29 +1,23 @@
 function Get-CmWmiObject {
     param (
-		$Class,
-		[parameter(Mandatory=$False)]
-			[string] $Filter = '',
-		[parameter(Mandatory=$False)]
-			[string] $Query = '',
-		[parameter(Mandatory=$False)]
-			$ComputerName,
-		[parameter(Mandatory=$False)]
-			[string] $Namespace = "root\cimv2",
-		[parameter(Mandatory=$False)]
-			[string] $LogFile,
-		[parameter(Mandatory=$False)]
-			[bool] $ContinueOnError = $false
+		[parameter()] $Class,
+		[parameter()][string] $Filter = '',
+		[parameter()][string] $Query = '',
+		[parameter()][string] $ComputerName,
+		[parameter()][string] $Namespace = "root\cimv2",
+		[parameter()][string] $LogFile,
+		[parameter()][bool] $ContinueOnError = $false
     )
     if ($query -ne '') { $class = $query }
 	Write-Log -Message "WMI Query: \\$ComputerName\$Namespace, $class, filter: $filter" -LogFile $logfile
     if ($query -ne '') { 
-		$WMIObject = Get-WmiObject -Query $query -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
+		$WMIObject = Get-CimInstance -Query $query -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
 	}
     elseif ($filter -ne '') { 
-		$WMIObject = Get-WmiObject -Class $class -Filter $filter -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
+		$WMIObject = Get-CimInstance -ClassName $class -Filter $filter -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
 	}
     else { 
-		$WMIObject = Get-WmiObject -Class $class -NameSpace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
+		$WMIObject = Get-CimInstance -ClassName $class -NameSpace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
 	}
 	if ($WMIObject -eq $null) {
 		Write-Log -Message "WMI Query returned 0) records" -LogFile $logfile

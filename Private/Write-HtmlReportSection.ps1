@@ -1,10 +1,10 @@
 Function Write-HtmlReportSection {
 	[CmdletBinding()]
     param (
-		[parameter()]$HealthCheckXML,
-		[parameter()][string]$Section,
+		[parameter()] $HealthCheckXML,
+		[parameter()][string] $Section,
 		[parameter()][switch] $Detailed,
-        [parameter()][string]$LogFile
+        [parameter()][string] $LogFile
 	)
     Write-Log -Message "---------------------------------------------------" -LogFile $logfile
 	Write-Log -Message "function...... Write-HtmlReportSection ****" -LogFile $logfile
@@ -50,14 +50,14 @@ Function Write-HtmlReportSection {
 					$xmltitle = $filename.Substring(0,$filename.IndexOf("_"))
 					$xmltile  = ($rp.TableName.Substring(0,$rp.TableName.IndexOf("_")).Replace("@","")).Tolower()
 					switch ($xmltile) {
-						"sitecode"   { $xmltile = "Site Code: "; break; }
-						"servername" { $xmltile = "Server Name: "; break; }
+						"sitecode"   { $xmltile = "Site Code: " }
+						"servername" { $xmltile = "Server Name: " }
 					}
 					switch ($healthCheck.WordStyle) {
-						"Heading 1" { $CapStyle = "h2"; break; }
-						"Heading 2" { $CapStyle = "h3"; break; }
-						"Heading 3" { $CapStyle = "h4"; break; }
-						default { $newstyle = $healthCheck.WordStyle; break }
+						"Heading 1" { $CapStyle = "h2" }
+						"Heading 2" { $CapStyle = "h3" }
+						"Heading 3" { $CapStyle = "h4" }
+						default { $newstyle = $healthCheck.WordStyle }
 					}
 					$xmltile += $filename.Substring(0,$filename.IndexOf("_"))
 					Write-Log -Message "--- xmlTile = $xmlTile" -LogFile $logfile
@@ -118,7 +118,6 @@ Function Write-HtmlReportSection {
 								switch ($Script:TableRowStyle) {
 									'Solid' {
 										$table += "<tr class=`"rowstyle3`">"
-										break
 									}
 									'Alternating' {
 										if ($rownum % 2 -eq 0) {
@@ -127,11 +126,9 @@ Function Write-HtmlReportSection {
 										else {
 											$table += "<tr class=`"rowstyle4`">"
 										}
-										break
 									}
 									'Dynamic' {
 										$table += "<tr class=`"rowstylex`">"
-										break
 									}
 								}
 								$i = 1;
@@ -144,15 +141,12 @@ Function Write-HtmlReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = Get-MessageInformation -MessageID ($row.$($field.FieldName))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($row.$($field.FieldName))
-											break ;
 										}										
 										default {
 											$TextToWord = $row.$($field.FieldName);
-											break;
 										}
 									}
 									if ([string]::IsNullOrEmpty($TextToWord)) { 
@@ -176,17 +170,6 @@ Function Write-HtmlReportSection {
 							Write-Log -Message "--- appending table row count: $Count" -LogFile $logfile
 							$table += "<tr class=`"headingRow1`"><td colspan=`"$Columns`">$Count items found</td></tr></table>"
 							$result += $table
-                            <#
-                            if ($count -gt 2) {
-								Write-Verbose "SORT OPERATION - SORTING TABLE"
-								#$Tables.Sort
-								Write-Log -Message "NEW: appending row count label below table" -LogFile $logfile
-                                #Write-WordText -WordSelection $selection -Text "$count items found" -Style "Normal" -NewLine $true
-                                $result += "<p>$count items found</p>"
-								#$selection.TypeParagraph()
-                            }
-                            #>
-							break
 						}
 						"simpletable" {
 							Write-Log -Message "table type.... simpletable" -LogFile $logfile
@@ -220,15 +203,12 @@ Function Write-HtmlReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = Get-MessageInformation -MessageID ($datatable.Rows[0].$($field.FieldName))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($datatable.Rows[0].$($field.FieldName))
-											break ;
 										}											
 										default {
 											$TextToWord = $datatable.Rows[0].$($field.FieldName)
-											break;
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -238,15 +218,12 @@ Function Write-HtmlReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = Get-MessageInformation -MessageID ($datatable.$($field.FieldName))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($datatable.$($field.FieldName))
-											break ;
 										}											
 										default {
 											$TextToWord = $datatable.$($field.FieldName) 
-											break;
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -254,7 +231,6 @@ Function Write-HtmlReportSection {
 								switch ($Script:TableRowStyle) {
 									'Solid' {
 										$table += "<tr class=`"rowstyle3`">"
-										break
 									}
 									'Alternating' {
 										if ($rownum % 2 -eq 0) {
@@ -263,11 +239,9 @@ Function Write-HtmlReportSection {
 										else {
 											$table += "<tr class=`"rowstyle4`">"
 										}
-										break
 									}
 									'Dynamic' {
 										$table += "<tr class=`"rowstylex`">"
-										break
 									}
 								}
                                 $table += "<td class=`"rowstyle1`" style=`"width:300px`">$($field.Description)</td>"
@@ -279,7 +253,6 @@ Function Write-HtmlReportSection {
 							Write-Log -Message "--- appending simpletable row count: $Count" -LogFile $logfile
 							$table += "<tr class=`"headingRow1`"><td colspan=2>$Count items found</td></tr></table>"
 							$result += $table
-							break
 						}
 						default {
 							Write-Log -Message "table type.... default" -LogFile $logfile
@@ -296,15 +269,12 @@ Function Write-HtmlReportSection {
 									switch ($field.Format.ToLower()) {
 										"message" {
 											$TextToWord = ($field.Description + " : " + (Get-MessageInformation -MessageID ($row.$($field.FieldName))))
-											break ;
 										}
 										"messagesolution" {
 											$TextToWord = ($field.Description + " : " + (Get-MessageSolution -MessageID ($row.$($field.FieldName))))
-											break ;
 										}												
 										default {
 											$TextToWord = ($field.Description + " : " + $row.$($field.FieldName))
-											break;
 										}
 									} # switch
                                     if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -312,7 +282,6 @@ Function Write-HtmlReportSection {
 		                        } # foreach
 								$records++
 		                    } # foreach
-							#Write-Verbose "NEW: appending row count label below table"
                             $result += "`n<p>$($count+1) items found . . .</p>"
 						} # end of default switch case
 					} # switch
