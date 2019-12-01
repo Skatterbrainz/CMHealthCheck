@@ -58,37 +58,24 @@ function Export-CMHealthReport {
     #>
     [CmdletBinding()]
     param (
-        [parameter (Mandatory = $False, HelpMessage = "Report output type (HTML or MS Word)")]
-            [ValidateSet('HTML','Word')]
-            [string] $ReportType = 'Word',
-        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")]
-            [ValidateNotNullOrEmpty()]
-            [string] $ReportFolder,
-        [parameter(Mandatory=$False, HelpMessage="Log folder path")]
-            [ValidateNotNullOrEmpty()]
-            [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-        [parameter (Mandatory = $False, HelpMessage = "Customer company name")]
-            [string] $CustomerName = "Customer Name",
-        [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
-            [switch] $AutoConfig,
-		[parameter (Mandatory = $False)] [string] $SmsProvider,
-        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")]
-            [switch] $Detailed,
-        [parameter (Mandatory = $False, HelpMessage = "Word Template cover page name")]
-            [string] $CoverPage = "Slice (Light)",
-        [parameter (Mandatory = $False, HelpMessage = "Word document source file")]
-            [string] $Template = "",
-        [parameter (Mandatory = $False, HelpMessage = "Author's full name")]
-            [string] $AuthorName = "",
-        [parameter (Mandatory = $False, HelpMessage = "Footer text")]
-            [string] $CopyrightName  = "Your Company Name",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")]
-            [string] $Healthcheckfilename = "",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck messages file name")]
-            [string] $MessagesFilename = "",
-        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")]
-            [bool] $Healthcheckdebug = $False
+        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()] [string] $ReportFolder,
+        [parameter()] [ValidateSet('HTML','Word')] [string] $ReportType = 'HTML',
+        [parameter()] [ValidateNotNullOrEmpty()] [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+        [parameter()] [string] $CustomerName = "Customer Name",
+        [parameter()] [switch] $AutoConfig,
+		[parameter()] [string] $SmsProvider,
+        [Parameter()] [switch] $Detailed,
+        [parameter()] [string] $CoverPage = "Slice (Light)",
+        [parameter()] [string] $Template = "",
+        [parameter()] [string] $AuthorName = "",
+        [parameter()] [string] $CopyrightName  = "Your Company Name",
+        [Parameter()] [string] $Healthcheckfilename = "",
+        [Parameter()] [string] $MessagesFilename = "",
+        [Parameter()] [bool] $Healthcheckdebug = $False
     )
+    if ($env:USERPROFILE -eq 'c:\windows\system32\config\systemprofile') {
+        $OutputFolder = $env:TEMP
+    }
     Write-Host "Analyzing collected data, publishing report"
     $StartTime = Get-Date
     switch ($ReportType) {
@@ -99,9 +86,10 @@ function Export-CMHealthReport {
 				CustomerName  = $CustomerName 
 				CopyrightName = $CopyrightName 
 				AuthorName    = $AuthorName
-				SmsProvider   = $SmsProvider
-				Detailed      = $Detailed
-				Overwrite     = $Overwrite
+                SmsProvider   = $SmsProvider
+                OutputFolder  = $OutputFolder
+				Detailed      = (!(!$Detailed))
+				Overwrite     = $True
 				Theme         = "Ocean"
 				TableRowStyle = "Solid"
 			}

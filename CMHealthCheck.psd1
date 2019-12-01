@@ -4,7 +4,7 @@
 
 @{
 RootModule    = '.\CMHealthCheck.psm1'
-ModuleVersion = '1.0.12'
+ModuleVersion = '1.0.14'
 GUID          = 'e61ecfc4-1895-4e5d-a91e-10fb4311b09a'
 Author        = 'David Stein'
 CompanyName   = 'skatterbrainz'
@@ -51,21 +51,6 @@ PrivateData = @{
 * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
 * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
 * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
-* Support: Database name must be CM_<SITECODE> (you need to adapt the queries if not this format)
-
-1.0.0  - DS - first release
-1.0.1  - DS - updates for documentation, error handling, cleanup functions
-1.0.2  - DS - added user-appx cleanup handling
-1.0.3  - DS - Added support for dbatools features
-1.0.4  - DS - Updated SCCM build numbers reference table, bug fixes
-1.0.5  - DS - Added HTML report output option
-1.0.6  - DS - Updated SCCM and SQL build numbers reference table
-1.0.7  - DS - Added Get-CMHealthCheckSummary for making a quick inventory report
-1.0.8  - DS - changed default Word body style from "No Spacing" to "Normal", added autoconfig file option
-              combined Export functions into one: Export-CMHealthReport
-1.0.9  - DS - merged changes to cmhealthcheck.xml to correct reporting layout (thanks to @CodyMathis123 !)
-1.0.10 - DS - expanded error message lookups, bug fixes
-1.0.11 - DS - added Invoke-CMHealthCheck as wrapper for Get- and Export- functions as one function
 '@
     } # End of PSData hashtable
 } # End of PrivateData hashtable
