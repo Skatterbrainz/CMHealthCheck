@@ -252,8 +252,8 @@ function Export-CMHealthCheckHTML {
         $htmlContent += "`n<table class=`"reportTable`" style=`"border-color:#fff`">"
 		$htmlContent += "`n<tr><td style=`"width:120px`">`n"
         $htmlContent += "$LogoTag"
-        $htmlContent += "`n</td><td style=`"vertical-align:top`">`n<h1>CMHealthCheck Report</h1>"
-        $htmlContent += "`n<p>System Center Configuration Manager Healthcheck Status Report</p>"
+        $htmlContent += "`n</td><td style=`"vertical-align:top`">`n<h1>MEMCM HealthCheck Report</h1>"
+        $htmlContent += "`n<p>Microsoft Endpoint Management`: Center Configuration Manager Healthcheck Report</p>"
         $htmlContent += "</td></tr>`n</table>"
 
         $htmlTable = [ordered]@{
@@ -269,7 +269,7 @@ function Export-CMHealthCheckHTML {
         Write-Log -Message "--- inserting abstract content block" -LogFile $logfile
 
         $htmlContent += "`n<table class=`"reportTable`"><tr><td>"
-        $htmlContent += "This document provides a point-in-time report of the current state of the System Center Configuration Manager site environment for $CustomerName. "
+        $htmlContent += "This document provides a point-in-time report of the current state of the MEMCM site environment for $CustomerName. "
         $htmlContent += "For questions, concerns or comments, please consult the author of this assessment report. "
         $htmlContent += "This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for "
         $htmlContent += "their work which laid the foundation on which this code was developed."
