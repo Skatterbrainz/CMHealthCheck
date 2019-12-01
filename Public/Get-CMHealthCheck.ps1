@@ -55,19 +55,12 @@ function Get-CMHealthCheck {
 	#>
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[Parameter()] [ValidateNotNullOrEmpty()]
-			[string] $SmsProvider = $($env:COMPUTERNAME),
-		[parameter(Mandatory = $False, HelpMessage = 'Path for output data files')]
-			[ValidateNotNullOrEmpty()]
-			[string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-		[Parameter(Mandatory = $False, HelpMessage = 'Number of Days for HealthCheck')]
-			[int] $NumberOfDays = 7,
-		[Parameter (Mandatory = $False, HelpMessage = 'HealthCheck query file name')]
-			[string] $Healthcheckfilename = "",
-		[Parameter(Mandatory = $False, HelpMessage = 'Overwrite existing report?')]
-			[switch] $OverWrite,
-		[Parameter(Mandatory=$False, HelpMessage = 'Skip hotfix audit')]
-			[switch] $NoHotfix
+		[parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = $($env:COMPUTERNAME),
+		[parameter(HelpMessage = 'Path for output data files')][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+		[parameter(HelpMessage = 'Number of Days for HealthCheck')][int] $NumberOfDays = 7,
+		[parameter(HelpMessage = 'HealthCheck query file name')][string] $Healthcheckfilename = "",
+		[parameter(HelpMessage = 'Overwrite existing report?')][switch] $OverWrite,
+		[parameter(HelpMessage = 'Skip hotfix audit')][switch] $NoHotfix
 	)
 
 	try {

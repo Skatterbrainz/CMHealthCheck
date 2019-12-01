@@ -1,12 +1,12 @@
 function Write-Boundaries {
     param (
-        [string] $FileName,
-        [string] $TableName,
-        [string] $SiteCode,
-        [int] $NumberOfDays,
-        $LogFile,
-        [string] $ServerName,
-        $ContinueOnError = $true
+        [parameter()][string] $FileName,
+        [parameter()][string] $TableName,
+        [parameter()][string] $SiteCode,
+        [parameter()][int] $NumberOfDays,
+        [parameter()] $LogFile,
+        [parameter()][string] $ServerName,
+        [parameter()] $ContinueOnError = $true
     )
     Write-Log -Message "[function: write-boundaries]" -LogFile $logfile
     $query = "select distinct 
@@ -39,13 +39,13 @@ function Write-Boundaries {
     $Fields = @("DisplayName", "BoundaryID", "BValue", "BoundaryType", "BoundaryFlags", "BGName")
     $bDetails = New-CmDataTable -TableName $tableName -Fields $Fields
     foreach ($b in $blist) {
-        $row = $bDetails.NewRow()
-        $row.DisplayName = $b.DisplayName
-        $row.BoundaryID = $b.BoundaryID
-        $row.BValue = $b.BValue
-        $row.BoundaryType = $b.BoundaryType
+        $row               = $bDetails.NewRow()
+        $row.DisplayName   = $b.DisplayName
+        $row.BoundaryID    = $b.BoundaryID
+        $row.BValue        = $b.BValue
+        $row.BoundaryType  = $b.BoundaryType
         $row.BoundaryFlags = $b.BoundaryFlags
-        $row.BGName = $b.BGName
+        $row.BGName        = $b.BGName
         $bDetails.Rows.Add($row)
     }
     , $bDetails | Export-CliXml -Path ($filename)

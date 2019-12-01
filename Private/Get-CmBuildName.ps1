@@ -1,6 +1,6 @@
 function Get-CmBuildName {
     param (
-        [parameter(Mandatory=$True)]
+        [parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [string] $BuildNumber
     )

@@ -1,13 +1,13 @@
 function Get-AutoLinkText {
     param (
-        [parameter(Mandatory=$True)]
+        [parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [string] $StringValue,
-        [switch] $NewPage
+        [parameter()][switch] $NewPage
     )
     $temp = @()
     $tokens = $StringValue.split(' ')
-    $tokens | % { 
+    $tokens | ForEach-Object { 
         if ($_.StartsWith('http')) {
             if ($NewPage) {
                 $temp += "<a href=`"$_`" target=`"blank`">$_</a>"

@@ -1,15 +1,10 @@
 Function Get-RegistryValue {
     param (
-        [String] $ComputerName,
-        [parameter(Mandatory=$False)]
-            [string] $LogFile = '' ,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $KeyName,
-        [string] $KeyValue,
-        [parameter(Mandatory=$False)]
-            [ValidateSet('LocalMachine','ClassesRoot','CurrentConfig','Users')]
-            [string] $AccessType = 'LocalMachine'
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $KeyName,
+        [parameter()][string] $ComputerName,
+        [parameter()][string] $LogFile = '' ,
+        [parameter()][string] $KeyValue,
+        [parameter()][ValidateSet('LocalMachine','ClassesRoot','CurrentConfig','Users')][string] $AccessType = 'LocalMachine'
     )
     Write-Log -Message "Getting registry value from $($ComputerName), $($AccessType), $($keyname), $($keyvalue)" -LogFile $logfile
     try {

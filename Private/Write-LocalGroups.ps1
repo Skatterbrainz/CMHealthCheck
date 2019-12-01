@@ -1,25 +1,16 @@
 function Write-LocalGroups {
     param (
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $Filename,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $TableName,
-        [parameter(Mandatory=$True)]
-            [string] $SiteCode,
-        [parameter(Mandatory=$True)]
-            [ValidateNotNullOrEmpty()]
-            [string] $ServerName,
-        [parameter(Mandatory=$False)]
-            [string] $LogFile,
-        [parameter(Mandatory=$False)]
-            [bool] $ContinueOnError
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $Filename,
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $TableName,
+        [parameter(Mandatory)][string] $SiteCode,
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $ServerName,
+        [parameter()][string] $LogFile,
+        [parameter()][bool] $ContinueOnError
     )
     Write-Log -Message "function... Write-LocalGroups ****" -LogFile $logfile
     $ServerShortName = ($ServerName -split '\.')[0]
     try {
-        $GroupsList = Get-WmiObject -Class "Win32_Group" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop
+        $GroupsList = Get-CimInstance -ClassName "Win32_Group" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop
     }
     catch {
         Write-Log -Category 'Error' -Message 'cannot connect to $ServerName to enumerate local security groups'
@@ -38,7 +29,7 @@ function Write-LocalGroups {
         $wmiquery = "select * from Win32_GroupUser where GroupComponent=`"Win32_Group.Domain='$SSName',Name='$gn'`""
         Write-Log -Message "wmi query.... $wmiquery" -LogFile $LogFile
         try {
-            $acct = Get-WmiObject -ComputerName $ServerName -Query $wmiquery -ErrorAction Stop
+            $acct = Get-CimInstance -ComputerName $ServerName -Query $wmiquery -ErrorAction Stop
             $arr = @()
             if ($null -ne $acct) {
                 foreach ($item in $acct) {
@@ -68,10 +59,10 @@ function Write-LocalGroups {
             $members = '(no members - failed to enumerate)'
         }
         Write-Log -Message "members...... $members" -LogFile $LogFile
-        $row = $GroupDetails.NewRow()
-        $row.Name = $gn
+        $row             = $GroupDetails.NewRow()
+        $row.Name        = $gn
         $row.Description = $gd
-        $row.Members = $members
+        $row.Members     = $members
         $GroupDetails.Rows.Add($row)
     } # foreach group
     Write-Log -Message "enumerated $($GroupsList.Count) groups" -LogFile $LogFile

@@ -10,7 +10,7 @@ function Get-XmlUrlContent {
 		[xml]$content = ((New-Object System.Net.WebClient).DownloadString($Url))
     }
     catch {}
-    if ($content -ne "") {
+    if (![string]::IsNullOrEmpty($content)) {
         $lines = $content -split "`n"
         $result = ""
         for ($i = 1; $i -lt $lines.count; $i++) {

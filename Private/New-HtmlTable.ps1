@@ -40,12 +40,12 @@ function New-HtmlTableEnd {
 
 function New-HtmlTableBlock {
     param (
-        [string] $Caption = "",
-        [string] $CaptionStyle = "h2",
-        [string] $TableClass = "reportTable",
-        [string] $HeadingStyle = "",
-        [string] $HeadingNames,
-        [int] $Rows = 1
+        [parameter()][string] $Caption = "",
+        [parameter()][string] $CaptionStyle = "h2",
+        [parameter()][string] $TableClass = "reportTable",
+        [parameter()][string] $HeadingStyle = "",
+        [parameter()][string] $HeadingNames,
+        [parameter()][int] $Rows = 1
     )
     Write-Log -Message "--- function: New-HtmlTableBlock" -LogFile $logfile
     $result = New-HtmlTableBegin -Caption $Caption -CaptionStyle $CaptionStyle -TableClass $TableClass -HeadingStyle $HeadingStyle -HeadingNames $HeadingNames
@@ -69,10 +69,10 @@ function New-HtmlTableBlock {
 
 function New-HtmlTableVertical {
     param (
-        [string] $Caption = "",
-        [string] $CaptionStyle = "h2",
-        [string] $TableClass = "reportTable",
-        [hashtable] $TableHash
+        [parameter()][string] $Caption = "",
+        [parameter()][string] $CaptionStyle = "h2",
+        [parameter()][string] $TableClass = "reportTable",
+        [parameter()][hashtable] $TableHash
     )
     Write-Log -Message "--- function: New-HtmlTableVertical" -LogFile $logfile
     if (!([string]::IsNullOrEmpty($Caption))) {

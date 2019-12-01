@@ -1,30 +1,17 @@
 Function Get-SQLData {
     param (
-	    [parameter(Mandatory=$True)]
-			$sqlConn,
-	    [parameter(Mandatory=$True)]
-			[ValidateNotNullOrEmpty()]
-			[string] $SQLQuery,
-	    [parameter(Mandatory=$False)]
-			[string] $FileName,
-	    [parameter(Mandatory=$False)]
-			[string] $TableName,
-	    [parameter(Mandatory=$False)]
-			[string] $SiteCode,
-	    [parameter(Mandatory=$False)]
-			$NumberOfDays,
-	    [parameter(Mandatory=$False)]
-			$LogFile,
-		[parameter(Mandatory=$False)]
-			[string] $ServerName,
-		[parameter(Mandatory=$False)]
-			[bool] $ContinueOnError = $true,
-		[parameter(Mandatory=$False)]
-			$HealthCheck,
-        [parameter(Mandatory=$False)]
-			$Section,
-        [parameter(Mandatory=$False)]
-			[switch] $Detailed
+	    [parameter(Mandatory)] $sqlConn,
+	    [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SQLQuery,
+	    [parameter()][string] $FileName,
+	    [parameter()][string] $TableName,
+	    [parameter()][string] $SiteCode,
+	    [parameter()][int] $NumberOfDays,
+	    [parameter()] $LogFile,
+		[parameter()][string] $ServerName,
+		[parameter()][bool] $ContinueOnError = $true,
+		[parameter()] $HealthCheck,
+        [parameter()] $Section,
+        [parameter()][switch] $Detailed
 	)
 	Write-Log -Message "[function: Get-SQLData]"
 	if ($Detailed) { 
@@ -53,10 +40,9 @@ Function Get-SQLData {
                     if (($detailed) -and ($field.groupby -notin ('1','2'))) { continue }
                     elseif (($detailed -eq $false) -and ($field.groupby -notin ('2','3'))) { continue }
                 }
-				if ($field.format -ne "") {
+				if (![string]::IsNullOrEmpty($field.format)) {
 					Write-Log -Message "   custom format specified for this attribute: $($Field.Format)" -LogFile $logfile
 					foreach ($row in $dataset.Tables[0].Rows) {
-						#$fn = $field.FieldName
 						$tempx = Set-FormattedValue -Value $row.$($field.FieldName) -Format $field.format -SiteCode $SiteCode
 						try {
 							$row.$($field.FieldName) = $tempx

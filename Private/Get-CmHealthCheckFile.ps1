@@ -1,6 +1,6 @@
 function Get-CmHealthCheckFile {
 	param (
-		[parameter(Mandatory=$True, HelpMessage="XML file source path")]
+		[parameter(Mandatory, HelpMessage="XML file source path")]
 		[ValidateNotNullOrEmpty()]
 		[string] $XmlSource
     )

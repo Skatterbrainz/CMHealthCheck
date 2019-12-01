@@ -1,10 +1,7 @@
 Function Test-Folder {
     param (
-        [parameter(Mandatory=$True, HelpMessage="Folder Path")]
-            [ValidateNotNullOrEmpty()]
-            [String] $Path,
-        [parameter(Mandatory=$False, HelpMessage="Force Creating the Folder if not found")]
-            [bool] $Create = $true
+        [parameter(Mandatory)][ValidateNotNullOrEmpty()][String] $Path,
+        [parameter()][bool] $Create = $true
     )
     if (Test-Path -Path $Path) {
 		return $true

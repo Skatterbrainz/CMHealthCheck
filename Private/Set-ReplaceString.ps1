@@ -1,15 +1,10 @@
 function Set-ReplaceString {
     param (
-		[parameter(Mandatory=$False)]
-			[string] $Value,
-		[parameter(Mandatory=$True)]
-			[string] $SiteCode,
-		[parameter(Mandatory=$False)]
-			[int] $NumberOfDays = "",
-		[parameter(Mandatory=$False)]
-			[string] $ServerName = "",
-		[parameter(Mandatory=$False)]
-			[bool] $Space = $true
+		[parameter()][string] $Value,
+		[parameter(Mandatory=$True)][string] $SiteCode,
+		[parameter()][int] $NumberOfDays = "",
+		[parameter()][string] $ServerName = "",
+		[parameter()][bool] $Space = $true
 	)
 	$return = $value
     $date = Get-Date

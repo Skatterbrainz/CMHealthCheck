@@ -1,19 +1,11 @@
 function Write-MPConnectivity {
     param (
-		[parameter(Mandatory=$False)]
-			[string] $FileName,
-		[parameter(Mandatory=$True)]
-			[ValidateNotNullOrEmpty()]
-			[string] $TableName,
-		[parameter(Mandatory=$True)]
-			[ValidateNotNullOrEmpty()]
-			[string] $SiteCode,
-		[parameter(Mandatory=$False)]
-			[int] $NumberOfDays,
-		[parameter(Mandatory=$False)]
-			$LogFile,
-		[parameter(Mandatory=$False)]
-			[string] $Type = 'mplist'
+		[parameter()][string] $FileName,
+		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $TableName,
+		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SiteCode,
+		[parameter()][int] $NumberOfDays,
+		[parameter()] $LogFile,
+		[parameter()][string] $Type = 'mplist'
 	)
 	Write-Log -Message "function... Write-MpConnectivity ****" -LogFile $logfile
  	$Fields = @("ServerName", "HTTPReturn")

@@ -62,40 +62,40 @@ function Export-CMHealthCheckHTML {
     #>
     [CmdletBinding()]
     param (
-        [Parameter (Mandatory = $True, HelpMessage = "Collected data folder")]
+        [Parameter (Mandatory, HelpMessage = "Collected data folder")]
             [ValidateNotNullOrEmpty()]
             [string] $ReportFolder,
-        [parameter(Mandatory=$False, HelpMessage="Log folder path")]
+        [parameter(HelpMessage="Log folder path")]
             [ValidateNotNullOrEmpty()]
             [string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-        [Parameter (Mandatory = $False, HelpMessage = "Export full data, not only summary")]
+        [Parameter (HelpMessage = "Export full data, not only summary")]
             [switch] $Detailed,
-        [parameter (Mandatory = $False, HelpMessage = "Customer company name")]
+        [parameter (HelpMessage = "Customer company name")]
             [string] $CustomerName = "Customer Name",
-        [parameter (Mandatory = $False, HelpMessage = "Use Auto Config File")]
+        [parameter (HelpMessage = "Use Auto Config File")]
             [switch] $AutoConfig,
-		[parameter (Mandatory = $False)] [string] $SmsProvider,
-        [parameter (Mandatory = $False, HelpMessage = "Author's full name")]
+		[parameter ()] [string] $SmsProvider,
+        [parameter (HelpMessage = "Author's full name")]
             [string] $AuthorName = "",
-        [parameter (Mandatory = $False, HelpMessage = "Footer text")]
+        [parameter (HelpMessage = "Footer text")]
             [string] $CopyrightName  = "Skatterbrainz",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck query file name")]
+        [Parameter (HelpMessage = "HealthCheck query file name")]
             [string] $Healthcheckfilename = "",
-        [Parameter (Mandatory = $False, HelpMessage = "HealthCheck messages file name")]
+        [Parameter (HelpMessage = "HealthCheck messages file name")]
             [string] $MessagesFilename = "",
-        [Parameter (Mandatory = $False, HelpMessage = "Debug more?")]
+        [Parameter (HelpMessage = "Debug more?")]
             $Healthcheckdebug = $False,
-        [parameter (Mandatory = $False, HelpMessage = "Theme Name")]
+        [parameter (HelpMessage = "Theme Name")]
             [ValidateSet('Ocean','Emerald','Monochrome','Custom')]
             [string] $Theme = 'Ocean',
-        [parameter (Mandatory = $False, HelpMessage = "CSS template file")]
+        [parameter (HelpMessage = "CSS template file")]
             [string] $CssFilename = "",
-        [parameter (Mandatory = $False, HelpMessage = "Table Row Style option")]
+        [parameter (HelpMessage = "Table Row Style option")]
             [ValidateSet('Solid','Alternating','Dynamic')]
             [string] $TableRowStyle = 'Solid',
-        [parameter (Mandatory = $False, HelpMessage = "Image Log file")]
+        [parameter (HelpMessage = "Image Log file")]
             [string] $ImageFile = "",
-        [parameter (Mandatory = $False, HelpMessage = "Overwrite existing report file")]
+        [parameter (HelpMessage = "Overwrite existing report file")]
             [switch] $Overwrite
     )
     $time1      = Get-Date -Format "hh:mm:ss"
@@ -125,7 +125,7 @@ function Export-CMHealthCheckHTML {
     $bLogValidation = $False
     $bAutoProps     = $True
     $poshversion    = $PSVersionTable.PSVersion.Major
-    $osversion      = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+    $osversion      = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
     $ReportFile     = Join-Path -Path $OutputFolder -ChildPath "cmhealthreport`-$SmsProvider-$(Get-Date -f 'yyyyMMdd').htm"
 
     if ($Healthcheckfilename -eq "") {
@@ -162,17 +162,14 @@ function Export-CMHealthCheckHTML {
                     'True' {
                         Set-Variable -Name $rowset[0] -Value $True
                         Write-Verbose "...$($rowset[0]) == $($rowset[1])"
-                        break
                     }
                     'False' {
                         Set-Variable -Name $rowset[0] -Value $False
                         Write-Verbose "...$($rowset[0]) == $($rowset[1])"
-                        break
                     }
                     default {
                         Set-Variable -Name $rowset[0] -Value $rowset[1]
                         Write-Verbose "...$($rowset[0]) == $($rowset[1])"
-                        break
                     }
                 }
             }
@@ -264,7 +261,7 @@ function Export-CMHealthCheckHTML {
             Author         = "$AuthorName ($($env:USERNAME))"
             ReportDate     = (Get-Date).ToLongDateString()
             ReportFolder   = $ReportFolder
-            WindowsVersion = $(Get-WmiObject -Class Win32_OperatingSystem).Caption
+            WindowsVersion = $(Get-CimInstance -ClassNam,e Win32_OperatingSystem).Caption
             ComputerName   = $($env:COMPUTERNAME)
         }
         $htmlContent += New-HtmlTableVertical -Caption "Report Information" -TableHash $htmlTable
@@ -295,7 +292,8 @@ function Export-CMHealthCheckHTML {
         #Set-DocAppendix
 
         Write-Log -Message "inserting copyright footer" -LogFile $logfile
-        $htmlContent += "`n<p class=`"footer`">CMHealthCheck $ModuleVer . Copyright &copy; $((Get-Date).Year) $CopyrightName</p>"
+        $htmlContent += "`n<p class=`"footer`">CMHealthCheck $ModuleVer by David Stein. Copyright &copy; $((Get-Date).Year) $CopyrightName"
+        $htmlContent += " - <a href=`"https://github.com/skatterbrainz/CMHealthCheck`" target=`"_blank`">GitHub`:CMHealthCheck</a></p>"
         $htmlContent += "`n</body></html>"
 
         Write-Log -Message "writing output file: $ReportFile" -LogFile $logfile

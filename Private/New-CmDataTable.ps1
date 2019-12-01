@@ -1,7 +1,7 @@
 function New-CmDataTable {
     param (
-		[string] $TableName,
-	    [String[]] $Fields
+		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $TableName,
+	    [parameter()][string[]] $Fields
     )
     Write-Log -Message "[function: New-CmDataTable]" -LogFile $logfile
 	$DataTable = New-Object System.Data.DataTable "$tableName"
