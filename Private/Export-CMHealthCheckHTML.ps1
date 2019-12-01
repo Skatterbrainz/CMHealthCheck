@@ -261,7 +261,7 @@ function Export-CMHealthCheckHTML {
             Author         = "$AuthorName ($($env:USERNAME))"
             ReportDate     = (Get-Date).ToLongDateString()
             ReportFolder   = $ReportFolder
-            WindowsVersion = $(Get-CimInstance -ClassNam,e Win32_OperatingSystem).Caption
+            WindowsVersion = $(Get-CimInstance -ClassName Win32_OperatingSystem).Caption
             ComputerName   = $($env:COMPUTERNAME)
         }
         $htmlContent += New-HtmlTableVertical -Caption "Report Information" -TableHash $htmlTable
