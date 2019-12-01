@@ -125,6 +125,7 @@ function Get-CMHealthCheck {
 				break
 			}
 		}
+
 		$bLogValidation = $true
 
 		Write-Log -Message "--------------- importing cmhealthcheck.xml ---------------" -LogFile $logfile
@@ -178,6 +179,10 @@ function Get-CMHealthCheck {
 		Write-Log -Message "SQLPort..........: $SQLPort" -LogFile $logfile
 		Write-Log -Message "SQLDBName........: $SQLDBName" -LogFile $logfile
 
+		if (!(Invoke-DbaQuery -SqlInstance $SQLServerName -Database $SQLDBName -EnableException -ErrorAction SilentlyContinue)) {
+			Write-Log -Message "ERROR / Permission Denied on connection to SQL Server instance" -Category Error -Severity 3 -ShowMsg
+			exit
+		}
 		$arrServers = @()
 		$WMIServers = Get-CmWmiObject -Query "select distinct NetworkOSPath from SMS_SCI_SysResUse where NetworkOSPath not like '%.microsoft.com' and Type in (1,2,4,8)" -ComputerName $SmsProvider -NameSpace "root\sms\site_$SiteCodeNamespace" -LogFile $logfile
 		foreach ($WMIServer in $WMIServers) {
