@@ -1,6 +1,6 @@
 function New-CmDataTable {
     param (
-		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $TableName,
+		[parameter()][string] $TableName,
 	    [parameter()][string[]] $Fields
     )
     Write-Log -Message "[function: New-CmDataTable]" -LogFile $logfile
