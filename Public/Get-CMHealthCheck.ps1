@@ -179,7 +179,7 @@ function Get-CMHealthCheck {
 		Write-Log -Message "SQLPort..........: $SQLPort" -LogFile $logfile
 		Write-Log -Message "SQLDBName........: $SQLDBName" -LogFile $logfile
 
-		if (!(Invoke-DbaQuery -SqlInstance $SQLServerName -Database $SQLDBName -EnableException -ErrorAction SilentlyContinue)) {
+		if (!(Invoke-DbaQuery -SqlInstance $SQLServerName -Database $SQLDBName -Query  "select * from v_r_system" -EnableException -ErrorAction SilentlyContinue)) {
 			Write-Log -Message "ERROR / Permission Denied on connection to SQL Server instance" -Category Error -Severity 3 -ShowMsg
 			exit
 		}
