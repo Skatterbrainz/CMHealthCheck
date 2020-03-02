@@ -133,7 +133,7 @@ function Invoke-CMHealthCheck {
 	Write-Log -Message "------------------ begin report publishing ---------------------" -LogFile $logfile
 	try {
 		if (Test-Path $ReportFolder) {
-			Write-Log -Message "calling Export-CMHealthCheck with parameter set" -LogFile $logfile
+			Write-Log -Message "calling Export-CMHealthReport with parameter set" -LogFile $logfile
 			$expParams = @{
 				ReportType       = $ReportType
 				ReportFolder     = $ReportFolder
