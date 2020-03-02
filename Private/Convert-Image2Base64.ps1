@@ -15,7 +15,7 @@ function Convert-Image2Base64 {
             $EncodedImage = [convert]::ToBase64String((Get-Content $Path -Encoding Byte))
         }
         else {
-            Write-Log -Messge "Image file not found: $path" -LogFile $logFile -Severity 3 -ShowMsg
+            Write-Log -Message "Image file not found: $path" -LogFile $logFile -Severity 3 -ShowMsg
             Return $false
         }
     }
