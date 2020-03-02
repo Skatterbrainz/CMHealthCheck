@@ -34,10 +34,10 @@ function Get-CMHealthCheck {
 	.EXAMPLE
 		.\Get-CMHealthCheck -SmsProvider cm01.contoso.com -OutputFolder "c:\temp" -HealthcheckFilename ".\healthcheck.xml"
 	.NOTES
-        * Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
-        * Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
-        * Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
-        * Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
+		* Thanks to Rafael Perez for inventing this - http://www.rflsystems.co.uk
+		* Thanks to Carl Webster for the basis of Word functions - http://www.carlwebster.com
+		* Thanks to David O'Brien for additional Word function - http://www.david-obrien.net/2013/06/20/huge-powershell-inventory-script-for-configmgr-2012/
+		* Thanks to Starbucks for empowering me to survive hours of clicking through the Office Word API reference
 		* Support: Database name must be CM_<SITECODE> (you need to adapt the queries if not this format)
 
 		* Security Rights: user running this tool should have the following rights:
@@ -71,22 +71,22 @@ function Get-CMHealthCheck {
 		Start-Transcript -Path (Join-Path -Path $OutputFolder -ChildPath "Get-CMHealthCheck-Transcript.log") -ErrorAction Stop
 	}
 
-	$startTime     = Get-Date
-	$currentFolder = $PWD.Path
+	$startTime      = Get-Date
+	$currentFolder  = (Get-Location).Path
 	if ($currentFolder.substring($currentFolder.Length-1) -ne '\') { $currentFolder+= '\' }
-	$logFolder     = $OutputFolder + '\_Logs\'
-	$reportFolder  = $OutputFolder + '\' + (Get-Date -UFormat "%Y-%m-%d") + '\' + $SmsProvider + '\'
-	$logfile       = Join-Path -Path $logFolder -ChildPath "Get-CMHealthCheck.log"
-	$poshversion   = $PSVersionTable.PSVersion.Major
-	$osversion     = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+	$logFolder      = $OutputFolder + '\_Logs\'
+	$reportFolder   = $OutputFolder + '\' + (Get-Date -UFormat "%Y-%m-%d") + '\' + $SmsProvider + '\'
+	$logfile        = Join-Path -Path $logFolder -ChildPath "Get-CMHealthCheck.log"
+	$poshversion    = $PSVersionTable.PSVersion.Major
+	$osversion      = (Get-WmiObject -Class Win32_OperatingSystem).Caption
 	$Error.Clear()
 	$bLogValidation = $False
-	if ($Healthcheckfilename -eq "") {
-		$ModuleData = Get-Module CMHealthCheck
-		$ModuleVer  = $ModuleData.Version -join '.'
-        $ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-        $Healthcheckfilename = "$ModulePath"+"assets\cmhealthcheck.xml"
-    }
+	$ModuleVer      = (Get-Module "CMHealthCheck").Version -join '.'
+	$ModulePath     = Split-Path (Get-Module "CMHealthCheck").Path[0] -Parent
+	if ([string]::IsNullOrEmpty($Healthcheckfilename)) {
+		$Healthcheckfilename = "$ModulePath\assets\cmhealthcheck.xml"
+		Write-Log -Message "Healthcheck file....: $HealthCheckFileName" -LogFile $logfile
+	}
 	Write-Host "CMHealthCheck $ModuleVer"
 	Write-Host "Gathering site and server information"
 	if (!(Test-Folder -Path $logFolder)) {
@@ -97,7 +97,7 @@ function Get-CMHealthCheck {
 
 	Write-Log -Message "----------------- BEGIN PROCESSING --------------------" -LogFile $logfile
 	Write-Log -Message "Module version......: $ModuleVer" -LogFile $logfile
-    Write-Log -Message "Report Folder.......: $reportFolder" -LogFile $logfile
+	Write-Log -Message "Report Folder.......: $reportFolder" -LogFile $logfile
 	Write-Log -Message "Powershell version..: $poshversion" -LogFile $logfile
 	if (!(Test-Powershell64bit)) {
 		Write-Error "Powershell is not 64bit, yo G, we outta here."
