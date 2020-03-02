@@ -34,6 +34,8 @@ function Export-CMHealthReport {
 		The file can be local, UNC or URI sourced as well
 	.PARAMETER Healthcheckdebug
 		Enable verbose output (or use -Verbose)
+	.PARAMETER Show
+		Display report in default web browser when completed
 	.EXAMPLE
 		Export-CMHealthCheck -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 	.EXAMPLE
@@ -71,7 +73,8 @@ function Export-CMHealthReport {
 		[parameter()][string] $CopyrightName  = "Your Company Name",
 		[parameter()][string] $Healthcheckfilename = "",
 		[parameter()][string] $MessagesFilename = "",
-		[parameter()][bool] $Healthcheckdebug = $False
+		[parameter()][bool] $Healthcheckdebug = $False,
+		[parameter()][switch] $Show
 	)
 	if ($env:USERPROFILE -eq 'c:\windows\system32\config\systemprofile') {
 		$OutputFolder = $env:TEMP
@@ -92,6 +95,7 @@ function Export-CMHealthReport {
 				Overwrite     = $True
 				Theme         = "Ocean"
 				TableRowStyle = "Solid"
+				Show          = $Show
 			}
 			Export-CMHealthCheckHTML @expParams
 		}

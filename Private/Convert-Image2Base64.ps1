@@ -2,47 +2,47 @@
 Don't hate me for not being able to remember who wrote this, but it wasn't me.
 #>
 function Convert-Image2Base64 {
-    [CmdletBinding()]
-    param (
-        [Parameter(ValueFromPipelineByPropertyName=$false,Mandatory=$true,ValueFromPipeline=$True,
-        HelpMessage="this is a path to either a file on the web or locally on the network to convert")]
-        [string]$Path
-    )
-    Write-Log -Message "converting image - path = $Path" -LogFile $logfile
-    if (($Path -match '^[A-z]:\\.*(\.png|\.jpg)$') -or ($Path -match '^\\\\*\\.*(\.png|\.jpg)$')) {
+	[CmdletBinding()]
+	param (
+		[Parameter(ValueFromPipelineByPropertyName=$false,Mandatory=$true,ValueFromPipeline=$True,
+		HelpMessage="this is a path to either a file on the web or locally on the network to convert")]
+		[string]$Path
+	)
+	Write-Log -Message "converting image - path = $Path" -LogFile $logfile
+	if (($Path -match '^[A-z]:\\.*(\.png|\.jpg)$') -or ($Path -match '^\\\\*\\.*(\.png|\.jpg)$')) {
 		Write-Log -Message "importing image from file system" -LogFile $logfile
-        if (Test-Path -Path "filesystem::$Path") {
-            $EncodedImage = [convert]::ToBase64String((Get-Content $Path -Encoding Byte))
-        }
-        else {
-            Write-Log -Message "Image file not found: $path" -LogFile $logFile -Severity 3 -ShowMsg
-            Return $false
-        }
-    }
-    elseif ($Path -match '^http[s]://.*(\.png|\.jpg)$') {
+		if (Test-Path -Path "$Path") {
+			$EncodedImage = [convert]::ToBase64String((Get-Content $Path -Encoding Byte))
+		}
+		else {
+			Write-Log -Message "Image file not found: $path" -LogFile $logFile -Severity 3
+			Return $false
+		}
+	}
+	elseif ($Path -match '^http[s]://.*(\.png|\.jpg)$') {
 		Write-Log -Message "importing image from URL" -LogFile $logfile
-        $ext=$Path.Substring($Path.Length-4)
-        $tempfile = "${env:TEMP}\logo31337$ext"
-        if (Test-Path $tempfile) {Remove-Item -Path $tempfile -Force}
-        try {
-            Invoke-WebRequest -Uri $Path -OutFile $tempfile
-        }
-        catch {
+		$ext=$Path.Substring($Path.Length-4)
+		$tempfile = "${env:TEMP}\logo31337$ext"
+		if (Test-Path $tempfile) {Remove-Item -Path $tempfile -Force}
+		try {
+			Invoke-WebRequest -Uri $Path -OutFile $tempfile
+		}
+		catch {
 			Write-Log -Message "logo image file not found, returning nothing" -LogFile $logfile
-            Return $false
-        }
-        $EncodedImage = [convert]::ToBase64String((Get-Content $tempfile -Encoding Byte))
-    }
-    else {
-        Write-Log -Message "Path does not match pattern: $path" -LogFile $logfile -Severity 3
-        Return $false
-    }
-    if ($path.EndsWith(".jpg")) {
+			Return $false
+		}
+		$EncodedImage = [convert]::ToBase64String((Get-Content $tempfile -Encoding Byte))
+	}
+	else {
+		Write-Log -Message "Path does not match pattern: $path" -LogFile $logfile -Severity 3
+		Return $false
+	}
+	if ($path.EndsWith(".jpg")) {
 		$imgtype = "jpg"
 	}
-    elseif ($path.EndsWith(".png")) {
+	elseif ($path.EndsWith(".png")) {
 		$imgtype = "png"
 	}
 	Write-Log -Message "imagetype = $imgtype" -LogFile $logfile
-    "data:image/$imgtype;base64,$EncodedImage"
+	"data:image/$imgtype;base64,$EncodedImage"
 }
