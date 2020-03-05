@@ -3,4 +3,4 @@ function Test-Admin {
 	$principal = New-Object System.Security.Principal.WindowsPrincipal($identity) 
 	$admin = [System.Security.Principal.WindowsBuiltInRole]::Administrator 
 	$principal.IsInRole($admin) 
-} 
+}

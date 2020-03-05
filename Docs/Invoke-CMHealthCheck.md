@@ -209,22 +209,22 @@ Accept wildcard characters: False
 ### -AutoConfig
 Load parameters from configuration file
 Example:
-    \`\`\`
-    Sample AutoConfig file cmhealthconfig.txt...
-    AuthorName=John Wick
-    CopyrightName=Retirement Specialists
-    Theme=Ocean
-    Detailed=True
-    TableRowStyle=Solid
-    CssFilename=c:\docs\wickrocks.css
-    ImageFile=c:\docs\bodybags.png
-    CoverPage=
-    Template=
-    HealthcheckFilename=
-    MessagesFilename=
-    HealthcheckDebug=False
-    Overwrite=True
-    \`\`\`
+	\`\`\`
+	Sample AutoConfig file cmhealthconfig.txt...
+	AuthorName=John Wick
+	CopyrightName=Retirement Specialists
+	Theme=Ocean
+	Detailed=True
+	TableRowStyle=Solid
+	CssFilename=c:\docs\wickrocks.css
+	ImageFile=c:\docs\bodybags.png
+	CoverPage=
+	Template=
+	HealthcheckFilename=
+	MessagesFilename=
+	HealthcheckDebug=False
+	Overwrite=True
+	\`\`\`
 
 ```yaml
 Type: SwitchParameter

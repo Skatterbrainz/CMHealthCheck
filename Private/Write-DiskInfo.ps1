@@ -1,5 +1,5 @@
 Function Write-DiskInfo {
-    param (
+	param (
 		[parameter(Mandatory)][string] $FileName,
 		[parameter(Mandatory)][string] $TableName,
 		[parameter()][string] $SiteCode,
@@ -9,8 +9,8 @@ Function Write-DiskInfo {
 		[parameter()][bool] $ContinueOnError = $true
 	)
 	Write-Log -Message "function... Write-DiskInfo ****" -LogFile $logfile
-    $DiskList = @(Get-CmWmiObject -Class "Win32_LogicalDisk" -Filter "DriveType = 3" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror)
-    if ($null -eq $DiskList) { return }
+	$DiskList = @(Get-CmWmiObject -Class "Win32_LogicalDisk" -Filter "DriveType = 3" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror)
+	if ($null -eq $DiskList) { return }
 	$Fields = @("DeviceID","VolumeName","FileSystem","Size","FreeSpace","Used","PctUsed")
 	$DiskDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($Disk in $DiskList) {
@@ -24,7 +24,7 @@ Function Write-DiskInfo {
 		$row.FreeSpace  = ([int](($Disk.FreeSpace) / 1024 / 1024 / 1024)).ToString()
 		$row.Used       = ([int]($used / 1024 / 1024 / 1024)).ToString()
 		$row.PctUsed    = [math]::Round($pct,2)
-	    $DiskDetails.Rows.Add($row)
-    }
-    , $DiskDetails | Export-CliXml -Path ($filename)
+		$DiskDetails.Rows.Add($row)
+	}
+	, $DiskDetails | Export-CliXml -Path ($filename)
 }

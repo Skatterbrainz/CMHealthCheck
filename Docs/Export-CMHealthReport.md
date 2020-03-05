@@ -13,10 +13,10 @@ Convert extracted ConfigMgr site information to Word Document
 ## SYNTAX
 
 ```
-Export-CMHealthReport [-ReportFolder] <String> [[-ReportType] <String>] [[-OutputFolder] <String>]
+Export-CMHealthReport [[-ReportFolder] <String>] [[-ReportType] <String>] [[-OutputFolder] <String>]
  [[-CustomerName] <String>] [-AutoConfig] [[-SmsProvider] <String>] [-Detailed] [[-CoverPage] <String>]
  [[-Template] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>]
- [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Boolean>] [<CommonParameters>]
+ [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Boolean>] [-Show] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,7 +29,7 @@ to be invoked on a desktop computer which has Office installed.
 
 ### EXAMPLE 1
 ```
-Export-CMHealthCheck -ReportFolder "2019-03-06\cm01.contoso.local" -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
+Export-CMHealthCheck -Detailed -CustomerName "Contoso" -AuthorName "David Stein" -CopyrightName "ACME Consulting" -Overwrite -Verbose
 ```
 
 ### EXAMPLE 2
@@ -53,9 +53,9 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
-Default value: None
+Default value: "$($env:USERPROFILE)\Documents"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -255,6 +255,21 @@ Aliases:
 
 Required: False
 Position: 12
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Show
+Display report in default web browser when completed
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False

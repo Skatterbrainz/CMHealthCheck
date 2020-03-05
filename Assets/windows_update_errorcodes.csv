@@ -6,7 +6,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x0000041D,-4294966243,ERROR_SERVICE_REQUEST_TIMEOUT,The service did not respond to the start or control request in a timely fashion.
 0x000004C3,-4294966077,Error_Session_Credential_Conflict,Multiple connections to a server or shared resource by the same user using more than one user name are not allowed.
 0x000004C5,-4294966075,Error_Dup_Domainename,The workgroup or domain name is already in use by another computer on the network.
-0x000005D5,-4294965803,NULL,
+0x000005D5,-4294965803,NULL,no information is available for this error
 0x00000619,-4294965735,error_Invalid_HW_Profile,The specified hardware profile configuration is invalid
 0x00000641,-4294965695,Error_Install_Service_failure,The Windows Installer Service could not be accessed. This can occur if you are running Windows in safe mode or if the Windows Installer is not correctly installed.
 0x00000643,-4294965693,ERROR_INSTALL_FAILURE,Fatal error during installation
@@ -15,114 +15,114 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x000006F6,-4294965514,RPC_X_BYTE_Count_TOO_Small,The byte count is too small
 0x00000963,-4294964893,NERR_BADPasswordCore,This share name or password is invalid
 0x00000BC2,-4294964286,Error_Success_Reboot_Required,Proces completed successfully but requires a system reboot.
-0x00000C0B,-4294964213,NULL,
-0x00000CC4,-4294964028,NULL,
-0x00000D47,-4294963897,NULL,
-0x00000E5C,-4294963620,NULL,
-0x00000E74,-4294963596,NULL,
-0x0000109F,-4294963041,NULL,
+0x00000C0B,-4294964213,NULL,no information is available for this error
+0x00000CC4,-4294964028,NULL,no information is available for this error
+0x00000D47,-4294963897,NULL,no information is available for this error
+0x00000E5C,-4294963620,NULL,no information is available for this error
+0x00000E74,-4294963596,NULL,no information is available for this error
+0x0000109F,-4294963041,NULL,no information is available for this error
 0x00001112,-4294962926,Error_No_Media_In_Drive,No media in drive
-0x0000117A,-4294962822,NULL,
+0x0000117A,-4294962822,NULL,no information is available for this error
 0x00001190,-4294962800,Error_Shutdown_IS_Scheduled,A system shutdown has already been scheduled
 0x00001234,-4294962636,Error_Port_Unreachable,No Service is operating at the destination network endpoint on the remote system
 0x00001396,-4294962282,Error_Wrong_Target_Name,Logon failure: The target account name is incorrect.
 0x000013D7,-4294962217,Error_Cluster_restype_Note_Supported,The specified node does not support a resource of this type. This amy be due to version inconsistancies or due to the absence of the resource DLL on this node.
 0x00001449,-4294962103,Error_Invalid_Showwin_Command,Cannot show or remove the window in the way specified
-0x00001633,-4294961613,NULL,
-0x000017C7,-4294961209,NULL,
-0x000017D2,-4294961198,NULL,
-0x000018BE,-4294960962,NULL,
-0x00001AD4,-4294960428,NULL,
-0x00001ADA,-4294960422,NULL,
-0x00001C70,-4294960016,NULL,
-0x00001CE8,-4294959896,NULL,
-0x00001D7A,-4294959750,NULL,
-0x00001F1D,-4294959331,NULL,
-0x00001F59,-4294959271,NULL,
-0x00002075,-4294958987,NULL,
-0x0000229A,-4294958438,NULL,
-0x000022CA,-4294958390,NULL,
-0x0000230B,-4294958325,NULL,
-0x00002685,-4294957435,NULL,
-0x000028A5,-4294956891,NULL,
-0x00002ABF,-4294956353,NULL,
-0x00002BBE,-4294956098,NULL,
-0x00002D49,-4294955703,NULL,
-0x00002DA4,-4294955612,NULL,
-0x00002DDC,-4294955556,NULL,
-0x00002EBD,-4294955331,NULL,
-0x00002ED7,-4294955305,NULL,
-0x000032D8,-4294954280,NULL,
-0x000035DD,-4294953507,NULL,
-0x000036F8,-4294953224,NULL,
-0x000037A1,-4294953055,NULL,
-0x000037FA,-4294952966,NULL,
-0x0000384E,-4294952882,NULL,
-0x000038F5,-4294952715,NULL,
-0x0000399D,-4294952547,NULL,
-0x00003A5C,-4294952356,NULL,
-0x00003D16,-4294951658,NULL,
-0x00003E44,-4294951356,NULL,
-0x00004016,-4294950890,NULL,
-0x000040CF,-4294950705,NULL,
-0x00004146,-4294950586,NULL,
-0x000041F4,-4294950412,NULL,
-0x0000433D,-4294950083,NULL,
-0x000043F9,-4294949895,NULL,
-0x000044CC,-4294949684,NULL,
-0x0000471E,-4294949090,NULL,
-0x00004808,-4294948856,NULL,
-0x00004910,-4294948592,NULL,
-0x00004966,-4294948506,NULL,
-0x00004A65,-4294948251,NULL,
-0x00004BF9,-4294947847,NULL,
-0x00004CC2,-4294947646,NULL,
-0x00004D2D,-4294947539,NULL,
-0x00004DB8,-4294947400,NULL,
-0x00004E90,-4294947184,NULL,
-0x00004FA2,-4294946910,NULL,
-0x00005112,-4294946542,NULL,
-0x000051CF,-4294946353,NULL,
-0x00005249,-4294946231,NULL,
-0x00005299,-4294946151,NULL,
-0x0000530C,-4294946036,NULL,
-0x000053C4,-4294945852,NULL,
-0x00005492,-4294945646,NULL,
-0x00005542,-4294945470,NULL,
-0x0000556E,-4294945426,NULL,
-0x000055BC,-4294945348,NULL,
-0x00005636,-4294945226,NULL,
-0x00005812,-4294944750,NULL,
-0x00005844,-4294944700,NULL,
-0x000058F7,-4294944521,NULL,
-0x00005A6A,-4294944150,NULL,
-0x00005AA5,-4294944091,NULL,
-0x00005C0E,-4294943730,NULL,
-0x00005FE9,-4294942743,NULL,
-0x00006056,-4294942634,NULL,
-0x0000626E,-4294942098,NULL,
-0x000062B6,-4294942026,NULL,
-0x0000651F,-4294941409,NULL,
-0x000065AA,-4294941270,NULL,
-0x000065BA,-4294941254,NULL,
-0x00006F50,-4294938800,NULL,
-0x00007052,-4294938542,NULL,
-0x00007190,-4294938224,NULL,
-0x00007617,-4294937065,NULL,
-0x00007747,-4294936761,NULL,
-0x00007865,-4294936475,NULL,
-0x00007B86,-4294935674,NULL,
-0x00007C12,-4294935534,NULL,
-0x00007C78,-4294935432,NULL,
-0x00007CE1,-4294935327,NULL,
-0x00007D12,-4294935278,NULL,
-0x00007DFF,-4294935041,NULL,
-0x00007EC9,-4294934839,NULL,
-0x00007F83,-4294934653,NULL,
-0x00007FCC,-4294934580,NULL,
-0x0000F06A,-4294905750,NULL,
-0x0000F06B,-4294905749,NULL,
-0x0000F0DA,-4294905638,NULL,
+0x00001633,-4294961613,NULL,no information is available for this error
+0x000017C7,-4294961209,NULL,no information is available for this error
+0x000017D2,-4294961198,NULL,no information is available for this error
+0x000018BE,-4294960962,NULL,no information is available for this error
+0x00001AD4,-4294960428,NULL,no information is available for this error
+0x00001ADA,-4294960422,NULL,no information is available for this error
+0x00001C70,-4294960016,NULL,no information is available for this error
+0x00001CE8,-4294959896,NULL,no information is available for this error
+0x00001D7A,-4294959750,NULL,no information is available for this error
+0x00001F1D,-4294959331,NULL,no information is available for this error
+0x00001F59,-4294959271,NULL,no information is available for this error
+0x00002075,-4294958987,NULL,no information is available for this error
+0x0000229A,-4294958438,NULL,no information is available for this error
+0x000022CA,-4294958390,NULL,no information is available for this error
+0x0000230B,-4294958325,NULL,no information is available for this error
+0x00002685,-4294957435,NULL,no information is available for this error
+0x000028A5,-4294956891,NULL,no information is available for this error
+0x00002ABF,-4294956353,NULL,no information is available for this error
+0x00002BBE,-4294956098,NULL,no information is available for this error
+0x00002D49,-4294955703,NULL,no information is available for this error
+0x00002DA4,-4294955612,NULL,no information is available for this error
+0x00002DDC,-4294955556,NULL,no information is available for this error
+0x00002EBD,-4294955331,NULL,no information is available for this error
+0x00002ED7,-4294955305,NULL,no information is available for this error
+0x000032D8,-4294954280,NULL,no information is available for this error
+0x000035DD,-4294953507,NULL,no information is available for this error
+0x000036F8,-4294953224,NULL,no information is available for this error
+0x000037A1,-4294953055,NULL,no information is available for this error
+0x000037FA,-4294952966,NULL,no information is available for this error
+0x0000384E,-4294952882,NULL,no information is available for this error
+0x000038F5,-4294952715,NULL,no information is available for this error
+0x0000399D,-4294952547,NULL,no information is available for this error
+0x00003A5C,-4294952356,NULL,no information is available for this error
+0x00003D16,-4294951658,NULL,no information is available for this error
+0x00003E44,-4294951356,NULL,no information is available for this error
+0x00004016,-4294950890,NULL,no information is available for this error
+0x000040CF,-4294950705,NULL,no information is available for this error
+0x00004146,-4294950586,NULL,no information is available for this error
+0x000041F4,-4294950412,NULL,no information is available for this error
+0x0000433D,-4294950083,NULL,no information is available for this error
+0x000043F9,-4294949895,NULL,no information is available for this error
+0x000044CC,-4294949684,NULL,no information is available for this error
+0x0000471E,-4294949090,NULL,no information is available for this error
+0x00004808,-4294948856,NULL,no information is available for this error
+0x00004910,-4294948592,NULL,no information is available for this error
+0x00004966,-4294948506,NULL,no information is available for this error
+0x00004A65,-4294948251,NULL,no information is available for this error
+0x00004BF9,-4294947847,NULL,no information is available for this error
+0x00004CC2,-4294947646,NULL,no information is available for this error
+0x00004D2D,-4294947539,NULL,no information is available for this error
+0x00004DB8,-4294947400,NULL,no information is available for this error
+0x00004E90,-4294947184,NULL,no information is available for this error
+0x00004FA2,-4294946910,NULL,no information is available for this error
+0x00005112,-4294946542,NULL,no information is available for this error
+0x000051CF,-4294946353,NULL,no information is available for this error
+0x00005249,-4294946231,NULL,no information is available for this error
+0x00005299,-4294946151,NULL,no information is available for this error
+0x0000530C,-4294946036,NULL,no information is available for this error
+0x000053C4,-4294945852,NULL,no information is available for this error
+0x00005492,-4294945646,NULL,no information is available for this error
+0x00005542,-4294945470,NULL,no information is available for this error
+0x0000556E,-4294945426,NULL,no information is available for this error
+0x000055BC,-4294945348,NULL,no information is available for this error
+0x00005636,-4294945226,NULL,no information is available for this error
+0x00005812,-4294944750,NULL,no information is available for this error
+0x00005844,-4294944700,NULL,no information is available for this error
+0x000058F7,-4294944521,NULL,no information is available for this error
+0x00005A6A,-4294944150,NULL,no information is available for this error
+0x00005AA5,-4294944091,NULL,no information is available for this error
+0x00005C0E,-4294943730,NULL,no information is available for this error
+0x00005FE9,-4294942743,NULL,no information is available for this error
+0x00006056,-4294942634,NULL,no information is available for this error
+0x0000626E,-4294942098,NULL,no information is available for this error
+0x000062B6,-4294942026,NULL,no information is available for this error
+0x0000651F,-4294941409,NULL,no information is available for this error
+0x000065AA,-4294941270,NULL,no information is available for this error
+0x000065BA,-4294941254,NULL,no information is available for this error
+0x00006F50,-4294938800,NULL,no information is available for this error
+0x00007052,-4294938542,NULL,no information is available for this error
+0x00007190,-4294938224,NULL,no information is available for this error
+0x00007617,-4294937065,NULL,no information is available for this error
+0x00007747,-4294936761,NULL,no information is available for this error
+0x00007865,-4294936475,NULL,no information is available for this error
+0x00007B86,-4294935674,NULL,no information is available for this error
+0x00007C12,-4294935534,NULL,no information is available for this error
+0x00007C78,-4294935432,NULL,no information is available for this error
+0x00007CE1,-4294935327,NULL,no information is available for this error
+0x00007D12,-4294935278,NULL,no information is available for this error
+0x00007DFF,-4294935041,NULL,no information is available for this error
+0x00007EC9,-4294934839,NULL,no information is available for this error
+0x00007F83,-4294934653,NULL,no information is available for this error
+0x00007FCC,-4294934580,NULL,no information is available for this error
+0x0000F06A,-4294905750,NULL,no information is available for this error
+0x0000F06B,-4294905749,NULL,no information is available for this error
+0x0000F0DA,-4294905638,NULL,no information is available for this error
 0x00240001,-4292607999,WU_S_SERVICE_STOP,Service stopped
 0x00240002,-4292607998,WU_S_SELFUPDATE,Agent selfupdates
 0x00240003,-4292607997,WU_S_UPDATE_ERROR,Overall operation completed but error occurred while processing one or more specified updates.
@@ -143,10 +143,10 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80010105,-2147417851,RPC_E_Serverfault,RPC server fault encountered
 0x80010108,-2147417848,RPC_E_Disconnected,RPC is disconnected
 0x80040154,-2147221164,REGDB_E_CLASSNOTREG,BITS in Windows 2000 is dependent on SENS and EventSystem services. If COM+ catalog is corrupted one of these errors was seen.
-0x800401F3,-2147221005,CO_E_Classstring,
+0x800401F3,-2147221005,CO_E_Classstring,no information is available for this error
 0x800401FD,-2147220995,CO_E_Objnotconnected,Object is not connected to server
 0x80040206,-2147220986,EVENT_E_INTERNALERROR,There will be event messages in Application/System log regarding the errors.
-0x80070001,-2147024895,ERROR_INVALID_FUNCTION,
+0x80070001,-2147024895,ERROR_INVALID_FUNCTION,no information is available for this error
 0x80070002,-2147024894,ERROR_FILE_NOT_FOUND,The System cannot find the file specified
 0x80070003,-2147024893,COR_E_DIRECTORYNOTFOUND,The specified path couldn't be found - ALLUSERSPROFILE Microsoft network dir doesn’t exist
 0x80070005,-2147024891,ERROR_ACCESS_DENIED,The authentication method is not supported. - CoCreateInstance(IBackgroundCopyManager) fails with E_ACCESSDENIED (0x80070005) in this condition
@@ -161,16 +161,16 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80070032,-2147024846,ERROR_NOT_SUPPORTED,Not supported
 0x80070050,-2147024816,ERROR_FILE_EXISTS,File already exists
 0x80070052,-2147024814,ERROR_CANNOT_MAKE,The directory or file cannot be created
-0x80070057,-2147024809,ERROR_INVALID_PARAMENTER - E_INVALIDARG,One or more arguments are not valid error - Invalid proxy server name was specified in the user’s IE settings and hence WinhttpSetProxySettings call fails with E_INVALIDARG error. BITS puts the job in TRANSIENT_ERROR with the same error code. For ex, if the proxy server is set to http://foo/bar/proxy.pac; this error will be seen. This error is also seen when credentials are supplied such that scheme is not NTLM/Negotiate; but username/password is NULL, since that is not valid (WinhttpSetCredentials fails with E_INVALIDARG. BITS 1.5 puts the job into ERROR state with BG_E_INVALID_RESPONSE in the above 2 cases; because of error code mapping E_INVALIDARG is always mapped to (BG_E_INVALID_SERVER_RESPONSE)
+0x80070057,-2147024809,ERROR_INVALID_PARAMENTER - E_INVALIDARG,One or more arguments are not valid error - Invalid proxy server name was specified in the user’s IE settings and hence WinhttpSetProxySettings call fails with E_INVALIDARG error. BITS puts the job in TRANSIENT_ERROR with the same error code. For ex,if the proxy server is set to http://foo/bar/proxy.pac; this error will be seen. This error is also seen when credentials are supplied such that scheme is not NTLM/Negotiate; but username/password is NULL,since that is not valid (WinhttpSetCredentials fails with E_INVALIDARG. BITS 1.5 puts the job into ERROR state with BG_E_INVALID_RESPONSE in the above 2 cases; because of error code mapping E_INVALIDARG is always mapped to (BG_E_INVALID_SERVER_RESPONSE)
 0x80070070,-2147024784,ERROR_DISK_FULL,There is not enough space on the disk
 0x8007007A,-2147024774,ERROR_INSUFFICIENT_BUFFER,Insufficient buffer space
 0x8007007B,-2147024773,STIERR_INVALID_DEVICE_NAME,Invalid device name
 0x8007007E,-2147024770,ERROR_MOD_NOT_FOUND,The specified module could not be found.
 0x8007007F,-2147024769,ERROR_PROC_NOT_FOUND,The specified procedure could not be found.
-0x80070080,-2147024768,ERROR_WAIT_NO_CHILDREN, There are no child processes to wait for
+0x80070080,-2147024768,ERROR_WAIT_NO_CHILDREN,There are no child processes to wait for
 0x800700A1,-2147024735,ERROR_BAD_PATHNAME,Bad path name specified
 0x800700B6,-2147024714,ERROR_INVALID_ORDINAL,Invalid ordinal
-0x800700C1,-2147024703,ERROR_BAD_EXE_FORMAT, is not a valid Win32 application
+0x800700C1,-2147024703,ERROR_BAD_EXE_FORMAT,Exe is not a valid Win32 application
 0x800700E7,-2147024665,Error_Pipe_Busy,All pipe instances are busy
 0x80070103,-2147024637,ERROR_NO_MORE_ITEMS,No more items
 0x8007010B,-2147024629,ERROR_DIRECTORY,The directory name is invalid
@@ -192,51 +192,51 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007042B,-2147023829,ERROR_PROCESS_ABORTED,Process was aborted
 0x8007042C,-2147023828,Error_Service_Dependency_Fail,Service dependency failure
 0x80070433,-2147023821,ERROR_SERVICE_DEPENDENCY_DELETED,BITS service has a dependency on lanmanworkstation service in BITS 1.0 and 1.2. If “Client for Microsoft networks” network component is uninstalled then lanmanworkstation service is deleted; but BITS dependency will still be present. After that BITS service fails to start
-0x80070437,-2147023817,Error_Different_Service_Account,
+0x80070437,-2147023817,Error_Different_Service_Account,no information is available for this error
 0x8007043B,-2147023813,ERROR_SERVICE_NOT_IN_EXE,The executable program that this service is configured to run does not implement the service. netsvcs registry value in HKLM\Software\Microsoft\WindowsNT\CurrentVersion\Svchost registry key should contain the service names that can be run in that service host. On XP and Windows 2003; BITS should be in this value. If “BITS” is missing from that value; then ERROR_SERVICE_NOT_IN_EXE error is seen when attempting to start the service
-0x8007045A,-2147023782,ERROR_DLL_INIT_FAILED,
-0x8007045B,-2147023781,ERROR_SHUTDOWN_IN_PROGRESS,
+0x8007045A,-2147023782,ERROR_DLL_INIT_FAILED,no information is available for this error
+0x8007045B,-2147023781,ERROR_SHUTDOWN_IN_PROGRESS,no information is available for this error
 0x80070490,-2147023728,E_PROP_ID_UNSUPPORTED,Permission denied / [Problem initializing or using session variables] or Element not found
 0x800704C7,-2147023673,ERROR_CANCELLED,Cancelled by user
 0x800704DD,-2147023651,Error_Not_Logged_On to network,Not logged onto the network
 0x80070502,-2147023614,Error_Stack_Buffer_Overrun,The system detected an overrun of a stack-based buffer in this application
-0x80070570,-2147023504,ERROR_FILE_CORRUPT,
+0x80070570,-2147023504,ERROR_FILE_CORRUPT,no information is available for this error
 0x8007057F,-2147023489,Error_Cannot_Find_WND_Class,Cannot find windows class
-0x8007058D,-2147023475,Error_Control_ID_Not_Found,
+0x8007058D,-2147023475,Error_Control_ID_Not_Found,no information is available for this error
 0x800705B9,-2147023431,ERROR_XML_PARSE_ERROR,Unable to parse the requested XML data.
 0x800705AA,-2147023446,ERROR_NO_SYSTEM_RESOURCE,Insufficient system resources exist to complete the requested service
 0x800705AD,-2147023443,Error_Working_Set_Quota,Insufficient quota to complete the requested service
 0x800705AF,-2147023441,ERROR_COMMITMENT_LIMIT,The paging file is too small for this operation to complete
 0x800705B4,-2147023436,Error_Timeout,Timeout
-0x80070643,-2147023293,ERROR_INSTALL_FAILURE,
+0x80070643,-2147023293,ERROR_INSTALL_FAILURE,no information is available for this error
 0x80070652,-2147023278,ERROR_INSTALL_ALREADY_RUNNING/ErrorClientUpdateInProgress,
 0x8007066A,-2147023254,Error_Patch_Target_Not_Found,The program to be upgraded may be missing or the patch may upgrade a different version of the program
 0x800706A6,-2147023194,RPC_S_Invalid_Binding,Terminal Services optional component is installed on the machine but the “Terminal Services” service has been disabled.
 0x800706B5,-2147023179,RPC_S_Unknown_IF,Eventlog service is not running. BITS tries to initialize the event logger object during initialization and fails to start if the initialization fails. If event log service is not running then the initialization fails with RPC_S_UNKNOWN_IF error
-0x800706BA,-2147023174,RPC_S_SERVER_UNAVAILABLE,
+0x800706BA,-2147023174,RPC_S_SERVER_UNAVAILABLE,no information is available for this error
 0x800706BB,-2147023173,RPC_S_SERVER_TOO_BUSY,The RPC server is too busy to complete this operation
-0x800706BE,-2147023170,RPC_S_CALL_FAILED,
-0x800706BF,-2147023169,PRC_S_Call_Failed_DNE,
+0x800706BE,-2147023170,RPC_S_CALL_FAILED,no information is available for this error
+0x800706BF,-2147023169,PRC_S_Call_Failed_DNE,no information is available for this error
 0x800706C6,-2147023162,RPC_S_Invalid_Bound,The array bounds are invalid
 0x800706F7,-2147023113,RPC_X_Bad_Stub_Data,This can occur after a control selfupdate that has not fully completed and requires a reboot. The controls may need to be reregistered.
-0x80070704,-2147023100,Error_Unknown_Port,
-0x80070BC2,-2147021886,ErrorControlRebootRequired,
+0x80070704,-2147023100,Error_Unknown_Port,no information is available for this error
+0x80070BC2,-2147021886,ErrorControlRebootRequired,no information is available for this error
 0x8007276b,-2147014805,WSASYSNOTREADY,The description of WSASYSNOTREADY says WSAStartup cannot function at this time because the underlying system it uses to provide network services is currently unavailable. It seems that something is wrong with networking components on the system.
 0x8007277B,-2147014789,WSASYSCALLFAILURE,A system call that should never fail has failed
-0x80072AF9,-2147013895,WSAHOST_NOT_FOUND,
-0x80072AFC,-2147013892,WSANO_DATA,
+0x80072AF9,-2147013895,WSAHOST_NOT_FOUND,no information is available for this error
+0x80072AFC,-2147013892,WSANO_DATA,no information is available for this error
 0x80072EE2,-2147012894,ERROR_INTERNET_TIMEOUT,The request has timed out.
 0x80072EE4,-2147012892,ERROR_INTERNET_INTERNAL_ERROR,An internal error has occurred.
-0x80072EE5,-2147012891,Error_Internet_Invalid_URL,
+0x80072EE5,-2147012891,Error_Internet_Invalid_URL,no information is available for this error
 0x80072EE6,-2147012890,ERROR_INTERNET_UNRECOGNIZED_SCHEME,The URL scheme could not be recognized or is not supported.
 0x80072EE7,-2147012889,ERROR_INTERNET_NAME_NOT_RESOLVED,The server name could not be resolved.
-0x80072EEF,-2147012881,ERROR_INTERNET_LOGIN_FAILURE,
-0x80072EF1,-2147012879,ERROR_INTERNET_OPERATION_CANCELLED,
-0x80072EF2,-2147012878,Error_Internet_Incorrect_handle_type,
-0x80072EF3,-2147012877,Error_Internet_Incorrect_Handle_State,
+0x80072EEF,-2147012881,ERROR_INTERNET_LOGIN_FAILURE,no information is available for this error
+0x80072EF1,-2147012879,ERROR_INTERNET_OPERATION_CANCELLED,no information is available for this error
+0x80072EF2,-2147012878,Error_Internet_Incorrect_handle_type,no information is available for this error
+0x80072EF3,-2147012877,Error_Internet_Incorrect_Handle_State,no information is available for this error
 0x80072EFD,-2147012867,ERROR_INTERNET_CANNOT_CONNECT,The attempt to connect to the server failed.
 0x80072EFE,-2147012866,ERROR_INTERNET_CONNECTION_ABORTED,The connection with the server has been terminated.
-0x80072F0C,-2147012852,Error_Internet_Client_Auth_Cert_Needed,
+0x80072F0C,-2147012852,Error_Internet_Client_Auth_Cert_Needed,no information is available for this error
 0x80072F0D,-2147012851,ERROR_INTERNET_INVALID_CA,Invalid certificate authority
 0x80072F76,-2147012746,ERROR_HTTP_HEADER_NOT_FOUND,The requested header could not be located
 0x80072F78,-2147012744,ERROR_HTTP_INVALID_SERVER_RESPONSE,The server response could not be parsed.
@@ -249,7 +249,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80073712,-2147010798,ERROR_SXS_COMPONENT_STORE_CORRUPT,The component store is in an inconsistent state.
 0x8007371B,-2147010789,ERROR_SXS_TRANSACTION_CLOSURE_INCOMPLETE,One or more required members of the transaction are not present.
 0x8007F001,-2146963455,STATUS_FAILED_LANGUAGE_TYPE,Setup cannot update your  files because the language\installed on your system is different from the update language.
-0x8007F002,-2146963454,STATUS_CHECKED_FREE_MISMATCH, Setup cannot update a checked (debug) system with a free (retail) version of or vice versa.
+0x8007F002,-2146963454,STATUS_CHECKED_FREE_MISMATCH,Setup cannot update a checked (debug) system with a free (retail) version of or vice versa.
 0x8007F003,-2146963453,STATUS_NOT_ENOUGH_SPACE,There is not enough disk space on to install . Setup requires a minimum of d additional megabytes of free space or if you also want to archive the files for uninstall Setup requires d additional megabytes of free space. Free additional space.
 0x8007F004,-2146963452,STATUS_INSUFFICIENT_PRIVS,You do not have permission to update . Please contact your system administrator.
 0x8007F007,-2146963449,STATUS_CANT_FIND_INF,Setup could not find the update.inf file needed to update your system.
@@ -264,14 +264,14 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007F010,-2146963440,STR_WARNCAPTION,Setup Warning
 0x8007F011,-2146963439,STR_ERRCAPTION,Setup Error
 0x8007F012,-2146963438,STR_FAILED_TO_DELETE_OR_RENAME,The file  is open or in use by another application. Close all other applications and then click Retry.
-0x8007F013,-2146963437,STR_FAILED_TO_SAVE_REGISTRY, Setup could not backup registry key  to file
-0x8007F014,-2146963436,STR_FAILED_TO_READ_REGISTRY, Setup could not backup registry value
-0x8007F015,-2146963435,STR_ASK_DIRTY_UNINSTALL, Select ''OK'' to undo the changes that have been made or select ''Cancel'' to quit. If you select ''Cancel'' your system will be left in a partially updated state and may not work correctly.
-0x8007F016,-2146963434,STR_LEAVING_DIRTY, has been partially updated and may not work properly.
+0x8007F013,-2146963437,STR_FAILED_TO_SAVE_REGISTRY,Setup could not backup registry key  to file
+0x8007F014,-2146963436,STR_FAILED_TO_READ_REGISTRY,Setup could not backup registry value
+0x8007F015,-2146963435,STR_ASK_DIRTY_UNINSTALL,Select ''OK'' to undo the changes that have been made or select ''Cancel'' to quit. If you select ''Cancel'' your system will be left in a partially updated state and may not work correctly.
+0x8007F016,-2146963434,STR_LEAVING_DIRTY,has been partially updated and may not work properly.
 0x8007F017,-2146963433,STR_ARE_YOU_SURE_CANCEL,Are you sure you want to cancel?
-0x8007F018,-2146963432,STR_SOURCE_MEDIA_NAME_UNINSTALL,  Uninstall Directory
-0x8007F019,-2146963431,STR_SOURCE_MEDIA_NAME,  Uninstall Directory
-0x8007F01a,-2146963430,STR_SOURCE_MEDIA_NAME_SYSTEM, System Files
+0x8007F018,-2146963432,STR_SOURCE_MEDIA_NAME_UNINSTALL, Uninstall Directory
+0x8007F019,-2146963431,STR_SOURCE_MEDIA_NAME, Uninstall Directory
+0x8007F01a,-2146963430,STR_SOURCE_MEDIA_NAME_SYSTEM,System Files
 0x8007F01b,-2146963429,STR_INST_HOTFIX,Setup found hotfixes on your system. Would you like to install these hotfixes now?
 0x8007F01c,-2146963428,STR_UNINST_ALREADY_CREATED,You have already created an Uninstall directory. Doing this again will overwrite your current uninstall directory. Are you sure you want to do this?
 0x8007F01d,-2146963427,STR_OEM_FILE,Your computer vendor installed this file on your computer. Do you want  Setup to replace this file?
@@ -279,8 +279,8 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007F01f,-2146963425,STR_ADD_REGISTRY_FAILED,Failed to add registry entry.
 0x8007f020,-2146963424,STATUS_BUILD_VERSION_MISMATCH,Setup has detected that the build version of the system installed does not match the update you are applying to it. You can only install this update only on Build %d .
 0x8007f021,-2146963423,STATUS_SP_VERSION_GREATER,The version of Windows you have installed does not match the update you are trying to install.
-0x8007f022,-2146963422,STATUS_CANT_SPAWN_HOTFIX, Setup could not start the hotfix installation program.
-0x8007f023,-2146963421,STATUS_CANT_FIND_TAG, Setup could not locate the  files.
+0x8007f022,-2146963422,STATUS_CANT_SPAWN_HOTFIX,Setup could not start the hotfix installation program.
+0x8007f023,-2146963421,STATUS_CANT_FIND_TAG,Setup could not locate the  files.
 0x8007f024,-2146963420,STATUS_OVERWRITE_UNINSTALL,WARNING: You have chosen to overwrite your existing uninstall:  If you continue you will only be able to uninstall to the following Service Pack version:  Are you sure you want to continue? Click Yes to continue creating the
 0x8007f026,-2146963418,STATUS_WININET_LOAD_FAILED,This Web-based update requires Internet Explorer 3.0 or later. For instructions on how to download a version of this update that does not require a Web connection during installation download and install from http://www.Microsoft.com/Downloads
 0x8007f027,-2146963417,STATUS_CANT_INSTALL_SP_ON_DTC,This  has not been qualified by your hardware vendor for installation on this copy of  Datacenter Server. Please contact your hardware vendor for additional information on obtaining a  that has been qualified for your system configuration.
@@ -301,13 +301,13 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f036,-2146963402,STR_INSTALLING_FILES,Installing files
 0x8007f037,-2146963401,STR_INSTALLING_FILE,Installing files
 0x8007f038,-2146963400,STR_FINISHING_INSTALL,Finishing installation
-0x8007f039,-2146963399,STR_WELCOME_LINE,Welcome to the   Setup Wizard
-0x8007f03a,-2146963398,STR_RESTART,&Restart
-0x8007f03b,-2146963397,STR_COMPLETE, installation is complete. You must restart your computer for the  update to take effect.
+0x8007f039,-2146963399,STR_WELCOME_LINE,Welcome to the Setup Wizard
+0x8007f03a,-2146963398,STR_RESTART,Restart
+0x8007f03b,-2146963397,STR_COMPLETE,installation is complete. You must restart your computer for the  update to take effect.
 0x8007f03d,-2146963395,STR_CANT_CANCEL_NOW,Please wait while  Setup updates your system files.
 0x8007f03e,-2146963394,STR_MUST_ACCEPT_TIP,Must accept license agreement before installing
-0x8007f03f,-2146963393,STR_NEED_TO_CONNECT, Setup needs to connect to the internet now to download  files and patches for installation.
-0x8007f040,-2146963392,STR_READY_TO_REPLACE, Setup is ready to begin replacing system files.
+0x8007f03f,-2146963393,STR_NEED_TO_CONNECT,Setup needs to connect to the internet now to download  files and patches for installation.
+0x8007f040,-2146963392,STR_READY_TO_REPLACE,Setup is ready to begin replacing system files.
 0x8007f041,-2146963391,STR_CONNECTING,Connecting to
 0x8007f042,-2146963390,STR_CONNECTED,Connected to
 0x8007f043,-2146963389,STR_ESTIMATE,estimate
@@ -320,18 +320,18 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f04a,-2146963382,STR_UNKNOWN_ERROR,The server did not respond (error code %d).
 0x8007f04b,-2146963381,STR_INTERNET_TIMEOUT,The server did not respond.
 0x8007f04c,-2146963380,STR_DOWNLOAD_RETRY_TEXT,If this error persists after you have clicked Retry several times download and install  from http://www.Microsoft.com/Downloads. This will give you instructions on how to download a version of this update that does not require a Web connection during
-0x8007f04d,-2146963379,STR_HASH_FAILURE_1, Setup determined that the following downloaded  file is corrupt:
-0x8007f04e,-2146963378,STR_HASH_FAILURE_2, Setup determined that the following downloaded  files are corrupt:
-0x8007f04f,-2146963377,STR_DOWNLOAD_GIVE_UP, Setup was unable to download all the  files necessary for installation.
+0x8007f04d,-2146963379,STR_HASH_FAILURE_1,Setup determined that the following downloaded  file is corrupt:
+0x8007f04e,-2146963378,STR_HASH_FAILURE_2,Setup determined that the following downloaded  files are corrupt:
+0x8007f04f,-2146963377,STR_DOWNLOAD_GIVE_UP,Setup was unable to download all the  files necessary for installation.
 0x8007f050,-2146963376,STR_COPYING_FILE_DELAYED,Copied file (delayed)
 0x8007f051,-2146963375,STR_ERROR_COPY_SLIP,An error has occurred copying files from the Service Pack share to the distribution share.
 0x8007f052,-2146963374,STR_SLIPSTREAM_SUCCESSFUL,Integrated install has completed successfully.
 0x8007f053,-2146963373,STR_SLIPSTREAM_FAILED,Failed to copy some or all of the files necessary for integrated install. Please check that: a) No network or copy errors occurred during the integration process b) The format of the destination directory is correct. The files to be integrated
 0x8007f054,-2146963372,STR_SVCPACK_CMD,Service Pack started with following command line
-0x8007f055,-2146963371,STR_DOWNLOAD_SIZE, bytes downloaded.
+0x8007f055,-2146963371,STR_DOWNLOAD_SIZE,bytes downloaded.
 0x8007f056,-2146963370,STR_NO_SVCPACK,No Service Pack
 0x8007f057,-2146963369,STR_MISSING_FILE,The file is missing from the  installation. The file must be present for  Setup to continue. Press OK to cancel Setup.
-0x8007f058,-2146963368,STR_READY_TO_ENCINST, Setup is ready to begin upgrade of uninstall to high encryption.
+0x8007f058,-2146963368,STR_READY_TO_ENCINST,Setup is ready to begin upgrade of uninstall to high encryption.
 0x8007f059,-2146963367,STR_SLIPSTREAM_LANGUAGE_MISMATCH,Integrated install failed. The language type or platform for the destination directory and  must be the same.
 0x8007f05a,-2146963366,STATUS_CANT_OPEN_LOG,Error opening  file
 0x8007f05b,-2146963365,STR_SKIPPING_FILE,Skipped copying file:
@@ -340,7 +340,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f05e,-2146963362,STR_SVC_STOP_ERR,Setup was unable to stop the following service
 0x8007f05f,-2146963361,STR_SVC_ASKREBOOT,A reboot will probably be required in order to successfully complete this installation. Do you wish to continue?
 0x8007f060,-2146963360,STR_SVC_START_ERR,Setup was unable to re-start the following service: .
-0x8007f061,-2146963359,ERR_STD_PREFIX, Setup encountered an error:
+0x8007f061,-2146963359,ERR_STD_PREFIX,Setup encountered an error:
 0x8007f062,-2146963358,STR_COPYING_FILE,Copied file:
 0x8007f063,-2146963357,STR_SPAWNING_PROCESS,Starting process:
 0x8007f064,-2146963356,STATUS_INVALID_VER_FILE,The update.ver file is not correct.
@@ -354,11 +354,11 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f06e,-2146963346,STATUS_FAILURE_COPYING_FILES,Failed to completely copy all of the updated files.
 0x8007f06f,-2146963345,STATUS_FAILED_TO_SET_DIR,Failed to set the directory.
 0x8007f070,-2146963344,STATUS_SETUP_ERROR,An error in updating your system has occurred.
-0x8007f075,-2146963339,STATUS_SUCCESS_NOREBOOT, has been updated. You must reboot for these changes to take effect. If you change or add any components to your system you will need to reapply the Hotfix.
+0x8007f075,-2146963339,STATUS_SUCCESS_NOREBOOT,Software has been updated. You must reboot for these changes to take effect. If you change or add any components to your system you will need to reapply the Hotfix.
 0x8007f076,-2146963338,STATUS_SP_VERSION_LESSER,Setup has detected that the version of the Service Pack installed on your system is lower than what is necessary to apply this hotfix. At minimum you must have Service Pack installed.
 0x8007f078,-2146963336,STATUS_NO_UNINSTALL_AVAILABLE,You cannot uninstall since an uninstall for  has not been created.
-0x8007f07a,-2146963334,STATUS_SUCCESS_NOREBOOTNEC, has been updated. If you change or add any components to your system you will need to reapply the Hotfix.
-0x8007f07b,-2146963333,STATUS_UNINST_NOREBOOTNEC, Hotfix successfully uninstalled.
+0x8007f07a,-2146963334,STATUS_SUCCESS_NOREBOOTNEC,has been updated. If you change or add any components to your system you will need to reapply the Hotfix.
+0x8007f07b,-2146963333,STATUS_UNINST_NOREBOOTNEC,Hotfix successfully uninstalled.
 0x8007f07c,-2146963332,STR_SECURITY_PROVIDER_WARNING,The existing file  contains High Encryption security but the updated Hotfix file  contains only Standard Encryption security. You can choose to replace the High Encryption security file with the updated Standard Encryption security file now.
 0x8007f07f,-2146963329,STR_UNINST_HOTFIX,Hotfixes have been found on your system. Would you like to Uninstall these hotfixes now?
 0x8007f080,-2146963328,STR_OLD_UNINST_EXISTS,An old Uninstall directory has been found. Would you like to overwrite this directory with new Uninstall information?
@@ -390,7 +390,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f09a,-2146963302,STR_WIZ5_STATIC2_REBOOT,You have successfully completed the  Setup Wizard. To apply the changes the wizard has to restart Windows. To restart Windows automatically click Finish. If you want to restart later select the Do not restart now check box and then click Finish
 0x8007f09b,-2146963301,STR_WIZ5_STATIC2_NOREBOOT,You have successfully completed the  Setup Wizard. To close this wizard click Finish.
 0x8007f09c,-2146963300,STR_WIZ5_CHECK1,&Do not restart now
-0x8007f09d,-2146963299,STR_WIZCAPTION,  Setup Wizard
+0x8007f09d,-2146963299,STR_WIZCAPTION,Setup Wizard
 0x8007f09e,-2146963298,STR_ANALYZE_DISK,Checking for necessary space
 0x8007f09f,-2146963297,STR_BUILDING_CAB_CAPTION,Creating Cabinets
 0x8007f0a0,-2146963296,STR_CLEAN_REG,Updating the registry keys
@@ -419,12 +419,12 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f0c2,-2146963262,STR_BLOCKLIST_SP_MSGB,In order to have the fixes contained in both the service pack and the previously installed hotfixes you must obtain and install the updated versions of the following hotfixes prior to or following the service pack installation. These hotfixes are also
 0x8007f0c3,-2146963261,STR_BLOCKLIST_SP_MSGC,Do you want to continue installing this service pack?
 0x8007f0c4,-2146963260,STR_BLOCKLIST_SP_MSGD,The service pack install cannot continue until these hotfixes are applied to your system.
-0x8007f0c5,-2146963259,STR_GENERALCAPTION,2%
+0x8007f0c5,-2146963259,STR_GENERALCAPTION,no information is available for this error
 0x8007f0c6,-2146963258,STATUS_BUILD_VERSION_MISMATCH2,Setup has detected that the build version of the system installed does not match the update you are applying to it. You can only install this update only on Build %d.
 0x8007f0c7,-2146963257,STR_SLPSTRM_COPY,Integrating files
 0x8007f0c8,-2146963256,STR_SLPSTRM_WIZ4_STATIC2,Please wait while setup integrates files from Windows Service Pack into your Windows installation folder.
 0x8007f0c9,-2146963255,STR_SLPSTRMUPDATING_YOUR_SYSTEM,Updating Your Windows Share
-0x8007f0ca,-2146963254,STR_RESTORE_POINT_DESC,Installed  .
+0x8007f0ca,-2146963254,STR_RESTORE_POINT_DESC,Installed
 0x8007f0cb,-2146963253,STATUS_VLK_BLOCKED,The Product Key used to install Windows is invalid. Please contact your system administrator or retailer immediately to obtain a valid Product Key. You may also contact Microsoft Corporation's Anti-Piracy Team by emailing piracy@microsoft.com
 0x8007f0cc,-2146963252,STATUS_KERNEL_NONSTD,The core system file (kernel) used to start this computer is not a Microsoft Windows file. The Service Pack will not be installed. For more information see Knowledge Base article at http://support.microsoft.com.
 0x8007f0cd,-2146963251,STR_VLK_CHECK,Checking product key
@@ -466,7 +466,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f0f3,-2146963213,STR_UNKNOWN_PACKAGE,Unknown
 0x8007f0f4,-2146963212,STATUS_PREREQUISITE_FAILED,Setup cannot continue because one or more pre-requisites required to install  failed. For More details check the Log File. Update.exe can throw this error when it starts to download if the computer is running under battery power (there may be a fix for this in the future).
 0x8007f0f5,-2146963211,STR_WINDOWS_TYPE5,Windows XP Version 2003
-0x8007F0F6,-2146963210,NULL,
+0x8007F0F6,-2146963210,NULL,no information is available for this error
 0x8007f0f7,-2146963209,STR_HFSLP_ERROR,An error occurred while attempting to integrate this software update package. Verify that the architecture; language; and service pack level of this software update are valid for the target distribution folder.
 0x8007f0f8,-2146963208,STR_HFSLP_EXPRESS,Express software update packages cannot be integrated. To download a version of the fix that can be integrated visit http://www.microsoft.com/downloads.
 0x8007f0f9,-2146963207,STR_HFSLP_EXTRACTED,Extracted packages cannot be integrated. The /integrate switch must be used with the original software update package.
@@ -481,34 +481,34 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8007f207,-2146962937,STATUS_RETRY_SELF_CONTAINED,Two consecutive attempts to download delta failed without any progress and there is no use in continuing as express package. Revert to self-contained package.
 0x8007f220,-2146962912,STATUS_CONTINUE_INVENTORY,error codes should not be returned out of update.exe
 0x8007f221,-2146962911,ERROR_INDEXFILE_NOT_FOUND,error codes should not be returned out of update.exe
-0x80080005,-2146959355,CO_E_Server_Exec_Failure,
-0x80080008,-2146959352,CO_E_SERVER_STOPPING,
-0x80090006,-2146893818,NTE_Bad_Signature,
-0x8009000B,-2146893813,NTE_Bad_Key_State,
-0x80090017,-2146893801,NTE_PROV_TYPE_NOT_DEF,
-0x8009001D,-2146893795,Error_Write_Fault,
+0x80080005,-2146959355,CO_E_Server_Exec_Failure,no information is available for this error
+0x80080008,-2146959352,CO_E_SERVER_STOPPING,no information is available for this error
+0x80090006,-2146893818,NTE_Bad_Signature,no information is available for this error
+0x8009000B,-2146893813,NTE_Bad_Key_State,no information is available for this error
+0x80090017,-2146893801,NTE_PROV_TYPE_NOT_DEF,no information is available for this error
+0x8009001D,-2146893795,Error_Write_Fault,no information is available for this error
 0x80090305,-2146893051,SEC_E_SECPKG_NOT_FOUND,The requested security package does not exist
-0x80090331,-2146893007,Sec_E_Algorithm_Mismatch,The client and the server cannot communicate, because they do not possess a common algorithm
-0x8009033F,-2146892993,SEC_E_Shutdown_IN_Progress,
+0x80090331,-2146893007,Sec_E_Algorithm_Mismatch,The client and the server cannot communicate,because they do not possess a common algorithm
+0x8009033F,-2146892993,SEC_E_Shutdown_IN_Progress,no information is available for this error
 0x80092003,-2146885629,CRYPT_E_File_Error,An error occurred while reading or writing to a file
 0x8009200D,-2146885619,Crypt_E_Bad_Msg,Not a cryptographic message or the cryptographic message is not formatted correctly
 0x80092026,-2146885594,Crypt_E_Security_Settings,The cryptographic operation failed due to a local security option setting
 0x80096001,-2146869247,Trust_E_System_Error,A system-level error occurred while verifying trust
 0x80096005,-2146869243,Trust_E_Time_Stamp,Timestamp could not be verified
 0x80096010,-2146869232,Trust_E_Bad_Digest,The digital signature of the object did not verify
-0x80096019,-2146869223,TRUST_E_BASIC_CONSTRAINTS,
-0x800A0046,-2146828218,CTL_PermissionDenied,olectl.h
+0x80096019,-2146869223,TRUST_E_BASIC_CONSTRAINTS,no information is available for this error
+0x800A0046,-2146828218,CTL_PermissionDenied,olectl.h / Permission denied
 0x800a01ae,-2146827858,IXP_NNTP_NO_SUCH_ARTICLE_FOUND,This can occur after a control selfupdate that has not fully completed and requires a reboot.
 0x800a138f,-2146823281,ERROR_RESOURCE_NOT_FOUND,Javascript runtime error
-0x800B0001,-2146762751,Trust_E_Provider_Unknown,
+0x800B0001,-2146762751,Trust_E_Provider_Unknown,no information is available for this error
 0x800B0002,-2146762750,Trust_E_ActionUnknown,The trust verification action specified is not supported by the specified trust provider.
 0x800B0003,-2146762749,TRUST_E_SUBJECT_FORM_UNKNOWN,The form specified by the subject is not one supported or known by the specified trust provider
-0x800B0004,-2146762748,TRUST_E_SUBJECT_NOT_TRUSTED, The subject is not trusted for the specified action.
+0x800B0004,-2146762748,TRUST_E_SUBJECT_NOT_TRUSTED,The subject is not trusted for the specified action.
 0x800B0100,-2146762496,TRUST_E_NOSIGNATURE,No signature was present in the subject
 0x800B0101,-2146762495,Cert_E_Expired,Verifying against the current system clock or the timestamp in the signed file
 0x800B0109,-2146762487,CERT_E_UNTRUSTEDROOT,A certificate chain processed but terminated in a root certificate which is not trusted by the trust provider
 0x800b010d,-2146762483,Cert_E_Untrustedtestroot,The certification path terminates with the test root which is not trusted with the current policy settings
-0x800B0110,-2146762480,CERT_E_WRONG_USAGE,
+0x800B0110,-2146762480,CERT_E_WRONG_USAGE,no information is available for this error
 0x800C0002,-2146697214,Inet_E_Invalid_URL,Invalid URL
 0x800F0101,-2146500351,SPAPI_E_Section_Not_Found,The required section was not found in the INF
 0x800F020B,-2146500085,SPAPI_E_No_Such_Devinst,device instance does not exist
@@ -519,10 +519,10 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x800f0984,-2146498172,PSFX_E_MATCHING_BINARY_MISSING,Matching component directory exist but binary missing
 0x800f0986,-2146498170,PSFX_E_APPLY_FORWARD_DELTA_FAILED,Applying forward delta failed
 0x800f0982,-2146498174,PSFX_E_MATCHING_COMPONENT_NOT_FOUND,Can not identify matching component for hydration
-0x800FF8F0,-2146436880,NULL,
-0x800FFBBE,-2146436162,NULL,
-0x800FFC02,-2146436094,NULL,
-0x800FFC0D,-2146436083,NULL,
+0x800FF8F0,-2146436880,NULL,no information is available for this error
+0x800FFBBE,-2146436162,NULL,no information is available for this error
+0x800FFC02,-2146436094,NULL,no information is available for this error
+0x800FFC0D,-2146436083,NULL,no information is available for this error
 0x80190064,-2145845148,BG_E_HTTP_ERROR_100,The request can be continued.
 0x80190065,-2145845147,BG_E_HTTP_ERROR_101,The server switched protocols in an upgrade header.
 0x801900C8,-2145845048,BG_E_HTTP_ERROR_200,The server's response was not valid. The server was not following the defined protocol. Resume the job and then Background Intelligent Transfer Service (BITS) will try again.
@@ -563,7 +563,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x801901F7,-2145844745,BG_E_HTTP_ERROR_503,The service is temporarily overloaded.
 0x801901F8,-2145844744,BG_E_HTTP_ERROR_504,The request was timed out waiting for a gateway. Can typically be a DNS issue
 0x801901F9,-2145844743,BG_E_HTTP_ERROR_505,The server does not support the HTTP protocol version that was used in the request message.
-0x801901FA,-2145844742,NULL,
+0x801901FA,-2145844742,NULL,no information is available for this error
 0x80194000,-2145828864,BITS_MC_JOB_CANCELLED,The administrator  canceled job on behalf of %3.  The job ID was %1.
 0x80194001,-2145828863,BITS_MC_FILE_DELETION_FAILED,While canceling job BITS was not able to remove the temporary files.
 0x80194002,-2145828862,BITS_MC_FILE_DELETION_FAILED_MORE,Due to space limitations not all files are listed here.  Check for additional files of the form BITxxx.TMP in the same directory.
@@ -623,13 +623,13 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80200030,-2145386448,BG_E_MESSAGE_LENGTH_LIMIT_EXCEEDED,A message was received that exceeded the specified limit when sending a request or receiving a response from the server.
 0x80200031,-2145386447,BG_E_NAME_RESOLUTION_FAILURE,The host name could not be found.
 0x80200032,-2145386446,BG_E_PENDING,An internal asynchronous request is pending.
-0x80200033,-2145386445,BG_E_PIPELINE_FAILURE,
+0x80200033,-2145386445,BG_E_PIPELINE_FAILURE,no information is available for this error
 0x80200034,-2145386444,BG_E_PROTOCOL_ERROR,The response received from the server was complete but indicated a protocol-level error.
 0x80200035,-2145386443,BG_E_PROXY_NAME_RESOLUTION_FAILURE,The proxy name could not be found.
 0x80200036,-2145386442,BG_E_RECEIVE_FAILURE,A complete response was not received from the server.
 0x80200037,-2145386441,BG_E_REQUEST_CANCELED,The request was canceled.
 0x80200038,-2145386440,BG_E_SECURE_CHANNEL_FAILURE,An error occurred while establishing a connection using SSL.
-0x80200039,-2145386439,BG_E_SEND_FAILURE, complete request could not be sent to the remote server.
+0x80200039,-2145386439,BG_E_SEND_FAILURE,complete request could not be sent to the remote server.
 0x8020003A,-2145386438,BG_E_SERVER_PROTOCOL_VIOLATION,The server response was not valid.
 0x8020003B,-2145386437,BG_E_TIMEOUT,The operation exceeded the time limit.
 0x8020003C,-2145386436,BG_E_TRUST_FAILURE,A server certificate could not be validated.
@@ -649,16 +649,16 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8024000a,-2145124342,SUS_E_COULDNOTCANCEL,The caller attempted to cancel an operation that is not cancelable
 0x8024000B,-2145124341,SUS_E_CALL_CANCELLED,call has been cancelled
 0x8024000C,-2145124340,SUS_E_NOOP,No operation is needed
-0x8024000D,-2145124339,SUS_E_XML_MISSINGDATA, the SUS agent is attempting to parse an update's XML blob and has not found expected data
+0x8024000D,-2145124339,SUS_E_XML_MISSINGDATA,the SUS agent is attempting to parse an update's XML blob and has not found expected data
 0x8024000E,-2145124338,SUS_E_XML_INVALID,the SUS agent is attempting to parse an update's XML blob and has encountered data that is invalid
 0x8024000F,-2145124337,SUS_E_CYCLE_DETECTED,cycle detected in meta data
-0x80240010,-2145124336,SUS_E_TOO_DEEP_RELATION, too deep relation ship found
-0x80240011,-2145124335,SUS_E_REG_VALUE_INVALI, registry value was read but is invalid
+0x80240010,-2145124336,SUS_E_TOO_DEEP_RELATION,too deep relation ship found
+0x80240011,-2145124335,SUS_E_REG_VALUE_INVALI,registry value was read but is invalid
 0x80240012,-2145124334,SUS_E_REG_VALUE_INVALID,registry value was read but is invalid
-0x80240013,-2145124333,SUS_E_EE_UNKNOWN_EXPRESSION, an expression handler was passed an expression that it doesn't know about
-0x80240014,-2145124332,SUS_E_EE_INVALID_EXPRESSION, an expression handler was passed an expression that is bad.
-0x80240015,-2145124331,SUS_E_EE_MISSING_METADATA, an expression handler was passed an expression that requires an applicability metadata blob; but did not receive one or received too many.
-0x80240016,-2145124330,SUS_E_INSTALL_NOT_ALLOWE, try to install while another install is going on or reboot is pending
+0x80240013,-2145124333,SUS_E_EE_UNKNOWN_EXPRESSION,an expression handler was passed an expression that it doesn't know about
+0x80240014,-2145124332,SUS_E_EE_INVALID_EXPRESSION,an expression handler was passed an expression that is bad.
+0x80240015,-2145124331,SUS_E_EE_MISSING_METADATA,an expression handler was passed an expression that requires an applicability metadata blob; but did not receive one or received too many.
+0x80240016,-2145124330,SUS_E_INSTALL_NOT_ALLOWE,try to install while another install is going on or reboot is pending
 0x80240017,-2145124329,SUS_E_NOT_APPLICABLE,install is not needed because no updates are applicable
 0x80240018,-2145124328,WU_E_NO_USERTOKEN,operation failed due to missing user token
 0x80240019,-2145124327,WU_E_EXCLUSIVE_INSTALL_CONFliCT,try to install an exclusive update with other updates at the same time
@@ -682,7 +682,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8024002b,-2145124309,WU_E_LEGACYSERVER,The Sus server we are talking to is a Legacy Sus Server (Sus Server 1.0)
 0x8024002c,-2145124308,WU_E_BIN_SOURCE_ABSENT,A binary-delta patch failed because the source was required
 0x8024002d,-2145124307,WU_E_FF_SOURCE_ABSENT,a full-file patch failed because the source was required
-0x8024002E,-2145124306,SUS_E_WU_DISABLED,non managed server access is disallowed
+0x8024002E,-2145124306,SUS_E_WU_DISABLED,non-managed server access is disallowed
 0x8024002f,-2145124305,WU_E_CALL_CANCELLED_BY_POLICY,call cancelled because of DisableWindowsUpdateAccess policy takes effect
 0x80240030,-2145124304,WU_E_INVALID_PROXY_SERVER,invalid format for proxy list
 0x80240031,-2145124303,WU_E_INVALID_FILE,file is not of the right format
@@ -712,19 +712,19 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8024200c,-2145116148,WU_E_UH_FALLBACKTOSELFCONTAINED,Handler should fall back to self-contained from delta.
 0x8024200D,-2145116147,SUS_E_UH_NEEDANOTHERDOWNLOAD,The installer requires more data to be downloaded
 0x8024200E,-2145116146,WU_E_UH_NOTIFYFAILURE,The attempted operation was not allowed
-0x80242fff,-2145112065,WU_E_UH_UNEXPECTED, generic unexpected update handler failure
+0x80242fff,-2145112065,WU_E_UH_UNEXPECTED,generic unexpected update handler failure
 0x80243fff,-2145107969,WU_E_AUCLIENT_UNEXPECTED,generic unexpected UI [AU Client] failures
 0x80244000,-2145107968,WU_E_PT_SOAPCLIENT_BASE,Used as a base to map SOAPCLIENT_ERROR errors.
-0x80244001,-2145107967,SUS_E_PT_SOAPCLIENT_INITIALIZE,SOAPCLIENT_INITIALIZE_ERROR      initialization failed -- most likely an MSXML installation problem
+0x80244001,-2145107967,SUS_E_PT_SOAPCLIENT_INITIALIZE,SOAPCLIENT_INITIALIZE_ERROR initialization failed -- most likely an MSXML installation problem
 0x80244002,-2145107966,WU_E_PT_SOAPCLIENT_OUTOFMEMORY,SOAPCLIENT_OUTOFMEMORY out of memory
 0x80244003,-2145107965,WU_E_PT_SOAPCLIENT_GENERATE,SOAPCLIENT_GENERATE_ERROR failed in generating the response
-0x80244004,-2145107964,SUS_E_PT_SOAPCLIENT_CONNECT, failed connecting to server
+0x80244004,-2145107964,SUS_E_PT_SOAPCLIENT_CONNECT,failed connecting to server
 0x80244005,-2145107963,WU_E_PT_SOAPCLIENT_SEND,SOAPCLIENT_SEND_ERROR failed in sending message. This generic error has been deprecated in favor of the more specific underlying WinHTTP errors which will be returned when the client encounters an error communicating with the server.
 0x80244006,-2145107962,WU_E_PT_SOAPCLIENT_SERVER,SOAPCLIENT_SERVER_ERROR server error
 0x80244007,-2145107961,WU_E_PT_SOAPCLIENT_SOAPFAULT,SOAPCLIENT_SOAPFAULT a SOAP Fault was returned by the server. See the more specific WU_E_PT_SOAP_xxxx mappings when a SOAP fault was returned by the server.
-0x80244008,-2145107960,SUS_E_PT_SOAPCLIENT_PARSEFAULT,SOAPCLIENT_PARSEFAULT_ERROR      failed in parsing SOAP fault
+0x80244008,-2145107960,SUS_E_PT_SOAPCLIENT_PARSEFAULT,SOAPCLIENT_PARSEFAULT_ERROR failed in parsing SOAP fault
 0x80244009,-2145107959,WU_E_PT_SOAPCLIENT_READ,SOAPCLIENT_READ_ERROR failed in reading response
-0x8024400A,-2145107958,SUS_E_PT_SOAPCLIENT_PARSE, failed in parsing response
+0x8024400A,-2145107958,SUS_E_PT_SOAPCLIENT_PARSE,failed in parsing response
 0x8024400b,-2145107957,WU_E_PT_SOAP_VERSION,SOAP_E_VERSION_MISMATCH Invalid namespace for the SOAP envelope
 0x8024400c,-2145107956,WU_E_PT_SOAP_MUST_UNDERSTAND,SOAP_E_MUST_UNDERSTAND Child of header with mustUnderstand attribute = 1 wasn't understood or obeyed
 0x8024400D,-2145107955,SUS_E_PT_SOAP_CLIENT,SOAP_E_CLIENT  The message was malformed or incomplete. No reason to retry unless problem fixed.
@@ -751,7 +751,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80244022,-2145107934,SUS_E_PT_HTTP_STATUS_SERVICE_UNAVAIL,Http status 503 - temporarily overloaded
 0x80244023,-2145107933,SUS_E_PT_HTTP_STATUS_GATEWAY_TIMEOUT,Http status 504 - timed out waiting for gateway
 0x80244024,-2145107932,WU_E_PT_HTTP_STATUS_VERSION_NOT_SUP,Http status 505 - HTTP version not supported
-0x80244025,-2145107931,SUS_E_PT_FILE_LOCATIONS_CHANGED, Server replied with FileLocationsChange Caller should refresh its internal state then repeat the call to Protocol Talker
+0x80244025,-2145107931,SUS_E_PT_FILE_LOCATIONS_CHANGED,Server replied with FileLocationsChange Caller should refresh its internal state then repeat the call to Protocol Talker
 0x80244026,-2145107930,SUS_E_PT_REGISTRATION_NOT_SUPPORTED,Client doesn't support registration with non-SUS server
 0x80244027,-2145107929,WU_E_PT_NO_AUTH_PLUGINS_REQUESTED,Server returned an empty AuthInfo list
 0x80244028,-2145107928,SUS_E_PT_NO_AUTH_COOKIES_CREATED,The client was unable to create any valid auth cookies
@@ -785,7 +785,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80248006,-2145091578,WU_E_DS_BADVERSION,The data store's version does not match what the client expects
 0x80248007,-2145091577,SUS_E_DS_NODATA,The caller asked for data that is not in the data store
 0x80248008,-2145091576,WU_E_DS_MISSINGDATA,The data store is in an invalid state because data that should be present is missing. This error can occur if we encounter a column in a table that is NULL when it is not allowed to be NULL.
-0x80248009,-2145091575,WU_E_DS_MISSINGREF, The data store is in an invalid state because data that should be present is missing. This will occur if we try to fetch a linked row from another table and the linked row does not exist.  This can happen with EULAs files and/or localized properties referenced by an update.
+0x80248009,-2145091575,WU_E_DS_MISSINGREF,The data store is in an invalid state because data that should be present is missing. This will occur if we try to fetch a linked row from another table and the linked row does not exist.  This can happen with EULAs files and/or localized properties referenced by an update.
 0x8024800a,-2145091574,WU_E_DS_UNKNOWNHANDLER,The caller attempted to add an update that used an unknown update handler
 0x8024800b,-2145091573,WU_E_DS_CANTDELETE,The caller attempted to delete an update that is referenced by one or more services
 0x8024800C,-2145091572,SUS_E_DS_LOCKTIMEOUTEXPIRED,The caller attempted to delete an update that is referenced by one or more services
@@ -795,7 +795,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x80248010,-2145091568,WU_E_DS_CANNOTREGISTER,The caller is attepting to register the datastore with COM but the store cannot be loaded into the current process
 0x80248011,-2145091567,SUS_E_DS_UNABLETOSTART,Could not create an out of proc datastore object
 0x80248012,-2145091566,SUS_E_DS_MISSINGFILEFORURL,a file URL was passed in for a file that does not exist in the datastore
-0x80248013,-2145091565,SUS_E_DS_DUPLICATEUPDATEID, the server has passed the same update to the client with two different revision ids
+0x80248013,-2145091565,SUS_E_DS_DUPLICATEUPDATEID,the server has passed the same update to the client with two different revision ids
 0x80248014,-2145091564,WU_E_DS_UNKNOWNSERVICE,the caller has requested some action on a service that is not known to the datastore
 0x80248015,-2145091563,SUS_E_DS_SERVICEEXPIRED,the caller has requested a service whose registration has expired
 0x80248016,-2145091562,WU_E_DS_DECLINENOTALLOWED,an update cannot be declined while it is deployed with a deadline by 1 or more services or if it is a mandatory update
@@ -808,7 +808,7 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8024801d,-2145091555,WU_E_DS_IMPERSONATED,The datastore cannot be called while impersonating
 0x80248fff,-2145087489,WU_E_DS_UNEXPECTED,generic unexpected data store failure
 0x8024A000,-2145083392,WU_E_AU_NOSERVICE,AU was unable to service incoming AU calls
-0x8024A001,-2145083391,SUS_E_AU_LEGACYSERVER,
+0x8024A001,-2145083391,SUS_E_AU_LEGACYSERVER,no information is available for this error
 0x8024A002,-2145083390,WU_E_AU_NONLEGACYSERVER,The legacy AU client stopped because the sus server has been upgraded
 0x8024A003,-2145083389,WU_E_AU_LEGACYCLIENTDISABLED,The legacy AU client stopped because it was disabled
 0x8024A004,-2145083388,WU_E_AU_PAUSED,AU was unable to service incoming AU calls because it was paused
@@ -840,41 +840,41 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0x8024f003,-2145062909,WU_E_INVALID_EVENT,event was reported with invalid/malformed data
 0x8024f004,-2145062908,WU_E_SERVER_BUSY,event was rejected by server because server was too busy
 0x8024ffff,-2145058817,WU_E_REPORTER_UNEXPECTED,generic unexpected reporter failures
-0x87FF0001,-2013331455,Error_Label_Unreadable,
-0x87FF0004,-2013331452,Error_Too_Many_Open_Files. The system can not open the file
-0x8DDD0001,-1914896383,ErrorNoScripting,
-0x8DDD0002,-1914896382,ErrorNotAdmin,
+0x87FF0001,-2013331455,Error_Label_Unreadable,no information is available for this error
+0x87FF0004,-2013331452,Error_Too_Many_Open_Files,The system can not open the file
+0x8DDD0001,-1914896383,ErrorNoScripting,no information is available for this error
+0x8DDD0002,-1914896382,ErrorNotAdmin,no information is available for this error
 0x8DDD0003,-1914896381,ErrorDisabled,Site timeout waiting for the control.
-0x8DDD0004,-1914896380,ErrorControlFailed,
-0x8DDD0006,-1914896378,ErrorWin2KLessThanSP3,
+0x8DDD0004,-1914896380,ErrorControlFailed,no information is available for this error
+0x8DDD0006,-1914896378,ErrorWin2KLessThanSP3,no information is available for this error
 0x8DDD0007,-1914896377,ErrorRebootRequired,A system reboot is required
 0x8DDD000F,-1914896369,ErrorIis404,IIS 404 status code returned
 0x8DDD0010,-1914896368,ErrorIis500,IIS 500 status code returned
-0x8DDD0012,-1914896366,ErrorNoFrames,
+0x8DDD0012,-1914896366,ErrorNoFrames,no information is available for this error
 0x8DDD0018,-1914896360,ErrorAUDisabled,AU could be disabled; not started etc. BITS could be disabled or not started etc.
-0xC0000005,-1073741819,STATUS_ACCESS_VIOLATION,
-0xC0000006,-1073741818,STATUS_IN_PAGE_ERROR,
-0xc000001d,-1073741795,STATUS_ILLEGAL_INSTRUCTION,
-0xc000001e,-1073741794,STATUS_INVALID_LOCK_SEQUENCE,
-0xc0000090,-1073741680,STATUS_FLOAT_INVALID OPERATION,
-0xc0000096,-1073741674,STATUS_PRIVILEGED_INSTRUCTION,
-0xc00000fd,-1073741571,STATUS_STACK_OVERFLOW,
-0xc000013a,-1073741510,STATUS_CONTROL_C_EXIT,
-0xC0000142,-1073741502,STATUS_DLL_INIT_FAILED,
+0xC0000005,-1073741819,STATUS_ACCESS_VIOLATION,no information is available for this error
+0xC0000006,-1073741818,STATUS_IN_PAGE_ERROR,no information is available for this error
+0xc000001d,-1073741795,STATUS_ILLEGAL_INSTRUCTION,no information is available for this error
+0xc000001e,-1073741794,STATUS_INVALID_LOCK_SEQUENCE,no information is available for this error
+0xc0000090,-1073741680,STATUS_FLOAT_INVALID OPERATION,no information is available for this error
+0xc0000096,-1073741674,STATUS_PRIVILEGED_INSTRUCTION,no information is available for this error
+0xc00000fd,-1073741571,STATUS_STACK_OVERFLOW,no information is available for this error
+0xc000013a,-1073741510,STATUS_CONTROL_C_EXIT,no information is available for this error
+0xC0000142,-1073741502,STATUS_DLL_INIT_FAILED,no information is available for this error
 0xC0000194,-1073741420,Status_Not_Found,Object not found
 0xC0000354,-1073740972,Status_Debugger_Inactive,An attempt to do an operation on a debug port failed because the port is in the process of being deleted.
-0xC8000147,-939523769,NULL,
-0xC8000152,-939523758,MCIERR_Seq_Port_Nonexistent,
-0xC8000158,-939523752,NULL,
+0xC8000147,-939523769,NULL,no information is available for this error
+0xC8000152,-939523758,MCIERR_Seq_Port_Nonexistent,no information is available for this error
+0xC8000158,-939523752,NULL,no information is available for this error
 0xC80001FE,-939523586,hrLogWriteFail,Unable to write to the log file
-0xC8000211,-939523567,hrLogDiskFull,
-0xC8000240,-939523520,SE_Auditid_Assign_Special_Priv,
+0xC8000211,-939523567,hrLogDiskFull,no information is available for this error
+0xC8000240,-939523520,SE_Auditid_Assign_Special_Priv,no information is available for this error
 0xC80003F3,-939523085,hrOutOfMemory,The computer is out of memory
 0xC80003F6,-939523082,hrOutOfBuffers,out of database page buffers
-0xC80003FA,-939523078,hrReadVerifyFailure,
+0xC80003FA,-939523078,hrReadVerifyFailure,no information is available for this error
 0xC80003FB,-939523077,Error_No_Log_Space,System could not allocate the required space in a registry log
-0xC80003FE,-939523074,hrDiskIO,
-0xC8000442,-939523006,CS_Event_reg_Operations_Failed,
+0xC80003FE,-939523074,hrDiskIO,no information is available for this error
+0xC8000442,-939523006,CS_Event_reg_Operations_Failed,no information is available for this error
 0xC800044E,-939522994,hrWriteConflict,The write lock failed due to an outstanding write lock
 0xC8000710,-939522288,hrDiskFull,Disk is full
 0xD0000005,-805306363,ERROR_ACCESS_DENIED,Access was denied to the requested resource
@@ -883,41 +883,41 @@ ErrorCode,DecErrorCode,ErrorString,Description
 0xD0000017,-805306345,Error_CRC,Cyclic Redundancy Check failure
 0xD0000018,-805306344,Error_Bad_Length,the program issued a command but the command length is incorrect
 0xD000001D,-805306339,Error_Write_Fault,the system cannot write the  specified device
-0xD0000022,-805306334,Error_Wrong_Disk,
+0xD0000022,-805306334,Error_Wrong_Disk,no information is available for this error
 0xD000012D,-805306067,HTTP_Status_Moved,Object Permanently moved
-0xD0000135,-805306059,MCIErr_Set_Drive,
-0xD000013A,-805306054,NULL,
-0xD0000142,-805306046,MCIERR_Wave_Inputsinuse,
-0xD0000194,-805305964,HTTP_Status_Not_Found,
-0xD0000354,-805305516,NULL,
-0xe0000101,-536870655,ERROR_SECTION_NOT_FOUND,
-0xe0000201,-536870399,ERROR_CLASS_MISMATCH,
-0xe0000203,-536870397,ERROR_NO_DRIVER_SELECTED,
-0xe000020b,-536870389,ERROR_NO_SUCH_DEVINST,
-0xe000020d,-536870387,ERROR_INVALID_CLASS_INSTALLER,
-0xe0000217,-536870377,ERROR_BAD_SERVICE_INSTALLSECT,
-0xe0000219,-536870375,ERROR_NO_ASSOCIATED_SERVICE,
-0xe000022b,-536870357,ERROR_DI_DONT_INSTALL,
-0xe000022d,-536870355,ERROR_NON_WINDOWS_NT_DRIVER,
-0xe000022f,-536870353,ERROR_NO_CATALOG_FOR_OEM_INF,
-0xe0000230,-536870352,ERROR_DEVINSTALL_QUEUE_NONNATIVE,
-0xe0000234,-536870348,ERROR_DRIVER_NONNATIVE,
-0xe000023a,-536870342,ERROR_PNP REGISTRY_ERROR,
-0xFFFFF8F0,-1808,JET_errDiskFull,
-0xFFFFFb40,-1216,JET_errAttachedDatabaseMismatch,
-0xFFFFFb4a,-1206,JET_errDatabaseCorrupted,
-0xFFFFFBBE,-1090,JET_errInstanceUnavailable,
-0xFFFFFBF8,-1032,JET_errFileAccessDenied,
-0xFFFFFC01,-1023,NULL,
-0xFFFFFC02,-1022,JET_errDiskIO,
-0xFFFFFC06,-1018,JET_errReadVerifyFailure,
-0xFFFFFC0D,-1011,JET_errOutOfMemory,
-0xFFFFFdc9,-567,JET_errDbTimeTooNew,
-0xFFFFFdda,-550,JET_errDatabaseInconsistent,
-0xFFFFFDEC,-532,NULL,
-0xFFFFFDfd,-515,JET_errInvalidLogSequence,
-0xfffffe02,-510,JET_errLogWriteFail,
-0xfffffe0b,-501,JET_errLogFileCorrupt,
-0xffffff99,-103,JET_errOutOfThreads,
+0xD0000135,-805306059,MCIErr_Set_Drive,no information is available for this error
+0xD000013A,-805306054,NULL,no information is available for this error
+0xD0000142,-805306046,MCIERR_Wave_Inputsinuse,no information is available for this error
+0xD0000194,-805305964,HTTP_Status_Not_Found,no information is available for this error
+0xD0000354,-805305516,NULL,no information is available for this error
+0xe0000101,-536870655,ERROR_SECTION_NOT_FOUND,no information is available for this error
+0xe0000201,-536870399,ERROR_CLASS_MISMATCH,no information is available for this error
+0xe0000203,-536870397,ERROR_NO_DRIVER_SELECTED,no information is available for this error
+0xe000020b,-536870389,ERROR_NO_SUCH_DEVINST,no information is available for this error
+0xe000020d,-536870387,ERROR_INVALID_CLASS_INSTALLER,no information is available for this error
+0xe0000217,-536870377,ERROR_BAD_SERVICE_INSTALLSECT,no information is available for this error
+0xe0000219,-536870375,ERROR_NO_ASSOCIATED_SERVICE,no information is available for this error
+0xe000022b,-536870357,ERROR_DI_DONT_INSTALL,no information is available for this error
+0xe000022d,-536870355,ERROR_NON_WINDOWS_NT_DRIVER,no information is available for this error
+0xe000022f,-536870353,ERROR_NO_CATALOG_FOR_OEM_INF,no information is available for this error
+0xe0000230,-536870352,ERROR_DEVINSTALL_QUEUE_NONNATIVE,no information is available for this error
+0xe0000234,-536870348,ERROR_DRIVER_NONNATIVE,no information is available for this error
+0xe000023a,-536870342,ERROR_PNP REGISTRY_ERROR,no information is available for this error
+0xFFFFF8F0,-1808,JET_errDiskFull,no information is available for this error
+0xFFFFFb40,-1216,JET_errAttachedDatabaseMismatch,no information is available for this error
+0xFFFFFb4a,-1206,JET_errDatabaseCorrupted,no information is available for this error
+0xFFFFFBBE,-1090,JET_errInstanceUnavailable,no information is available for this error
+0xFFFFFBF8,-1032,JET_errFileAccessDenied,no information is available for this error
+0xFFFFFC01,-1023,NULL,no information is available for this error
+0xFFFFFC02,-1022,JET_errDiskIO,no information is available for this error
+0xFFFFFC06,-1018,JET_errReadVerifyFailure,no information is available for this error
+0xFFFFFC0D,-1011,JET_errOutOfMemory,no information is available for this error
+0xFFFFFdc9,-567,JET_errDbTimeTooNew,no information is available for this error
+0xFFFFFdda,-550,JET_errDatabaseInconsistent,no information is available for this error
+0xFFFFFDEC,-532,NULL,no information is available for this error
+0xFFFFFDfd,-515,JET_errInvalidLogSequence,no information is available for this error
+0xfffffe02,-510,JET_errLogWriteFail,no information is available for this error
+0xfffffe0b,-501,JET_errLogFileCorrupt,no information is available for this error
+0xffffff99,-103,JET_errOutOfThreads,no information is available for this error
 0xFFFFFFFF,-1,Cancel,Cancel,Request was cancelled
-800A01AD,-2146827859,ACTIVEX_OBJECT,ActiveX component can''t create object,
+800A01AD,-2146827859,ACTIVEX_OBJECT,ActiveX component cannot create object

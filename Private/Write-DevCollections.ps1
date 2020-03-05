@@ -1,5 +1,5 @@
 function Write-DevCollections {
-    param (
+	param (
 		[parameter(Mandatory)][string] $FileName,
 		[parameter(Mandatory)][string] $TableName,
 		[parameter()][string] $SiteCode,
@@ -7,11 +7,11 @@ function Write-DevCollections {
 		[parameter()][string] $LogFile,
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
-    )
+	)
 	Write-Log -Message "function... Write-DevCollections ****" -LogFile $logfile
-    $query = "select Name, CollectionID, Comment, MemberCount from v_Collection where CollectionType = 2 order by Name"
-    $colls = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
-    if ($null -eq $colls) { return }
+	$query = "select Name, CollectionID, Comment, MemberCount from v_Collection where CollectionType = 2 order by Name"
+	$colls = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
+	if ($null -eq $colls) { return }
 	$Fields = @("Name","CollectionID","Comment","MemberCount")
 	$collDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($coll in $colls) {
@@ -20,7 +20,7 @@ function Write-DevCollections {
 		$row.CollectionID = $coll.CollectionID
 		$row.Comment      = $coll.Comment
 		$row.MemberCount  = [int]($coll.MemberCount)
-	    $collDetails.Rows.Add($row)
-    }
-    , $collDetails | Export-CliXml -Path ($filename)
+		$collDetails.Rows.Add($row)
+	}
+	, $collDetails | Export-CliXml -Path ($filename)
 }

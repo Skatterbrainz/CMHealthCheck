@@ -1,6 +1,6 @@
 function Get-MessageInformation {
-    [CmdletBinding()]
-    param (
+	[CmdletBinding()]
+	param (
 		[parameter()][string]$MessageID = ""
 	)
 	try {

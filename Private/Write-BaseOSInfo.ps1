@@ -1,5 +1,5 @@
 Function Write-BaseOSInfo {
-    param (
+	param (
 		[parameter(Mandatory)][string] $SiteCode,
 		[parameter()][string] $FileName,
 		[parameter()][string] $TableName,
@@ -9,35 +9,35 @@ Function Write-BaseOSInfo {
 		[parameter()][bool] $ContinueOnError = $true
 	)
 	Write-Log -Message "function... Write-BaseOsInfo ****" -LogFile $logfile
-    $WMIOS = Get-CmWmiObject -Class "win32_operatingsystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
-    if ($null -eq $WMIOS) { return }	
-    $WMICS = Get-CmWmiObject -Class "win32_computersystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
+	$WMIOS = Get-CmWmiObject -Class "win32_operatingsystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
+	if ($null -eq $WMIOS) { return }	
+	$WMICS = Get-CmWmiObject -Class "win32_computersystem" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
 	$WMIProcessor = Get-CmWmiObject -Class "Win32_processor" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
-    $WMITimeZone  = Get-CmWmiObject -Class "Win32_TimeZone" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
-    $avInformation = $null
-    $AVArray = @("McAfee Security@McShield", "Symantec Endpoint Protection@symantec antivirus", "Sophos Antivirus@savservice", "Avast!@aveservice", "Avast!@avast! antivirus", "Immunet Protect@immunetprotect", "F-Secure@fsma", "AntiVir@antivirservice", "Avira@avguard", "F-Protect@fpavserver", "Panda Security@pshost", "Panda AntiVirus@pavsrv", "BitDefender@bdss", "ArcaBit/ArcaVir@abmainsv", "IKARUS@ikarus-guardx", "ESET Smart Security@ekrn", "G Data Antivirus@avkproxy", "Kaspersky Lab Antivirus@klblmain", "Symantec VirusBlast@vbservprof", "ClamAV@clamav", "Vipre / GFI managed AV@SBAMSvc", "Norton@navapsvc", "Kaspersky@AVP", "Windows Defender@windefend", "Windows Defender/@MsMpSvc", "Microsoft Security Essentials@msmpeng")
-    foreach ($av in $AVArray) {
-        $info = $av.Split("@")
-        if ((Get-ServiceStatus -LogFile $logfile -ServerName $servername -ServiceName $info[1]).ToString().Tolower().Indexof("error") -lt 0) {
-            $avInformation = $info[0]
-            break
-        }
-    }
-    $OSProcessorArch = $WMIOS.OSArchitecture
-    if ($null -ne $OSProcessorArch) {
-	    switch ($OSProcessorArch.ToUpper() ) {
-		    "AMD64" {$ProcessorArchDisplay = "64-bit"}
+	$WMITimeZone  = Get-CmWmiObject -Class "Win32_TimeZone" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror
+	$avInformation = $null
+	$AVArray = @("McAfee Security@McShield", "Symantec Endpoint Protection@symantec antivirus", "Sophos Antivirus@savservice", "Avast!@aveservice", "Avast!@avast! antivirus", "Immunet Protect@immunetprotect", "F-Secure@fsma", "AntiVir@antivirservice", "Avira@avguard", "F-Protect@fpavserver", "Panda Security@pshost", "Panda AntiVirus@pavsrv", "BitDefender@bdss", "ArcaBit/ArcaVir@abmainsv", "IKARUS@ikarus-guardx", "ESET Smart Security@ekrn", "G Data Antivirus@avkproxy", "Kaspersky Lab Antivirus@klblmain", "Symantec VirusBlast@vbservprof", "ClamAV@clamav", "Vipre / GFI managed AV@SBAMSvc", "Norton@navapsvc", "Kaspersky@AVP", "Windows Defender@windefend", "Windows Defender/@MsMpSvc", "Microsoft Security Essentials@msmpeng")
+	foreach ($av in $AVArray) {
+		$info = $av.Split("@")
+		if ((Get-ServiceStatus -LogFile $logfile -ServerName $servername -ServiceName $info[1]).ToString().Tolower().Indexof("error") -lt 0) {
+			$avInformation = $info[0]
+			break
+		}
+	}
+	$OSProcessorArch = $WMIOS.OSArchitecture
+	if ($null -ne $OSProcessorArch) {
+		switch ($OSProcessorArch.ToUpper() ) {
+			"AMD64" {$ProcessorArchDisplay = "64-bit"}
 			"i386"  {$ProcessorArchDisplay = "32-bit"}
 			"IA64"  {$ProcessorArchDisplay = "64-bit - Itanium"}
 			default {$ProcessorArchDisplay = $OSProcessorArch }
-	    }
+		}
 	} 
-    else { 
-        $ProcessorArchDisplay = "" 
-    }
-    $LastBootUpTime = $WMIOS.ConvertToDateTime($WMIOS.LastBootUpTime)
-    $LocalDateTime  = $WMIOS.ConvertToDateTime($WMIOS.LocalDateTime)
-    $numProcs = 0
+	else { 
+		$ProcessorArchDisplay = "" 
+	}
+	$LastBootUpTime = $WMIOS.ConvertToDateTime($WMIOS.LastBootUpTime)
+	$LocalDateTime  = $WMIOS.ConvertToDateTime($WMIOS.LocalDateTime)
+	$numProcs = 0
 	$ProcessorType = ""
 	$ProcessorName = ""
 	$ProcessorDisplayName= ""
@@ -61,7 +61,7 @@ Function Write-BaseOSInfo {
 		if ($ProcessorDisplayName.Length -eq 0) { 
 			$ProcessorDisplayName = " " + $numberOfCores + " $CpuArchitecture processor " + $WMIProc.Name
 		}
-        else {
+		else {
 			if ($ProcessorName -ne $WMIProc.Name) { 
 				$ProcessorDisplayName += "/ " + " " + $numberOfCores + " $CpuArchitecture processor " + $WMIProc.Name
 			}
@@ -70,7 +70,7 @@ Function Write-BaseOSInfo {
 		$ProcessorName = $WMIProc.name
 	}
 	$ProcessorDisplayName = "$numProcs" + $ProcessorDisplayName
-    if ($null -ne $WMICS.DomainRole) {
+	if ($null -ne $WMICS.DomainRole) {
 		switch ($WMICS.DomainRole) {
 			0 {$RoleDisplay = "Workstation"}
 			1 {$RoleDisplay = "Member Workstation"}
@@ -78,7 +78,7 @@ Function Write-BaseOSInfo {
 			3 {$RoleDisplay = "Member Server"}
 			4 {$RoleDisplay = "Backup Domain Controller"}
 			5 {$RoleDisplay = "Primary Domain controller"}
-            default: {$RoleDisplay = "unknown, $($WMICS.DomainRole)"}
+			default: {$RoleDisplay = "unknown, $($WMICS.DomainRole)"}
 		}
 	}
 	$Fields = @("ComputerName","OperatingSystem","ServicePack","Version","Architecture","LastBootTime","CurrentTime","TotalPhysicalMemory","FreePhysicalMemory","TimeZone","DaylightInEffect","Domain","Role","Model","NumberOfProcessors","NumberOfLogicalProcessors","Processors","AntiMalware")
@@ -101,8 +101,8 @@ Function Write-BaseOSInfo {
 	$row.NumberOfProcessors = $WMICS.NumberOfProcessors
 	$row.NumberOfLogicalProcessors = $WMICS.NumberOfLogicalProcessors
 	$row.Processors = $ProcessorDisplayName
-    if ($null -ne $avInformation) { $row.AntiMalware = $avInformation }
-    else { $row.AntiMalware = "Antimalware software not detected" }
-    $BaseOSInfoTable.Rows.Add($row)
-    , $BaseOSInfoTable | Export-CliXml -Path ($filename)
+	if ($null -ne $avInformation) { $row.AntiMalware = $avInformation }
+	else { $row.AntiMalware = "Antimalware software not detected" }
+	$BaseOSInfoTable.Rows.Add($row)
+	, $BaseOSInfoTable | Export-CliXml -Path ($filename)
 }

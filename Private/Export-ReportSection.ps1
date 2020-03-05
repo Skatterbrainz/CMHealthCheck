@@ -1,5 +1,5 @@
 Function Export-ReportSection {
-    param (
+	param (
 		[parameter()] $HealthCheckXML,
 		[parameter()] $Section,
 		[parameter()] $SqlConn,
@@ -18,36 +18,36 @@ Function Export-ReportSection {
 		Write-Log -Message "sitecode...... $SiteCode" -LogFile $logfile
 	}
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {
-        if ($healthCheck.IsTextOnly.ToLower() -eq 'true') { continue }
-        if ($healthCheck.IsActive.ToLower() -ne 'true') { continue }
+		if ($healthCheck.IsTextOnly.ToLower() -eq 'true') { continue }
+		if ($healthCheck.IsActive.ToLower() -ne 'true') { continue }
 		if ($healthCheck.Section.ToLower() -ne $Section) { continue }	
 		$sqlquery  = $healthCheck.SqlQuery
-        $tablename = (Set-ReplaceString -Value $healthCheck.XMLFile -SiteCode $SiteCode -NumberOfDays $NumberOfDays -ServerName $servername)
-        $xmlTableName = $healthCheck.XMLFile
-        if ($Section -eq 5) {
-            if (!($Detailed)) { 
-                $tablename += "summary" 
-                $xmlTableName += "summary"
-                $gbfiels = ""
-                foreach ($field in $healthCheck.Fields.Field) {
-                    if ($field.groupby -in ("2")) {
-                        if ($gbfiels.Length -gt 0) { $gbfiels += "," }
-                        $gbfiels += $field.FieldName
-                    }
-                }
-                $sqlquery = "select $($gbfiels), count(1) as Total from ($($sqlquery)) tbl group by $($gbfiels)"
-            } 
-            else { 
-                $tablename += "detail"
-                $xmlTableName += "detail"
-                $sqlquery = $sqlquery -replace "select distinct", "select"
-                $sqlquery = $sqlquery -replace "select", "select distinct"
-            }
-        }
-    	$filename = Join-Path -Path $reportFolder -ChildPath ($tablename + '.xml')
+		$tablename = (Set-ReplaceString -Value $healthCheck.XMLFile -SiteCode $SiteCode -NumberOfDays $NumberOfDays -ServerName $servername)
+		$xmlTableName = $healthCheck.XMLFile
+		if ($Section -eq 5) {
+			if (!($Detailed)) { 
+				$tablename += "summary" 
+				$xmlTableName += "summary"
+				$gbfiels = ""
+				foreach ($field in $healthCheck.Fields.Field) {
+					if ($field.groupby -in ("2")) {
+						if ($gbfiels.Length -gt 0) { $gbfiels += "," }
+						$gbfiels += $field.FieldName
+					}
+				}
+				$sqlquery = "select $($gbfiels), count(1) as Total from ($($sqlquery)) tbl group by $($gbfiels)"
+			} 
+			else { 
+				$tablename += "detail"
+				$xmlTableName += "detail"
+				$sqlquery = $sqlquery -replace "select distinct", "select"
+				$sqlquery = $sqlquery -replace "select", "select distinct"
+			}
+		}
+		$filename = Join-Path -Path $reportFolder -ChildPath ($tablename + '.xml')
 		$row = $ReportTable.NewRow()
-    	$row.TableName = $xmlTableName
-    	$row.XMLFile = $tablename + ".xml"
+		$row.TableName = $xmlTableName
+		$row.XMLFile = $tablename + ".xml"
 		$ReportTable.Rows.Add($row)
 		Write-Log -Message "XMLFile.... $filename" -LogFile $logfile
 		Write-Log -Message "Table...... $TableName - Information...Starting" -LogFile $logfile
@@ -72,9 +72,9 @@ Function Export-ReportSection {
 					#Write-ServiceStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
 					Write-Services -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
 				'hotfixstatus' { 
-                    if (-not $NoHotfix) {
-                        Write-HotfixStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null
-                    }
+					if (-not $NoHotfix) {
+						Write-HotfixStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null
+					}
 				}
 				'discoveries' {
 					Write-DiscoveryMethods -FileName $filename -TableName $tablename -sitecode $SiteCode -sqlConn $SqlConn.datasource -LogFile $logfile -ContinueOnError $True | Out-Null
@@ -106,7 +106,7 @@ Function Export-ReportSection {
 				'sqlmemory' {
 					Write-SqlMemory -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
-           		default {}
+		   		default {}
 			}
 		}
 		catch {

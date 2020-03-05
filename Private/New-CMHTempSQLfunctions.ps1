@@ -1,5 +1,5 @@
 function New-CMHTempSQLfunctions {
-    param ()
+	param ()
 	$result = @"
 CREATE FUNCTION [fn_CM12R2HealthCheck_ScheduleToMinutes](@Input varchar(16))
 RETURNS bigint
@@ -71,5 +71,5 @@ BEGIN
 	return @Output2
 END
 "@
-    Write-Output $result
+	Write-Output $result
 }

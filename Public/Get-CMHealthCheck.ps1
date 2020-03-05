@@ -82,7 +82,7 @@ function Get-CMHealthCheck {
 	$Error.Clear()
 	$bLogValidation = $False
 	$ModuleVer      = (Get-Module "CMHealthCheck").Version -join '.'
-	$ModulePath     = Split-Path (Get-Module "CMHealthCheck").Path[0] -Parent
+	$ModulePath     = Split-Path (Get-Module "CMHealthCheck").Path -Parent
 	if ([string]::IsNullOrEmpty($Healthcheckfilename)) {
 		$Healthcheckfilename = "$ModulePath\assets\cmhealthcheck.xml"
 		Write-Log -Message "Healthcheck file....: $HealthCheckFileName" -LogFile $logfile

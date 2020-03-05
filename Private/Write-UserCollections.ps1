@@ -1,5 +1,5 @@
 function Write-UserCollections {
-    param (
+	param (
 		[parameter(Mandatory)][string] $FileName,
 		[parameter(Mandatory)][string] $TableName,
 		[parameter()][string] $SiteCode,
@@ -7,7 +7,7 @@ function Write-UserCollections {
 		[parameter()][string] $LogFile,
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
-    )
+	)
 	Write-Log -Message "function... Write-UserCollections ****" -LogFile $logfile
 	try {
 		$query = "select Name, CollectionID, Comment, MemberCount from v_Collection where CollectionType = 1 order by Name"

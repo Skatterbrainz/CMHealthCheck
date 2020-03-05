@@ -3,79 +3,79 @@ ocean.css - stylesheet for CMHealthCheck inventory reporting
 Version 1.0.0 - 09/21/2018
 Version 1.0.1 - 10/03/2019
 */
-body      {
-    /*background-color:#eee;*/
-    background-color:#fff;
-    font-family:verdana;
-    font-size:10pt;
+body {
+	/*background-color:#eee;*/
+	background-color:#fff;
+	font-family:verdana;
+	font-size:10pt;
 }
-h1,h2,h3  {
-    font-family:arial,helvetica,sans;
+h1,h2,h3 {
+	font-family:arial,helvetica,sans;
 }
 h1 {
-    color:#000;
+	color:#000;
 }
 h2 {
-    color:#283e83;
+	color:#283e83;
 }
-table     {
-    border-width:1px;
-    border-style:solid; 
-    border-color:#261c38;
-    border-collapse:collapse;
-    background-color:#fff;
+table {
+	border-width:1px;
+	border-style:solid; 
+	border-color:#261c38;
+	border-collapse:collapse;
+	background-color:#fff;
 }
 th,td,tr {
-    border-width:1px; 
-    padding:5px;
-    border-style:solid;
-    border-color:#e1e1e1;
-    font-family:verdana;
-    font-size:10pt;
+	border-width:1px; 
+	padding:5px;
+	border-style:solid;
+	border-color:#e1e1e1;
+	font-family:verdana;
+	font-size:10pt;
 }
-.footer   {
-    text-align:center;
-    font-size:10pt;
-    font-family:verdana;
+.footer {
+	text-align:center;
+	font-size:10pt;
+	font-family:verdana;
 }
 .reportTable {
-    width:1000px;
+	width:1000px;
 }
 .columnstyle1 {
-    background-color: #0099cc;
-    color: #fff;
+	background-color: #0099cc;
+	color: #fff;
 }
 .columnstyle2 {
-    background-color: #eee;
-    color: #000;
+	background-color: #eee;
+	color: #000;
 }
 .columnstyle3 {
-    background-color: #0099cc;
-    color: #fff;
+	background-color: #0099cc;
+	color: #fff;
 }
 .columnstyle4 {
-    background-color: #aba6e0;
+	background-color: #aba6e0;
 }
 .rowstyle1 {
-    background-color: #eee;
+	background-color: #eee;
 }
 .rowstyle2 {
-    background-color: #0099cc;
-    color: #fff;
+	background-color: #0099cc;
+	color: #fff;
 }
 .rowstyle3 {
-    background-color: #eee;
+	background-color: #eee;
 }
 .rowstyle4 {
-    background-color: #a1d9ff;
+	background-color: #a1d9ff;
 }
 .headingRow1 {
-    background-color: #0099cc;
-    color: #fff;
+	background-color: #0099cc;
+	color: #fff;
 }
 .rowstylex {
-    background-color: #eee;
+	background-color: #eee;
 }
 .rowstylex:hover {
-    background-color: #a1d9ff;
+	background-color: #a1d9ff;
 }

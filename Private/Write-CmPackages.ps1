@@ -1,5 +1,5 @@
 function Write-CmPackages {
-    param (
+	param (
 		[parameter(Mandatory)][string] $FileName,
 		[parameter(Mandatory)][string] $TableName,
 		[parameter()][string] $SiteCode,
@@ -7,9 +7,9 @@ function Write-CmPackages {
 		[parameter()][string] $LogFile,
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
-    )
+	)
 	Write-Log -Message "function... Write-CmPackages ****" -LogFile $logfile
-    $query = "select distinct PackageID, Name, 
+	$query = "select distinct PackageID, Name, 
 	Case
 		When (PackageType = 0)   Then 'Software Distribution Package'
 		When (PackageType = 3)   Then 'Driver Package'
@@ -23,19 +23,19 @@ function Write-CmPackages {
 		When (PackageType = 259) Then 'OS Upgrade Package'
 		WHEN (PackageType = 260) Then 'VHD Package'
 		End as PkgType,
-    PackageType, Description, SourceVersion as Version from dbo.v_Package order by Name"
-    $packages = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
-    if ($null -eq $packages) { return }
+	PackageType, Description, SourceVersion as Version from dbo.v_Package order by Name"
+	$packages = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query -ErrorAction SilentlyContinue)
+	if ($null -eq $packages) { return }
 	$Fields = @("Name","PkgID","Type","Description","Version")
 	$pkgDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($pkg in $packages) {
 		$row             = $pkgDetails.NewRow()
-        $row.Name        = $pkg.Name
-        $row.PkgID       = $pkg.PackageID
-        $row.Type        = $pkg.PkgType
-        $row.Version     = $pkg.Version
-        $row.Description = $pkg.Description
-	    $pkgDetails.Rows.Add($row)
-    }
-    , $pkgDetails | Export-CliXml -Path ($filename)
+		$row.Name        = $pkg.Name
+		$row.PkgID       = $pkg.PackageID
+		$row.Type        = $pkg.PkgType
+		$row.Version     = $pkg.Version
+		$row.Description = $pkg.Description
+		$pkgDetails.Rows.Add($row)
+	}
+	, $pkgDetails | Export-CliXml -Path ($filename)
 }

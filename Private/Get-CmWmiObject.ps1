@@ -1,5 +1,5 @@
 function Get-CmWmiObject {
-    param (
+	param (
 		[parameter()] $Class,
 		[parameter()][string] $Filter = '',
 		[parameter()][string] $Query = '',
@@ -7,19 +7,19 @@ function Get-CmWmiObject {
 		[parameter()][string] $Namespace = "root\cimv2",
 		[parameter()][string] $LogFile,
 		[parameter()][bool] $ContinueOnError = $false
-    )
-    if ($query -ne '') { $class = $query }
+	)
+	if ($query -ne '') { $class = $query }
 	Write-Log -Message "WMI Query: \\$ComputerName\$Namespace, $class, filter: $filter" -LogFile $logfile
-    if ($query -ne '') { 
+	if ($query -ne '') { 
 		$WMIObject = Get-CimInstance -Query $query -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
 	}
-    elseif ($filter -ne '') { 
+	elseif (![string]::IsNullOrEmpty($filter)) { 
 		$WMIObject = Get-CimInstance -ClassName $class -Filter $filter -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
 	}
-    else { 
+	else { 
 		$WMIObject = Get-CimInstance -ClassName $class -NameSpace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
 	}
-	if ($WMIObject -eq $null) {
+	if ($null -eq $WMIObject) {
 		Write-Log -Message "WMI Query returned 0) records" -LogFile $logfile
 	}
 	else {
@@ -27,20 +27,20 @@ function Get-CmWmiObject {
 		foreach ($obj in $wmiobj) { i++ }
 		Write-Log -Message "WMI Query returned $($i) records" -LogFile $logfile
 	}
-    if ($Error.Count -ne 0) {
+	if ($Error.Count -ne 0) {
 		$errorMessage = $Error[0].Exception.Message
 		$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
 		if ($ContinueOnError -eq $false) {
-            Write-Log -Message "The following error occurred, no futher action taken" -Severity 3 -Logfile $logfile
-        }
+			Write-Log -Message "The following error occurred, no futher action taken" -Severity 3 -Logfile $logfile
+		}
 		else { 
-            Write-Error "The following error occurred"
-        }
+			Write-Error "The following error occurred"
+		}
 		Write-Log -Message "ERROR $errorCode : $errorMessage connecting to $ComputerName" -LogFile $logfile
 		$Error.Clear()
 		if ($ContinueOnError -eq $false) { 
-            Throw "ERROR $errorCode : $errorMessage connecting to $ComputerName" 
-        }
-    }
-    Write-Output $WMIObject
+			Throw "ERROR $errorCode : $errorMessage connecting to $ComputerName" 
+		}
+	}
+	Write-Output $WMIObject
 }

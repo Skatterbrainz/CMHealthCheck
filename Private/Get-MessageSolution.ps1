@@ -1,8 +1,8 @@
 function Get-MessageSolution {
-    [CmdletBinding()]
-    param (
+	[CmdletBinding()]
+	param (
 		[parameter()][string]$MessageID = ""
-    )
+	)
 	try {
 		if (![string]::IsNullOrEmpty($MessageID)) {
 			Write-Log "looking up solution for error message id: $MessageID" -LogFile $logfile

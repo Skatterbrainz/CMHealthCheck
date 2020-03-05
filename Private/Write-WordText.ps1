@@ -1,15 +1,15 @@
 function Write-WordText {
-    param (
+	param (
 		[parameter()] $WordSelection,
-        [parameter()][string] $Text = "",
-        [parameter()][string] $Style = "Normal",
+		[parameter()][string] $Text = "",
+		[parameter()][string] $Style = "Normal",
 		[parameter()] $Bold    = $false,
 		[parameter()] $NewLine = $false,
 		[parameter()] $NewPage = $false
 	)
 	$texttowrite = ""
 	$wordselection.Style = $Style
-    if ($bold) { 
+	if ($bold) { 
 		$wordselection.Font.Bold = 1 
 	}
 	else { 

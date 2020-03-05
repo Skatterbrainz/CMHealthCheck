@@ -103,7 +103,7 @@ function Export-CMHealthCheckHTML {
 	$time1      = Get-Date -Format "hh:mm:ss"
 	$ModuleData = Get-Module CMHealthCheck
 	$ModuleVer  = $ModuleData.Version -join '.'
-	$ModulePath = (Split-Path $ModuleData.Path -Parent)[0]
+	$ModulePath = (Split-Path $ModuleData.Path -Parent)
 	$logFolder  = Join-Path -Path $OutputFolder -ChildPath "_Logs"
 	$logfile    = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML.log"
 	$tsLog      = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML-Transcript.log"

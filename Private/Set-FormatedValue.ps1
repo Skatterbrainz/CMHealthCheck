@@ -1,8 +1,8 @@
 Function Set-FormatedValue {
-    param (
-        [parameter()] $Value,
-        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $Format,
-        [parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SiteCode
+	param (
+		[parameter()] $Value,
+		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $Format,
+		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SiteCode
 	)
 	Write-Log -Message "function... Set-FormatedValue ****" -LogFile $logfile
 	Write-Log -Message "format..... $Format" -LogFile $logfile
@@ -23,7 +23,7 @@ Function Set-FormatedValue {
 			elseif ($schedule.MinuteSpan -ne 0) { $return = ($schedule.MinuteSpan) }
 			return $return
 		}
-        'alertsname' {
+		'alertsname' {
 			if ($null -eq $value) {
 				$return = ''
 			}
@@ -34,9 +34,9 @@ Function Set-FormatedValue {
 					default { $return = $value }
 				}
 			}
-            return $return
-        }
-        'alertsseverity' {
+			return $return
+		}
+		'alertsseverity' {
 			if ($null -eq $value) {
 				$return = ''
 			}
@@ -48,17 +48,17 @@ Function Set-FormatedValue {
 					default { $return = 'Unknown' }
 				}
 			}
-            return $return
-        }
-        'alertstypeid' {
-            switch ($value.ToString().ToLower()) {
-                '12' { $return = 'Update group deployment success' }
-                '25' { $return = 'Database free space warning' }
-                '31' { $return = 'Malware detection' }
-                default { $return = $value }
-            }
-            Write-Output $return
-        }
+			return $return
+		}
+		'alertstypeid' {
+			switch ($value.ToString().ToLower()) {
+				'12' { $return = 'Update group deployment success' }
+				'25' { $return = 'Database free space warning' }
+				'31' { $return = 'Malware detection' }
+				default { $return = $value }
+			}
+			Write-Output $return
+		}
 		'messagesolution' {
 			Write-Log -Message "[messagesolution] convert to string" -LogFile $logfile
 			if ($null -ne $value) {

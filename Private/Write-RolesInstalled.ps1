@@ -1,18 +1,18 @@
 function Write-RolesInstalled {
-    param (
-	    [parameter(Mandatory)][string] $FileName,
-	    [parameter(Mandatory)][string] $TableName,
-	    [parameter()][string] $SiteCode,
-	    [parameter()][int] $NumberOfDays,
-	    [parameter()][string] $LogfFle,
+	param (
+		[parameter(Mandatory)][string] $FileName,
+		[parameter(Mandatory)][string] $TableName,
+		[parameter()][string] $SiteCode,
+		[parameter()][int] $NumberOfDays,
+		[parameter()][string] $LogfFle,
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
-    )
-    Write-Log -Message "[function: write-rolesinstalled]" -LogFile $logfile
-    $WMISMSListRoles = Get-CmWmiObject -Query "select distinct RoleName from SMS_SCI_SysResUse where NetworkOSPath = '\\\\$Servername'" -computerName $smsprovider -namespace "root\sms\site_$SiteCodeNamespace" -logfile $logfile
-    $SMSListRoles = @()
-    foreach ($WMIServer in $WMISMSListRoles) { $SMSListRoles += $WMIServer.RoleName }
-    $DPProperties = Get-CmWmiObject -Query "select * from SMS_SCI_SysResUse where RoleName = 'SMS Distribution Point' and NetworkOSPath = '\\\\$Servername' and SiteCode = '$SiteCode'" -computerName $smsprovider -namespace "root\sms\site_$SiteCodeNamespace" -logfile $logfile
+	)
+	Write-Log -Message "[function: write-rolesinstalled]" -LogFile $logfile
+	$WMISMSListRoles = Get-CmWmiObject -Query "select distinct RoleName from SMS_SCI_SysResUse where NetworkOSPath = '\\\\$Servername'" -ComputerName $smsprovider -Namespace "root\sms\site_$SiteCodeNamespace" -Logfile $logfile
+	$SMSListRoles = @()
+	foreach ($WMIServer in $WMISMSListRoles) { $SMSListRoles += $WMIServer.RoleName }
+	$DPProperties = Get-CmWmiObject -Query "select * from SMS_SCI_SysResUse where RoleName = 'SMS Distribution Point' and NetworkOSPath = '\\\\$Servername' and SiteCode = '$SiteCode'" -ComputerName $smsprovider -Namespace "root\sms\site_$SiteCodeNamespace" -Logfile $logfile
  	$Fields = @("SiteServer", "IIS", "SQLServer", "DP", "PXE", "MultiCast", "PreStaged", "MP", "FSP", "SSRS", "EP", "SUP", "AI", "AWS", "PWS", "SMP", "Console", "Client", "CPC", "DWP", "DMP")
 	$RolesInstalledTable = New-CmDataTable -TableName $tableName -Fields $Fields
 	$row = $RolesInstalledTable.NewRow()
@@ -44,6 +44,7 @@ function Write-RolesInstalled {
 	$row.Console = (Test-RegistryExist -ComputerName $servername -Logfile $logfile -KeyName 'SOFTWARE\\Wow6432Node\\Microsoft\\ConfigMgr10\\AdminUI').ToString()
 	$row.Client  = (Test-RegistryExist -ComputerName $servername -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\CCM\\CCMExec').ToString()
 	$row.IIS     = ($null -ne (Get-RegistryValue -ComputerName $server -Logfile $logfile -KeyName 'SOFTWARE\\Microsoft\\InetStp' -KeyValue 'InstallPath')).ToString()
-    $RolesInstalledTable.Rows.Add($row)
-    , $RolesInstalledTable | Export-Clixml -Path ($filename)
+	$RolesInstalledTable.Rows.Add($row)
+	Write-Log -Message "exporting results to: $filename" -LogFile $LogfFle
+	, $RolesInstalledTable | Export-Clixml -Path ($filename)
 }

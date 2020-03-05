@@ -1,5 +1,5 @@
 function Set-ReplaceString {
-    param (
+	param (
 		[parameter()][string] $Value,
 		[parameter(Mandatory=$True)][string] $SiteCode,
 		[parameter()][int] $NumberOfDays = "",
@@ -7,7 +7,7 @@ function Set-ReplaceString {
 		[parameter()][bool] $Space = $true
 	)
 	$return = $value
-    $date = Get-Date
+	$date = Get-Date
 	if ($space) {	
 		$return = $return -replace "\r\n", " " 
 		$return = $return -replace "\r", " " 
