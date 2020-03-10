@@ -110,7 +110,6 @@ function Export-CMHealthReport {
 				Overwrite     = $Overwrite
 				AutoConfig    = $AutoConfig
 				CoverPage     = "Slice (Light)"
-
 			}
 			Export-CMHealthCheck @expParams
 		}

@@ -55,12 +55,12 @@ function Get-CMHealthCheck {
 	#>
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = $($env:COMPUTERNAME),
-		[parameter(HelpMessage = 'Path for output data files')][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
-		[parameter(HelpMessage = 'Number of Days for HealthCheck')][int] $NumberOfDays = 7,
-		[parameter(HelpMessage = 'HealthCheck query file name')][string] $Healthcheckfilename = "",
-		[parameter(HelpMessage = 'Overwrite existing report?')][switch] $OverWrite,
-		[parameter(HelpMessage = 'Skip hotfix audit')][switch] $NoHotfix
+		[parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
+		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+		[parameter()][ValidateRange(1,365)][int] $NumberOfDays = 7,
+		[parameter()][string] $Healthcheckfilename = "",
+		[parameter()][switch] $OverWrite,
+		[parameter()][switch] $NoHotfix
 	)
 
 	try {
@@ -90,9 +90,11 @@ function Get-CMHealthCheck {
 	Write-Host "CMHealthCheck $ModuleVer"
 	Write-Host "Gathering site and server information"
 	if (!(Test-Folder -Path $logFolder)) {
-		Write-Log -Message "Unable to create $logFolder" -Severity 3 -LogFile $logfile
-		Stop-Transcript -ErrorAction SilentlyContinue
-		break
+		Write-Log -Message "creating log folder: $logFolder" -LogFile $logfile
+		mkdir $lotFolder -Force
+		#Write-Log -Message "Unable to create $logFolder" -Severity 3 -LogFile $logfile
+		#Stop-Transcript -ErrorAction SilentlyContinue
+		#break
 	}
 
 	Write-Log -Message "----------------- BEGIN PROCESSING --------------------" -LogFile $logfile

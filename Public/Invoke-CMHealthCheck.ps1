@@ -82,28 +82,25 @@
 function Invoke-CMHealthCheck {
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[parameter()] [string] $SmsProvider = "",
-		[parameter()] [string] $CustomerName = "Customer Name",
-		[parameter()] [string] $AuthorName = "Your Name",
-		[parameter()] [string] $CopyrightName  = "Your Company Name",
-		[parameter()] [string] $DataFolder = "$($env:USERPROFILE)\Documents",
-		[parameter()] [ValidateNotNullOrEmpty()] [string] $PublishFolder = "$($env:USERPROFILE)\Documents",
-		[parameter()] [switch] $OpenBrowser,
-		[parameter()] [switch] $OverWrite,
-		[parameter()] [switch] $NoHotfix ,
-		[parameter()] [switch] $AutoConfig,
-		[parameter()] [switch] $Detailed,
-		[parameter()] [string] $Template = "",
-		[parameter()] [string] $ReportType = 'HTML',
-		[parameter()] [int] $NumberOfDays = 7,
-		[parameter()] [switch] $Healthcheckdebug,
-		[parameter()] [string] $Healthcheckfilename = "",
-		[parameter()] [string] $MessagesFilename = ""
+		[parameter()][ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
+		[parameter()][string] $CustomerName = "Customer Name",
+		[parameter()][string] $AuthorName = "Your Name",
+		[parameter()][string] $CopyrightName  = "Your Company Name",
+		[parameter()][string] $DataFolder = "$($env:USERPROFILE)\Documents",
+		[parameter()][ValidateNotNullOrEmpty()][string] $PublishFolder = "$($env:USERPROFILE)\Documents",
+		[parameter()][switch] $OpenBrowser,
+		[parameter()][switch] $OverWrite,
+		[parameter()][switch] $NoHotfix ,
+		[parameter()][switch] $AutoConfig,
+		[parameter()][switch] $Detailed,
+		[parameter()][string] $Template = "",
+		[parameter()][ValidateSet('HTML','Word')][string] $ReportType = 'HTML',
+		[parameter()][int] $NumberOfDays = 7,
+		[parameter()][switch] $Healthcheckdebug,
+		[parameter()][string] $Healthcheckfilename = "",
+		[parameter()][string] $MessagesFilename = ""
 	)
 	$Time1 = Get-Date
-	if ([string]::IsNullOrEmpty($SmsProvider)) {
-		$SmsProvider = ($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.'
-	}
 	if ([string]::IsNullOrEmpty($SmsProvider)) {
 		Write-Warning "SmsProvider must be specified"
 		break
@@ -118,6 +115,7 @@ function Invoke-CMHealthCheck {
 		Write-Log -Message "report folder path = $ReportFolder" -LogFile $logfile
 		$getParams = @{
 			SmsProvider   = $SmsProvider
+			SqlInstance   = $SqlInstance
 			OutputFolder  = $DataFolder
 			NumberOfDays  = $NumberOfDays
 			NoHotfix      = $NoHotfix
@@ -139,6 +137,7 @@ function Invoke-CMHealthCheck {
 				ReportFolder     = $ReportFolder
 				OutputFolder     = $DataFolder
 				SmsProvider      = $SmsProvider
+				SqlInstance      = $SqlInstance
 				AuthorName       = $AuthorName
 				CopyrightName    = $CopyrightName
 				CustomerName     = $CustomerName
