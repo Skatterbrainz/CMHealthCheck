@@ -73,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -OutputFolder
-{{ Fill OutputFolder Description }}
+Path to output data folder
 
 ```yaml
 Type: String
