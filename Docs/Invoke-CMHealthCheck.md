@@ -79,7 +79,7 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: None
+Default value: "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -130,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -DataFolder
-{{ Fill DataFolder Description }}
+Path to output data for storing files during collection phase
 
 ```yaml
 Type: String

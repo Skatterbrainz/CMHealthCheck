@@ -5,8 +5,8 @@
 	Generate Health Information from a Configuration Manager site
 .PARAMETER SmsProvider
 	FQDN of the SMS Provider host in the Configuration Manager site
-.PARAMETER OutputFolder
-	Path to output data during collection phase
+.PARAMETER DataFolder
+	Path to output data for storing files during collection phase
 .PARAMETER PublishFolder
 	Path to save the HTML report file
 .PARAMETER CustomerName
@@ -115,7 +115,6 @@ function Invoke-CMHealthCheck {
 		Write-Log -Message "report folder path = $ReportFolder" -LogFile $logfile
 		$getParams = @{
 			SmsProvider   = $SmsProvider
-			SqlInstance   = $SqlInstance
 			OutputFolder  = $DataFolder
 			NumberOfDays  = $NumberOfDays
 			NoHotfix      = $NoHotfix
@@ -137,7 +136,6 @@ function Invoke-CMHealthCheck {
 				ReportFolder     = $ReportFolder
 				OutputFolder     = $DataFolder
 				SmsProvider      = $SmsProvider
-				SqlInstance      = $SqlInstance
 				AuthorName       = $AuthorName
 				CopyrightName    = $CopyrightName
 				CustomerName     = $CustomerName

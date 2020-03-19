@@ -67,13 +67,13 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: $($env:COMPUTERNAME)
+Default value: "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -OutputFolder
-Path for output data files
+{{ Fill OutputFolder Description }}
 
 ```yaml
 Type: String

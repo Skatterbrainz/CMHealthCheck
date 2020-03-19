@@ -7,7 +7,7 @@ function Get-CMHealthCheck {
 		and stores the information in multiple XML data files which are then
 		processed using the Export-CM-Healthcheck.ps1 script to render
 		a final MS Word report.
-	.PARAMETER ReportFolder
+	.PARAMETER OutputFolder
 		Path to output data folder
 	.PARAMETER SmsProvider
 		FQDN of SCCM site server
@@ -65,6 +65,10 @@ function Get-CMHealthCheck {
 
 	try {
 		Stop-Transcript -ErrorAction SilentlyContinue | Out-Null
+		if (!(Test-Path $OutputFolder)) {
+			Write-Verbose "creating transcript output folder"
+			mkdir -Path $OutputFolder -Force
+		}
 	}
 	catch {}
 	finally {
