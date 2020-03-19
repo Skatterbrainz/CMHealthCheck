@@ -1,8 +1,9 @@
 function Test-Numeric ($x) {
-	try {
-		0 + $x | Out-Null
-		return $true
-	} catch {
-		return $false
-	}
+	($x -match '^\d+$')
+	# try {
+	# 	0 + $x | Out-Null
+	# 	return $true
+	# } catch {
+	# 	return $false
+	# }
 }
