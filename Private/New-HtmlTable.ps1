@@ -7,7 +7,7 @@ function New-HtmlTableBegin {
 		[parameter()][string] $HeadingStyle = "",
 		[parameter()][string] $HeadingNames
 	)
-	Write-Log -Message "--- function: New-HtmlTableBegin" -LogFile $logfile
+	Write-Log -Message "(New-HtmlTableBegin)" -LogFile $logfile
 	Write-Log -Message "--- tableclass`:$TableClass headingstyle`:$HeadingStyle" -LogFile $logfile
 
 	if (!([string]::IsNullOrEmpty($Caption))) {
@@ -34,7 +34,7 @@ function New-HtmlTableEnd {
 	param (
 		[string] $TableData
 	)
-	Write-Log -Message "--- function: New-HtmlTableEnd" -LogFile $logfile
+	Write-Log -Message "(New-HtmlTableEnd)" -LogFile $logfile
 	Write-Output $TableData += "`n</table>"
 }
 
@@ -47,7 +47,7 @@ function New-HtmlTableBlock {
 		[parameter()][string] $HeadingNames,
 		[parameter()][int] $Rows = 1
 	)
-	Write-Log -Message "--- function: New-HtmlTableBlock" -LogFile $logfile
+	Write-Log -Message "(New-HtmlTableBlock)" -LogFile $logfile
 	$result = New-HtmlTableBegin -Caption $Caption -CaptionStyle $CaptionStyle -TableClass $TableClass -HeadingStyle $HeadingStyle -HeadingNames $HeadingNames
 	$columns = $HeadingNames.Split(',').Count
 	for ($row=1; $row -le $rows; $row++) {
@@ -74,7 +74,7 @@ function New-HtmlTableVertical {
 		[parameter()][string] $TableClass = "reportTable",
 		[parameter()][hashtable] $TableHash
 	)
-	Write-Log -Message "--- function: New-HtmlTableVertical" -LogFile $logfile
+	Write-Log -Message "(New-HtmlTableVertical)" -LogFile $logfile
 	if (!([string]::IsNullOrEmpty($Caption))) {
 		$Caption = "`n<$CaptionStyle>$Caption</$CaptionStyle>"
 	}

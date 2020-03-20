@@ -1,4 +1,5 @@
 function Set-DocProperties {
+	Write-Log -Message "(Set-DocProperties)" -LogFile $logfile
 	if ($bAutoProps -eq $True) {
 		Write-Log -Message "setting document properties" -LogFile $logfile
 		$doc.BuiltInDocumentProperties("Title")    = "System Center Configuration Manager HealthCheck"

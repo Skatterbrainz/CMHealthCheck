@@ -1,5 +1,6 @@
 function Set-DocAppendix {
 	param ()
+	Write-Log -Message "(Set-DocAppendix)" -LogFile $logfile
 	$appendix = @(
 		("ConfigMgr Hardware Recommendations", "https://technet.microsoft.com/en-us/library/mt589500.aspx#bkmk_ScaleSieSystems"),
 		("ConfigMgr Supported Operating Systems", "https://docs.microsoft.com/en-us/sccm/core/plan-design/configs/supported-operating-systems-for-site-system-servers"),

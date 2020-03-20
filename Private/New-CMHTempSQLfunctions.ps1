@@ -1,5 +1,6 @@
 function New-CMHTempSQLfunctions {
 	param ()
+	Write-Log -Message "(New-CMHTempSQLfunctions)" -LogFile $logfile
 	$result = @"
 CREATE FUNCTION [fn_CM12R2HealthCheck_ScheduleToMinutes](@Input varchar(16))
 RETURNS bigint

@@ -3,7 +3,7 @@ function New-CmDataTable {
 		[parameter()][string] $TableName,
 		[parameter()][string[]] $Fields
 	)
-	Write-Log -Message "[function: New-CmDataTable]" -LogFile $logfile
+	Write-Log -Message "(New-CmDataTable): $TableName" -LogFile $logfile
 	$DataTable = New-Object System.Data.DataTable "$tableName"
 	foreach ($field in $fields) {
 		$col = New-Object System.Data.DataColumn "$field",([string])

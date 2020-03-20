@@ -3,6 +3,7 @@ Function Get-SQLServerConnection {
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SQLServer,
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $DBName
 	)
+	Write-Log -Message "(Get-SQLServerConnection)" -LogFile $logfile 
 	try {
 		$conn = New-Object System.Data.SqlClient.SqlConnection
 		$conn.ConnectionString = "Data Source=$SQLServer;Initial Catalog=$DBName;Integrated Security=SSPI;"

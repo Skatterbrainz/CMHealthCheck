@@ -4,7 +4,7 @@ function Get-XmlUrlContent {
 		[ValidateNotNullOrEmpty()]
 		[string] $Url
 	)
-	Write-Log -Message "reading data from remote file: $Url" -Severity 1 -LogFile $logfile
+	Write-Log -Message "(Get-XmlUrlContent): $Url" -LogFile $logfile
 	$content = ""
 	try {
 		[xml]$content = ((New-Object System.Net.WebClient).DownloadString($Url))
