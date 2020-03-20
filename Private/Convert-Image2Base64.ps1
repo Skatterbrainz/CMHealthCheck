@@ -8,11 +8,17 @@ function Convert-Image2Base64 {
 		HelpMessage="this is a path to either a file on the web or locally on the network to convert")]
 		[string]$Path
 	)
-	Write-Log -Message "converting image - path = $Path" -LogFile $logfile
-	if (($Path -match '^[A-z]:\\.*(\.png|\.jpg)$') -or ($Path -match '^\\\\*\\.*(\.png|\.jpg)$')) {
+	Write-Log -Message "(Convert-Image2Base64): $Path" -LogFile $logfile
+	if (($Path -match '\.jpg') -or ($Path -match '\.jpeg') -or ($Path -match '\.png')) {
 		Write-Log -Message "importing image from file system" -LogFile $logfile
 		if (Test-Path -Path "$Path") {
-			$EncodedImage = [convert]::ToBase64String((Get-Content $Path -Encoding Byte))
+			if ($PSVersionTable.PSVersion.Major -eq 5) {
+				$content = Get-Content $Path -Encoding Byte
+			}
+			else {
+				$content = Get-Content $Path -AsByteStream
+			}
+			$EncodedImage = [convert]::ToBase64String($content)
 		}
 		else {
 			Write-Log -Message "Image file not found: $path" -LogFile $logFile -Severity 3
@@ -31,7 +37,13 @@ function Convert-Image2Base64 {
 			Write-Log -Message "logo image file not found, returning nothing" -LogFile $logfile
 			Return $false
 		}
-		$EncodedImage = [convert]::ToBase64String((Get-Content $tempfile -Encoding Byte))
+		if ($PSVersionTable.PSVersion.Major -eq 5) {
+			$content = Get-Content $tempfile -Encoding Byte
+		}
+		else {
+			$content = Get-Content $tempfile -AsByteStream
+		}
+		$EncodedImage = [convert]::ToBase64String($content)
 	}
 	else {
 		Write-Log -Message "Path does not match pattern: $path" -LogFile $logfile -Severity 3
