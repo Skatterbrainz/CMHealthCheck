@@ -82,7 +82,7 @@ function Get-CMHealthCheck {
 	$reportFolder   = $OutputFolder + '\' + (Get-Date -UFormat "%Y-%m-%d") + '\' + $SmsProvider + '\'
 	$logfile        = Join-Path -Path $logFolder -ChildPath "Get-CMHealthCheck.log"
 	$poshversion    = $PSVersionTable.PSVersion.Major
-	$osversion      = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+	$osversion      = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
 	$Error.Clear()
 	$bLogValidation = $False
 	$ModuleVer      = (Get-Module "CMHealthCheck").Version -join '.'
