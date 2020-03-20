@@ -8,7 +8,7 @@ function Write-Boundaries {
 		[parameter()][string] $ServerName,
 		[parameter()] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-boundaries]" -LogFile $logfile
+	Write-Log -Message "(Write-Boundaries)" -LogFile $logfile
 	$query = "select distinct 
 		vSMS_Boundary.DisplayName, 
 		vSMS_Boundary.BoundaryID, 

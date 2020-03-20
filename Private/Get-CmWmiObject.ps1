@@ -8,7 +8,10 @@ function Get-CmWmiObject {
 		[parameter()][string] $LogFile,
 		[parameter()][bool] $ContinueOnError = $false
 	)
-	if ($query -ne '') { $class = $query }
+	Write-Log -Message "(Get-CmWmiObject)" -LogFile $logfile
+	if (![string]::IsNullOrEmpty($query)) {
+		$class = $Query
+	}
 	Write-Log -Message "WMI Query: \\$ComputerName\$Namespace, $class, filter: $filter" -LogFile $logfile
 	if ($query -ne '') { 
 		$WMIObject = Get-CimInstance -Query $query -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 

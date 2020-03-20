@@ -6,6 +6,7 @@ function Set-ReplaceString {
 		[parameter()][string] $ServerName = "",
 		[parameter()][bool] $Space = $true
 	)
+	Write-Log -Message "(Set-ReplaceString)" -LogFile $logfile 
 	$return = $value
 	$date = Get-Date
 	if ($space) {	

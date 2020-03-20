@@ -8,7 +8,7 @@ function Write-CmPackages {
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
 	)
-	Write-Log -Message "function... Write-CmPackages ****" -LogFile $logfile
+	Write-Log -Message "(Write-CmPackages)" -LogFile $logfile
 	$query = "select distinct PackageID, Name, 
 	Case
 		When (PackageType = 0)   Then 'Software Distribution Package'

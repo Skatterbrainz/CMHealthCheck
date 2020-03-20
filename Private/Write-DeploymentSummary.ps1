@@ -8,7 +8,7 @@ function Write-DeploymentSummary {
 		[parameter()][string] $ServerName,
 		[parameter()] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-deploymentsummary]" -LogFile $logfile
+	Write-Log -Message "(Write-DeploymentSummary)" -LogFile $logfile
 	$query = "SELECT SoftwareName,AssignmentID,CollectionName,CollectionID,DeploymentTime,
 		CreationTime,ModificationTime,
 		case 
