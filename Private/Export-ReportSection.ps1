@@ -10,7 +10,7 @@ Function Export-ReportSection {
 		[parameter()] $ReportTable,
 		[parameter()][switch] $Detailed
 	)
-	Write-Log -Message "function... ReportSection ****" -LogFile $logfile
+	Write-Log -Message "(Export-ReportSection): Section = $Section" -LogFile $logfile
 	if ($Detailed) { 
 		Write-Log -Message "detailed...... True" -LogFile $logfile
 		Write-Log -Message "section....... $Section" -LogFile $logfile

@@ -8,7 +8,7 @@ function Write-ServiceStatus {
 		[parameter()][string] $ServerName,
 		[parameter()] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-servicestatus]" -LogFile $logfile
+	Write-Log -Message "(Write-ServiceStatus)" -LogFile $logfile
 
 	$SiteInformation = Get-CmWmiObject -query "select Type from SMS_Site where ServerName = '$Server'" -namespace "Root\SMS\Site_$SiteCodeNamespace" -computerName $smsprovider -logfile $logfile
 	if ($null -ne $SiteInformation) { $SiteType = $SiteInformation.Type }

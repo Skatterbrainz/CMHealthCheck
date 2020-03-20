@@ -8,7 +8,7 @@ function Write-Services {
 		[parameter()][string] $ServerName,
 		[parameter()] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-services]" -LogFile $logfile
+	Write-Log -Message "(Write-Services)" -LogFile $logfile
 	try {
 		$services = @(Get-CimInstance -ClassName Win32_Service -ComputerName $ServerName | Select-Object DisplayName,StartName,StartMode,State | Sort-Object DisplayName)
 		if ($null -eq $services) { return }
