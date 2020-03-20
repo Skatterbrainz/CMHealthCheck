@@ -7,7 +7,7 @@ function Write-LocalGroups {
 		[parameter()][string] $LogFile,
 		[parameter()][bool] $ContinueOnError
 	)
-	Write-Log -Message "function... Write-LocalGroups ****" -LogFile $logfile
+	Write-Log -Message "(Write-LocalGroups)" -LogFile $logfile
 	$ServerShortName = ($ServerName -split '\.')[0]
 	try {
 		$GroupsList = Get-CimInstance -ClassName "Win32_Group" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop

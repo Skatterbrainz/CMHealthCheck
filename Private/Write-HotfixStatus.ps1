@@ -8,7 +8,7 @@ Function Write-HotfixStatus {
 		[parameter()][string] $ServerName,
 		[parameter()] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-hotfixstatus]" -LogFile $logfile
+	Write-Log -Message "(Write-HotfixStatus)" -LogFile $logfile
 	try {
 		$Session = [activator]::CreateInstance([type]::GetTypeFromProgID("Microsoft.Update.Session", $ServerName))
 		$Searcher = $Session.CreateUpdateSearcher()

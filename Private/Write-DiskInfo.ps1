@@ -8,7 +8,7 @@ Function Write-DiskInfo {
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
 	)
-	Write-Log -Message "function... Write-DiskInfo ****" -LogFile $logfile
+	Write-Log -Message "(Write-DiskInfo)" -LogFile $logfile
 	$DiskList = @(Get-CmWmiObject -Class "Win32_LogicalDisk" -Filter "DriveType = 3" -ComputerName $servername -LogFile $logfile -ContinueOnError $continueonerror)
 	if ($null -eq $DiskList) { return }
 	$Fields = @("DeviceID","VolumeName","FileSystem","Size","FreeSpace","Used","PctUsed")

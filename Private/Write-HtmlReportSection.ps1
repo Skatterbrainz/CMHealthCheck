@@ -7,8 +7,7 @@ Function Write-HtmlReportSection {
 		[parameter()][string] $LogFile
 	)
 	Write-Log -Message "---------------------------------------------------" -LogFile $logfile
-	Write-Log -Message "function...... Write-HtmlReportSection ****" -LogFile $logfile
-	Write-Log -Message "section....... $section" -LogFile $logfile
+	Write-Log -Message "(Write-HtmlReportSection): Section = $Section" -LogFile $logfile
 	Write-Log -Message "detail........ $($detailed.ToString())" -LogFile $logfile
 	$result = ""
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {

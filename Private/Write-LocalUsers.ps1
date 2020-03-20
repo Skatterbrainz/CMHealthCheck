@@ -7,7 +7,7 @@ function Write-LocalUsers {
 		[parameter()][string] $LogFile,
 		[parameter()][bool] $ContinueOnError
 	)
-	Write-Log -Message "function... Write-LocalGroups ****" -LogFile $logfile
+	Write-Log -Message "(Write-LocalGroups)" -LogFile $logfile
 	Write-Log -Message "filename... $filename" -LogFile $LogFile
 	Write-Log -Message "server..... $ServerName" -LogFile $LogFile
 	$ServerShortName = ($ServerName -split '\.')[0]

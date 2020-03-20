@@ -7,7 +7,7 @@ function Write-MPConnectivity {
 		[parameter()] $LogFile,
 		[parameter()][string] $Type = 'mplist'
 	)
-	Write-Log -Message "function... Write-MpConnectivity ****" -LogFile $logfile
+	Write-Log -Message "(Write-MpConnectivity)" -LogFile $logfile
  	$Fields = @("ServerName", "HTTPReturn")
 	$MPConnectivityTable = New-CmDataTable -TableName $tableName -Fields $Fields
 	$MPList = Get-CmWmiObject -Query "select * from SMS_SCI_SysResUse where SiteCode = '$SiteCode' and RoleName = 'SMS Management Point'" -computerName $smsprovider -namespace "root\sms\site_$SiteCodeNamespace" -logfile $logfile

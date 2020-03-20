@@ -8,7 +8,7 @@ function Write-NetworkInfo {
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-networkinfo]" -LogFile $logfile
+	Write-Log -Message "(Write-NetworkInfo)" -LogFile $logfile
 	$IPDetails = Get-CmWmiObject -Class "Win32_NetworkAdapterConfiguration" -Filter "IPEnabled = true" -ComputerName $ServerName -LogFile $logfile -ContinueOnError $ContinueOnError
 	if ($null -eq $IPDetails) { return }
 	$Fields = @("IPAddress","DefaultIPGateway","IPSubnet","MACAddress","DHCPEnabled")

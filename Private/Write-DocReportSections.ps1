@@ -1,4 +1,5 @@
 function Write-DocReportSections {
+	Write-Log -Message "(Write-DocReportSections)" -LogFile $logfile 
 	Write-WordReportSection -HealthCheckXML $HealthCheckXML -section '1' -Doc $doc -Selection $selection -LogFile $logfile 
 	Write-WordTableGrid -Caption "Review Comments" -Rows 3 -ColumnHeadings $ReviewTableCols -StyleName $ReviewTableStyle
 	

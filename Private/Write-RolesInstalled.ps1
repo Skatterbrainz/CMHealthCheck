@@ -8,12 +8,12 @@ function Write-RolesInstalled {
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
 	)
-	Write-Log -Message "[function: write-rolesinstalled]" -LogFile $logfile
+	Write-Log -Message "(Write-RolesInstalled)" -LogFile $logfile
 	$WMISMSListRoles = Get-CmWmiObject -Query "select distinct RoleName from SMS_SCI_SysResUse where NetworkOSPath = '\\\\$Servername'" -ComputerName $smsprovider -Namespace "root\sms\site_$SiteCodeNamespace" -Logfile $logfile
 	$SMSListRoles = @()
 	foreach ($WMIServer in $WMISMSListRoles) { $SMSListRoles += $WMIServer.RoleName }
 	$DPProperties = Get-CmWmiObject -Query "select * from SMS_SCI_SysResUse where RoleName = 'SMS Distribution Point' and NetworkOSPath = '\\\\$Servername' and SiteCode = '$SiteCode'" -ComputerName $smsprovider -Namespace "root\sms\site_$SiteCodeNamespace" -Logfile $logfile
- 	$Fields = @("SiteServer", "IIS", "SQLServer", "DP", "PXE", "MultiCast", "PreStaged", "MP", "FSP", "SSRS", "EP", "SUP", "AI", "AWS", "PWS", "SMP", "Console", "Client", "CPC", "DWP", "DMP")
+	$Fields = @("SiteServer", "IIS", "SQLServer", "DP", "PXE", "MultiCast", "PreStaged", "MP", "FSP", "SSRS", "EP", "SUP", "AI", "AWS", "PWS", "SMP", "Console", "Client", "CPC", "DWP", "DMP")
 	$RolesInstalledTable = New-CmDataTable -TableName $tableName -Fields $Fields
 	$row = $RolesInstalledTable.NewRow()
 	$row.SiteServer = ($SMSListRoles -contains 'SMS Site Server').ToString()

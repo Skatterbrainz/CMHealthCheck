@@ -7,7 +7,7 @@ function Write-InstalledApps {
 		[parameter()][string] $LogFile,
 		[parameter()][bool] $ContinueOnError
 	)
-	Write-Log -Message "function... Write-InstalledApps ****" -LogFile $logfile
+	Write-Log -Message "(Write-InstalledApps)" -LogFile $logfile
 	Write-Log -Message "filename... $filename" -LogFile $LogFile
 	Write-Log -Message "server..... $ServerName" -LogFile $LogFile
 	try {
