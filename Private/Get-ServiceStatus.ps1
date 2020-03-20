@@ -4,14 +4,12 @@ Function Get-ServiceStatus {
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $ServiceName,
 		[parameter()]$LogFile
 	)
-	Write-Log -Message "function... Get-ServiceStatus ****" -LogFile $logfile
-	Write-Log -Message "servername. $ServerName" -LogFile $logfile
-	Write-Log -Message "service.... $ServiceName" -LogFile $logfile
+	Write-Log -Message "(Get-ServiceStatus): $ServiceName on $ServerName" -LogFile $logfile
 	try {
 		$service = Get-CimInstance -ClassName "Win32_Service" -ComputerName $ServerName | 
 			Where-Object {$_.Name -eq $ServiceName} | Select-Object -ExpandProperty "State"
 		if ($null -ne $service) { $return = $service }
-		else { $return = "ERROR: Not Found" }
+		else { $return = "ERROR: Service $ServiceName Not Found" }
 		Write-Log -Message "status..... $return" -LogFile $logfile
 	}
 	catch {
