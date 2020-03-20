@@ -8,8 +8,9 @@ Function Get-ServiceStatus {
 	Write-Log -Message "servername. $ServerName" -LogFile $logfile
 	Write-Log -Message "service.... $ServiceName" -LogFile $logfile
 	try {
-		$service = Get-Service -ComputerName $ServerName | Where-Object {$_.Name -eq $ServiceName}
-		if ($null -ne $service) { $return = $service.Status }
+		$service = Get-CimInstance -ClassName "Win32_Service" -ComputerName $ServerName | 
+			Where-Object {$_.Name -eq $ServiceName} | Select-Object -ExpandProperty "State"
+		if ($null -ne $service) { $return = $service }
 		else { $return = "ERROR: Not Found" }
 		Write-Log -Message "status..... $return" -LogFile $logfile
 	}
