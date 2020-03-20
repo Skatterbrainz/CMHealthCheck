@@ -4,6 +4,7 @@ function Get-CmBuildName {
 		[ValidateNotNullOrEmpty()]
 		[string] $BuildNumber
 	)
+	Write-Log -Message "(Get-CmBuildName)" -LogFile $logfile
 	$ModuleData = Get-Module CMHealthCheck
 	$ModuleVer  = $ModuleData.Version -join '.'
 	$ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''

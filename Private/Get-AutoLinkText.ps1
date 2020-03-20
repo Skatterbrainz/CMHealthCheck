@@ -5,6 +5,7 @@ function Get-AutoLinkText {
 		[string] $StringValue,
 		[parameter()][switch] $NewPage
 	)
+	Write-Log -Message "(Get-AutoLinkText)" -LogFile $logfile
 	$temp = @()
 	$tokens = $StringValue.split(' ')
 	$tokens | ForEach-Object { 

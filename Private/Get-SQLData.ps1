@@ -13,7 +13,7 @@ Function Get-SQLData {
 		[parameter()] $Section,
 		[parameter()][switch] $Detailed
 	)
-	Write-Log -Message "[function: Get-SQLData]"
+	Write-Log -Message "(Get-SQLData): Table = $TableName"
 	if ($Detailed) { 
 		Write-Log -Message "  [detailed = True]" -LogFile $logfile
 	}
