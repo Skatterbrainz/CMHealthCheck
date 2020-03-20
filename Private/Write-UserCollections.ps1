@@ -8,7 +8,7 @@ function Write-UserCollections {
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
 	)
-	Write-Log -Message "function... Write-UserCollections ****" -LogFile $logfile
+	Write-Log -Message "(Write-UserCollections)" -LogFile $logfile
 	try {
 		$query = "select Name, CollectionID, Comment, MemberCount from v_Collection where CollectionType = 1 order by Name"
 		$colls = @(Invoke-DbaQuery -SqlInstance $ServerName -Database $SQLDBName -Query $query)

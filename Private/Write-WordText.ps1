@@ -7,6 +7,7 @@ function Write-WordText {
 		[parameter()] $NewLine = $false,
 		[parameter()] $NewPage = $false
 	)
+	Write-Log -Message "(Write-WordText)" -LogFile $logfile
 	$texttowrite = ""
 	$wordselection.Style = $Style
 	if ($bold) { 

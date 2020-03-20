@@ -1,10 +1,11 @@
 function Get-CmHealthCheckFile {
+	[CmdletBinding()]
 	param (
 		[parameter(Mandatory, HelpMessage="XML file source path")]
 		[ValidateNotNullOrEmpty()]
 		[string] $XmlSource
 	)
-	Write-Log -Message "function... Get-CmHealthCheckFile ****" -LogFile $logfile
+	Write-Log -Message "(Get-CmHealthCheckFile): $XmlSource" -LogFile $logfile
 	if ($XmlSource.StartsWith('http')) {
 		Write-Log -Message "sourcetype. remote URI" -LogFile $logfile
 		try {

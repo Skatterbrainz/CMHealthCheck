@@ -8,7 +8,7 @@ function Write-SqlMemory {
 		[parameter()][string] $ServerName,
 		[parameter()][bool] $ContinueOnError = $true
 	)
-	Write-Log -Message "function... Write-SqlMemory ****" -LogFile $logfile
+	Write-Log -Message "(Write-SqlMemory)" -LogFile $logfile
 	try {
 		$memData = Get-DbaMaxMemory -SqlInstance $ServerName
 		$memPct  = [math]::Round([int]($memData.MaxValue) / [int]($memData.Total), 2)

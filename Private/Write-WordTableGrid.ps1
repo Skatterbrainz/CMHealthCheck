@@ -5,7 +5,7 @@ function Write-WordTableGrid {
 		[parameter(Mandatory)][string[]] $ColumnHeadings,
 		[parameter()][string] $StyleName = $DefaultTableStyle
 	)
-	Write-Log -Message "inserting custom table: $Caption" -LogFile $logfile
+	Write-Log -Message "(Write-WordTableGrid) Caption = $Caption" -LogFile $logfile
 	$Selection.TypeText($Caption)
 	if ($Caption -eq 'Review Comments') {
 		$Selection.Style = "Heading 3"

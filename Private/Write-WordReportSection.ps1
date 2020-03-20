@@ -7,7 +7,7 @@ Function Write-WordReportSection {
 		[parameter()] $Selection,
 		[parameter()] $LogFile
 	)
-	Write-Log -Message "function...... Write-WordReportSection ****" -LogFile $logfile
+	Write-Log -Message "(Write-WordReportSection)" -LogFile $logfile
 	Write-Log -Message "section....... $section" -LogFile $logfile
 	Write-Log -Message "detail........ $($detailed.ToString())" -LogFile $logfile
 	
