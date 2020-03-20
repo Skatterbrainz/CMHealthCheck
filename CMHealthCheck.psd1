@@ -5,7 +5,7 @@
 
 @{
 RootModule    = '.\CMHealthCheck.psm1'
-ModuleVersion = '1.0.21'
+ModuleVersion = '1.0.24'
 GUID          = 'e61ecfc4-1895-4e5d-a91e-10fb4311b09a'
 Author        = 'David Stein'
 CompanyName   = 'skatterbrainz'
