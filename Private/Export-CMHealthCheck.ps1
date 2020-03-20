@@ -76,16 +76,8 @@ function Export-CMHealthCheck {
 	$ModuleData = Get-Module CMHealthCheck
 	$ModuleVer  = $ModuleData.Version -join '.'
 	$ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-	$tsLog      = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
+	#$tsLog      = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
 	$logfile    = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck.log"
-	try {
-		Stop-Transcript -ErrorAction SilentlyContinue
-	}
-	catch {}
-	finally {
-		Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
-	}
-	
 	$Script:TempFilename      = "cmhealthreport.docx"
 	$Script:DefaultTableStyle = "Grid Table 4 - Accent 1"
 	$Script:TableStyle        = "Grid Table 4 - Accent 1"
@@ -261,8 +253,4 @@ function Export-CMHealthCheck {
 	}
 	$Difference = Get-TimeOffset -StartTime $time1
 	Write-Log -Message "Completed in: $Difference (hh:mm:ss)" -LogFile $logfile -ShowMsg
-	try {
-		Stop-Transcript -ErrorAction SilentlyContinue
-	}
-	catch { }
 }

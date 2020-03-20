@@ -63,23 +63,19 @@ function Get-CMHealthCheck {
 		[parameter()][switch] $NoHotfix
 	)
 
-	try {
-		Stop-Transcript -ErrorAction SilentlyContinue | Out-Null
-		if (!(Test-Path $OutputFolder)) {
-			Write-Verbose "creating transcript output folder"
-			mkdir -Path $OutputFolder -Force
-		}
-	}
-	catch {}
-	finally {
-		Start-Transcript -Path (Join-Path -Path $OutputFolder -ChildPath "Get-CMHealthCheck-Transcript.log") -ErrorAction Stop
-	}
-
 	$startTime      = Get-Date
 	$currentFolder  = (Get-Location).Path
 	if ($currentFolder.substring($currentFolder.Length-1) -ne '\') { $currentFolder+= '\' }
-	$logFolder      = $OutputFolder + '\_Logs\'
-	$reportFolder   = $OutputFolder + '\' + (Get-Date -UFormat "%Y-%m-%d") + '\' + $SmsProvider + '\'
+	$logFolder      = "$OutputFolder\_Logs\"
+	$reportFolder   = "$OutputFolder\$(Get-Date -UFormat "%Y-%m-%d")\$SmsProvider\"
+	if (-not(Test-Path $logFolder)) {
+		Write-Log -Message "creating log folder: $logFolder"
+		mkdir -Path $logFolder -Force
+	}
+	if (-not(Test-Path $reportFolder)) {
+		Write-Log -Message "creating report folder: $reportFolder"
+		mkdir -Path $reportFolder -Force 
+	}
 	$logfile        = Join-Path -Path $logFolder -ChildPath "Get-CMHealthCheck.log"
 	$poshversion    = $PSVersionTable.PSVersion.Major
 	$osversion      = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
@@ -93,13 +89,6 @@ function Get-CMHealthCheck {
 	}
 	Write-Host "CMHealthCheck $ModuleVer"
 	Write-Host "Gathering site and server information"
-	if (!(Test-Folder -Path $logFolder)) {
-		Write-Log -Message "creating log folder: $logFolder" -LogFile $logfile
-		mkdir $lotFolder -Force
-		#Write-Log -Message "Unable to create $logFolder" -Severity 3 -LogFile $logfile
-		#Stop-Transcript -ErrorAction SilentlyContinue
-		#break
-	}
 
 	Write-Log -Message "----------------- BEGIN PROCESSING --------------------" -LogFile $logfile
 	Write-Log -Message "Module version......: $ModuleVer" -LogFile $logfile
@@ -107,7 +96,6 @@ function Get-CMHealthCheck {
 	Write-Log -Message "Powershell version..: $poshversion" -LogFile $logfile
 	if (!(Test-Powershell64bit)) {
 		Write-Error "Powershell is not 64bit, yo G, we outta here."
-		Stop-Transcript -ErrorAction SilentlyContinue
 		break
 	}
 	Write-Log -Message "PowerShell mode.....: 64-bit" -LogFile $logfile
@@ -117,7 +105,6 @@ function Get-CMHealthCheck {
 	try {
 		if (-not (Test-Admin)) {
 			Write-Host "You are not running PowerShell as Administrator (run as Administrator), no futher action taken" -ForegroundColor Red
-			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
 		if (Test-Path -Path $reportFolder) {
@@ -127,7 +114,6 @@ function Get-CMHealthCheck {
 			}
 			else {
 				Write-Host "Folder $reportFolder already exist, no futher action taken" -ForegroundColor Red
-				Stop-Transcript -ErrorAction SilentlyContinue
 				break
 			}
 		}
@@ -138,7 +124,6 @@ function Get-CMHealthCheck {
 		[xml]$HealthCheckXML = Get-CmHealthCheckFile -XmlSource $HealthCheckFilename
 		if (!(Test-Folder -Path $reportFolder)) {
 			Write-Log -Message "Unable to create $reportFolder" -Severity 3 -LogFile $logfile
-			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
 		if (($Overwrite) -and (Test-Path $logfile)) {
@@ -152,7 +137,6 @@ function Get-CMHealthCheck {
 		if (!$SiteCodeNameSpace) {
 			Write-Host "Error: Unable to connect to $SmsProvider. Exit." -ForegroundColor Red
 			Write-Log "unable to connect to $SmsProvider. Exiting here." -Severity 3 -LogFile $logfile
-			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
 		Write-Log -Message "Site Code........: $SiteCodeNamespace" -LogFile $logfile
@@ -164,8 +148,7 @@ function Get-CMHealthCheck {
 		Write-Log -Message "Site Version.....: $SMSSiteVersion" -LogFile $logfile
 
 		if (-not ($WMISMSSite.Version -like "5.*")) {
-			Write-Log -Message "SCCM Site $SMSSiteVersion not supported. No further action taken" -Severity 3 -LogFile $logfile
-			Stop-Transcript -ErrorAction SilentlyContinue
+			Write-Log -Message "ConfigMgr Site $SMSSiteVersion not supported. No further action taken" -Severity 3 -LogFile $logfile
 			break
 		}
 
@@ -251,7 +234,6 @@ function Get-CMHealthCheck {
 		}
 		catch {
 			Write-Log -Message "uh oh! something just blew up, phasers were set to kill... review the log output!" -Severity 3 -LogFile $LogFile
-			Stop-Transcript -ErrorAction SilentlyContinue
 			break
 		}
 		Write-Log -Message "info.............: data adapter is looking good!" -LogFile $LogFile
@@ -361,9 +343,5 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 	}
 	$RunTime  = Get-TimeOffset -StartTime $StartTime
 	Write-Output "Data collection process completed. Total runtime: $RunTime (hh`:mm`:ss)"
-	try {
-		Stop-Transcript -ErrorAction SilentlyContinue
-	}
-	catch {}
 	Write-Log -Message "---------------- FINISHED PROCESSING ------------------" -LogFile $LogFile
 }

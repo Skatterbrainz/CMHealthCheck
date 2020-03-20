@@ -101,12 +101,12 @@ function Export-CMHealthCheckHTML {
 	)
 	Write-Log -Message "*** Export-CMHealthCheckHTML ***" -LogFile $logfile
 	$time1      = Get-Date -Format "hh:mm:ss"
-	$ModuleData = Get-Module CMHealthCheck
+	$ModuleData = Get-Module 'CMHealthCheck'
 	$ModuleVer  = $ModuleData.Version -join '.'
 	$ModulePath = (Split-Path $ModuleData.Path -Parent)
 	$logFolder  = Join-Path -Path $OutputFolder -ChildPath "_Logs"
 	$logfile    = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML.log"
-	$tsLog      = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML-Transcript.log"
+	#$tsLog      = Join-Path -Path $LogFolder -ChildPath "Export-CMHealthCheckHTML-Transcript.log"
 	if (-not (Test-Path $logFolder)) {
 		Write-Verbose "creating log folder: $logFolder"
 		New-Item -Path $logFolder -ItemType Directory -Force | Out-Null
@@ -115,13 +115,6 @@ function Export-CMHealthCheckHTML {
 		Write-Verbose "log folder already exists: $logFolder"
 	}
 
-	try {
-		Stop-Transcript -ErrorAction SilentlyContinue
-	}
-	catch {}
-	finally {
-		Start-Transcript -Path $tsLog -Append -ErrorAction SilentlyContinue
-	}
 	$Script:TableRowStyle = $TableRowStyle
 	$TempFilename   = "cmhealthreport.htm"
 	$bLogValidation = $False
@@ -157,7 +150,7 @@ function Export-CMHealthCheckHTML {
 	if ($AutoConfig -and (Test-Path $autoconfigfile)) {
 		Write-Verbose "importing settings from config file: $autoconfigfile"
 		$cfgdata = Get-Content -Path $autoconfigfile
-		$cfgdata | % {
+		$cfgdata | ForEach-Object {
 			$rowset = $_ -split '='
 			if (![string]::IsNullOrEmpty($rowset[1])) {
 				switch($rowset[1]) {
@@ -237,7 +230,7 @@ function Export-CMHealthCheckHTML {
 
 		if (!(Test-Powershell64bit)) { Invoke-Error -Message "Powershell is not 64bit, no futher action taken"; break }
 
-		Write-Log -Message "geenerating HTML report file from collected data" -LogFile $logFile -ShowMsg
+		Write-Log -Message "Generating HTML report file from collected data" -LogFile $logFile -ShowMsg
 
 		$htmlContent = @"
 <html>
@@ -264,6 +257,7 @@ function Export-CMHealthCheckHTML {
 			ReportDate     = (Get-Date).ToLongDateString()
 			ReportFolder   = $ReportFolder
 			WindowsVersion = $(Get-CimInstance -ClassName Win32_OperatingSystem).Caption
+			PSVersion      = $($PSVersionTable.PSVersion -join '.')
 			ComputerName   = $($env:COMPUTERNAME)
 		}
 		$htmlContent += New-HtmlTableVertical -Caption "Report Information" -TableHash $htmlTable
@@ -310,5 +304,4 @@ function Export-CMHealthCheckHTML {
 
 	$Difference = Get-TimeOffset -StartTime $time1
 	Write-Log -Message "Completed in: $Difference (hh:mm:ss)" -LogFile $logfile -ShowMsg
-	Stop-Transcript
 }
