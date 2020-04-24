@@ -73,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -OutputFolder
-Path to output data folder
+Path to output data folder, default is "My Documents"
 
 ```yaml
 Type: String
@@ -82,7 +82,7 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: "$($env:USERPROFILE)\Documents"
+Default value: "$([System.Environment]::GetFolderPath('Personal'))"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

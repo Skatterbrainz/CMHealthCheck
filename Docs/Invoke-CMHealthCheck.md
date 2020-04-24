@@ -70,7 +70,7 @@ Skips inventory of installed operating system hotfixes
 ## PARAMETERS
 
 ### -SmsProvider
-FQDN of the SMS Provider host in the Configuration Manager site
+FQDN of the SMS Provider host in the Configuration Manager site, default is localhost
 
 ```yaml
 Type: String
@@ -130,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -DataFolder
-Path to output data for storing files during collection phase
+Path to output data for storing files during collection phase, default is "My Documents"
 
 ```yaml
 Type: String
@@ -139,13 +139,13 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: "$($env:USERPROFILE)\Documents"
+Default value: "$([System.Environment]::GetFolderPath('Personal'))"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -PublishFolder
-Path to save the HTML report file
+Path to save the HTML report file, default is "My Documents"
 
 ```yaml
 Type: String
@@ -154,7 +154,7 @@ Aliases:
 
 Required: False
 Position: 6
-Default value: "$($env:USERPROFILE)\Documents"
+Default value: "$([System.Environment]::GetFolderPath('Personal'))"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

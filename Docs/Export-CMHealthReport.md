@@ -46,7 +46,7 @@ Export-CMHealthCheck -ReportFolder "2019-03-06\cm01.contoso.local" -AutoConfig -
 
 ### -ReportFolder
 Path to output data folder (e.g.
-".\2019-03-06\cm01.contoso.local")
+"My Documents\2019-03-06\cm01.contoso.local")
 
 ```yaml
 Type: String
@@ -55,7 +55,7 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: "$($env:USERPROFILE)\Documents"
+Default value: "$([System.Environment]::GetFolderPath('Personal'))"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -85,7 +85,7 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: "$($env:USERPROFILE)\Documents"
+Default value: "$([System.Environment]::GetFolderPath('Personal'))"
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -106,7 +106,7 @@ Accept wildcard characters: False
 ```
 
 ### -AutoConfig
-Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+Use an auto configuration file, cmhealthconfig.txt in "My Documents" folder
 to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
 
 ```yaml
