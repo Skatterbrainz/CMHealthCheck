@@ -4,11 +4,11 @@
 .DESCRIPTION
 	Generate Health Information from a Configuration Manager site
 .PARAMETER SmsProvider
-	FQDN of the SMS Provider host in the Configuration Manager site
+	FQDN of the SMS Provider host in the Configuration Manager site, default is localhost
 .PARAMETER DataFolder
-	Path to output data for storing files during collection phase
+	Path to output data for storing files during collection phase, default is "My Documents"
 .PARAMETER PublishFolder
-	Path to save the HTML report file
+	Path to save the HTML report file, default is "My Documents"
 .PARAMETER CustomerName
 	Name of customer (default = "Customer Name"), or use AutoConfig file
 .PARAMETER AuthorName

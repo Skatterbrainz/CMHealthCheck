@@ -67,14 +67,14 @@ function Export-CMHealthCheckHTML {
 			[string] $ReportFolder,
 		[parameter(HelpMessage="Log folder path")]
 			[ValidateNotNullOrEmpty()]
-			[string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+			[string] $OutputFolder = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
 		[Parameter (HelpMessage = "Export full data, not only summary")]
 			[switch] $Detailed,
 		[parameter (HelpMessage = "Customer company name")]
 			[string] $CustomerName = "Customer Name",
 		[parameter (HelpMessage = "Use Auto Config File")]
 			[switch] $AutoConfig,
-		[parameter ()] [string] $SmsProvider,
+		[parameter ()] [string] $SmsProvider = "",
 		[parameter (HelpMessage = "Author's full name")]
 			[string] $AuthorName = "",
 		[parameter (HelpMessage = "Footer text")]

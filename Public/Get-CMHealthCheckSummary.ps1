@@ -5,12 +5,12 @@ function Get-CMHealthCheckSummary {
 			[ValidateSet('All','AD','CM','SQL')]
 			[string] $ReportScope = 'All',
 		[parameter(HelpMessage="Location to save report file")]
-			[string] $OutputFolder = $(Join-Path -Path $env:USERPROFILE -ChildPath "Documents"),
+			[string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
 		[parameter()][switch] $Detailed
 	)
 	$divtag = "table1"
 	try {
-		$reportFile  = Join-Path $env:USERPROFILE -ChildPath "Documents\cmhealthcheck_summary.htm"
+		$reportFile  = Join-Path "$([System.Environment]::GetFolderPath('Personal'))" -ChildPath "cmhealthcheck_summary.htm"
 		Write-Verbose "report file: $reportFile"
 		$reportTitle = "CMHealthCheck Summary"
 		$content = ""

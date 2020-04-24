@@ -7,9 +7,9 @@ function Export-CMHealthReport {
 		report document using Microsoft Word (2010, 2013, 2016). Intended
 		to be invoked on a desktop computer which has Office installed.
 	.PARAMETER ReportFolder
-		Path to output data folder (e.g. ".\2019-03-06\cm01.contoso.local")
+		Path to output data folder (e.g. "My Documents\2019-03-06\cm01.contoso.local")
 	.PARAMETER AutoConfig
-		Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+		Use an auto configuration file, cmhealthconfig.txt in "My Documents" folder
 		to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
 	.PARAMETER Detailed
 		Collect more granular data for final reporting, or use AutoConfig file
@@ -60,9 +60,9 @@ function Export-CMHealthReport {
 	#>
 	[CmdletBinding()]
 	param (
-		[parameter()][ValidateNotNullOrEmpty()][string] $ReportFolder = "$($env:USERPROFILE)\Documents",
+		[parameter()][ValidateNotNullOrEmpty()][string] $ReportFolder = "$([System.Environment]::GetFolderPath('Personal'))",
 		[parameter()][ValidateSet('HTML','Word')][string] $ReportType = 'HTML',
-		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
 		[parameter()][string] $CustomerName = "Customer Name",
 		[parameter()][switch] $AutoConfig,
 		[parameter()][string] $SmsProvider = "",

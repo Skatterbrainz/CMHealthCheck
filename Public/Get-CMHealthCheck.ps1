@@ -8,7 +8,7 @@ function Get-CMHealthCheck {
 		processed using the Export-CM-Healthcheck.ps1 script to render
 		a final MS Word report.
 	.PARAMETER OutputFolder
-		Path to output data folder
+		Path to output data folder, default is "My Documents"
 	.PARAMETER SmsProvider
 		FQDN of SCCM site server
 	.PARAMETER NumberOfDays
@@ -56,7 +56,7 @@ function Get-CMHealthCheck {
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
 		[parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
-		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
 		[parameter()][ValidateRange(1,365)][int] $NumberOfDays = 7,
 		[parameter()][string] $Healthcheckfilename = "",
 		[parameter()][switch] $OverWrite,

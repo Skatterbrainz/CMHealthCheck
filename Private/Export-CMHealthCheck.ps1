@@ -7,9 +7,9 @@ function Export-CMHealthCheck {
 		report document using Microsoft Word (2010, 2013, 2016). Intended
 		to be invoked on a desktop computer which has Office installed.
 	.PARAMETER ReportFolder
-		Path to output data folder (e.g. ".\2019-03-06\cm01.contoso.local")
+		Path to output data folder (e.g. "My Documents\2019-03-06\cm01.contoso.local")
 	.PARAMETER AutoConfig
-		Use an auto configuration file, cmhealthconfig.txt in $env:USERPROFILE\documents folder
+		Use an auto configuration file, cmhealthconfig.txt in "My Documents" folder
 		to fill-in AuthorName, CopyrightName, Theme, CssFilename, TableRowStyle
 	.PARAMETER Detailed
 		Collect more granular data for final reporting, or use AutoConfig file
@@ -59,7 +59,7 @@ function Export-CMHealthCheck {
 	[CmdletBinding()]
 	param (
 		[parameter (Mandatory, HelpMessage = "Collected data folder")] [ValidateNotNullOrEmpty()][string] $ReportFolder,
-		[parameter(HelpMessage="Log folder path")][ValidateNotNullOrEmpty()][string] $OutputFolder = "$($env:USERPROFILE)\Documents",
+		[parameter(HelpMessage="Log folder path")][ValidateNotNullOrEmpty()][string] $OutputFolder = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
 		[parameter (HelpMessage = "Customer company name")][string] $CustomerName = "Customer Name",
 		[parameter (HelpMessage = "Use Auto Config File")][switch] $AutoConfig,
 		[parameter (HelpMessage = "Export full data, not only summary")] [switch] $Detailed,
@@ -92,7 +92,7 @@ function Export-CMHealthCheck {
 	$Script:osversion         = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
 	#$FormatEnumerationLimit = -1
 
-	$autoconfigfile = Join-Path -Path $env:USERPROFILE -ChildPath "documents\cmhealthconfig.txt"
+	$autoconfigfile = Join-Path -Path "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')" -ChildPath "cmhealthconfig.txt"
 	if ($AutoConfig -and (Test-Path $autoconfigfile)) {
 		Write-Verbose "importing settings from config file: $autoconfigfile"
 		$cfgdata = Get-Content -Path $autoconfigfile

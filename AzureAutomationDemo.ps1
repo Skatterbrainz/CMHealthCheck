@@ -7,7 +7,7 @@ param (
 )
 
 #$ErrorActionPreference = 'stop'
-$VerbosePreference = 'silentlycontinue'
+#$VerbosePreference = 'continue'
 
 $SendFrom = Get-AutomationVariable -Name 'MailSender'
 $SendTo   = Get-AutomationVariable -Name 'MailRecipients'
@@ -64,7 +64,7 @@ if ($(Install-PSModule) -eq 0) {
 	Import-Module CMHealthCheck -Force
 	$VerbosePreference = 'continue'
 	Write-Output "** module was installed successfully. Running audit and report..."
-	Write-Output (Get-Module "CMHealthCheck" -ListAvailable | Sort-Object Version -Descending | Select -First 1).Version -join '.'
+	Write-Output (Get-Module "CMHealthCheck" -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1).Version -join '.'
 	Write-Output "** module version is $mver"
 	$VerbosePreference = 'silentlycontinue'
 	$DataFolder = "c:\windows\temp"
