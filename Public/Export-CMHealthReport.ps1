@@ -24,6 +24,8 @@ function Export-CMHealthReport {
 		Report Author name (default = "Your Name"), or use AutoConfig file
 	.PARAMETER CopyrightName
 		Text to use for copyright footer string (default = "Your Company Name")
+	.PARAMETER ImageFile
+		Path to jpg or png file for custom logo on report. Default is using PS gallery icon
 	.PARAMETER Overwrite
 		Overwrite existing report file if found, or use AutoConfig file
 	.PARAMETER Healthcheckfilename
@@ -71,6 +73,7 @@ function Export-CMHealthReport {
 		[parameter()][string] $Template = "",
 		[parameter()][string] $AuthorName = "",
 		[parameter()][string] $CopyrightName  = "Your Company Name",
+		[parameter()][string] $ImageFile = "",
 		[parameter()][string] $Healthcheckfilename = "",
 		[parameter()][string] $MessagesFilename = "",
 		[parameter()][bool] $Healthcheckdebug = $False,
@@ -89,6 +92,7 @@ function Export-CMHealthReport {
 				CustomerName  = $CustomerName 
 				CopyrightName = $CopyrightName 
 				AuthorName    = $AuthorName
+				ImageFile     = $ImageFile
 				SmsProvider   = $SmsProvider
 				OutputFolder  = $OutputFolder
 				Detailed      = (!(!$Detailed))
@@ -105,7 +109,6 @@ function Export-CMHealthReport {
 				CustomerName  = $CustomerName 
 				CopyrightName = $CopyrightName 
 				AuthorName    = $AuthorName 
-				SmsProvider   = $SmsProvider
 				Detailed      = $Detailed
 				Overwrite     = $Overwrite
 				AutoConfig    = $AutoConfig
