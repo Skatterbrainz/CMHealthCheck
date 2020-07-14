@@ -23,6 +23,8 @@ function Export-CMHealthCheckHTML {
 		CSS style theme name, or 'Custom' to specify a file (default = 'Ocean'), or use AutoConfig file
 	.PARAMETER CssFilename
 		CSS file path to import when Theme is set to 'Custom', or use AutoConfig file
+	.PARAMETER ImageFile
+		Path to jpg or png file for custom logo on report. Default is using PS gallery icon
 	.PARAMETER TableRowStyle
 		Apply CSS table style: Solid, Alternating, or Dynamic. Default is Solid, or use AutoConfig file
 	.PARAMETER Overwrite
