@@ -67,10 +67,10 @@ function Export-CMHealthCheck {
 		[parameter (HelpMessage = "Word document source file")][string] $Template = "", 
 		[parameter (HelpMessage = "Author's full name")] [string] $AuthorName = "Your Name",
 		[parameter (HelpMessage = "Footer text")][string] $CopyrightName  = "Your Company Name",
+		[parameter (HelpMessage = "Overwrite existing report file")][switch] $Overwrite,
 		[parameter (HelpMessage = "HealthCheck query file name")] [string] $Healthcheckfilename = "", 
 		[parameter (HelpMessage = "HealthCheck messages file name")][string] $MessagesFilename = "", 
-		[parameter (HelpMessage = "Debug more?")] $Healthcheckdebug = $False,
-		[parameter (HelpMessage = "Overwrite existing report file")][switch] $Overwrite
+		[parameter (HelpMessage = "Debug more?")] $Healthcheckdebug = $False
 	)
 	$time1      = Get-Date -Format "hh:mm:ss"
 	$ModuleData = Get-Module CMHealthCheck
