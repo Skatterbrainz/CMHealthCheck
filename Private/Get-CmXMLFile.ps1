@@ -7,8 +7,8 @@ function Get-CmXMLFile {
 			[ValidateNotNullOrEmpty()]
 			[string] $FileName
 	)
-	Write-Log -Message "(Get-CmXMLFile): $Path\$FileName" -LogFile $logfile
 	$xfile = Join-Path -Path $Path -ChildPath $FileName
+	Write-Log -Message "(Get-CmXMLFile): $xfile" -LogFile $logfile
 	try {
 		$result = Import-CliXml -Path $xfile
 	}
