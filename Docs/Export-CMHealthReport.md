@@ -15,8 +15,9 @@ Convert extracted ConfigMgr site information to Word Document
 ```
 Export-CMHealthReport [[-ReportFolder] <String>] [[-ReportType] <String>] [[-OutputFolder] <String>]
  [[-CustomerName] <String>] [-AutoConfig] [[-SmsProvider] <String>] [-Detailed] [[-CoverPage] <String>]
- [[-Template] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-Healthcheckfilename] <String>]
- [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Boolean>] [-Show] [<CommonParameters>]
+ [[-Template] <String>] [[-AuthorName] <String>] [[-CopyrightName] <String>] [[-ImageFile] <String>]
+ [[-Healthcheckfilename] <String>] [[-MessagesFilename] <String>] [[-Healthcheckdebug] <Boolean>] [-Show]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -213,6 +214,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ImageFile
+Path to jpg or png file for custom logo on report.
+Default is using PS gallery icon
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Healthcheckfilename
 Healthcheck configuration XML file name (default = ".\assets\cmhealthcheck.xml")
 The file can be local, UNC or URI sourced as well
@@ -223,7 +240,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -239,7 +256,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -254,7 +271,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
