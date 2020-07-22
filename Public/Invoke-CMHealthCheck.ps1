@@ -106,6 +106,7 @@ function Invoke-CMHealthCheck {
 		break
 	}
 	if ($env:USERPROFILE -eq 'c:\windows\system32\config\systemprofile') {
+		Write-Verbose "mapping temp locations for SYSTEM context"
 		$DataFolder = $env:TEMP
 		$PublishFolder = $env:TEMP
 	}

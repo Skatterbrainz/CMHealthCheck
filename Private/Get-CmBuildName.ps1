@@ -8,12 +8,12 @@ function Get-CmBuildName {
 	$ModuleData = Get-Module CMHealthCheck
 	$ModuleVer  = $ModuleData.Version -join '.'
 	$ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-	$bdatafile  = "$ModulePath"+"assets\buildnumbers.txt"
+	$bdatafile  = "$($ModulePath)\assets\buildnumbers.txt"
 	if (!(Test-Path $bdatafile)) {
 		Write-Error "$bdatafile could not be found or imported"
 		break
 	}
-	$bdata = Get-Content $bdatafile
+	$bdata = Get-Content $bdatafile | Where-Object {-not($_.StartsWith(';'))}
 	foreach ($row in $bdata) {
 		$bset = $row -split "="
 		$bnum = $bset[0]

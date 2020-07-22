@@ -218,23 +218,25 @@ SELECT
 	WHEN RIGHT(s.Version,14) = '5.00.8498.1700' THEN '1702 Hotfix 1'
 	WHEN RIGHT(s.Version,14) = '5.00.8498.1711' THEN '1702 Hotfix 2'
 	WHEN RIGHT(s.Version,14) = '5.00.8533.1000' THEN '1706'
-  WHEN RIGHT(s.Version,14) = '5.00.8577.1000' THEN '1710'
-  WHEN RIGHT(s.Version,14) = '5.00.8577.1108' THEN '1710 Hotfix 1'
-  WHEN RIGHT(s.Version,14) = '5.00.8577.1115' THEN '1710 Hotfix 2'
-  WHEN RIGHT(s.Version,14) = '5.00.8634.1007' THEN '1802'
-  WHEN RIGHT(s.Version,14) = '5.00.8634.1813' THEN '1802 Hotfix 1'
-  WHEN RIGHT(s.Version,14) = '5.00.8692.1003' THEN '1806'
-  WHEN RIGHT(s.Version,14) = '5.00.8735.1000' THEN 'Preview 1810.2'
-  WHEN RIGHT(s.Version,14) = '5.00.8740.1003' THEN '1810'
-  WHEN RIGHT(s.Version,14) = '5.00.8748.1000' THEN 'Preview 1811'
-  WHEN RIGHT(s.Version,14) = '5.00.8756.1000' THEN 'Preview 1812'
-  WHEN RIGHT(s.Version,14) = '5.00.8772.1000' THEN 'Preview 1901'
-  WHEN RIGHT(s.Version,14) = '5.00.8782.1000' THEN 'Preview 1902'
-  WHEN RIGHT(s.Version,14) = '5.00.8787.1000' THEN 'Preview 1902.2'
-  WHEN RIGHT(s.Version,14) = '5.00.8790.1000' THEN '1902'
-  WHEN RIGHT(s.Version,14) = '5.00.8853.1000' THEN '1906'
-  WHEN RIGHT(s.Version,14) = '5.00.8913.1000' THEN '1910'
-  WHEN RIGHT(s.Version,14) = '5.00.8909.1000' THEN 'Preview 1911'
+	WHEN RIGHT(s.Version,14) = '5.00.8577.1000' THEN '1710'
+	WHEN RIGHT(s.Version,14) = '5.00.8577.1108' THEN '1710 Hotfix 1'
+	WHEN RIGHT(s.Version,14) = '5.00.8577.1115' THEN '1710 Hotfix 2'
+	WHEN RIGHT(s.Version,14) = '5.00.8634.1007' THEN '1802'
+	WHEN RIGHT(s.Version,14) = '5.00.8634.1813' THEN '1802 Hotfix 1'
+	WHEN RIGHT(s.Version,14) = '5.00.8692.1003' THEN '1806'
+	WHEN RIGHT(s.Version,14) = '5.00.8735.1000' THEN 'Preview 1810.2'
+	WHEN RIGHT(s.Version,14) = '5.00.8740.1003' THEN '1810'
+	WHEN RIGHT(s.Version,14) = '5.00.8748.1000' THEN 'Preview 1811'
+	WHEN RIGHT(s.Version,14) = '5.00.8756.1000' THEN 'Preview 1812'
+	WHEN RIGHT(s.Version,14) = '5.00.8772.1000' THEN 'Preview 1901'
+	WHEN RIGHT(s.Version,14) = '5.00.8782.1000' THEN 'Preview 1902'
+	WHEN RIGHT(s.Version,14) = '5.00.8787.1000' THEN 'Preview 1902.2'
+	WHEN RIGHT(s.Version,14) = '5.00.8790.1000' THEN '1902'
+	WHEN RIGHT(s.Version,14) = '5.00.8853.1000' THEN '1906'
+	WHEN RIGHT(s.Version,14) = '5.00.8913.1000' THEN '1910'
+	WHEN RIGHT(s.Version,14) = '5.00.8909.1000' THEN 'Preview 1911'
+	WHEN RIGHT(s.Version,14) = '5.00.8968.1000' THEN '2002'
+	WHEN RIGHT(s.Version,14) = '5.00.9024.1000' THEN '2006'
 	ELSE CAST(s.Version AS VARCHAR(100))
   END AS SPLevel,
   CASE 
@@ -275,38 +277,38 @@ FROM Sites s INNER JOIN SC_SiteDefinition sd ON sd.SiteCode = s.SiteCode
 WHERE s.SiteCode = @SiteCode
     </sqlquery>
     <Fields>
-      <Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SiteName" Description="Site Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
-      <Field FieldName="BuildNumber" Description="Build Number" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SPLevel" Description="Update Pack Level" value="" format="" key="false" groupby="1" />
-      <Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SiteType" Description="Site Type" value="" format="" key="false" groupby="1" />
-      <Field FieldName="InstallDir" Description="Installation Directory" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SiteServer" Description="Site Server" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SMSProvider" Description="SMS Provider" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SQLServerName" Description="SQL Server" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SQLDatabaseName" Description="Database Name" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SSBPort" Description="SSB Port" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SQLPort" Description="SQL Server Port" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SQLVersion" Description="SQL Version" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SQLSP" Description="SQL Service Pack Level" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SQLEdition" Description="SQL Edition" value="" format="" key="false" groupby="1" />
-      <Field FieldName="DP" Description="Distribution Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="MP" Description="Management Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="FSP" Description="Fallback Status Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="RSP" Description="Reporting Service Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="EPP" Description="Endpoint Protection Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SUP" Description="Software Update Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="AISP" Description="Asset Intelligence synchronization Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="AWS" Description="Application Catalog web service Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="PWS" Description="Application Catalog web site Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SMP" Description="State Migration Point" value="" format="" key="false" groupby="1" />
-      <Field FieldName="SNS" Description="SMS Notification Server" value="" format="" key="false" groupby="1" />
-	    <Field FieldName="CPC" Description="Cloud Proxy Connector" value="" format="" key="false" groupby="1" />
-	    <Field FieldName="DWP" Description="Data Warehouse Service Point" value="" format="" key="false" groupby="1" />
-	    <Field FieldName="DMP" Description="DMP Connector" value="" format="" key="false" groupby="1" />
-	    <Field FieldName="SCP" Description="Service Connection Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SiteCode" Description="Site Code" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SiteName" Description="Site Name" value="" format="" key="false" groupby="1" />
+		<Field FieldName="Version" Description="Version" value="" format="" key="false" groupby="1" />
+		<Field FieldName="BuildNumber" Description="Build Number" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SPLevel" Description="Update Pack Level" value="" format="" key="false" groupby="1" />
+		<Field FieldName="Status" Description="Status" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SiteType" Description="Site Type" value="" format="" key="false" groupby="1" />
+		<Field FieldName="InstallDir" Description="Installation Directory" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SiteServer" Description="Site Server" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SMSProvider" Description="SMS Provider" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SQLServerName" Description="SQL Server" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SQLDatabaseName" Description="Database Name" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SSBPort" Description="SSB Port" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SQLPort" Description="SQL Server Port" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SQLVersion" Description="SQL Version" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SQLSP" Description="SQL Service Pack Level" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SQLEdition" Description="SQL Edition" value="" format="" key="false" groupby="1" />
+		<Field FieldName="DP" Description="Distribution Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="MP" Description="Management Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="FSP" Description="Fallback Status Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="RSP" Description="Reporting Service Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="EPP" Description="Endpoint Protection Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SUP" Description="Software Update Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="AISP" Description="Asset Intelligence synchronization Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="AWS" Description="Application Catalog web service Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="PWS" Description="Application Catalog web site Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SMP" Description="State Migration Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SNS" Description="SMS Notification Server" value="" format="" key="false" groupby="1" />
+		<Field FieldName="CPC" Description="Cloud Proxy Connector" value="" format="" key="false" groupby="1" />
+		<Field FieldName="DWP" Description="Data Warehouse Service Point" value="" format="" key="false" groupby="1" />
+		<Field FieldName="DMP" Description="DMP Connector" value="" format="" key="false" groupby="1" />
+		<Field FieldName="SCP" Description="Service Connection Point" value="" format="" key="false" groupby="1" />
     </Fields>
   </HealthCheck>
   <HealthCheck>
@@ -1801,7 +1803,7 @@ WHERE g.Name0 = h.Name0 AND
     <EmptyText>There is no information to report</EmptyText>
     <querytype>sql</querytype>
     <sqlquery>
-SELECT
+SELECT DISTINCT
 	stat.MachineName, 
     fcm.SiteCode,
 	stat.Component 

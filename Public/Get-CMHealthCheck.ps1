@@ -113,7 +113,7 @@ function Get-CMHealthCheck {
 				Remove-Item -Path "$($reportFolder)" -Recurse -Force
 			}
 			else {
-				Write-Host "Folder $reportFolder already exist, no futher action taken" -ForegroundColor Red
+				Write-Host "Folder $reportFolder already exists. Use -Overwrite to replace." -ForegroundColor Red
 				break
 			}
 		}
@@ -133,8 +133,8 @@ function Get-CMHealthCheck {
 		Write-Log -Message "-------------- connecting to site ---------------------"
 
 		$WMISMSProvider = Get-CmWmiObject -Class "SMS_ProviderLocation" -NameSpace "Root\SMS" -ComputerName $smsprovider -LogFile $logfile
-		$SiteCodeNamespace = $WMISMSProvider.SiteCode
-		if (!$SiteCodeNameSpace) {
+		$SiteCodeNamespace = $($WMISMSProvider.SiteCode -join '').SubString(0,3) # thanks to Chris Shilt (07/21/20)
+		if ([string]::IsNullOrEmpty($SiteCodeNameSpace)) {
 			Write-Host "Error: Unable to connect to $SmsProvider. Exit." -ForegroundColor Red
 			Write-Log "unable to connect to $SmsProvider. Exiting here." -Severity 3 -LogFile $logfile
 			break
@@ -147,7 +147,7 @@ function Get-CMHealthCheck {
 		Write-Log -Message "Site Server......: $SMSSiteServer" -LogFile $logfile
 		Write-Log -Message "Site Version.....: $SMSSiteVersion" -LogFile $logfile
 
-		if (-not ($WMISMSSite.Version -like "5.*")) {
+		if ($WMISMSSite.Version -lt 5) {
 			Write-Log -Message "ConfigMgr Site $SMSSiteVersion not supported. No further action taken" -Severity 3 -LogFile $logfile
 			break
 		}
