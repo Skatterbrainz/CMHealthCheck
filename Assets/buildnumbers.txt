@@ -1,3 +1,4 @@
+; SOURCE: https://www.prajwaldesai.com/sccm-configuration-manager-technical-preview-build-numbers/
 5.0.7958.1000=2012 R2 RTM
 5.0.7958.1101=2012 Post R2 Hotfix
 5.0.7958.1203=2012 R2 CU1
@@ -99,3 +100,19 @@
 5.0.8842.1000=Technical Preview (Version 1906)
 5.0.8853.1000=1906
 5.0.8855.1000=Technical Preview (Version 1907)
+5.0.8860.1000=Technical Preview (Version 1908)
+5.0.8871.1000=Technical Preview (Version 1908.2)
+5.0.8884.1000=Technical Preview (Version 1909)
+5.0.8899.1000=Technical Preview (Version 1910)
+5.0.8913.1000=1910
+5.0.8899.1000=Technical Preview (Version 1911)
+5.0.8923.1000=Technical Preview (Version 1912)
+5.0.8938.1000=Technical Preview (Version 2001)
+5.0.8946.1000=Technical Preview (Version 2001.2)
+5.0.8961.1000=Technical Preview (Version 2002.2)
+5.0.9868.1000=2002
+5.0.8974.1000=Technical Preview (Version 2003)
+5.0.8991.1000=Technical Preview (Version 2004)
+5.0.9023.1000=Technical Preview (Version 2005)
+5.0.9024.1000=Technical Preview (Version 2006)
+5.0.9026.1000=Technical Preview (Version 2007)
