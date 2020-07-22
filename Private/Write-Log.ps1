@@ -14,7 +14,7 @@ Function Write-Log {
 	}
 	$MsgTxt = "$(Get-Date -f 'yyyy-M-dd HH:mm:ss')  $Category  $Message"
 	if (![string]::IsNullOrEmpty($logfile)) {
-		$MsgTxt | Out-File -FilePath $LogFile -Append -NoClobber -Encoding Default
+		$MsgTxt | Out-File -FilePath $LogFile -Append -NoClobber -Encoding Default -Force 
 	}
 	if ($showmsg) {
 		switch ($Severity) {
