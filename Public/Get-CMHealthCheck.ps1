@@ -217,7 +217,9 @@ function Get-CMHealthCheck {
 		}
 		catch {}
 		$SqlCommand = $null
-		$arrSites = @()
+		#$arrSites = @()
+		[System.Collections.Generic.List[PSObject]]$arrSites = @()
+
 		$SqlCommand = $sqlConn.CreateCommand()
 		$executionquery = "select distinct st.SiteCode, (select top 1 srl2.ServerName from v_SystemResourceList srl2 where srl2.RoleName = 'SMS Provider' and srl2.SiteCode = st.SiteCode) as ServerName from v_Site st"
 
@@ -238,7 +240,8 @@ function Get-CMHealthCheck {
 		}
 		Write-Log -Message "info.............: data adapter is looking good!" -LogFile $LogFile
 		foreach($row in $dataset.Tables[0].Rows) {
-			$arrSites += "$($row.SiteCode)@$($row.ServerName)"
+			#$arrSites += "$($row.SiteCode)@$($row.ServerName)"
+			$arrSites.Add("$($row.SiteCode)@$($row.ServerName)")
 		}
 		Write-Log -Message $("Sites discovered: " + $arrSites -join(", ")) -LogFile $LogFile
 		$SqlCommand = $null
