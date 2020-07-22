@@ -59,7 +59,7 @@ function Export-CMHealthCheck {
 	[CmdletBinding()]
 	param (
 		[parameter (Mandatory, HelpMessage = "Collected data folder")] [ValidateNotNullOrEmpty()][string] $ReportFolder,
-		[parameter(HelpMessage="Log folder path")][ValidateNotNullOrEmpty()][string] $OutputFolder = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
+		[parameter(HelpMessage="Log folder path")][ValidateNotNullOrEmpty()][string] $OutputFolder = ".\$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
 		[parameter (HelpMessage = "Customer company name")][string] $CustomerName = "Customer Name",
 		[parameter (HelpMessage = "Use Auto Config File")][switch] $AutoConfig,
 		[parameter (HelpMessage = "Export full data, not only summary")] [switch] $Detailed,
@@ -72,11 +72,11 @@ function Export-CMHealthCheck {
 		[parameter (HelpMessage = "HealthCheck messages file name")][string] $MessagesFilename = "", 
 		[parameter (HelpMessage = "Debug more?")] $Healthcheckdebug = $False
 	)
+	Write-Verbose "Export-CMHealthCheck: Word Format"
 	$time1      = Get-Date -Format "hh:mm:ss"
 	$ModuleData = Get-Module CMHealthCheck
 	$ModuleVer  = $ModuleData.Version -join '.'
 	$ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-	#$tsLog      = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck-Transcript.log"
 	$logfile    = Join-Path -Path $OutputFolder -ChildPath "Export-CMHealthCheck.log"
 	$Script:TempFilename      = "cmhealthreport.docx"
 	$Script:DefaultTableStyle = "Grid Table 4 - Accent 1"
@@ -90,7 +90,6 @@ function Export-CMHealthCheck {
 	$Script:NormalFontSize    = 10
 	$poshversion              = $PSVersionTable.PSVersion.Major
 	$Script:osversion         = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
-	#$FormatEnumerationLimit = -1
 
 	$autoconfigfile = Join-Path -Path "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')" -ChildPath "cmhealthconfig.txt"
 	if ($AutoConfig -and (Test-Path $autoconfigfile)) {
@@ -167,17 +166,18 @@ function Export-CMHealthCheck {
 		Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
 		if ($poshversion -eq 3) { 
 			$NumberOfDays = $ConfigTable.Rows[0].NumberOfDays
-		}
-		else { 
+		} else { 
 			$NumberOfDays = $ConfigTable.NumberOfDays
 		}
+		Write-Log -Message "number of days = $NumberOfDays"
 
+		Write-Log -Message "checking powershell platform type"
 		if (!(Test-Powershell64bit)) { Invoke-Error -Message "Powershell is not 64bit, no futher action taken"; break }
 		
 		$wordVersion = $Word.Version
 		Write-Log -Message "Microsoft Word version: $WordVersion" -LogFile $logfile
 		if ($wordVersion -lt '15.0') { Invoke-Error -Message "This module requires Word 2013 or newer"; break }
-		if ([string]::IsNullOrEmpty($Template)) {
+		if (![string]::IsNullOrEmpty($Template)) {
 			$newFile = Get-WordTempSource -SourceFile $Template
 			Write-Log -Message "Opening temp file [$newFile]..." -LogFile $logfile
 			try {
@@ -187,8 +187,7 @@ function Export-CMHealthCheck {
 				Invoke-Error -Message "Failed to open temp document file: $newFile"
 				break
 			}
-		}
-		else {
+		} else {
 			Write-Log -Message "Creating new (blank) document..." -LogFile $logfile
 			$Doc = $Word.Documents.Add()
 		}
@@ -207,8 +206,7 @@ function Export-CMHealthCheck {
 			Write-Log -Message "Inserting cover page: $CoverPage" -LogFile $logfile
 			$part = $BuildingBlocks.BuildingBlockEntries.Item($CoverPage)
 			$part.Insert($selection.Range,$True) | Out-Null
-		}
-		else {
+		} else {
 			Write-Log -Message "Cover page option ignored when using custom template" -LogFile $logfile
 			$Selection.EndKey(6, 0) | Out-Null            
 		}
@@ -236,8 +234,7 @@ function Export-CMHealthCheck {
 
 		$selection.InsertNewPage()
 		Set-DocAppendix
-	}
-	else {
+	} else {
 		Write-Log -Message "Unable to load Healthcheck or Messages XML data" -Severity 3 -LogFile $logfile -ShowMsg
 		$error.Clear()
 	}
@@ -246,8 +243,7 @@ function Export-CMHealthCheck {
 		$Doc.TablesOfContents.Item(1).Update()
 		if ($bLogValidation -eq $False) {
 			Write-Host "Finishing up healthcheck report"
-		}
-		else {
+		} else {
 			Write-Log -Message "Finishing up HealthCheck Export" -LogFile $logfile
 		}
 	}
