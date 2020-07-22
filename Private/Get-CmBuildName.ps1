@@ -1,4 +1,5 @@
 function Get-CmBuildName {
+	[CmdletBinding()]
 	param (
 		[parameter(Mandatory)]
 		[ValidateNotNullOrEmpty()]
