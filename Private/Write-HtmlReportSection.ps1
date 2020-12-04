@@ -18,8 +18,7 @@ Function Write-HtmlReportSection {
 			if ($Section -eq 5) {
 				if ($detailed -eq $false) { 
 					$Description += " - Overview" 
-				} 
-				else { 
+				} else { 
 					$Description += " - Detailed"
 				}            
 			}
@@ -35,8 +34,7 @@ Function Write-HtmlReportSection {
 		if ($Section -eq 5) {
 			if (!($detailed)) { 
 				$tablename += "summary" 
-			} 
-			else { 
+			} else { 
 				$tablename += "detail"
 			}            
 		}
@@ -56,7 +54,7 @@ Function Write-HtmlReportSection {
 						"Heading 1" { $CapStyle = "h2" }
 						"Heading 2" { $CapStyle = "h3" }
 						"Heading 3" { $CapStyle = "h4" }
-						default { $newstyle = $healthCheck.WordStyle }
+						default { $CapStyle = "h2" }
 					}
 					$xmltile += $filename.Substring(0,$filename.IndexOf("_"))
 					Write-Log -Message "--- xmlTile = $xmlTile" -LogFile $logfile
@@ -66,8 +64,7 @@ Function Write-HtmlReportSection {
 				if (!(Test-Path ($reportFolder + $filename))) {
 					$result += "`n<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 					Write-Log -Message "Table does not exist" -LogFile $logfile
-				}
-				else {
+				} else {
 					Write-Log -Message "importing XML file: $filename" -LogFile $logfile
 					$datatable = Import-CliXml -Path ($reportFolder + $filename)
 					$count = 0
@@ -121,8 +118,7 @@ Function Write-HtmlReportSection {
 									'Alternating' {
 										if ($rownum % 2 -eq 0) {
 											$table += "<tr class=`"rowstyle3`">"
-										}
-										else {
+										} else {
 											$table += "<tr class=`"rowstyle4`">"
 										}
 									}
@@ -151,11 +147,9 @@ Function Write-HtmlReportSection {
 									if ([string]::IsNullOrEmpty($TextToWord)) { 
 										$TextToWord = " " 
 										$val = " "
-									}
-									elseif (Test-Numeric $TextToWord) {
+									} elseif (Test-Numeric $TextToWord) {
 										$val = ([math]::Round($TextToWord,2)).ToString()
-									}
-									else {
+									} else {
 										$val = $TextToWord.ToString()
 									}
 									$table += "<td>$val</td>"
@@ -211,8 +205,7 @@ Function Write-HtmlReportSection {
 										}
 									} # switch
 									if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
-								}
-								else {
+								} else {
 									$TextToWord = "";
 									switch ($field.Format.ToLower()) {
 										"message" {
@@ -234,8 +227,7 @@ Function Write-HtmlReportSection {
 									'Alternating' {
 										if ($rownum % 2 -eq 0) {
 											$table += "<tr class=`"rowstyle3`">"
-										}
-										else {
+										} else {
 											$table += "<tr class=`"rowstyle4`">"
 										}
 									}

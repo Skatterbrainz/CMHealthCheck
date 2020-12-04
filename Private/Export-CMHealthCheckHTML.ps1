@@ -64,13 +64,13 @@ function Export-CMHealthCheckHTML {
 	#>
 	[CmdletBinding()]
 	param (
-		[Parameter (Mandatory, HelpMessage = "Collected data folder")]
+		[parameter (Mandatory, HelpMessage = "Collected data folder")]
 			[ValidateNotNullOrEmpty()]
 			[string] $ReportFolder,
 		[parameter(HelpMessage="Log folder path")]
 			[ValidateNotNullOrEmpty()]
 			[string] $OutputFolder = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
-		[Parameter (HelpMessage = "Export full data, not only summary")]
+		[parameter (HelpMessage = "Export full data, not only summary")]
 			[switch] $Detailed,
 		[parameter (HelpMessage = "Customer company name")]
 			[string] $CustomerName = "Customer Name",
@@ -81,11 +81,11 @@ function Export-CMHealthCheckHTML {
 			[string] $AuthorName = "",
 		[parameter (HelpMessage = "Footer text")]
 			[string] $CopyrightName  = "Skatterbrainz",
-		[Parameter (HelpMessage = "HealthCheck query file name")]
+		[parameter (HelpMessage = "HealthCheck query file name")]
 			[string] $Healthcheckfilename = "",
-		[Parameter (HelpMessage = "HealthCheck messages file name")]
+		[parameter (HelpMessage = "HealthCheck messages file name")]
 			[string] $MessagesFilename = "",
-		[Parameter (HelpMessage = "Debug more?")]
+		[parameter (HelpMessage = "Debug more?")]
 			$Healthcheckdebug = $False,
 		[parameter (HelpMessage = "Theme Name")]
 			[ValidateSet('Ocean','Emerald','Monochrome','Custom')]
@@ -112,8 +112,7 @@ function Export-CMHealthCheckHTML {
 	if (-not (Test-Path $logFolder)) {
 		Write-Verbose "creating log folder: $logFolder"
 		New-Item -Path $logFolder -ItemType Directory -Force | Out-Null
-	}
-	else {
+	} else {
 		Write-Verbose "log folder already exists: $logFolder"
 	}
 
@@ -141,8 +140,7 @@ function Export-CMHealthCheckHTML {
 	if ($ImageData) {
 		$LogoTag = "<img src=`"$ImageData`" width=`"100`" />"
 		Write-Log -Message "image tag has been updated" -LogFile $logfile
-	}
-	else {
+	} else {
 		$LogoTag = ""
 		Write-Log -Message "no logo image was provided" -LogFile $logfile 
 	}
@@ -176,15 +174,13 @@ function Export-CMHealthCheckHTML {
 		if ($CssFilename -eq "") {
 			Write-Warning "No stylesheet was specified for [custom] option. Using default.css"
 			$CssFilename = Join-Path -Path $ModulePath -ChildPath "assets\default.css"
-		}
-		else {
+		} else {
 			if (!(Test-Path $CssFilename)) {
 				Write-Warning "$CssFilename was not found!"
 				break
 			}
 		}
-	}
-	else {
+	} else {
 		$CssFilename = Join-Path -Path $ModulePath -ChildPath "assets\$Theme.css"
 		if (!(Test-Path $CssFilename)) {
 			Write-Warning "$CssFilename was not found!"
@@ -225,8 +221,7 @@ function Export-CMHealthCheckHTML {
 		Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
 		if ($poshversion -eq 3) {
 			$NumberOfDays = $ConfigTable.Rows[0].NumberOfDays
-		}
-		else {
+		} else {
 			$NumberOfDays = $ConfigTable.NumberOfDays
 		}
 
@@ -236,22 +231,24 @@ function Export-CMHealthCheckHTML {
 
 		$htmlContent = @"
 <html>
-	<head>
-		<title="CMHealthCheck Report">
-		<style type="text/css">
-		$css
-		</style>
-		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-	</head>
-	<body>
+<head>
+<title="CMHealthCheck Report">
+<style type="text/css">
+$css
+</style>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
 "@
 		Write-Log -Message "inserting title caption" -LogFile $logfile
-		$htmlContent += "`n<table class=`"reportTable`" style=`"border-color:#fff`">"
-		$htmlContent += "`n<tr><td style=`"width:120px`">`n"
-		$htmlContent += "$LogoTag"
-		$htmlContent += "`n</td><td style=`"vertical-align:top`">`n<h1>MEMCM HealthCheck Report</h1>"
-		$htmlContent += "`n<p>Microsoft Endpoint Management`: Center Configuration Manager Healthcheck Report</p>"
-		$htmlContent += "</td></tr>`n</table>"
+		$htmlContent += @"
+<table class=`"reportTable`" style=`"border-color:#fff`">
+<tr><td style=`"width:120px`">
+$LogoTag
+</td><td style=`"vertical-align:top`">`n<h1>MEMCM HealthCheck Report</h1>
+<p>Microsoft Endpoint Management`: Configuration Manager Healthcheck Report</p>
+</td></tr>`n</table>
+"@
 
 		$htmlTable = [ordered]@{
 			Customer       = $CustomerName
@@ -266,13 +263,14 @@ function Export-CMHealthCheckHTML {
 
 		Write-Log -Message "--- inserting abstract content block" -LogFile $logfile
 
-		$htmlContent += "`n<table class=`"reportTable`"><tr><td>"
-		$htmlContent += "This document provides a point-in-time report of the current state of the MEMCM site environment for $CustomerName. "
-		$htmlContent += "For questions, concerns or comments, please consult the author of this assessment report. "
-		$htmlContent += "This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for "
-		$htmlContent += "their work which laid the foundation on which this code was developed."
-		$htmlContent += "</td></tr>`n</table>"
-
+		$htmlContent += @"
+<table class=`"reportTable`"><tr><td>
+This document provides a point-in-time report of the current state of the MEMCM site environment for $CustomerName. 
+For questions, concerns or comments, please consult the author of this assessment report. 
+This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for 
+their work which laid the foundation on which this code was developed.
+</td></tr>`n</table>
+"@
 		Write-Log -Message "--- entering section reports" -LogFile $logfile
 
 		$htmlContent += Write-HtmlReportSection -HealthCheckXML $HealthCheckXML -Section '1' -LogFile $logfile
@@ -290,10 +288,11 @@ function Export-CMHealthCheckHTML {
 		#Set-DocAppendix
 
 		Write-Log -Message "inserting copyright footer" -LogFile $logfile
-		$htmlContent += "`n<p class=`"footer`">CMHealthCheck $ModuleVer by David Stein. Copyright &copy; $((Get-Date).Year) $CopyrightName"
-		$htmlContent += " - <a href=`"https://github.com/skatterbrainz/CMHealthCheck`" target=`"_blank`">GitHub`:CMHealthCheck</a></p>"
-		$htmlContent += "`n</body></html>"
-
+		$htmlContent += @"
+<p class=`"footer`">CMHealthCheck $ModuleVer by David Stein. Copyright &copy; $((Get-Date).Year)&nbsp;
+$CopyrightName - <a href=`"https://github.com/skatterbrainz/CMHealthCheck`" target=`"_blank`">GitHub</a></p>
+</body></html>
+"@
 		Write-Log -Message "writing output file: $ReportFile" -LogFile $logfile
 		$htmlContent | Out-File -FilePath $ReportFile -Force
 		Write-Host "report saved to $ReportFile" -ForegroundColor Cyan

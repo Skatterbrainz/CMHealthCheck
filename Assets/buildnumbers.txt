@@ -110,9 +110,11 @@
 5.0.8938.1000=Technical Preview (Version 2001)
 5.0.8946.1000=Technical Preview (Version 2001.2)
 5.0.8961.1000=Technical Preview (Version 2002.2)
-5.0.9868.1000=2002
+5.0.8968.1000=2002
 5.0.8974.1000=Technical Preview (Version 2003)
 5.0.8991.1000=Technical Preview (Version 2004)
 5.0.9023.1000=Technical Preview (Version 2005)
 5.0.9024.1000=Technical Preview (Version 2006)
+5.0.2012.1000=2006
 5.0.9026.1000=Technical Preview (Version 2007)
+5.0.9028.1000=Technical Preview (Version 2008)
