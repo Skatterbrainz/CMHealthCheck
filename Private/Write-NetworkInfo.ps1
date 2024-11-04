@@ -19,11 +19,10 @@ function Write-NetworkInfo {
 		$row.DefaultIPGateway = ($IPAddress.DefaultIPGateway -join ", ")
 		$row.IPSubnet         = ($IPAddress.IPSubnet -join ", ")
 		$row.MACAddress       = $IPAddress.MACAddress
-		if ($IPAddress.DHCPEnable -eq $true) { 
-			$row.DHCPEnabled = "TRUE" 
-		}
-		else { 
-			$row.DHCPEnabled = "FALSE" 
+		if ($IPAddress.DHCPEnable -eq $true) {
+			$row.DHCPEnabled = "TRUE"
+		} else {
+			$row.DHCPEnabled = "FALSE"
 		}
 		$NetworkInfoTable.Rows.Add($row)
 	}

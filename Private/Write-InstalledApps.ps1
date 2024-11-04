@@ -12,12 +12,10 @@ function Write-InstalledApps {
 	Write-Log -Message "server..... $ServerName" -LogFile $LogFile
 	try {
 		$Apps = @(Get-CimInstance -ClassName "Win32_Product" -ComputerName $ServerName -ErrorAction Stop | Sort-Object Name)
-	}
-	catch {
+	} catch {
 		if ($ContinueOnError -eq $True) {
 			Write-Log -Category 'Error' -Message 'cannot connect to $ServerName to enumerate software' -LogFile $LogFile
-		}
-		else {
+		} else {
 			Write-Log -Category 'Error' -Message 'cannot connect to $ServerName to enumerate software' -Severity 3 -LogFile $LogFile
 			return
 		}
@@ -31,8 +29,8 @@ function Write-InstalledApps {
 	$AppDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($app in $Apps) {
 		$appname  = $app.Name
-		$appver   = $app.Version 
-		$appven   = $app.Vendor 
+		$appver   = $app.Version
+		$appven   = $app.Vendor
 		$row      = $AppDetails.NewRow()
 		$row.Name = $appname
 		$row.Version = $appver

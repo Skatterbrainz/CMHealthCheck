@@ -4,8 +4,7 @@ function Get-CmCredentials {
 		$cred = Get-Credentials
 		Write-Log -Message "Trying username: $($cred.Username)" -LogFile $logfile
 		Write-Output $cred
-	}
-	catch {
+	} catch {
 		Write-Output $null
 	}
 }

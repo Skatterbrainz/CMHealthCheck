@@ -16,11 +16,11 @@ Function Write-HtmlReportSection {
 		if ($healthCheck.IsActive.ToLower() -ne 'true') { continue }
 		if ($healthCheck.IsTextOnly.ToLower() -eq 'true') {
 			if ($Section -eq 5) {
-				if ($detailed -eq $false) { 
-					$Description += " - Overview" 
-				} else { 
+				if ($detailed -eq $false) {
+					$Description += " - Overview"
+				} else {
 					$Description += " - Detailed"
-				}            
+				}
 			}
 			$result += "<h3>$Description</h3>"
 			#Write-WordText -WordSelection $selection -Text $Description -Style $healthCheck.WordStyle -NewLine $true
@@ -32,11 +32,11 @@ Function Write-HtmlReportSection {
 		$bFound = $false
 		$tableName = $healthCheck.XMLFile
 		if ($Section -eq 5) {
-			if (!($detailed)) { 
-				$tablename += "summary" 
-			} else { 
+			if (!($detailed)) {
+				$tablename += "summary"
+			} else {
 				$tablename += "detail"
-			}            
+			}
 		}
 		foreach ($rp in $ReportTable) {
 			if ($rp.TableName -eq $tableName) {
@@ -60,7 +60,7 @@ Function Write-HtmlReportSection {
 					Write-Log -Message "--- xmlTile = $xmlTile" -LogFile $logfile
 					$result += "`n<$CapStyle>$xmlTile</$CapStyle>"
 				}
-				
+
 				if (!(Test-Path ($reportFolder + $filename))) {
 					$result += "`n<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 					Write-Log -Message "Table does not exist" -LogFile $logfile
@@ -69,7 +69,7 @@ Function Write-HtmlReportSection {
 					$datatable = Import-CliXml -Path ($reportFolder + $filename)
 					$count = 0
 					$datatable | Where-Object { $count++ }
-					
+
 					if ($count -eq 0) {
 						$result += "`n<table class=`"reportTable`"><tr><td>$($healthCheck.EmptyText)</td></tr></table>"
 						Write-Log -Message "Table......... 0 rows" -LogFile $logfile
@@ -139,13 +139,13 @@ Function Write-HtmlReportSection {
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($row.$($field.FieldName))
-										}										
+										}
 										default {
 											$TextToWord = $row.$($field.FieldName);
 										}
 									}
-									if ([string]::IsNullOrEmpty($TextToWord)) { 
-										$TextToWord = " " 
+									if ([string]::IsNullOrEmpty($TextToWord)) {
+										$TextToWord = " "
 										$val = " "
 									} elseif (Test-Numeric $TextToWord) {
 										$val = ([math]::Round($TextToWord,2)).ToString()
@@ -191,7 +191,7 @@ Function Write-HtmlReportSection {
 									$records = 1
 									$y++
 								}
-								if ($poshversion -ne 3) { 
+								if ($poshversion -ne 3) {
 									$TextToWord = "";
 									switch ($field.Format.ToLower()) {
 										"message" {
@@ -199,7 +199,7 @@ Function Write-HtmlReportSection {
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($datatable.Rows[0].$($field.FieldName))
-										}											
+										}
 										default {
 											$TextToWord = $datatable.Rows[0].$($field.FieldName)
 										}
@@ -213,9 +213,9 @@ Function Write-HtmlReportSection {
 										}
 										"messagesolution" {
 											$TextToWord = Get-MessageSolution -MessageID ($datatable.$($field.FieldName))
-										}											
+										}
 										default {
-											$TextToWord = $datatable.$($field.FieldName) 
+											$TextToWord = $datatable.$($field.FieldName)
 										}
 									} # switch
 									if ([string]::IsNullOrEmpty($TextToWord)) { $TextToWord = " " }
@@ -263,7 +263,7 @@ Function Write-HtmlReportSection {
 										}
 										"messagesolution" {
 											$TextToWord = ($field.Description + " : " + (Get-MessageSolution -MessageID ($row.$($field.FieldName))))
-										}												
+										}
 										default {
 											$TextToWord = ($field.Description + " : " + $row.$($field.FieldName))
 										}

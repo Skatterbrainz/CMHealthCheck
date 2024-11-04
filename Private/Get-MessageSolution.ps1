@@ -22,35 +22,28 @@ function Get-MessageSolution {
 							$errdet = $($errdata | Where-Object {$_.DecErrorCode -eq $MessageID} | Select-Object -ExpandProperty Description).Trim()
 							if (![string]::IsNullOrEmpty($errdet)) {
 								Write-Output $errdet
-							}
-							else {
+							} else {
 								Write-Output "There is no known possible solution for Message ID $MessageID"
 							}
-						}
-						else {
+						} else {
 							Write-Output $errdet
 						}
-					}
-					else {
+					} else {
 						Write-Log -Message "failed to import $errcodes" -LogFile $logfile
 						Write-Output ""
 					}
-				}
-				else {
+				} else {
 					Write-Warning "missing file: $errcodes"
 					Write-Output "There is no known possible solution for Message ID $MessageID"
 				}
-			}
-			else {
+			} else {
 				Write-Output $msg.Description
 			}
-		}
-		else {
+		} else {
 			Write-Log -Message "MessageID was blank or null" -LogFile $logfile
 			Write-Output ""
 		}
-	}
-	catch {
+	} catch {
 		Write-Log -Message $_.Exception.Message -LogFile $logfile -Severity 3
 	}
 }

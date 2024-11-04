@@ -64,12 +64,12 @@ function Export-CMHealthCheck {
 		[parameter (HelpMessage = "Use Auto Config File")][switch] $AutoConfig,
 		[parameter (HelpMessage = "Export full data, not only summary")] [switch] $Detailed,
 		[parameter (HelpMessage = "Word Template cover page name")] [string] $CoverPage = "Slice (Light)",
-		[parameter (HelpMessage = "Word document source file")][string] $Template = "", 
+		[parameter (HelpMessage = "Word document source file")][string] $Template = "",
 		[parameter (HelpMessage = "Author's full name")] [string] $AuthorName = "Your Name",
 		[parameter (HelpMessage = "Footer text")][string] $CopyrightName  = "Your Company Name",
 		[parameter (HelpMessage = "Overwrite existing report file")][switch] $Overwrite,
-		[parameter (HelpMessage = "HealthCheck query file name")] [string] $Healthcheckfilename = "", 
-		[parameter (HelpMessage = "HealthCheck messages file name")][string] $MessagesFilename = "", 
+		[parameter (HelpMessage = "HealthCheck query file name")] [string] $Healthcheckfilename = "",
+		[parameter (HelpMessage = "HealthCheck messages file name")][string] $MessagesFilename = "",
 		[parameter (HelpMessage = "Debug more?")] $Healthcheckdebug = $False
 	)
 	Write-Verbose "Export-CMHealthCheck: Word Format"
@@ -123,7 +123,7 @@ function Export-CMHealthCheck {
 		$MessagesFilename = Join-Path -Path $ModulePath -ChildPath "assets\messages.xml"
 	}
 
-	if ($healthcheckdebug -eq $true) { 
+	if ($healthcheckdebug -eq $true) {
 		$PSDefaultParameterValues = @{"*:Verbose"=$True}
 	}
 	$logFolder = Join-Path -Path $PWD.Path -ChildPath "_Logs\"
@@ -131,20 +131,19 @@ function Export-CMHealthCheck {
 		mkdir $logFolder -Force | Out-Null
 	}
 	if ($reportFolder.Substring($reportFolder.length-1) -ne '\') { $reportFolder+= '\' }
-	
+
 	$Error.Clear()
 
 	$poshversion = $PSVersionTable.PSVersion.Major
 	Show-CMHCInfo
-	
+
 	[xml]$HealthCheckXML = Get-CmHealthCheckFile -XmlSource $HealthcheckFilename
 	[xml]$MessagesXML    = Get-CmHealthCheckFile -XmlSource $MessagesFilename
-	 
+
 	Write-Log -Message "Connecting to Microsoft Word..." -LogFile $logfile
 	try {
 		$Word = New-Object -ComObject "Word.Application" -ErrorAction Stop
-	}
-	catch {
+	} catch {
 		Invoke-Error -Message "Microsoft Word could not be opened!"
 		break
 	}
@@ -164,16 +163,16 @@ function Export-CMHealthCheck {
 			Invoke-Error -Message "File $repfile does not exist, no futher action taken"; break
 		}
 		Write-Log -Message "Assigning number of days from config data..." -LogFile $logfile
-		if ($poshversion -eq 3) { 
+		if ($poshversion -eq 3) {
 			$NumberOfDays = $ConfigTable.Rows[0].NumberOfDays
-		} else { 
+		} else {
 			$NumberOfDays = $ConfigTable.NumberOfDays
 		}
 		Write-Log -Message "number of days = $NumberOfDays"
 
 		Write-Log -Message "checking powershell platform type"
 		if (!(Test-Powershell64bit)) { Invoke-Error -Message "Powershell is not 64bit, no futher action taken"; break }
-		
+
 		$wordVersion = $Word.Version
 		Write-Log -Message "Microsoft Word version: $WordVersion" -LogFile $logfile
 		if ($wordVersion -lt '15.0') { Invoke-Error -Message "This module requires Word 2013 or newer"; break }
@@ -182,8 +181,7 @@ function Export-CMHealthCheck {
 			Write-Log -Message "Opening temp file [$newFile]..." -LogFile $logfile
 			try {
 				$Doc = $Word.Documents.Open($newFile)
-			}
-			catch {
+			} catch {
 				Invoke-Error -Message "Failed to open temp document file: $newFile"
 				break
 			}
@@ -199,7 +197,7 @@ function Export-CMHealthCheck {
 		Set-DocProperties
 
 		Write-Log -Message "Loading default building blocks " -LogFile $logfile
-		$Word.Templates.LoadBuildingBlocks() | Out-Null	
+		$Word.Templates.LoadBuildingBlocks() | Out-Null
 		$BuildingBlocks = $Word.Templates | Where-Object {$_.name -eq "Built-In Building Blocks.dotx"}
 
 		if ([string]::IsNullOrEmpty($Template)) {
@@ -208,7 +206,7 @@ function Export-CMHealthCheck {
 			$part.Insert($selection.Range,$True) | Out-Null
 		} else {
 			Write-Log -Message "Cover page option ignored when using custom template" -LogFile $logfile
-			$Selection.EndKey(6, 0) | Out-Null            
+			$Selection.EndKey(6, 0) | Out-Null
 		}
 
 		$selection.InsertNewPage()

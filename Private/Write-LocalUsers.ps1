@@ -15,8 +15,7 @@ function Write-LocalUsers {
 		$users = @(Get-CimInstance -ClassName "Win32_UserAccount" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop | 
 			Select-Object Name,FullName,Description,AccountType,AccountExpires,PasswordChangeable,PasswordRequired,SID,LockOut |
 				Sort-Object Name)
-	}
-	catch {
+	} catch {
 		Write-Log -Category 'Error' -Message 'cannot connect to $ServerName to enumerate local security groups'
 		return
 	}

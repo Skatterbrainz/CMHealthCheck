@@ -11,8 +11,7 @@ Function Get-ServiceStatus {
 		if ($null -ne $service) { $return = $service }
 		else { $return = "ERROR: Service $ServiceName Not Found" }
 		Write-Log -Message "status..... $return" -LogFile $logfile
-	}
-	catch {
+	} catch {
 		$return = "ERROR: Unknown"
 		$Error.Clear()
 	}

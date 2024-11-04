@@ -31,8 +31,7 @@ Function Write-BaseOSInfo {
 			"IA64"  {$ProcessorArchDisplay = "64-bit - Itanium"}
 			default {$ProcessorArchDisplay = $OSProcessorArch }
 		}
-	} 
-	else { 
+	} else {
 		$ProcessorArchDisplay = "" 
 	}
 	$LastBootUpTime = $WMIOS.ConvertToDateTime($WMIOS.LastBootUpTime)
@@ -60,8 +59,7 @@ Function Write-BaseOSInfo {
 		}
 		if ($ProcessorDisplayName.Length -eq 0) { 
 			$ProcessorDisplayName = " " + $numberOfCores + " $CpuArchitecture processor " + $WMIProc.Name
-		}
-		else {
+		} else {
 			if ($ProcessorName -ne $WMIProc.Name) { 
 				$ProcessorDisplayName += "/ " + " " + $numberOfCores + " $CpuArchitecture processor " + $WMIProc.Name
 			}

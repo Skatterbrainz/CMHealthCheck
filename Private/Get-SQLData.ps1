@@ -14,7 +14,7 @@ Function Get-SQLData {
 		[parameter()][switch] $Detailed
 	)
 	Write-Log -Message "(Get-SQLData): Table = $TableName"
-	if ($Detailed) { 
+	if ($Detailed) {
 		Write-Log -Message "  [detailed = True]" -LogFile $logfile
 	}
 	try {
@@ -28,11 +28,10 @@ Function Get-SQLData {
 		$DataAdapter = New-Object System.Data.SqlClient.SqlDataAdapter $SqlCommand
 		$dataset     = New-Object System.Data.Dataset
 		$DataAdapter.Fill($dataset)
-		if (($dataset.Tables.Count -eq 0) -or ($dataset.Tables[0].Rows.Count -eq 0)) { 
+		if (($dataset.Tables.Count -eq 0) -or ($dataset.Tables[0].Rows.Count -eq 0)) {
 			Write-Log -Message "SQL Query returned 0 records" -LogFile $logfile
 			Write-Log -Message "Table $tablename is empty. No file output to $filename ..." -LogFile $logfile
-		}
-		else {
+		} else {
 			Write-Log -Message "SQL Query returned $($dataset.Tables[0].Rows.Count) records"
 			foreach ($field in $healthCheck.Fields.Field) {
 				Write-Log -Message ("   field = $($Field.FieldName) description = $($Field.Description)") -LogFile $logfile
@@ -46,8 +45,7 @@ Function Get-SQLData {
 						$tempx = Set-FormattedValue -Value $row.$($field.FieldName) -Format $field.format -SiteCode $SiteCode
 						try {
 							$row.$($field.FieldName) = $tempx
-						}
-						catch {
+						} catch {
 							$row
 							break
 						}
@@ -57,14 +55,12 @@ Function Get-SQLData {
 			Write-Log -Message "Export: Exporting xml data to $filename" -LogFile $logfile
 			, $dataset.Tables[0] | Export-CliXml -Path $filename
 		}
-	}
-	catch {
+	} catch {
 		$errorMessage = $Error[0].Exception.Message
 		$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
-		if ($continueonerror -eq $false) { 
+		if ($continueonerror -eq $false) {
 			Write-Log -Message "ERROR/EXCEPTION: The following error occurred (stop)." -Severity 3 -LogFile $logfile
-		}
-		else { 
+		} else {
 			Write-Log -Message "ERROR/EXCEPTION: The following error occurred (continue)." -Severity 3 -LogFile $logfile
 		}
 		Write-Log -Message "Error $errorCode : $errorMessage connecting to $ServerName" -Severity 3 -LogFile $logfile

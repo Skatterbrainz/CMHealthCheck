@@ -14,18 +14,15 @@ function Get-CmWmiObject {
 	}
 	Write-Log -Message "WMI Query: \\$ComputerName\$Namespace, $class, filter: $filter" -LogFile $logfile
 	if (![string]::IsNullOrEmpty($query)) {
-		$WMIObject = Get-CimInstance -Query $query -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
-	}
-	elseif (![string]::IsNullOrEmpty($filter)) { 
-		$WMIObject = Get-CimInstance -ClassName $class -Filter $filter -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
-	}
-	else { 
-		$WMIObject = Get-CimInstance -ClassName $class -NameSpace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue 
+		$WMIObject = Get-CimInstance -Query $query -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue
+	} elseif (![string]::IsNullOrEmpty($filter)) {
+		$WMIObject = Get-CimInstance -ClassName $class -Filter $filter -Namespace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue
+	} else {
+		$WMIObject = Get-CimInstance -ClassName $class -NameSpace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue
 	}
 	if ($null -eq $WMIObject) {
 		Write-Log -Message "WMI Query returned 0) records" -LogFile $logfile
-	}
-	else {
+	} else {
 		$i = 1
 		foreach ($obj in $wmiobj) { i++ }
 		Write-Log -Message "WMI Query returned $($i) records" -LogFile $logfile
@@ -35,14 +32,13 @@ function Get-CmWmiObject {
 		$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
 		if ($ContinueOnError -eq $false) {
 			Write-Log -Message "The following error occurred, no futher action taken" -Severity 3 -Logfile $logfile
-		}
-		else { 
+		} else {
 			Write-Error "The following error occurred"
 		}
 		Write-Log -Message "ERROR $errorCode : $errorMessage connecting to $ComputerName" -LogFile $logfile
 		$Error.Clear()
-		if ($ContinueOnError -eq $false) { 
-			Throw "ERROR $errorCode : $errorMessage connecting to $ComputerName" 
+		if ($ContinueOnError -eq $false) {
+			Throw "ERROR $errorCode : $errorMessage connecting to $ComputerName"
 		}
 	}
 	Write-Output $WMIObject

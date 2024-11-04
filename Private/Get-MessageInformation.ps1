@@ -19,30 +19,24 @@ function Get-MessageInformation {
 						$errdet = $($errdata | Where-Object {$_.DecErrorCode -eq $MessageID} | Select-Object -ExpandProperty Description).Trim()
 						if (![string]::IsNullOrEmpty($errdet)) {
 							Write-Output $errdet
-						}
-						else {
+						} else {
 							Write-Output "There is no known possible solution for Message ID $MessageID"
 						}
-					}
-					else {
+					} else {
 						Write-Output $errdet
 					}
-				}
-				else {
+				} else {
 					Write-Log -Message "file not found: $errcodes" -LogFile $logfile -Severity 3
 					Write-Output "Unknown Message ID $MessageID"
 				}
-			}
-			else {
+			} else {
 				Write-Log -Message "reading xml message description" -LogFile $logfile
 				Write-Output $msg.Description
 			}
-		}
-		else {
+		} else {
 			throw "MessageID was blank or null"
 		}
-	}
-	catch {
+	} catch {
 		Write-Log -Message "Error: $($_.Exception.Message -join ';')" -LogFile $logfile -Severity 3
 		Write-Output ""
 	}

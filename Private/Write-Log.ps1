@@ -22,8 +22,7 @@ Function Write-Log {
 			2 { Write-Host $Message -ForegroundColor Yellow }
 			1 { Write-Host $Message }
 		}
-	}
-	else {
+	} else {
 		Write-Verbose $MsgTxt
 	}
 }

@@ -64,7 +64,7 @@ function Get-CMHealthCheck {
 	)
 
 	$startTime      = Get-Date
-	$currentFolder  = (Get-Location).Path
+	$currentFolder  = $(Get-Location).Path
 	if ($currentFolder.substring($currentFolder.Length-1) -ne '\') { $currentFolder+= '\' }
 	$logFolder      = "$OutputFolder\_Logs\"
 	$reportFolder   = "$OutputFolder\$(Get-Date -UFormat "%Y-%m-%d")\$SmsProvider\"
@@ -74,14 +74,14 @@ function Get-CMHealthCheck {
 	}
 	if (-not(Test-Path $reportFolder)) {
 		Write-Log -Message "creating report folder: $reportFolder"
-		mkdir -Path $reportFolder -Force 
+		mkdir -Path $reportFolder -Force
 	}
 	$logfile        = Join-Path -Path $logFolder -ChildPath "Get-CMHealthCheck.log"
 	$poshversion    = $PSVersionTable.PSVersion.Major
 	$osversion      = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
 	$Error.Clear()
 	$bLogValidation = $False
-	$ModuleVer      = (Get-Module "CMHealthCheck").Version -join '.'
+	$ModuleVer      = $(Get-Module "CMHealthCheck").Version -join '.'
 	$ModulePath     = Split-Path (Get-Module "CMHealthCheck").Path -Parent
 	if ([string]::IsNullOrEmpty($Healthcheckfilename)) {
 		$Healthcheckfilename = "$ModulePath\assets\cmhealthcheck.xml"
@@ -233,8 +233,7 @@ function Get-CMHealthCheck {
 		$dataset     = New-Object System.Data.Dataset
 		try {
 			$DataAdapter.Fill($dataset) | Out-Null
-		}
-		catch {
+		} catch {
 			Write-Log -Message "uh oh! something just blew up, phasers were set to kill... review the log output!" -Severity 3 -LogFile $LogFile
 			break
 		}
@@ -272,15 +271,13 @@ function Get-CMHealthCheck {
 			Write-Log -Message ("Analysing SQLServer: $DBServerName") -LogFile $LogFile
 			if ($SQLServerName.ToLower() -eq $DBServerName.ToLower()) {
 				$tmpConnection = $sqlConn
-			}
-			else {
+			} else {
 				$tmpConnection = Get-SQLServerConnection -SQLServer "$DBServerName,$SQLPort" -DBName "master"
 				$tmpConnection.Open()
 			}
 			try {
 				Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '3' -sqlConn $tmpConnection -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ServerName $DBServerName -ReportTable $ReportTable -LogFile $logfile
-			}
-			finally {
+			} finally {
 				if ($SQLServerName.ToLower() -ne $DBServerName.ToLower()) { $tmpConnection.Close()  }
 			}
 		} # foreach
@@ -300,16 +297,14 @@ function Get-CMHealthCheck {
 		## Section 6 = troubleshooting information
 		Write-Log -Message "Phase 6 of 6" -LogFile $logfile -ShowMsg
 		Export-ReportSection -HealthCheckXML $HealthCheckXML -Section '6' -sqlConn $sqlConn -SiteCode $SiteCodeNamespace -NumberOfDays $NumberOfDays -ReportTable $ReportTable -LogFile $logfile
-	}
-	catch {
+	} catch {
 		Write-Log -Message "ERROR/EXCEPTION: general unhandled exception" -LogFile $LogFile
 		Write-Log -Message "The following error occurred, no further action taken. Dying dying dying, uhhhh.... She's dead, Jim." -LogFile $LogFile
 		$errorMessage = $Error[0].Exception.Message
 		$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
 		Write-Log -Message "Error $errorCode : $errorMessage" -LogFile $LogFile
 		$Error.Clear()
-	}
-	finally {
+	} finally {
 		#close sql connection
 		Write-Host "Finishing up"
 		Write-Log -Message "info.............: closing SQL connection" -LogFile $LogFile
@@ -339,8 +334,7 @@ IF OBJECT_ID (N'fn_CM12R2HealthCheck_ScheduleToMinutes', N'FN') IS NOT NULL
 		if ($bLogValidation -eq $false) {
 			Write-Host "Ending HealthCheck CollectData"
 			Write-Log -Message "info.............: log validation not enabled" -LogFile $LogFile
-		}
-		else {
+		} else {
 			Write-Log -Message "info.............: ending HealthCheck CollectData" -LogFile $LogFile
 		}
 	}

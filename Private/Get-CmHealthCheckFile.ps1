@@ -10,25 +10,21 @@ function Get-CmHealthCheckFile {
 		Write-Log -Message "sourcetype. remote URI" -LogFile $logfile
 		try {
 			[xml]$result = ((New-Object System.Net.WebClient).DownloadString($XmlSource))
-		}
-		catch {
+		} catch {
 			Write-Log -Message "ERROR: failed to import data from $XmlSource" -LogFile $logfile -Severity 3 -ShowMsg
 			break
 		}
 		Write-Log -Message "configuration XML data loaded successfully" -LogFile $logfile
-	}
-	else {
+	} else {
 		Write-Log -Message "sourcetype. localfile" -LogFile $logfile
 		Write-Log -Message "filename... $XmlSource" -LogFile $logfile
 		if (!(Test-Path -Path $XmlSource)) {
 			Write-Log -Message "ERROR: $XmlSource does not exist." -LogFile $logfile -Severity 3 -ShowMsg
 			break
-		}
-		else { 
+		} else {
 			try {
-				[xml]$result = Get-Content ($XmlSource) 
-			}
-			catch {
+				[xml]$result = Get-Content ($XmlSource)
+			} catch {
 				Write-Error "Failed to import data from local file: $XmlSource"
 				break
 			}

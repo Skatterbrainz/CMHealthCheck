@@ -87,10 +87,10 @@ function Export-CMHealthReport {
 	switch ($ReportType) {
 		'HTML' {
 			$expParams = @{
-				ReportFolder  = $ReportFolder 
+				ReportFolder  = $ReportFolder
 				AutoConfig    = $AutoConfig
-				CustomerName  = $CustomerName 
-				CopyrightName = $CopyrightName 
+				CustomerName  = $CustomerName
+				CopyrightName = $CopyrightName
 				AuthorName    = $AuthorName
 				ImageFile     = $ImageFile
 				SmsProvider   = $SmsProvider
@@ -105,10 +105,10 @@ function Export-CMHealthReport {
 		}
 		'Word' {
 			$expParams = @{
-				ReportFolder  = $ReportFolder 
-				CustomerName  = $CustomerName 
-				CopyrightName = $CopyrightName 
-				AuthorName    = $AuthorName 
+				ReportFolder  = $ReportFolder
+				CustomerName  = $CustomerName
+				CopyrightName = $CopyrightName
+				AuthorName    = $AuthorName
 				Detailed      = $Detailed
 				Overwrite     = $Overwrite
 				AutoConfig    = $AutoConfig

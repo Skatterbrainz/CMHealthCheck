@@ -16,8 +16,7 @@ Function Get-RegistryValue {
 		}
 		else { $return = $null }
 		Write-Log -Message "Value returned $return" -LogFile $logfile
-	}
-	catch {
+	} catch {
 		$return = "ERROR: Unknown"
 		$Error.Clear()
 	}

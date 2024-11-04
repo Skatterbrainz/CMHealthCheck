@@ -23,8 +23,7 @@ function Write-RolesInstalled {
 		$row.PXE       = "False"
 		$row.MultiCast = "False"
 		$row.PreStaged = "False"
-	}
-	else {
+	} else {
 		$row.PXE = (($DPProperties.Props | Where-Object {$_.PropertyName -eq "IsPXE"}).Value -eq 1).ToString()
 		$row.MultiCast = (($DPProperties.Props | Where-Object {$_.PropertyName -eq "IsMulticast"}).Value -eq 1).ToString()
 		$row.PreStaged = (($DPProperties.Props | Where-Object {$_.PropertyName -eq "PreStagingAllowed"}).Value -eq 1).ToString()

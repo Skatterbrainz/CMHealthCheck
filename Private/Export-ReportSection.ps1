@@ -11,7 +11,7 @@ Function Export-ReportSection {
 		[parameter()][switch] $Detailed
 	)
 	Write-Log -Message "(Export-ReportSection): Section = $Section" -LogFile $logfile
-	if ($Detailed) { 
+	if ($Detailed) {
 		Write-Log -Message "detailed...... True" -LogFile $logfile
 		Write-Log -Message "section....... $Section" -LogFile $logfile
 		Write-Log -Message "numberofdays.. $NumberOfDays" -LogFile $logfile
@@ -20,13 +20,13 @@ Function Export-ReportSection {
 	foreach ($healthCheck in $HealthCheckXML.dtsHealthCheck.HealthCheck) {
 		if ($healthCheck.IsTextOnly.ToLower() -eq 'true') { continue }
 		if ($healthCheck.IsActive.ToLower() -ne 'true') { continue }
-		if ($healthCheck.Section.ToLower() -ne $Section) { continue }	
+		if ($healthCheck.Section.ToLower() -ne $Section) { continue }
 		$sqlquery  = $healthCheck.SqlQuery
 		$tablename = (Set-ReplaceString -Value $healthCheck.XMLFile -SiteCode $SiteCode -NumberOfDays $NumberOfDays -ServerName $servername)
 		$xmlTableName = $healthCheck.XMLFile
 		if ($Section -eq 5) {
-			if (!($Detailed)) { 
-				$tablename += "summary" 
+			if (!($Detailed)) {
+				$tablename += "summary"
 				$xmlTableName += "summary"
 				$gbfiels = ""
 				foreach ($field in $healthCheck.Fields.Field) {
@@ -36,8 +36,7 @@ Function Export-ReportSection {
 					}
 				}
 				$sqlquery = "select $($gbfiels), count(1) as Total from ($($sqlquery)) tbl group by $($gbfiels)"
-			} 
-			else { 
+			} else {
 				$tablename += "detail"
 				$xmlTableName += "detail"
 				$sqlquery = $sqlquery -replace "select distinct", "select"
@@ -54,24 +53,24 @@ Function Export-ReportSection {
 		Write-Log -Message "Type....... $($healthCheck.querytype)" -LogFile $logfile
 		try {
 			switch ($healthCheck.querytype.ToLower()) {
-				'mpconnectivity' { 
+				'mpconnectivity' {
 					Write-MPConnectivity -FileName $filename -TableName $tablename -sitecode $SiteCode -SiteCodeQuery $SiteCodeQuery -NumberOfDays $NumberOfDays -logfile $logfile -type 'mplist' | Out-Null}
-				'mpcertconnectivity' { 
+				'mpcertconnectivity' {
 					Write-MPConnectivity -FileName $filename -TableName $tablename -sitecode $SiteCode -SiteCodeQuery $SiteCodeQuery -NumberOfDays $NumberOfDays -logfile $logfile -type 'mpcert' | Out-Null}
-				'sql' { 
+				'sql' {
 					Get-SQLData -sqlConn $sqlConn -SQLQuery $sqlquery -FileName $fileName -TableName $tablename -siteCode $siteCode -NumberOfDays $NumberOfDays -servername $servername -healthcheck $healthCheck -logfile $logfile -section $section -detailed $detailed | Out-Null}
-				'baseosinfo' { 
+				'baseosinfo' {
 					Write-BaseOSInfo -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
-				'diskinfo' { 
+				'diskinfo' {
 					Write-DiskInfo -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
-				'networkinfo' { 
+				'networkinfo' {
 					Write-NetworkInfo -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
-				'rolesinstalled' { 
+				'rolesinstalled' {
 					Write-RolesInstalled -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile | Out-Null}
-				'servicestatus' { 
+				'servicestatus' {
 					#Write-ServiceStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
 					Write-Services -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null}
-				'hotfixstatus' { 
+				'hotfixstatus' {
 					if (-not $NoHotfix) {
 						Write-HotfixStatus -FileName $filename -TableName $tablename -sitecode $SiteCode -NumberOfDays $NumberOfDays -servername $servername -logfile $logfile -ContinueOnError $true | Out-Null
 					}
@@ -106,10 +105,9 @@ Function Export-ReportSection {
 				'sqlmemory' {
 					Write-SqlMemory -FileName $filename -TableName $tablename -sitecode $SiteCode -ServerName $servername -LogFile $logfile -ContinueOnError $True | Out-Null
 				}
-		   		default {}
+				default {}
 			}
-		}
-		catch {
+		} catch {
 			$errorMessage = $Error[0].Exception.Message
 			$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
 			Write-Log -Message "ERROR/EXCEPTION: The following error occurred..." -Severity 3 -LogFile $logfile

@@ -17,8 +17,7 @@ function Write-MPConnectivity {
 		if ($SSLState -eq 0) {
 			$protocol = 'http'
 			$port = $HTTPport 
-		} 
-		else {
+		} else {
 			$protocol = 'https'
 			$port = $HTTPSport 
 		}
@@ -31,8 +30,7 @@ function Write-MPConnectivity {
 			$web.open('GET', $url, $false)
 			$web.send()
 			$row.HTTPReturn = $web.status
-		}
-		catch {
+		} catch {
 			$row.HTTPReturn = "313 - Unable to connect to host"
 			$Error.Clear()
 		}

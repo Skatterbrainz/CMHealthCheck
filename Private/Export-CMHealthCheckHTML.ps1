@@ -142,7 +142,7 @@ function Export-CMHealthCheckHTML {
 		Write-Log -Message "image tag has been updated" -LogFile $logfile
 	} else {
 		$LogoTag = ""
-		Write-Log -Message "no logo image was provided" -LogFile $logfile 
+		Write-Log -Message "no logo image was provided" -LogFile $logfile
 	}
 	Write-Verbose "using messages file: $MessagesFilename"
 
@@ -265,9 +265,9 @@ $LogoTag
 
 		$htmlContent += @"
 <table class=`"reportTable`"><tr><td>
-This document provides a point-in-time report of the current state of the MEMCM site environment for $CustomerName. 
-For questions, concerns or comments, please consult the author of this assessment report. 
-This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for 
+This document provides a point-in-time report of the current state of the MEMCM site environment for $CustomerName.
+For questions, concerns or comments, please consult the author of this assessment report.
+This report was generated using CMHealthCheck $ModuleVer on $(Get-Date). Thanks to Raphael Perez and David O'Brien for
 their work which laid the foundation on which this code was developed.
 </td></tr>`n</table>
 "@

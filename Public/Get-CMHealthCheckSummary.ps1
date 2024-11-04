@@ -91,8 +91,7 @@ function Get-CMHealthCheckSummary {
 		$content += "<p class=footer>Generated: $(Get-Date) `&copy`; 2019 skatterbrainz. Refer to LICENSE for usage rights and conditions.</p>"
 		Write-CmhHtml -Title $reportTitle -BodyContent $content -FilePath $reportFile
 		Write-Host "Report saved to $reportFile" -ForegroundColor Cyan
-	}
-	catch {
+	} catch {
 		Write-Warning "Error: $($Error[0].Exception.Message)"
 	}
 }

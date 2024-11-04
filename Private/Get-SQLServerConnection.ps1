@@ -3,13 +3,12 @@ Function Get-SQLServerConnection {
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SQLServer,
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $DBName
 	)
-	Write-Log -Message "(Get-SQLServerConnection)" -LogFile $logfile 
+	Write-Log -Message "(Get-SQLServerConnection)" -LogFile $logfile
 	try {
 		$conn = New-Object System.Data.SqlClient.SqlConnection
 		$conn.ConnectionString = "Data Source=$SQLServer;Initial Catalog=$DBName;Integrated Security=SSPI;"
 		return $conn
-	}
-	catch {
+	} catch {
 		$errorMessage = $_.Exception.Message
 		$errorCode = "0x{0:X}" -f $_.Exception.ErrorCode
 		Write-Log -Message "The following error happen, no futher action taken" -LogFile $logfile

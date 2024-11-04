@@ -14,45 +14,38 @@ function Convert-Image2Base64 {
 		if (Test-Path -Path "$Path") {
 			if ($PSVersionTable.PSVersion.Major -eq 5) {
 				$content = Get-Content $Path -Encoding Byte
-			}
-			else {
+			} else {
 				$content = Get-Content $Path -AsByteStream
 			}
 			$EncodedImage = [convert]::ToBase64String($content)
-		}
-		else {
+		} else {
 			Write-Log -Message "Image file not found: $path" -LogFile $logFile -Severity 3
 			Return $false
 		}
-	}
-	elseif ($Path -match '^http[s]://.*(\.png|\.jpg)$') {
+	} elseif ($Path -match '^http[s]://.*(\.png|\.jpg)$') {
 		Write-Log -Message "importing image from URL" -LogFile $logfile
 		$ext=$Path.Substring($Path.Length-4)
 		$tempfile = "${env:TEMP}\logo31337$ext"
 		if (Test-Path $tempfile) {Remove-Item -Path $tempfile -Force}
 		try {
 			Invoke-WebRequest -Uri $Path -OutFile $tempfile
-		}
-		catch {
+		} catch {
 			Write-Log -Message "logo image file not found, returning nothing" -LogFile $logfile
 			Return $false
 		}
 		if ($PSVersionTable.PSVersion.Major -eq 5) {
 			$content = Get-Content $tempfile -Encoding Byte
-		}
-		else {
+		} else {
 			$content = Get-Content $tempfile -AsByteStream
 		}
 		$EncodedImage = [convert]::ToBase64String($content)
-	}
-	else {
+	} else {
 		Write-Log -Message "Path does not match pattern: $path" -LogFile $logfile -Severity 3
 		Return $false
 	}
 	if ($path.EndsWith(".jpg")) {
 		$imgtype = "jpg"
-	}
-	elseif ($path.EndsWith(".png")) {
+	} elseif ($path.EndsWith(".png")) {
 		$imgtype = "png"
 	}
 	Write-Log -Message "imagetype = $imgtype" -LogFile $logfile

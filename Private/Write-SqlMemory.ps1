@@ -21,8 +21,7 @@ function Write-SqlMemory {
 		$row.Pct = $memPct
 		$memDetails.Rows.Add($row)
 		, $memDetails | Export-CliXml -Path ($filename)
-	}
-	catch {
+	} catch {
 		Write-Log -Message "$($_.Exception.Message)" -Category Error -Severity 2
 	}
 }

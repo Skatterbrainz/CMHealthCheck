@@ -11,8 +11,7 @@ function Write-LocalGroups {
 	$ServerShortName = ($ServerName -split '\.')[0]
 	try {
 		$GroupsList = Get-CimInstance -ClassName "Win32_Group" -ComputerName $ServerName -Filter "Domain='$ServerShortName'" -ErrorAction Stop
-	}
-	catch {
+	} catch {
 		Write-Log -Category 'Error' -Message 'cannot connect to $ServerName to enumerate local security groups'
 		return
 	}
@@ -42,17 +41,14 @@ function Write-LocalGroups {
 				if ($arr.Count -gt 0) {
 					Write-Log -Message "member count... $($arr.Count)" -LogFile $LogFile
 					[string]$members = ($arr -join ", ")
-				}
-				else {
+				} else {
 					$members = '(no members)'
 				}
 			}
-		}
-		catch {
+		} catch {
 			if ($ContinueOnError -eq $True) {
 				Write-Log -Category 'Error' -Message $_.Exception.Message -Severity 2 -LogFile $logfile
-			}
-			else {
+			} else {
 				Write-Log -Category 'Error' -Message "Terminating Error: $($_.Exception.Message)" -Severity 3 -LogFile $logfile
 				return
 			}          

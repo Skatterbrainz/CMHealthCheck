@@ -26,7 +26,7 @@ Commands / Functions:
 * Tested with the following environments:
    * ConfigMgr 2012 R2 to the latest Technical Preview Current Branch
    * Windows Server 2012, 2012 R2, 2016, 2019, 2022
-   * SQL Server, 2012, 2014, 2016, 2017
+   * SQL Server, 2012, 2014, 2016, 2017, 2019, 2022
    * Windows 10, 1703 to 21H1, Windows 11 (Preview)
    * Office 2013, 2016 and 2019 / 365
    * PowerShell 5.1 (previous versions no longer supported. Time to move up!)

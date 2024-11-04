@@ -68,8 +68,7 @@ function Write-ServiceStatus {
 		$row = $ServicesTable.NewRow()
 		if ($SiteType -ne 1) {		
 			$row.ServiceName = "$SQLServiceName"
-		}
-		else {
+		} else {
 			$row.ServiceName = 'MSSQL$CONFIGMGRSEC'
 		}
 		$row.Status = (Get-ServiceStatus -LogFile $logfile -ServerName $servername -ServiceName $row.ServiceName)

@@ -21,8 +21,7 @@ function New-HtmlTableBegin {
 			$text = $item.Split('=')[0]
 			$cwid = $item.Split('=')[1]
 			$result += "<th class=`"columnstyle1`" style=`"width`:$($cwid)px`">$text</th>"
-		}
-		else {
+		} else {
 			$result += "<th class=`"columnstyle1`">$item</th>"
 		}
 	}
@@ -54,8 +53,7 @@ function New-HtmlTableBlock {
 		# alternate row styles (even/odd)
 		if ($row % 2 -eq 0) {
 			$result += "<tr class=`"rowstyle1`">"
-		}
-		else {
+		} else {
 			$result += "<tr class=`"rowstyle2`">"
 		}
 		for ($col=1;$col -le $columns;$col++) {

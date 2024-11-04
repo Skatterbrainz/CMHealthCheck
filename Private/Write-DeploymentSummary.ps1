@@ -50,26 +50,26 @@ function Write-DeploymentSummary {
 	$dsDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($b in $blist) {
 		$row = $dsDetails.NewRow()
-		$row.SoftwareName   = $ds.SoftwareName
-		$row.AssignmentID   = $ds.AssignmentID
-		$row.CollectionName = $ds.CollectionName
-		$row.CollectionID   = $ds.CollectionID
-		$row.DeploymentTime = $ds.DeploymentTime
-		$row.CreationTime   = $ds.CreationTime
-		$row.ModificationTime = $ds.ModificationTime
-		$row.FeatureType    = $ds.FeatureType
-		$row.SummaryType    = $ds.SummaryType
-		$row.DeployIntent   = $ds.DeployIntent
+		$row.SoftwareName      = $ds.SoftwareName
+		$row.AssignmentID      = $ds.AssignmentID
+		$row.CollectionName    = $ds.CollectionName
+		$row.CollectionID      = $ds.CollectionID
+		$row.DeploymentTime    = $ds.DeploymentTime
+		$row.CreationTime      = $ds.CreationTime
+		$row.ModificationTime  = $ds.ModificationTime
+		$row.FeatureType       = $ds.FeatureType
+		$row.SummaryType       = $ds.SummaryType
+		$row.DeployIntent      = $ds.DeployIntent
 		$row.EnforcementDeadline = $ds.EnforcementDeadline
-		$row.Total   = $ds.Total
-		$row.Success = $ds.Success
-		$row.Failed  = $ds.Failed
-		$row.InProgress = $ds.InProgress
-		$row.Unknown = $ds.Unknown
-		$row.Other   = $ds.Other
+		$row.Total             = $ds.Total
+		$row.Success           = $ds.Success
+		$row.Failed            = $ds.Failed
+		$row.InProgress        = $ds.InProgress
+		$row.Unknown           = $ds.Unknown
+		$row.Other             = $ds.Other
 		$row.SummarizationTime = $ds.SummarizationTime
-		$row.ProgramName = $ds.ProgramName
-		$row.PackageID   = $ds.PackageID
+		$row.ProgramName       = $ds.ProgramName
+		$row.PackageID         = $ds.PackageID
 		$dsDetails.Rows.Add($row)
 	}
 	, $dsDetails | Export-CliXml -Path ($filename)

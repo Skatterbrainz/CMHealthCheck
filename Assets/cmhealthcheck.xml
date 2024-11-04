@@ -3,7 +3,7 @@
   <HealthCheck>
     <section>1</section>
     <IsTextOnly>true</IsTextOnly>
-    <Description>Basic SCCM Information</Description>
+    <Description>Basic ConfigMgr Information</Description>
     <IsActive>true</IsActive>
     <WordStyle>Heading 1</WordStyle>
   </HealthCheck>

@@ -16,8 +16,8 @@ function Write-UserCollections {
 		$Fields = @("Name","CollectionID","Comment","MemberCount")
 		$collDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 		foreach ($coll in $colls) {
-			$row      = $collDetails.NewRow()
-			$row.Name = $coll.Name
+			$row              = $collDetails.NewRow()
+			$row.Name         = $coll.Name
 			$row.CollectionID = $coll.CollectionID
 			$row.Comment      = $coll.Comment
 			$row.MemberCount  = [int]($coll.MemberCount)

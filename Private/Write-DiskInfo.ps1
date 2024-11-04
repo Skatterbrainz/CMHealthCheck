@@ -14,9 +14,9 @@ Function Write-DiskInfo {
 	$Fields = @("DeviceID","VolumeName","FileSystem","Size","FreeSpace","Used","PctUsed")
 	$DiskDetails = New-CmDataTable -TableName $tableName -Fields $Fields
 	foreach ($Disk in $DiskList) {
-		$used = ($Disk.Size - $Disk.FreeSpace)
-		$pct  = ($used / $Disk.Size)
-		$row  = $DiskDetails.NewRow()
+		$used           = ($Disk.Size - $Disk.FreeSpace)
+		$pct            = ($used / $Disk.Size)
+		$row            = $DiskDetails.NewRow()
 		$row.DeviceID   = $Disk.DeviceID
 		$row.VolumeName = $Disk.VolumeName
 		$row.FileSystem = $Disk.FileSystem

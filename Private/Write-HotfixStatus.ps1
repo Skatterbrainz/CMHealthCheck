@@ -15,8 +15,7 @@ Function Write-HotfixStatus {
 		$historyCount = $Searcher.GetTotalHistoryCount()
 		$return = $Searcher.QueryHistory(0, $historyCount) 
 		Write-Log -Message "  Hotfix count: $HistoryCount" -LogFile $logfile
-	}
-	catch {
+	} catch {
 		$errorMessage = $Error[0].Exception.Message
 		$errorCode = "0x{0:X}" -f $Error[0].Exception.ErrorCode
 		Write-Log -Message "  The following error happen" -LogFile $logfile

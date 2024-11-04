@@ -124,8 +124,7 @@ function Invoke-CMHealthCheck {
 		}
 		Write-Log -Message "calling Get-CMHealthCheck with parameter set" -LogFile $logfile
 		Get-CMHealthCheck @getParams
-	}
-	catch {
+	} catch {
 		Write-Error $_.Exception.Message
 	}
 	Write-Log -Message "------------------ begin report publishing ---------------------" -LogFile $logfile
@@ -155,17 +154,14 @@ function Invoke-CMHealthCheck {
 				if (Test-Path $newFile) {
 					Write-Output "opening report in default web browser: $newFile"
 					Start-Process $newFile
-				}
-				else {
+				} else {
 					Write-Warning "file not found: $newFile"
 				}
 			}
-		}
-		else {
+		} else {
 			throw "report folder not found: $ReportFolder"
 		}
-	}
-	catch {
+	} catch {
 		Write-Error $_.Exception.Message
 	}
 	$RTime  = Get-TimeOffset -StartTime $Time1
