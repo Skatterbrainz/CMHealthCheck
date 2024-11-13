@@ -3,9 +3,8 @@ function Export-CMHealthReport {
 	.SYNOPSIS
 		Convert extracted ConfigMgr site information to Word Document
 	.DESCRIPTION
-		Converts the data output from Get-CMHealthCheck to generate a
-		report document using Microsoft Word (2010, 2013, 2016). Intended
-		to be invoked on a desktop computer which has Office installed.
+		Converts the data output from Get-CMHealthCheck to generate a report document using
+		Microsoft Word (2010, 2013, 2016). Intended to be invoked on a desktop computer which has Office installed.
 	.PARAMETER ReportFolder
 		Path to output data folder (e.g. "My Documents\2019-03-06\cm01.contoso.local")
 	.PARAMETER AutoConfig
