@@ -18,8 +18,10 @@ Use ```Get-Command -Module CMHealthCheck``` and ```Get-Help <function>``` to vie
 
 Commands / Functions:
 
-* Get-CMHealthCheck
-* Export-CMHealthReport
+* [Get-CMHealthCheck](/Docs/Get-CMHealthCheck.md)
+* [Get-CMHealthCheckSummary](/Docs/Get-CMHealthCheckSummary.md)
+* [Export-CMHealthReport](/Docs/Export-CMHealthReport.md)
+* [Invoke-CMHealthCheck](/Docs/Invoke-CMHealthCheck.md)
 
 ## Notes
 
