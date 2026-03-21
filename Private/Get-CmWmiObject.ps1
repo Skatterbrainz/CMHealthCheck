@@ -21,11 +21,10 @@ function Get-CmWmiObject {
 		$WMIObject = Get-CimInstance -ClassName $class -NameSpace $Namespace -ComputerName $ComputerName -ErrorAction SilentlyContinue
 	}
 	if ($null -eq $WMIObject) {
-		Write-Log -Message "WMI Query returned 0) records" -LogFile $logfile
+		Write-Log -Message "WMI Query returned 0 records" -LogFile $logfile
 	} else {
-		$i = 1
-		foreach ($obj in $wmiobj) { i++ }
-		Write-Log -Message "WMI Query returned $($i) records" -LogFile $logfile
+		$recordCount = @($WMIObject).Count
+		Write-Log -Message "WMI Query returned $recordCount records" -LogFile $logfile
 	}
 	if ($Error.Count -ne 0) {
 		$errorMessage = $Error[0].Exception.Message
