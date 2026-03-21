@@ -4,7 +4,7 @@ Function Set-FormattedValue {
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $Format,
 		[parameter(Mandatory)][ValidateNotNullOrEmpty()][string] $SiteCode
 	)
-	Write-Log -Message "(Set-FormatedValue): $Format / $SiteCode" -LogFile $logfile
+	Write-Log -Message "(Set-FormattedValue): $Format / $SiteCode" -LogFile $logfile
 	if ($null -eq $Value) {
 		Write-Log -Message "value...... NULL" -LogFile $logfile
 	}
