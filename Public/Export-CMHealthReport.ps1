@@ -61,22 +61,22 @@ function Export-CMHealthReport {
 	#>
 	[CmdletBinding()]
 	param (
-		[parameter()][ValidateNotNullOrEmpty()][string] $ReportFolder = "$([System.Environment]::GetFolderPath('Personal'))",
-		[parameter()][ValidateSet('HTML','Word')][string] $ReportType = 'HTML',
-		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
-		[parameter()][string] $CustomerName = "Customer Name",
-		[parameter()][switch] $AutoConfig,
-		[parameter()][string] $SmsProvider = "",
-		[parameter()][switch] $Detailed,
-		[parameter()][string] $CoverPage = "Slice (Light)",
-		[parameter()][string] $Template = "",
-		[parameter()][string] $AuthorName = "",
-		[parameter()][string] $CopyrightName  = "Your Company Name",
-		[parameter()][string] $ImageFile = "",
-		[parameter()][string] $Healthcheckfilename = "",
-		[parameter()][string] $MessagesFilename = "",
-		[parameter()][bool] $Healthcheckdebug = $False,
-		[parameter()][switch] $Show
+		[parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string] $ReportFolder = "$([System.Environment]::GetFolderPath('Personal'))",
+		[parameter(Mandatory=$false)][ValidateSet('HTML','Word')][string] $ReportType = 'HTML',
+		[parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
+		[parameter(Mandatory=$false)][string] $CustomerName = "Customer Name",
+		[parameter(Mandatory=$false)][switch] $AutoConfig,
+		[parameter(Mandatory=$false)][string] $SmsProvider = "",
+		[parameter(Mandatory=$false)][switch] $Detailed,
+		[parameter(Mandatory=$false)][string] $CoverPage = "Slice (Light)",
+		[parameter(Mandatory=$false)][string] $Template = "",
+		[parameter(Mandatory=$false)][string] $AuthorName = "",
+		[parameter(Mandatory=$false)][string] $CopyrightName  = "Your Company Name",
+		[parameter(Mandatory=$false)][string] $ImageFile = "",
+		[parameter(Mandatory=$false)][string] $Healthcheckfilename = "",
+		[parameter(Mandatory=$false)][string] $MessagesFilename = "",
+		[parameter(Mandatory=$false)][bool] $Healthcheckdebug = $False,
+		[parameter(Mandatory=$false)][switch] $Show
 	)
 	if ($env:USERPROFILE -eq 'c:\windows\system32\config\systemprofile') {
 		$OutputFolder = $env:TEMP
