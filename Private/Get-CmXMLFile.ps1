@@ -15,7 +15,7 @@ function Get-CmXMLFile {
 		Write-Log -Message "File $xfile not found. No further action taken" -LogFile $logfile -Severity 3 -ShowMsg
 		Write-Log -Message "Typical reasons are: interrupted data collection, permissions into SQL instance or host OS on remote systems." -LogFile $logfile -Severity 3 -ShowMsg
 		Write-Log -Message "Recommend: Review Get-CMHealthCheck.log for more information." -LogFile $logfile -Severity 3 -ShowMsg
-		break
+		return $null
 	}
 	Write-Output $result
 }
