@@ -6,22 +6,23 @@ function Get-CmBuildName {
 		[string] $BuildNumber
 	)
 	Write-Log -Message "(Get-CmBuildName)" -LogFile $logfile
-	$ModuleData = Get-Module CMHealthCheck
-	$ModuleVer  = $ModuleData.Version -join '.'
-	$ModulePath = $ModuleData.Path -replace 'CMHealthCheck.psm1', ''
-	$bdatafile  = "$($ModulePath)\assets\buildnumbers.txt"
+	$moduleRoot = Split-Path -Parent $PSScriptRoot
+	$bdatafile  = Join-Path -Path $moduleRoot -ChildPath "Assets/buildnumbers.txt"
 	if (!(Test-Path $bdatafile)) {
 		Write-Error "$bdatafile could not be found or imported"
-		break
+		return $null
 	}
-	$bdata = Get-Content $bdatafile | Where-Object {-not($_.StartsWith(';'))}
+	$bdata = Get-Content $bdatafile -ErrorAction Stop | Where-Object {
+		(-not [string]::IsNullOrWhiteSpace($_)) -and (-not $_.StartsWith(';'))
+	}
 	foreach ($row in $bdata) {
-		$bset = $row -split "="
+		$bset = $row -split "=", 2
+		if ($bset.Count -lt 2) { continue }
 		$bnum = $bset[0]
 		if ($bnum -eq $BuildNumber) {
 			$result = $bset[1]
-			break
+			return $result
 		}
 	}
-	Write-Output $result
+	return $null
 }
