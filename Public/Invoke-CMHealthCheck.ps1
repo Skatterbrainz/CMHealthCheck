@@ -82,23 +82,23 @@
 function Invoke-CMHealthCheck {
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[parameter()][ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
-		[parameter()][string] $CustomerName = "Customer Name",
-		[parameter()][string] $AuthorName = "Your Name",
-		[parameter()][string] $CopyrightName  = "Your Company Name",
-		[parameter()][string] $DataFolder = "$([System.Environment]::GetFolderPath('Personal'))",
-		[parameter()][ValidateNotNullOrEmpty()][string] $PublishFolder = "$([System.Environment]::GetFolderPath('Personal'))",
-		[parameter()][switch] $OpenBrowser,
-		[parameter()][switch] $OverWrite,
-		[parameter()][switch] $NoHotfix ,
-		[parameter()][switch] $AutoConfig,
-		[parameter()][switch] $Detailed,
-		[parameter()][string] $Template = "",
-		[parameter()][ValidateSet('HTML','Word')][string] $ReportType = 'HTML',
-		[parameter()][int] $NumberOfDays = 7,
-		[parameter()][switch] $Healthcheckdebug,
-		[parameter()][string] $Healthcheckfilename = "",
-		[parameter()][string] $MessagesFilename = ""
+		[parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
+		[parameter(Mandatory=$false)][string] $CustomerName = "Customer Name",
+		[parameter(Mandatory=$false)][string] $AuthorName = "Your Name",
+		[parameter(Mandatory=$false)][string] $CopyrightName  = "Your Company Name",
+		[parameter(Mandatory=$false)][string] $DataFolder = "$([System.Environment]::GetFolderPath('Personal'))",
+		[parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string] $PublishFolder = "$([System.Environment]::GetFolderPath('Personal'))",
+		[parameter(Mandatory=$false)][switch] $OpenBrowser,
+		[parameter(Mandatory=$false)][switch] $OverWrite,
+		[parameter(Mandatory=$false)][switch] $NoHotfix ,
+		[parameter(Mandatory=$false)][switch] $AutoConfig,
+		[parameter(Mandatory=$false)][switch] $Detailed,
+		[parameter(Mandatory=$false)][string] $Template = "",
+		[parameter(Mandatory=$false)][ValidateSet('HTML','Word')][string] $ReportType = 'HTML',
+		[parameter(Mandatory=$false)][int] $NumberOfDays = 7,
+		[parameter(Mandatory=$false)][switch] $Healthcheckdebug,
+		[parameter(Mandatory=$false)][string] $Healthcheckfilename = "",
+		[parameter(Mandatory=$false)][string] $MessagesFilename = ""
 	)
 	$Time1 = Get-Date
 	if ([string]::IsNullOrEmpty($SmsProvider)) {
