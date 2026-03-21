@@ -11,8 +11,8 @@ function Get-CmHealthCheckFile {
 		try {
 			[xml]$result = ((New-Object System.Net.WebClient).DownloadString($XmlSource))
 		} catch {
-			Write-Log -Message "ERROR: failed to import data from $XmlSource" -LogFile $logfile -Severity 3 -ShowMsg
-			break
+			Write-Log -Message "ERROR: failed to import data from $XmlSource. $($_.Exception.Message)" -LogFile $logfile -Severity 3 -ShowMsg
+			return $null
 		}
 		Write-Log -Message "configuration XML data loaded successfully" -LogFile $logfile
 	} else {
@@ -20,13 +20,13 @@ function Get-CmHealthCheckFile {
 		Write-Log -Message "filename... $XmlSource" -LogFile $logfile
 		if (!(Test-Path -Path $XmlSource)) {
 			Write-Log -Message "ERROR: $XmlSource does not exist." -LogFile $logfile -Severity 3 -ShowMsg
-			break
+			return $null
 		} else {
 			try {
-				[xml]$result = Get-Content ($XmlSource)
+				[xml]$result = Get-Content -Path $XmlSource -ErrorAction Stop
 			} catch {
-				Write-Error "Failed to import data from local file: $XmlSource"
-				break
+				Write-Log -Message "ERROR: failed to import local file $XmlSource. $($_.Exception.Message)" -LogFile $logfile -Severity 3 -ShowMsg
+				return $null
 			}
 			Write-Log -Message "configuration XML data loaded successfully" -LogFile $logfile
 		}
