@@ -1,5 +1,4 @@
 # CMHealthCheck
-# CMHealthCheck
 
 ConfigMgr health-check reporting PowerShell module
 
