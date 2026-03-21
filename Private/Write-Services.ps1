@@ -9,6 +9,8 @@ function Write-Services {
 		[parameter()] $ContinueOnError = $true
 	)
 	Write-Log -Message "(Write-Services)" -LogFile $logfile
+	$services = @()
+	$svcDetails = $null
 	try {
 		$services = @(Get-CimInstance -ClassName Win32_Service -ComputerName $ServerName | Select-Object DisplayName,StartName,StartMode,State | Sort-Object DisplayName)
 		if ($null -eq $services) { return }
@@ -23,7 +25,15 @@ function Write-Services {
 			$svcDetails.Rows.Add($row)
 		}
 	}
-	catch {}
+	catch {
+		Write-Log -Message "Unable to enumerate services on $ServerName: $($_.Exception.Message)" -Severity 3 -LogFile $logfile
+		if ($ContinueOnError -eq $false) {
+			throw
+		}
+		return
+	}
 	Write-Log -Message "enumerated $($services.Count) services" -LogFile $LogFile
-	, $svcDetails | Export-CliXml -Path ($filename)
+	if ($null -ne $svcDetails) {
+		, $svcDetails | Export-CliXml -Path ($filename)
+	}
 }
