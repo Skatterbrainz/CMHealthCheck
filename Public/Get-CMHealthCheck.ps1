@@ -55,12 +55,12 @@ function Get-CMHealthCheck {
 	#>
 	[CmdletBinding(ConfirmImpact="Low")]
 	param (
-		[parameter()] [ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
-		[parameter()][ValidateNotNullOrEmpty()][string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
-		[parameter()][ValidateRange(1,365)][int] $NumberOfDays = 7,
-		[parameter()][string] $Healthcheckfilename = "",
-		[parameter()][switch] $OverWrite,
-		[parameter()][switch] $NoHotfix
+		[parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string] $SmsProvider = "$(($env:COMPUTERNAME, $env:USERDNSDOMAIN) -join '.')",
+		[parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
+		[parameter(Mandatory=$false)][ValidateRange(1,365)][int] $NumberOfDays = 7,
+		[parameter(Mandatory=$false)][string] $Healthcheckfilename = "",
+		[parameter(Mandatory=$false)][switch] $OverWrite,
+		[parameter(Mandatory=$false)][switch] $NoHotfix
 	)
 
 	$startTime      = Get-Date
