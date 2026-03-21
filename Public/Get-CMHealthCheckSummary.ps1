@@ -1,12 +1,13 @@
 function Get-CMHealthCheckSummary {
 	[CmdletBinding()]
 	param (
-		[parameter(HelpMessage="Reporting scope")]
+		[parameter(Mandatory=$false, HelpMessage="Reporting scope")]
 			[ValidateSet('All','AD','CM','SQL')]
 			[string] $ReportScope = 'All',
-		[parameter(HelpMessage="Location to save report file")]
+		[parameter(Mandatory=$false, HelpMessage="Location to save report file")]
 			[string] $OutputFolder = "$([System.Environment]::GetFolderPath('Personal'))",
-		[parameter()][switch] $Detailed
+		[parameter(Mandatory=$false, HelpMessage="Include detailed SQL information")]
+			[switch] $Detailed
 	)
 	$divtag = "table1"
 	try {
